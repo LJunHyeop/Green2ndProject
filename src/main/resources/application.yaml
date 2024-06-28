@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: fefu
+  config:
+    import: optional:file:.env
+  datasource:
+    driver-class-name: ${DEFAULT.DB_DRIVER_NAME}
+    url: ${DEFAULT.DB_URL}
+    username: ${DEFAULT.USER_NAME}
+    password: ${DEFAULT.PASSWORD}
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 30MB
+
+mybatis:
+  mapper-locations: mappers/**/*.xml
+
+springdoc:
+  swagger-ui:
+    path: ${SWAGGER_PATH}
+    operations-sorter: method
+    default-model-expand-depth: 10
+  cache:
+    disabled: true
+  api-docs:
+    version: openapi_3_1
+
+file:
+  dir: ${FILE_PATH}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    header-schema-name: ${JWT_SCHEMA_NAME}
+    token-type: ${JWT_TOKEN_TYPE}
+    access-token-expiry: ${JWT_ACCESS_EXPIRY}
+    refresh-token-expiry: ${JWT_REFRESH_EXPIRY}
