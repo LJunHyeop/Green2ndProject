@@ -3,9 +3,7 @@ package com.green.fefu.chcommon;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.regex.Pattern;
+import java.time.LocalDate;
 
 @Slf4j
 @Component
@@ -29,7 +27,7 @@ public class Validation {
             isLong(str, msg);
         }
 //    dataTime값 변환
-        else if (clazz == LocalDateTime.class) {
+        else if (clazz == LocalDate.class) {
             isDateTime(str, msg);
         }
         throw new RuntimeException("데이터 타입 형식 추가 바람");
@@ -53,8 +51,7 @@ public class Validation {
 
     private void isDateTime(final String str, String msg) throws Exception {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
-            LocalDateTime.parse(str, formatter);
+            LocalDate.parse(str);
         } catch (Exception e) {
             throw new RuntimeException(msg);
         }

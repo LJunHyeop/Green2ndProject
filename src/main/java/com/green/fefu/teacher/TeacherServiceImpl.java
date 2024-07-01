@@ -21,9 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static com.green.fefu.teacher.model.dataset.TeacherMapNamingData.*;
 import static com.green.fefu.teacher.model.dataset.TeacherDBMaxLength.*;
+import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.*;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -67,18 +68,18 @@ public class TeacherServiceImpl {
 
 //        2. 데이터 타입 체크
         if (p.getBirth() != null && !p.getBirth().trim().isEmpty()) {
-            validation.typeCheck(p.getBirth(), LocalDateTime.class, "생년월일 입력 형식 에러");
+            validation.typeCheck(p.getBirth(), LocalDate.class, BIRTH_TYPE_ERROR);
         }
         if (!idPattern.matcher(p.getTeacherId()).matches()) {
-            throw new RuntimeException("아이디 형식을 맞춰주세요");
+            throw new RuntimeException(ID_PATTERN_ERROR);
         } else if (!emailPattern.matcher(p.getEmail()).matches()) {
-            throw new RuntimeException("이메일 형식을 맞춰주세요");
+            throw new RuntimeException(EMAIL_PATTERN_ERROR);
         } else if (!namePattern.matcher(p.getName()).matches()) {
-            throw new RuntimeException("이름 형식을 맞춰주세요");
+            throw new RuntimeException(NAME_PATTERN_ERROR);
         } else if (!passwordPattern.matcher(p.getPassword()).matches()) {
-            throw new RuntimeException("비밀번호 형식을 맞춰주세요");
+            throw new RuntimeException(PASSWORD_PATTERN_ERROR);
         } else if (!phonePattern.matcher(p.getPhone()).matches()) {
-            throw new RuntimeException("휴대폰 번호 형식을 맞춰주세요");
+            throw new RuntimeException(PHONE_PATTERN_ERROR);
         }
 
 //        3. 비밀번호 암호화
@@ -104,7 +105,7 @@ public class TeacherServiceImpl {
         int result = mapper.CreateTeacher(p);
 //        6. 쿼리 결과 체크
         if (result == 0) {
-            throw new RuntimeException("쿼리 에러");
+            throw new RuntimeException(QUERY_RESULT_ERROR);
         }
 
 //        정상 결과 시
@@ -123,9 +124,9 @@ public class TeacherServiceImpl {
         validation.nullCheck(p.getPassword());
 //        데이터 타입 체크
         if (!idPattern.matcher(p.getTeacherId()).matches()) {
-            throw new RuntimeException("아이디 형식을 맞춰주세요");
+            throw new RuntimeException(ID_PATTERN_ERROR);
         } else if (!passwordPattern.matcher(p.getPassword()).matches()) {
-            throw new RuntimeException("비밀번호 형식을 맞춰주세요");
+            throw new RuntimeException(PASSWORD_PATTERN_ERROR);
         }
 //        유저 select
         TeacherEntity teacher = mapper.GetTeacher(
@@ -136,13 +137,13 @@ public class TeacherServiceImpl {
 
 //        아이디로 확인 안됐을때
         if (teacher == null) {
-            throw new RuntimeException("아이디가 일치하지 않습니다.");
+            throw new RuntimeException(ID_NOT_FOUND_ERROR);
 
         }
 //        비밀번호 매치 체크
 //        암호화된 비밀번호가 다를때
         else if (!passwordEncoder.matches(p.getPassword(), teacher.getPassword())) {
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+            throw new RuntimeException(PASSWORD_NO_MATCH_ERROR);
         }
 
 //        JWT 토큰 발급
@@ -180,16 +181,16 @@ public class TeacherServiceImpl {
 //        아이디 형식 확인
         if (p.getTeacherId() != null) {
             if (!idPattern.matcher(p.getTeacherId()).matches()) {
-                throw new RuntimeException("아이디 형식을 맞춰주세요");
+                throw new RuntimeException(ID_PATTERN_ERROR);
             }
         }
 //        이메일 형식 확인
         else if (p.getEmail() != null) {
             if (!emailPattern.matcher(p.getEmail()).matches()) {
-                throw new RuntimeException("이메일 형식을 맞춰주세요");
+                throw new RuntimeException(EMAIL_PATTERN_ERROR);
             }
         } else {
-            throw new RuntimeException("중복 확인에 필요한 값이 없습니다.");
+            throw new RuntimeException(ESSENTIAL_DATA_NOT_FOUND_ERROR);
         }
 
 //        유저 select (아이디, email)
@@ -200,7 +201,7 @@ public class TeacherServiceImpl {
                         .build()
         );
         if (teacher != null) {
-            throw new RuntimeException("이미 사용 중 입니다.");
+            throw new RuntimeException(DUPLICATE_DATA_ERROR);
         }
     }
 
@@ -213,9 +214,9 @@ public class TeacherServiceImpl {
         validation.nullCheck(p.getPhone());
 //        타입 체크
         if (!namePattern.matcher(p.getName()).matches()) {
-            throw new RuntimeException("이름 형식을 맞춰주세요");
+            throw new RuntimeException(ID_PATTERN_ERROR);
         } else if (!phonePattern.matcher(p.getPhone()).matches()) {
-            throw new RuntimeException("휴대폰 번호 형식을 맞춰주세요");
+            throw new RuntimeException(PHONE_PATTERN_ERROR);
         }
 
         TeacherEntity teacher = mapper.GetTeacher(
@@ -225,7 +226,7 @@ public class TeacherServiceImpl {
                         .build()
         );
         if (teacher == null) {
-            throw new RuntimeException("해당하는 유저가 없습니다.");
+            throw new RuntimeException(NOT_FOUND_USER_ERROR);
         }
         map.put(TEACHER_ID, teacher.getId());
         return map;
@@ -240,9 +241,9 @@ public class TeacherServiceImpl {
         validation.nullCheck(p.getPhone());
 //        타입 체크
         if (!idPattern.matcher(p.getTeacherId()).matches()) {
-            throw new RuntimeException("아이디 형식을 맞춰주세요");
+            throw new RuntimeException(ID_PATTERN_ERROR);
         } else if (!phonePattern.matcher(p.getPhone()).matches()) {
-            throw new RuntimeException("휴대폰 번호 형식을 맞춰주세요");
+            throw new RuntimeException(PHONE_PATTERN_ERROR);
         }
         TeacherEntity teacher = mapper.GetTeacher(
                 EntityArgument.builder()
@@ -251,7 +252,7 @@ public class TeacherServiceImpl {
                         .build()
         );
         if (teacher == null) {
-            throw new RuntimeException("해당하는 유저가 없습니다.");
+            throw new RuntimeException(NOT_FOUND_USER_ERROR);
         }
 
 //        휴대폰으로 문자 보내기
@@ -259,44 +260,34 @@ public class TeacherServiceImpl {
         try {
             SmsSender.sendSms(p.getPhone());
         } catch (Exception e) {
-            throw new RuntimeException("문자 메세지 보내기 실패");
+            throw new RuntimeException(SMS_SEND_ERROR);
         }
     }
 
 //=====================================================================================================================
 
-    //    선생님 비밀번호 변경
+    //    선생님 비밀번호 변경 ( 로그인 전 )
     public void ChangePassWord(ChangePassWordReq p) throws Exception {
-//        로그인 이후 비번 변경 AND 로그인 이전 비번 변경 두개의 ver 만들어야함
         TeacherEntity teacher;
 
 //        널체크
         validation.nullCheck(p.getPassWord());
-//        유저 아이디가 없다 -> 로그인 한 유저다 -> pk를 들고있으니 jwt로 pk들고오자
-        if (p.getTeacherId() != null) {
-            validation.nullCheck(p.getTeacherId());
+        validation.nullCheck(p.getTeacherId());
 //        유저 select
-            teacher = mapper.GetTeacher(
-                    EntityArgument.builder()
-                            .id(p.getTeacherId())
-                            .build()
-            );
-        } else {
-            teacher = mapper.GetTeacher(
-                    EntityArgument.builder()
-                            .pk(authenticationFacade.getLogInUserId())
-                            .build()
-            );
+        teacher = mapper.GetTeacher(
+                EntityArgument.builder()
+                        .id(p.getTeacherId())
+                        .build()
+        );
+        if (teacher == null) {
+            throw new RuntimeException(ID_NOT_FOUND_ERROR);
         }
 
 //        타입 체크
         if (!passwordPattern.matcher(p.getPassWord()).matches()) {
-            throw new RuntimeException("새 비밀번호의 형식을 맞춰주세요");
+            throw new RuntimeException(PASSWORD_PATTERN_ERROR);
         }
 
-        if (teacher == null) {
-            throw new RuntimeException("아이디가 일치하지 않습니다.");
-        }
 
 //        비밀번호 암호화
         String hashpw = passwordEncoder.encode(p.getPassWord());
@@ -306,7 +297,7 @@ public class TeacherServiceImpl {
 //        쿼리 실행
         int result = mapper.ChangePassWord(p);
         if (result != 1) {
-            throw new RuntimeException("쿼리 에러");
+            throw new RuntimeException(QUERY_RESULT_ERROR);
         }
     }
 
