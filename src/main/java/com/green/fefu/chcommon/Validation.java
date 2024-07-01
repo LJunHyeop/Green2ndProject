@@ -30,7 +30,9 @@ public class Validation {
         else if (clazz == LocalDate.class) {
             isDateTime(str, msg);
         }
-        throw new RuntimeException("데이터 타입 형식 추가 바람");
+        else {
+            throw new RuntimeException("데이터 타입 형식 추가 바람");
+        }
     }
 
     private void isInteger(final String str, String msg) throws Exception {

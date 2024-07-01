@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "그린그램",
-                description = "GreenGram with react",
+                title = "2차 프로젝트",
+                description = "백씨",
                 version = "v3"
         ),
 //        End Point 마다 자물쇠 아이콘 생성 ( 로그인 가능 )

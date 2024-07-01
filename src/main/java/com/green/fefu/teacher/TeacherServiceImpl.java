@@ -97,7 +97,7 @@ public class TeacherServiceImpl {
         validation.lengthCheck(p.getEmail(), TEACHER_EMAIL_MAX_LENGTH);
         validation.lengthCheck(p.getPhone(), TEACHER_PHONE_MAX_LENGTH);
         validation.lengthCheck(p.getGender(), TEACHER_GENDER_MAX_LENGTH);
-        if (!p.getFullAddr().isEmpty()) {
+        if (p.getFullAddr() != null) {
             validation.lengthCheck(p.getFullAddr(), TEACHER_ADDRESS_MAX_LENGTH);
         }
 
@@ -149,12 +149,13 @@ public class TeacherServiceImpl {
 //        JWT 토큰 발급
         MyUser myUser = MyUser.builder()
                 .userId(teacher.getPk())
-                .role(teacher.getAuth())
+                .role("ROLE_TEAHCER")
                 .build();
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
         String refreshToken = jwtTokenProvider.generateRefreshToken(myUser);
 
+//        refreshToken은 보안 쿠키를 이용해서 처리
         int refreshTokenMaxAge = appProperties.getJwt().getRefreshTokenCookieMaxAge();
         cookieUtils.deleteCookie(res, "refresh-token");
         cookieUtils.setCookie(res, "refresh-token", refreshToken, refreshTokenMaxAge);
@@ -162,7 +163,11 @@ public class TeacherServiceImpl {
 
 //        담당 학급 받아오기
         String teacherClass = mapper.getCurrentClassesByTeacherId(teacher.getPk());
-        String tClass = Parser.classParser(teacherClass);
+        String tClass = null;
+//        담당 학급이 있을 때 ( 방금 회원가입하면 담당학급이 없음 )
+        if (teacherClass != null) {
+            tClass = Parser.classParser(teacherClass);
+        }
 
 //        데이터 삽입
         map.put(TEACHER_NAME, teacher.getName());
@@ -272,13 +277,25 @@ public class TeacherServiceImpl {
 
 //        널체크
         validation.nullCheck(p.getPassWord());
-        validation.nullCheck(p.getTeacherId());
+
+//        로그인 햇을때는 TeacherId 값이 null 일 수 있기 때문이다.
+//        validation.nullCheck(p.getTeacherId());
+
 //        유저 select
-        teacher = mapper.GetTeacher(
-                EntityArgument.builder()
-                        .id(p.getTeacherId())
-                        .build()
-        );
+        if (authenticationFacade.getLoginUserId() == 0) {
+            validation.nullCheck(p.getTeacherId());
+            teacher = mapper.GetTeacher(
+                    EntityArgument.builder()
+                            .id(p.getTeacherId())
+                            .build()
+            );
+        } else {
+            teacher = mapper.GetTeacher(
+                    EntityArgument.builder()
+                            .pk(authenticationFacade.getLoginUserId())
+                            .build()
+            );
+        }
         if (teacher == null) {
             throw new RuntimeException(ID_NOT_FOUND_ERROR);
         }
@@ -294,6 +311,7 @@ public class TeacherServiceImpl {
         p.setPassWord(hashpw);
 
 
+        p.setPk(teacher.getPk());
 //        쿼리 실행
         int result = mapper.ChangePassWord(p);
         if (result != 1) {
@@ -308,7 +326,7 @@ public class TeacherServiceImpl {
     public Map TeacherDetail(Map map) throws Exception {
         TeacherEntity teacher = mapper.GetTeacher(
                 EntityArgument.builder()
-                        .pk(authenticationFacade.getLogInUserId())
+                        .pk(authenticationFacade.getLoginUserId())
                         .build()
         );
 
@@ -333,4 +351,39 @@ public class TeacherServiceImpl {
 //=====================================================================================================================
 
     //    선생님 정보 변경
+    public void ChangeTeacher(ChangeTeacherReq p) throws Exception {
+        p.setPk(authenticationFacade.getLoginUserId());
+
+//        타입 체크 and 데이터 길이 체크
+        if(p.getName() != null){
+            if(!namePattern.matcher(p.getName()).matches()){
+                throw new RuntimeException(NAME_PATTERN_ERROR);
+            }
+            validation.lengthCheck(p.getName(), TEACHER_NAME_MAX_LENGTH);
+        }
+        if(p.getPhone() != null){
+            if(!phonePattern.matcher(p.getPhone()).matches()){
+                throw new RuntimeException(PHONE_PATTERN_ERROR);
+            }
+            validation.lengthCheck(p.getPhone(), TEACHER_PHONE_MAX_LENGTH);
+        }
+        if(p.getEmail() != null){
+            if(!emailPattern.matcher(p.getEmail()).matches()){
+                throw new RuntimeException(EMAIL_PATTERN_ERROR);
+            }
+            validation.lengthCheck(p.getEmail(), TEACHER_EMAIL_MAX_LENGTH);
+        }
+
+
+//        주소값 합성
+//        만들어야함
+
+
+
+//        쿼리 실행
+        int result = mapper.ChangeTeacher(p);
+        if (result != 1) {
+            throw new RuntimeException(QUERY_RESULT_ERROR);
+        }
+    }
 }

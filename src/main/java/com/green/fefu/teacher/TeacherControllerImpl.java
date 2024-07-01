@@ -92,7 +92,7 @@ public class TeacherControllerImpl {
     }
 
     //    선생님 비밀번호 변경
-    @PutMapping
+    @PutMapping("put_pwd")
     public ResponseEntity ChangePassWord(@RequestBody ChangePassWordReq p) {
         log.info("ChangePassWord req: {}", p);
         try {
@@ -103,7 +103,7 @@ public class TeacherControllerImpl {
         return new ResponseEntity<>(OK);
     }
 
-//    선생님 내정보 불러오기
+    //    선생님 내정보 불러오기
     @GetMapping
     public ResponseEntity TeacherDetail() {
         Map map = new HashMap();
@@ -112,10 +112,20 @@ public class TeacherControllerImpl {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
         }
-        return new ResponseEntity<>(OK);
+        return new ResponseEntity<>(map, OK);
     }
 
 //    선생님 정보 변경
+    @PatchMapping
+    public ResponseEntity ChangeTeacher(@RequestBody ChangeTeacherReq p){
+        log.info("ChangeTeacher req: {}", p);
+        try {
+            service.ChangeTeacher(p);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+        }
+        return new ResponseEntity<>(OK);
+    }
 
 //    ADMIN 회원가입 승인 ( ADMIN Package 로 옮길 예정 )
 

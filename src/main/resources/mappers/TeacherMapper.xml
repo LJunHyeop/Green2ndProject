@@ -13,12 +13,12 @@
             nm = #{name},
             phone = #{phone},
             email = #{email},
-            gender = #{gender}
+            gender = #{gender},
             <if test="birth != null and birth != ''">
-                , birth = #{birth}
+                birth = #{birth},
             </if>
             <if test="fullAddr != null and fullAddr != ''">
-                , addr = #{fullAddr}
+                addr = #{fullAddr},
             </if>
         </set>
     </insert>
@@ -31,7 +31,7 @@
                 created_at AS createdAt, updated_at AS updatedAt
         FROM teacher
         <where>
-            <if test="pk != null and pk > 1">
+            <if test="pk != null and pk > 0">
                 tea_id = #{pk}
             </if>
             <if test="id != null and id != ''">
@@ -62,5 +62,30 @@
         t.tea_id = #{teacherPk}
         AND YEAR(c.created_at) = YEAR(CURDATE())
     </select>
+
+    <update id="ChangePassWord">
+        UPDATE teacher
+        SET upw = #{passWord}
+        WHERE tea_id = #{pk}
+    </update>
+
+    <update id="ChangeTeacher">
+        UPDATE teacher
+        <set>
+            <if test="name != null and name != ''">
+                nm = #{name}
+            </if>
+            <if test="phone != null and name != ''">
+                AND phone = #{phone}
+            </if>
+            <if test="email != null and email != ''">
+                AND email = #{email}
+            </if>
+            <if test="fullAddr != null and fullAddr !=''">
+                AND addr = #{fullAddr}
+            </if>
+        </set>
+        WHERE tea_id = #{pk}
+    </update>
 
 </mapper>

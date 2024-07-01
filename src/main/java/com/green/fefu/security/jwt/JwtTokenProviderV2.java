@@ -1,5 +1,6 @@
 package com.green.fefu.security.jwt;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.green.fefu.common.AppProperties;
 import com.green.fefu.security.MyUser;
@@ -17,6 +18,12 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+/*
+  JWT 생성
+, Request(요청)의 Header에서 token얻기
+, 확인(validate:  토큰 변질이 없었나, 만료시간 지났나?)
+, Claim(data) 넣고 빼기
+*/
 
 @Slf4j
 @Component
@@ -64,7 +71,7 @@ public class JwtTokenProviderV2 {
         return null;
     }
 
-    public Claims getAllClaims(String token) {
+    public Claims getClaims(String token) {
         return Jwts
                 .parser()
                 .verifyWith(secretKey) //똑같은 키로 복호화
@@ -75,8 +82,8 @@ public class JwtTokenProviderV2 {
 
     public UserDetails getUserDetailsFromToken(String token) {
         try {
-            Claims claims = getAllClaims(token); //JWT(인증코드)에 저장되어 있는 Claims를 얻어온다.
-            String json = (String) claims.get("signedUser"); //Claims에 저장되어 있는 값을 얻어온다. (그것이 JSON(데이터))
+            Claims claims = getClaims(token); //JWT(인증코드)에 저장되어 있는 Claims를 얻어온다.
+            String json = (String)claims.get("signedUser"); //Claims에 저장되어 있는 값을 얻어온다. (그것이 JSON(데이터))
             MyUser myUser = om.readValue(json, MyUser.class); //JSON > 객체로 변환 (그것이 UserDetails, 정확히는 MyUserDetails)
             MyUserDetails myUserDetails = new MyUserDetails();
             myUserDetails.setMyUser(myUser);
@@ -105,7 +112,7 @@ public class JwtTokenProviderV2 {
     public boolean isValidateToken(String token) {
         try {
             //(original) 만료시간이 안 지났으면 리턴 false, 지났으면 리턴 true
-            return !getAllClaims(token).getExpiration().before(new Date());
+            return !getClaims(token).getExpiration().before(new Date());
             //(변환) 만료시간이 안 지났으면 리턴 true, 지났으면 리턴 false
 
         } catch (Exception e) {
@@ -118,9 +125,7 @@ public class JwtTokenProviderV2 {
         //FE가 BE요청을 보낼 때 (로그인을 했다면)항상 JWT를 보낼건데 header에 서로 약속한 key에 저장해서 보낸다.
         String jwt = req.getHeader(appProperties.getJwt().getHeaderSchemaName());
         // String auth = req.getHeader("authorization"); 이렇게 작성한 것과 같음. key값은 변경가능
-        if (jwt == null) {
-            return null;
-        }
+        if (jwt == null) { return null; }
 
         //위 if를 지나쳤다면 FE가 header에 authorization 키에 데이터를 담아서 보내왔다는 뜻.
         //auth에는 "Bearer JWT"문자열이 있을 것이다. 문자열이 'Bearer'로 시작하는지 체크
@@ -128,11 +133,13 @@ public class JwtTokenProviderV2 {
         // if(auth.startsWith("Bearer")) { //auth에 저장되어있는 문자열이 "Bearer"로 시작하면 true, 아니면 false
         // FE와 약속을 만들어야 함.
         // authorization: Bearer JWT문자열
-        if (!jwt.startsWith(appProperties.getJwt().getTokenType())) {
+        if(!jwt.startsWith(appProperties.getJwt().getTokenType())) {
             return null;
         }
 
         //순수한 JWT문자열만 뽑아내기 위한 문자열 자르기 + trim(양쪽 빈칸 제거)
-        return jwt.substring(appProperties.getJwt().getTokenType().length()).trim();
+        //return jwt.substring(appProperties.getJwt().getTokenType().length()).trim();
+        return jwt.substring(appProperties.getJwt().getTokenType().length() + 1);
     }
+
 }

@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration  // 빈 등록 시 싱글톤을 보장해 주는 어노테이션
+@Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
     //@Component로 빈등록을 하였기 때문에 DI가 된다.
@@ -46,16 +46,15 @@ public class SecurityConfiguration {
                                         //회원가입, 로그인 인증이 안 되어 있더라도 사용 가능하게 세팅
                                         "/api/teacher/sign-up"
                                         ,"/api/teacher/sign-in"
-                                        ,"/api/user/access-token"
+                                        ,"/api/teacher/duplicate"
+                                        ,"/api/teacher/find_id"
+                                        ,"/api/teacher/find_pwd"
+                                        ,"/api/teacher/put_pwd"
 
                                         //swagger 사용할 수 있게 세팅
                                         , "/swagger"
                                         , "/swagger-ui/**"
                                         , "/v3/api-docs/**"
-
-                                        //actuator 사용할 수 있게 세팅
-                                        , "/actuator"
-                                        , "/actuator/*"
 
                                         //사진
                                         , "/pic/**"
@@ -74,7 +73,12 @@ public class SecurityConfiguration {
                                         , "/profile/*"
                                         , "/feed"
 
+                                        //actuator
+                                        , "/actuator"
+                                        , "/actuator/*"
+
                                 ).permitAll()
+
                                 .anyRequest().authenticated() //로그인이 되어 있어야만 허용
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
