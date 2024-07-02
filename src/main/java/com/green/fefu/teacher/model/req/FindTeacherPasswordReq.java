@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 public class FindTeacherPasswordReq {
     @Schema(example = "test1234", description = "선생님 아이디", required = true)
-    private String teacherId;
+    private String id;
     @Schema(example = "010-0000-0000", description = "선생님 전화번호", required = true)
     private String phone;
 }

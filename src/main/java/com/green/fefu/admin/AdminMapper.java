@@ -9,4 +9,8 @@ import java.util.List;
 public interface AdminMapper {
     List<GetUserListDto> getParentList();
     List<GetUserListDto> getTeacherList();
+    int delParent(long pk);
+    int delTeacher(long pk);
+    int updParent(long pk);
+    int updTeacher(long pk);
 }

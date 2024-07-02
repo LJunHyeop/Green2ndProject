@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 public class CheckDuplicateReq {
     @Schema(example = "test1234", description = "선생님 아이디")
-    private String teacherId;
+    private String id;
     @Schema(example = "test1234@naver.com", description = "선생님 이메일")
     private String email;
 }

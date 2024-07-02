@@ -2,6 +2,9 @@ package com.green.fefu.teacher;
 
 
 import com.green.fefu.teacher.model.req.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,13 @@ public class TeacherControllerImpl {
 
     //    선생님 회원가입
     @PostMapping("/sign-up")
+    @Operation(summary = "선생님 회원가입", description = "리턴 => 선생님 PK값")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "1 <= 선생님 PK값"),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명")
+    })
     public ResponseEntity CreateTeacher(@RequestBody CreateTeacherReq p) {
         log.info("CreateTeacher req: {}", p);
         Map map = new HashMap();
@@ -40,6 +50,18 @@ public class TeacherControllerImpl {
 
     //    선생님 로그인
     @PostMapping("/sign-in")
+    @Operation(summary = "선생님 로그인", description = "리턴 => 이름, 이메일, 담당학급, 엑세스토큰")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description =
+                            "<p> name : \"홍길동\"</p>" +
+                                    "<p> email : \"test1234@naver.com\"</p>" +
+                                    "<p> class : \"1학년 1반\"</p>" +
+                                    "<p> accessToken : \"asdasdqwdzxc\"</p>"
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명")
+    })
     public ResponseEntity LogInTeacher(@RequestBody LogInTeacherReq p, HttpServletResponse res) {
         log.info("LogInTeacher req: {}", p);
         Map map = new HashMap();
@@ -55,6 +77,15 @@ public class TeacherControllerImpl {
 
     //    선생님 중복확인 ( 아이디, 이메일 )
     @GetMapping("duplicate")
+    @Operation(summary = "선생님 아이디 or 이메일 중복확인", description = "리턴 => 없음 <br><strong>아이디 이메일 둘중 하나만 넣어주세요</strong>")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description =
+                            "리턴값 없음!"
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명")
+    })
     public ResponseEntity CheckDuplicate(@ParameterObject @ModelAttribute CheckDuplicateReq p) {
         log.info("CheckDuplicate req: {}", p);
         try {
@@ -68,6 +99,15 @@ public class TeacherControllerImpl {
 
     //    선생님 아이디 찾기
     @GetMapping("find_id")
+    @Operation(summary = "선생님 아이디 찾기", description = "리턴 => 선생님 ID값")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description =
+                            "id : \"test1234\""
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명")
+    })
     public ResponseEntity FindTeacherId(@ParameterObject @ModelAttribute FindTeacherIdReq p) {
         log.info("FindTeacherId req: {}", p);
         Map map = new HashMap();
@@ -81,18 +121,37 @@ public class TeacherControllerImpl {
 
     //    선생님 비밀번호 찾기
     @GetMapping("find_pwd")
+    @Operation(summary = "선생님 비밀번호 찾기 ( 문자 발송 )", description = "리턴 => 랜덤 코드")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description =
+                            "randomCode : \"111111\""
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명")
+    })
     public ResponseEntity FindTeacherPassword(@ParameterObject @ModelAttribute FindTeacherPasswordReq p) {
         log.info("FindTeacherPassword req: {}", p);
+        Map map = new HashMap();
         try {
-            service.FindTeacherPassword(p);
+            service.FindTeacherPassword(p, map);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
         }
-        return new ResponseEntity<>(OK);
+        return new ResponseEntity<>(map, OK);
     }
 
     //    선생님 비밀번호 변경
     @PutMapping("put_pwd")
+    @Operation(summary = "선생님 비밀번호 변경", description = "리턴 => 없음")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description =
+                            "리턴값 없음!"
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명")
+    })
     public ResponseEntity ChangePassWord(@RequestBody ChangePassWordReq p) {
         log.info("ChangePassWord req: {}", p);
         try {
@@ -105,6 +164,21 @@ public class TeacherControllerImpl {
 
     //    선생님 내정보 불러오기
     @GetMapping
+    @Operation(summary = "선생님 내정보 불러오기", description = "리턴 => 아이디, 이름, 전화번호, 이메일, 성별, 담당학급, 생년월일")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description =
+                            "<p> id : \"test1234\"</p>" +
+                            "<p> name : \"홍길동\"</p>" +
+                            "<p> phone : \"010-0000-0000\"</p>" +
+                            "<p> email : \"test1234@naver.com\"</p>" +
+                            "<p> gender : \"여자\"</p>" +
+                            "<p> class : \"1학년 1반\"</p>" +
+                            "<p> birth : \"1980-01-01\"</p>"
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명")
+    })
     public ResponseEntity TeacherDetail() {
         Map map = new HashMap();
         try {
@@ -115,9 +189,17 @@ public class TeacherControllerImpl {
         return new ResponseEntity<>(map, OK);
     }
 
-//    선생님 정보 변경
+    //    선생님 정보 변경
     @PatchMapping
-    public ResponseEntity ChangeTeacher(@RequestBody ChangeTeacherReq p){
+    @Operation(summary = "선생님 정보 변경", description = "리턴 => 없음")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "리턴값 없음!"
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명")
+    })
+    public ResponseEntity ChangeTeacher(@RequestBody ChangeTeacherReq p) {
         log.info("ChangeTeacher req: {}", p);
         try {
             service.ChangeTeacher(p);
@@ -127,7 +209,5 @@ public class TeacherControllerImpl {
         return new ResponseEntity<>(OK);
     }
 
-//    ADMIN 회원가입 승인 ( ADMIN Package 로 옮길 예정 )
 
-//    선생님 탈퇴 ( 어드민 만 가능 ) ==> 개발 가능성 Low
 }
