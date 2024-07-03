@@ -77,10 +77,19 @@ public class StudentControllerImpl {
 
     //    선생기준 -> 자기 반 학생 리스트 들고오기
     @GetMapping
-    @Operation(summary = "담당 학급의 학생 List", description = "리턴 => ")
+    @Operation(summary = "담당 학급의 학생 List", description = "리턴 => 이름, 성별, 생년월일, 전화번호, 부모 이름, 부모 전화번호")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = ""
+                    description = "[\n" +
+                            "  {\n" +
+                            "    \"name\": \"홍길동\",\n" +
+                            "    \"gender\": \"남자\",\n" +
+                            "    \"birth\": \"2024-07-03\",\n" +
+                            "    \"phone\": \"010-0000-0000\",\n" +
+                            "    \"parentName\": \"부모\",\n" +
+                            "    \"parentPhone\": \"010-1111-1111\"\n" +
+                            "  }\n" +
+                            "]"
             ),
             @ApiResponse(responseCode = "404",
                     description = "에러 난 이유 설명"

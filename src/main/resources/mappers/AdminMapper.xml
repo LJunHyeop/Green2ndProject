@@ -17,6 +17,7 @@
         ON sc.class_id = c.class_id
         WHERE
         p.acept = 2
+        ORDER BY p.created_at
     </select>
 
     <select id="getTeacherList">
@@ -27,5 +28,28 @@
         JOIN class c
         ON c.tea_id = t.tea_id
         WHERE t.acept = 2
+        ORDER BY t.created_at
     </select>
+
+    <delete id="delParent">
+        DELETE FROM parent
+        WHERE parents_id = #{pk}
+    </delete>
+
+    <delete id="delTeacher">
+        DELETE FROM teacher
+        WHERE tea_id = #{pk}
+    </delete>
+
+    <update id="updParent">
+        UPDATE parent
+        SET acept = 1
+        WHERE parents_id = #{pk}
+    </update>
+
+    <update id="updTeacher">
+        UPDATE teacher
+        SET acept = 1
+        WHERE tea_id = #{pk}
+    </update>
 </mapper>

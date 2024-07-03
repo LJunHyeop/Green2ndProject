@@ -28,19 +28,23 @@ public class AdminControllerImpl {
 
     //    list Get
     @GetMapping("{p}")
-    @Operation(summary = "승인 필요한 계정List 불러오기", description = "리턴 => 학부모")
+    @Operation(summary = "승인 필요한 계정List 불러오기", description = "리턴 => 학부모, 승인 대기 학부모 리스트" +
+            "승인 신청일, 자녀 학년, 자녀 학급, 부모 pk, 부모 id, 부모 이름")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description =
-                            "<p> code : \"학부모 / 교직원\"</p>" +
-                                    "<p> userList : [" +
-                                    "<p>&emsp; pk : \"1\"</p>" +
-                                    "<p>&emsp; id : \"test1234\"</p>" +
-                                    "<p>&emsp; name : \"홍길동\"</p>" +
-                                    "<p>&emsp; grade : \"1학년\"</p>" +
-                                    "<p>&emsp; class : \"1반\"</p>" +
-                                    "<p>&emsp; createdAt : \"2024-07-01 16:03:13\"</p>" +
-                                    "]</p>"
+                    description = "{\n" +
+                            "  \"code\": \"학부모\",\n" +
+                            "  \"userList\": [\n" +
+                            "    {\n" +
+                            "      \"createdAt\": \"2024-07-03 15:55:46\",\n" +
+                            "      \"grade\": \"1학년\",\n" +
+                            "      \"name\": \"부모\",\n" +
+                            "      \"pk\": \"1\",\n" +
+                            "      \"id\": \"test1234\",\n" +
+                            "      \"class\": \"1반\"\n" +
+                            "    },\n" +
+                            "  ]\n" +
+                            "}"
             ),
             @ApiResponse(responseCode = "404",
                     description = "에러 난 이유 설명"

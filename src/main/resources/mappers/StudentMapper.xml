@@ -42,8 +42,10 @@
         JOIN
         teacher t ON c.tea_id = t.tea_id
         WHERE
-        t.tea_id = #{pk};
+        t.tea_id = #{pk}
+        ORDER BY s.name
     </select>
+
     <select id="getStudentDetail">
         SELECT
         s.stu_id AS pk,
@@ -72,7 +74,7 @@
         JOIN
         teacher t ON c.tea_id = t.tea_id
         WHERE
-        s.stu_id = #{pk};
+        s.stu_id = #{pk}
     </select>
 
     <update id="updateStudent">
@@ -98,5 +100,7 @@
         SELECT pic, name, grade, phone, stu_id AS pk
         FROM student
         WHERE state = 1 AND parents_id IS NULL
+        ORDER BY name, grade
     </select>
+
 </mapper>
