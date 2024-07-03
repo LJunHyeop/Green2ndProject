@@ -19,6 +19,12 @@
         WHERE class_id=#{classId}
     </select>
 
+    <select id="getNoticeForTDD">
+        SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
+                title, content, created_at AS createdAt, updated_at AS updatedAt
+        FROM notice
+    </select>
+
     <!--알림장 수정-->
     <update id="putNotice">
         UPDATE notice

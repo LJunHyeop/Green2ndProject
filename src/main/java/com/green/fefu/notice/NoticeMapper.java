@@ -11,4 +11,7 @@ public interface NoticeMapper {
     List<GetNoticeRes> getNotice(GetNoticeReq p);
     int putNotice(PutNoticeReq p);
     int deleteNotice(DeleteNoticeReq p);
+
+    //TDD를 위한 메소드
+    List<GetNoticeRes> getNoticeForTDD();
 }

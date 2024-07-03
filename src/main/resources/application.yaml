@@ -3,9 +3,9 @@ spring:
     import: optional:file:.env
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: ${DEFAULT.DB_URL}
-    username: ${DEFAULT.USER_NAME}
-    password: ${DEFAULT.PASSWORD}
+    url: jdbc:mariadb://localhost:3306/second_project
+    username: root
+    password: green502
 
   servlet:
     multipart:
@@ -38,3 +38,14 @@ app:
     token-type: Bearer #토큰의 종류
     access-token-expiry: 1_800_000 #1시간
     refresh-token-expiry: 1_296_000_000 #15일
+
+---
+spring:
+  config:
+    activate:
+      on-profile: tdd
+  datasource:
+    url: jdbc:mariadb://localhost:3306/second_project_tdd
+  sql:
+    init:
+      mode: always
