@@ -33,7 +33,7 @@ public class AdminControllerImpl {
             @ApiResponse(responseCode = "200",
                     description =
                             "<p> code : \"학부모 / 교직원\"</p>" +
-                            "<p> userList : [" +
+                                    "<p> userList : [" +
                                     "<p>&emsp; pk : \"1\"</p>" +
                                     "<p>&emsp; id : \"test1234\"</p>" +
                                     "<p>&emsp; name : \"홍길동\"</p>" +
@@ -43,12 +43,19 @@ public class AdminControllerImpl {
                                     "]</p>"
             ),
             @ApiResponse(responseCode = "404",
-                    description = "에러 난 이유 설명")
+                    description = "에러 난 이유 설명"
+            ),
+            @ApiResponse(responseCode = "401",
+                    description = "JWT ACCESSTOKEN 에러 ( 토큰을 헤더에 추가해 주세요 )"
+            ),
+            @ApiResponse(responseCode = "403",
+                    description = "해당 유저는 사용 권한이 없음"
+            )
     })
     public ResponseEntity findUnAcceptList(@PathVariable @Schema(example = "1", description = "1-> 부모List, 2-> 선생List") int p) {
         log.info("parameter p: {}", p);
         Map map = new HashMap();
-        log.info("{}",p);
+        log.info("{}", p);
         try {
             map = service.findUnAcceptList(p, map);
         } catch (Exception e) {
@@ -66,7 +73,14 @@ public class AdminControllerImpl {
                     description = "리턴값 없음!"
             ),
             @ApiResponse(responseCode = "404",
-                    description = "에러 난 이유 설명")
+                    description = "에러 난 이유 설명"
+            ),
+            @ApiResponse(responseCode = "401",
+                    description = "JWT ACCESSTOKEN 에러 ( 토큰을 헤더에 추가해 주세요 )"
+            ),
+            @ApiResponse(responseCode = "403",
+                    description = "해당 유저는 사용 권한이 없음"
+            )
     })
     public ResponseEntity deleteUser(@ParameterObject @ModelAttribute adminUserReq p) {
         log.info("deleteUser req : {}", p);
@@ -87,7 +101,14 @@ public class AdminControllerImpl {
                     description = "리던값 없음!"
             ),
             @ApiResponse(responseCode = "404",
-                    description = "에러 난 이유 설명")
+                    description = "에러 난 이유 설명"
+            ),
+            @ApiResponse(responseCode = "401",
+                    description = "JWT ACCESSTOKEN 에러 ( 토큰을 헤더에 추가해 주세요 )"
+            ),
+            @ApiResponse(responseCode = "403",
+                    description = "해당 유저는 사용 권한이 없음"
+            )
     })
     public ResponseEntity acceptUser(@ParameterObject @ModelAttribute adminUserReq p) {
         log.info("acceptUser req : {}", p);

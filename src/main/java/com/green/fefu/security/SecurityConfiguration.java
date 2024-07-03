@@ -50,6 +50,7 @@ public class SecurityConfiguration {
                                         ,"/api/teacher/find_id"
                                         ,"/api/teacher/find_pwd"
                                         ,"/api/teacher/put_pwd"
+                                        ,"/api/student/list"
 
                                         //swagger 사용할 수 있게 세팅
                                         , "/swagger"

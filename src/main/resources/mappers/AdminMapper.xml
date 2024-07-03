@@ -20,7 +20,9 @@
     </select>
 
     <select id="getTeacherList">
-        SELECT t.tea_id AS pk, t.uid AS id, t.nm AS name, c.class_id AS grade, t.created_at AS createdAt
+        SELECT t.tea_id AS pk, t.uid AS id,
+        t.nm AS name, c.class_id AS grade,
+        t.created_at AS createdAt
         FROM teacher t
         JOIN class c
         ON c.tea_id = t.tea_id

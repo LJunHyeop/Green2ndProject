@@ -1,8 +1,8 @@
 package com.green.fefu.admin;
 
 
-import com.green.fefu.admin.model.dto.GetUserListDto;
-import com.green.fefu.admin.model.req.adminUserReq;
+import com.green.fefu.admin.model.dto.*;
+import com.green.fefu.admin.model.req.*;
 import com.green.fefu.chcommon.Parser;
 import com.green.fefu.chcommon.Validation;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class AdminServiceImpl {
     private final AdminMapper mapper;
     private final Validation validation;
 
-//    유저 리스트 가져오기
+    //    유저 리스트 가져오기
     public Map findUnAcceptList(int p, Map map) {
         List<GetUserListDto> list;
         List<Map> result = new ArrayList<>();
@@ -57,7 +57,8 @@ public class AdminServiceImpl {
         map.put(LIST, result);
         return map;
     }
-//=====================================================================================================================
+
+    //=====================================================================================================================
 //    유저 삭제
     @Transactional
     public void deleteUser(adminUserReq p) throws Exception {
@@ -76,7 +77,7 @@ public class AdminServiceImpl {
             throw new RuntimeException(DIVISION_ERROR);
         }
 
-        if(result != 1) {
+        if (result != 1) {
             throw new RuntimeException(QUERY_RESULT_ERROR);
         }
     }
@@ -85,7 +86,8 @@ public class AdminServiceImpl {
         validation.nullCheck(p.getP().toString());
         validation.nullCheck(p.getPk().toString());
     }
-//=====================================================================================================================
+
+    //=====================================================================================================================
 //    유저 승인
     @Transactional
     public void acceptUser(adminUserReq p) throws Exception {
@@ -95,18 +97,23 @@ public class AdminServiceImpl {
         //        부모 리스트 가져오기
         if (p.getP() == 1) {
             result = mapper.updParent(p.getPk());
+            if (result != 1) {
+                throw new RuntimeException(QUERY_RESULT_ERROR);
+            }
         }
 //        교직원 리스트 가져오기
         else if (p.getP() == 2) {
             result = mapper.updTeacher(p.getPk());
+            if (result != 1) {
+                throw new RuntimeException(QUERY_RESULT_ERROR);
+            }
         } else {
             throw new RuntimeException(DIVISION_ERROR);
         }
 
-        if(result != 1) {
-            throw new RuntimeException(QUERY_RESULT_ERROR);
-        }
+
     }
+
     private void acceptUserNullCheck(adminUserReq p) throws Exception {
         validation.nullCheck(p.getP().toString());
         validation.nullCheck(p.getPk().toString());

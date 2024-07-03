@@ -2,6 +2,7 @@ package com.green.fefu.teacher;
 
 
 import com.green.fefu.chcommon.Parser;
+import com.green.fefu.chcommon.PatternCheck;
 import com.green.fefu.chcommon.SmsSender;
 import com.green.fefu.common.AppProperties;
 import com.green.fefu.common.CookieUtils;
@@ -26,7 +27,6 @@ import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.*;
 
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 @Service
 @Slf4j
@@ -39,17 +39,8 @@ public class TeacherServiceImpl {
     private final JwtTokenProviderV2 jwtTokenProvider;
     private final AppProperties appProperties;
     private final CookieUtils cookieUtils;
-    //    정규 표현식 체크
-    private final String ID_PATTERN = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{6,12}$";
-    private final Pattern idPattern = Pattern.compile(ID_PATTERN);
-    private final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d|.*[!@#$%^&*()\\-_=+\\\\|\\[{\\]};:'\",<.>/?]).{8,20}$";
-    private final Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
-    private final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-    private final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
-    private final String NAME_PATTERN = "^[가-힣a-zA-Z\\s-]+$";
-    private final Pattern namePattern = Pattern.compile(NAME_PATTERN);
-    private final String PHONE_PATTERN = "^010-\\d{4}-\\d{4}$";
-    private final Pattern phonePattern = Pattern.compile(PHONE_PATTERN);
+    private final PatternCheck patternCheck;
+
 
 //=====================================================================================================================
 
@@ -79,7 +70,7 @@ public class TeacherServiceImpl {
         return map;
     }
 
-    private void createTeacherNullCheck(CreateTeacherReq p) throws Exception{
+    private void createTeacherNullCheck(CreateTeacherReq p) throws Exception {
         validation.nullCheck(p.getTeacherId());
         validation.nullCheck(p.getPassword());
         validation.nullCheck(p.getName());
@@ -88,24 +79,18 @@ public class TeacherServiceImpl {
         validation.nullCheck(p.getGender());
     }
 
-    private void createTeacherTypeCheck(CreateTeacherReq p) throws Exception{
+    private void createTeacherTypeCheck(CreateTeacherReq p) throws Exception {
         if (p.getBirth() != null && !p.getBirth().trim().isEmpty()) {
             validation.typeCheck(p.getBirth(), LocalDate.class, BIRTH_TYPE_ERROR);
         }
-        if (!idPattern.matcher(p.getTeacherId()).matches()) {
-            throw new RuntimeException(ID_PATTERN_ERROR);
-        } else if (!emailPattern.matcher(p.getEmail()).matches()) {
-            throw new RuntimeException(EMAIL_PATTERN_ERROR);
-        } else if (!namePattern.matcher(p.getName()).matches()) {
-            throw new RuntimeException(NAME_PATTERN_ERROR);
-        } else if (!passwordPattern.matcher(p.getPassword()).matches()) {
-            throw new RuntimeException(PASSWORD_PATTERN_ERROR);
-        } else if (!phonePattern.matcher(p.getPhone()).matches()) {
-            throw new RuntimeException(PHONE_PATTERN_ERROR);
-        }
+        patternCheck.idCheck(p.getTeacherId());
+        patternCheck.emailCheck(p.getEmail());
+        patternCheck.nameCheck(p.getName());
+        patternCheck.passwordCheck(p.getPassword());
+        patternCheck.phoneCheck(p.getPhone());
     }
 
-    private void createTeacherLengthCheck(CreateTeacherReq p) throws Exception{
+    private void createTeacherLengthCheck(CreateTeacherReq p) throws Exception {
         validation.lengthCheck(p.getTeacherId(), TEACHER_ID_MAX_LENGTH);
         validation.lengthCheck(p.getPassword(), TEACHER_PASSWORD_MAX_LENGTH);
         validation.lengthCheck(p.getName(), TEACHER_NAME_MAX_LENGTH);
@@ -146,7 +131,7 @@ public class TeacherServiceImpl {
 //        JWT 토큰 발급
 
 
-        String accessToken = createToken(teacher,res);
+        String accessToken = createToken(teacher, res);
 
 
 //        담당 학급 받아오기
@@ -172,17 +157,14 @@ public class TeacherServiceImpl {
     }
 
     private void logInTeacherTypeCheck(LogInTeacherReq p) throws Exception {
-        if (!idPattern.matcher(p.getTeacherId()).matches()) {
-            throw new RuntimeException(ID_PATTERN_ERROR);
-        } else if (!passwordPattern.matcher(p.getPassword()).matches()) {
-            throw new RuntimeException(PASSWORD_PATTERN_ERROR);
-        }
+        patternCheck.idCheck(p.getTeacherId());
+        patternCheck.passwordCheck(p.getPassword());
     }
 
     private String createToken(TeacherEntity teacher, HttpServletResponse res) throws Exception {
         MyUser myUser = MyUser.builder()
                 .userId(teacher.getPk())
-                .role(teacher.getAuth())
+                .role(teacher.getAuth().trim())
                 .build();
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
         String refreshToken = jwtTokenProvider.generateRefreshToken(myUser);
@@ -214,22 +196,18 @@ public class TeacherServiceImpl {
         }
     }
 
-    private void dataCheck(CheckDuplicateReq p){
-        if(p.getId() != null && p.getEmail() != null){
-            throw new RuntimeException(MULTIPLE_DATA);
+    private void dataCheck(CheckDuplicateReq p) {
+        if (p.getId() != null && p.getEmail() != null) {
+            throw new RuntimeException(MULTIPLE_DATA_ERROR);
         }
 
 //        아이디 형식 확인
         if (p.getId() != null) {
-            if (!idPattern.matcher(p.getId()).matches()) {
-                throw new RuntimeException(ID_PATTERN_ERROR);
-            }
+            patternCheck.idCheck(p.getId());
         }
 //        이메일 형식 확인
         else if (p.getEmail() != null) {
-            if (!emailPattern.matcher(p.getEmail()).matches()) {
-                throw new RuntimeException(EMAIL_PATTERN_ERROR);
-            }
+            patternCheck.emailCheck(p.getEmail());
         } else {
             throw new RuntimeException(ESSENTIAL_DATA_NOT_FOUND_ERROR);
         }
@@ -263,11 +241,8 @@ public class TeacherServiceImpl {
     }
 
     private void FindTeacherIdTypeCheck(FindTeacherIdReq p) throws Exception {
-        if (!namePattern.matcher(p.getName()).matches()) {
-            throw new RuntimeException(ID_PATTERN_ERROR);
-        } else if (!phonePattern.matcher(p.getPhone()).matches()) {
-            throw new RuntimeException(PHONE_PATTERN_ERROR);
-        }
+        patternCheck.nameCheck(p.getName());
+        patternCheck.phoneCheck(p.getPhone());
     }
 
 //=====================================================================================================================
@@ -308,11 +283,8 @@ public class TeacherServiceImpl {
     }
 
     private void FindTeacherPasswordTypeCheck(FindTeacherPasswordReq p) throws Exception {
-        if (!idPattern.matcher(p.getId()).matches()) {
-            throw new RuntimeException(ID_PATTERN_ERROR);
-        } else if (!phonePattern.matcher(p.getPhone()).matches()) {
-            throw new RuntimeException(PHONE_PATTERN_ERROR);
-        }
+        patternCheck.idCheck(p.getId());
+        patternCheck.phoneCheck(p.getPhone());
     }
 
 //=====================================================================================================================
@@ -372,10 +344,9 @@ public class TeacherServiceImpl {
         }
         return teacher;
     }
+
     private void ChangePassWordTypeCheck(ChangePassWordReq p) throws Exception {
-        if (!passwordPattern.matcher(p.getPassWord()).matches()) {
-            throw new RuntimeException(PASSWORD_PATTERN_ERROR);
-        }
+        patternCheck.passwordCheck(p.getPassWord());
     }
 
 //=====================================================================================================================
@@ -427,22 +398,16 @@ public class TeacherServiceImpl {
     }
 
     private void ChangeTeacherErrorCheck(ChangeTeacherReq p) throws Exception {
-        if(p.getName() != null){
-            if(!namePattern.matcher(p.getName()).matches()){
-                throw new RuntimeException(NAME_PATTERN_ERROR);
-            }
+        if (p.getName() != null) {
+            patternCheck.nameCheck(p.getName());
             validation.lengthCheck(p.getName(), TEACHER_NAME_MAX_LENGTH);
         }
-        if(p.getPhone() != null){
-            if(!phonePattern.matcher(p.getPhone()).matches()){
-                throw new RuntimeException(PHONE_PATTERN_ERROR);
-            }
+        if (p.getPhone() != null) {
+            patternCheck.phoneCheck(p.getPhone());
             validation.lengthCheck(p.getPhone(), TEACHER_PHONE_MAX_LENGTH);
         }
-        if(p.getEmail() != null){
-            if(!emailPattern.matcher(p.getEmail()).matches()){
-                throw new RuntimeException(EMAIL_PATTERN_ERROR);
-            }
+        if (p.getEmail() != null) {
+            patternCheck.emailCheck(p.getEmail());
             validation.lengthCheck(p.getEmail(), TEACHER_EMAIL_MAX_LENGTH);
         }
     }

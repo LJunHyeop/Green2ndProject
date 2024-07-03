@@ -26,7 +26,7 @@
 <!--   Teacher Entity에 값 넣기 위한 쿼리   -->
     <select id="GetTeacher">
         SELECT tea_id AS pk, uid AS id, upw AS password,
-                nm AS name, phone, email, gender,
+                nm AS name, phone, email, gender, auth,
                 birth, addr, acept,
                 created_at AS createdAt, updated_at AS updatedAt
         FROM teacher

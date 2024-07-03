@@ -32,9 +32,11 @@ public class TeacherControllerImpl {
     @Operation(summary = "선생님 회원가입", description = "리턴 => 선생님 PK값")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "1 <= 선생님 PK값"),
+                    description = "teacherPk : \"1\""
+            ),
             @ApiResponse(responseCode = "404",
-                    description = "에러 난 이유 설명")
+                    description = "에러 난 이유 설명"
+            ),
     })
     public ResponseEntity CreateTeacher(@RequestBody CreateTeacherReq p) {
         log.info("CreateTeacher req: {}", p);
@@ -60,7 +62,8 @@ public class TeacherControllerImpl {
                                     "<p> accessToken : \"asdasdqwdzxc\"</p>"
             ),
             @ApiResponse(responseCode = "404",
-                    description = "에러 난 이유 설명")
+                    description = "에러 난 이유 설명"
+            )
     })
     public ResponseEntity LogInTeacher(@RequestBody LogInTeacherReq p, HttpServletResponse res) {
         log.info("LogInTeacher req: {}", p);
@@ -84,7 +87,8 @@ public class TeacherControllerImpl {
                             "리턴값 없음!"
             ),
             @ApiResponse(responseCode = "404",
-                    description = "에러 난 이유 설명")
+                    description = "에러 난 이유 설명"
+            )
     })
     public ResponseEntity CheckDuplicate(@ParameterObject @ModelAttribute CheckDuplicateReq p) {
         log.info("CheckDuplicate req: {}", p);
@@ -106,7 +110,8 @@ public class TeacherControllerImpl {
                             "id : \"test1234\""
             ),
             @ApiResponse(responseCode = "404",
-                    description = "에러 난 이유 설명")
+                    description = "에러 난 이유 설명"
+            )
     })
     public ResponseEntity FindTeacherId(@ParameterObject @ModelAttribute FindTeacherIdReq p) {
         log.info("FindTeacherId req: {}", p);
@@ -128,7 +133,8 @@ public class TeacherControllerImpl {
                             "randomCode : \"111111\""
             ),
             @ApiResponse(responseCode = "404",
-                    description = "에러 난 이유 설명")
+                    description = "에러 난 이유 설명"
+            )
     })
     public ResponseEntity FindTeacherPassword(@ParameterObject @ModelAttribute FindTeacherPasswordReq p) {
         log.info("FindTeacherPassword req: {}", p);
@@ -150,7 +156,8 @@ public class TeacherControllerImpl {
                             "리턴값 없음!"
             ),
             @ApiResponse(responseCode = "404",
-                    description = "에러 난 이유 설명")
+                    description = "에러 난 이유 설명"
+            )
     })
     public ResponseEntity ChangePassWord(@RequestBody ChangePassWordReq p) {
         log.info("ChangePassWord req: {}", p);
@@ -169,15 +176,22 @@ public class TeacherControllerImpl {
             @ApiResponse(responseCode = "200",
                     description =
                             "<p> id : \"test1234\"</p>" +
-                            "<p> name : \"홍길동\"</p>" +
-                            "<p> phone : \"010-0000-0000\"</p>" +
-                            "<p> email : \"test1234@naver.com\"</p>" +
-                            "<p> gender : \"여자\"</p>" +
-                            "<p> class : \"1학년 1반\"</p>" +
-                            "<p> birth : \"1980-01-01\"</p>"
+                                    "<p> name : \"홍길동\"</p>" +
+                                    "<p> phone : \"010-0000-0000\"</p>" +
+                                    "<p> email : \"test1234@naver.com\"</p>" +
+                                    "<p> gender : \"여자\"</p>" +
+                                    "<p> class : \"1학년 1반\"</p>" +
+                                    "<p> birth : \"1980-01-01\"</p>"
             ),
             @ApiResponse(responseCode = "404",
-                    description = "에러 난 이유 설명")
+                    description = "에러 난 이유 설명"
+            ),
+            @ApiResponse(responseCode = "401",
+                    description = "JWT ACCESSTOKEN 에러 ( 토큰을 헤더에 추가해 주세요 )"
+            ),
+            @ApiResponse(responseCode = "403",
+                    description = "해당 유저는 사용 권한이 없음"
+            )
     })
     public ResponseEntity TeacherDetail() {
         Map map = new HashMap();
@@ -197,7 +211,14 @@ public class TeacherControllerImpl {
                     description = "리턴값 없음!"
             ),
             @ApiResponse(responseCode = "404",
-                    description = "에러 난 이유 설명")
+                    description = "에러 난 이유 설명"
+            ),
+            @ApiResponse(responseCode = "401",
+                    description = "JWT ACCESSTOKEN 에러 ( 토큰을 헤더에 추가해 주세요 )"
+            ),
+            @ApiResponse(responseCode = "403",
+                    description = "해당 유저는 사용 권한이 없음"
+            )
     })
     public ResponseEntity ChangeTeacher(@RequestBody ChangeTeacherReq p) {
         log.info("ChangeTeacher req: {}", p);
@@ -208,6 +229,4 @@ public class TeacherControllerImpl {
         }
         return new ResponseEntity<>(OK);
     }
-
-
 }
