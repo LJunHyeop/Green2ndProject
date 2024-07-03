@@ -24,7 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter/*1번만 실�
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
                                     throws ServletException/*서블릿 바깥으로 갔을 때*/, IOException/*입출력 오류*/ {
         String token=jwtTokenProvider.resolveToken/*토큰을 꺼냄*/(request);
-        if(token!=null && jwtTokenProvider.isValidateToken(token)){
+        if(token!=null && jwtTokenProvider.isValidateToken(token))/*null 값이 retrun되진 않았는지, 살아있는지*/{
             // 안에 값이 들어있으면 True, 비어있으면 False
             // 만료시간이 경과하지 않았으면 True, 만료시간이 경과하였으면 False
             // => 통과했다는 건 값이 들어있고 만료 전이라는 것
