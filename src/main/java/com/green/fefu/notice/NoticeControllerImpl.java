@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("api/notice")
 public class NoticeControllerImpl implements NoticeController{
-    private final NoticeServiceImpl service;
+    private final NoticeService service;
 
     @PostMapping("")
     public ResultDto<Integer> postNotice(@RequestBody PostNoticeReq p){
@@ -24,7 +24,6 @@ public class NoticeControllerImpl implements NoticeController{
                 .result(result)
                 .build();
     }
-
 
     @GetMapping("")
     public ResultDto<List<GetNoticeRes>> getNotice(@ModelAttribute @ParameterObject GetNoticeReq p){
