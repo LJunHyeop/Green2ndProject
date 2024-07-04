@@ -1,6 +1,7 @@
-package com.green.fefu.admin;
+package com.green.fefu.admin.service;
 
 import com.green.fefu.admin.model.req.adminUserReq;
+import com.green.fefu.admin.test.AdminController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,7 +24,7 @@ import static com.green.fefu.chcommon.ResponsDataSet.*;
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
 @Tag(name = "관리자 승인", description = "관리자 관련 클래스")
-public class AdminControllerImpl {
+public class AdminControllerImpl implements AdminController {
     private final AdminServiceImpl service;
 
     //    list Get
@@ -56,6 +57,7 @@ public class AdminControllerImpl {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @Override
     public ResponseEntity findUnAcceptList(@PathVariable @Schema(example = "1", description = "1-> 부모List, 2-> 선생List") int p) {
         log.info("parameter p: {}", p);
         Map map = new HashMap();
@@ -86,6 +88,7 @@ public class AdminControllerImpl {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @Override
     public ResponseEntity deleteUser(@ParameterObject @ModelAttribute adminUserReq p) {
         log.info("deleteUser req : {}", p);
         try {
@@ -114,6 +117,7 @@ public class AdminControllerImpl {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @Override
     public ResponseEntity acceptUser(@ParameterObject @ModelAttribute adminUserReq p) {
         log.info("acceptUser req : {}", p);
         try {

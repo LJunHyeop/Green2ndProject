@@ -1,7 +1,8 @@
-package com.green.fefu.teacher;
+package com.green.fefu.teacher.service;
 
 
 import com.green.fefu.teacher.model.req.*;
+import com.green.fefu.teacher.test.TeacherController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -24,7 +25,7 @@ import static com.green.fefu.chcommon.ResponsDataSet.*;
 @RequestMapping("/api/teacher")
 @RequiredArgsConstructor
 @Tag(name = "선생님 CRUD", description = "선생님 관련 클래스")
-public class TeacherControllerImpl {
+public class TeacherControllerImpl implements TeacherController {
     private final TeacherServiceImpl service;
 
     //    선생님 회원가입
@@ -38,6 +39,7 @@ public class TeacherControllerImpl {
                     description = "에러 난 이유 설명"
             ),
     })
+    @Override
     public ResponseEntity CreateTeacher(@RequestBody CreateTeacherReq p) {
         log.info("CreateTeacher req: {}", p);
         Map map = new HashMap();
@@ -65,6 +67,7 @@ public class TeacherControllerImpl {
                     description = "에러 난 이유 설명"
             )
     })
+    @Override
     public ResponseEntity LogInTeacher(@RequestBody LogInTeacherReq p, HttpServletResponse res) {
         log.info("LogInTeacher req: {}", p);
         Map map = new HashMap();
@@ -90,6 +93,7 @@ public class TeacherControllerImpl {
                     description = "에러 난 이유 설명"
             )
     })
+    @Override
     public ResponseEntity CheckDuplicate(@ParameterObject @ModelAttribute CheckDuplicateReq p) {
         log.info("CheckDuplicate req: {}", p);
         try {
@@ -113,6 +117,7 @@ public class TeacherControllerImpl {
                     description = "에러 난 이유 설명"
             )
     })
+    @Override
     public ResponseEntity FindTeacherId(@ParameterObject @ModelAttribute FindTeacherIdReq p) {
         log.info("FindTeacherId req: {}", p);
         Map map = new HashMap();
@@ -136,6 +141,7 @@ public class TeacherControllerImpl {
                     description = "에러 난 이유 설명"
             )
     })
+    @Override
     public ResponseEntity FindTeacherPassword(@ParameterObject @ModelAttribute FindTeacherPasswordReq p) {
         log.info("FindTeacherPassword req: {}", p);
         Map map = new HashMap();
@@ -159,6 +165,7 @@ public class TeacherControllerImpl {
                     description = "에러 난 이유 설명"
             )
     })
+    @Override
     public ResponseEntity ChangePassWord(@RequestBody ChangePassWordReq p) {
         log.info("ChangePassWord req: {}", p);
         try {
@@ -193,6 +200,7 @@ public class TeacherControllerImpl {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @Override
     public ResponseEntity TeacherDetail() {
         Map map = new HashMap();
         try {
@@ -220,6 +228,7 @@ public class TeacherControllerImpl {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @Override
     public ResponseEntity ChangeTeacher(@RequestBody ChangeTeacherReq p) {
         log.info("ChangeTeacher req: {}", p);
         try {

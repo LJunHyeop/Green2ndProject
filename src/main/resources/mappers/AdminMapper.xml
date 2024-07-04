@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.green.fefu.admin.AdminMapper">
+<mapper namespace="com.green.fefu.admin.service.AdminMapper">
     <select id="getParentList">
-        SELECT p.parents_id AS pk , p.uid AS id,
+        SELECT p.parents_id AS pk, p.uid AS id,
         p.nm AS name, c.class_id AS grade,
         p.created_at AS createdAt
         FROM

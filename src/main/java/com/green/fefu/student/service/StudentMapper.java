@@ -1,4 +1,4 @@
-package com.green.fefu.student;
+package com.green.fefu.student.service;
 
 import com.green.fefu.student.model.dto.*;
 import com.green.fefu.student.model.req.*;
@@ -16,7 +16,7 @@ public interface StudentMapper {
 
     getDetail getStudentDetail(long pk);
 
-    void updateStudent(updateStudentReq p);
+    int updateStudent(updateStudentReq p);
 
     List<getListForNoParent> getStudentListForParent();
 }

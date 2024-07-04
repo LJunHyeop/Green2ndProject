@@ -1,8 +1,9 @@
-package com.green.fefu.admin;
+package com.green.fefu.admin.service;
 
 
 import com.green.fefu.admin.model.dto.*;
 import com.green.fefu.admin.model.req.*;
+import com.green.fefu.admin.test.AdminService;
 import com.green.fefu.chcommon.Parser;
 import com.green.fefu.chcommon.Validation;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,12 @@ import java.util.Map;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AdminServiceImpl {
+public class AdminServiceImpl implements AdminService {
     private final AdminMapper mapper;
     private final Validation validation;
 
     //    유저 리스트 가져오기
-    public Map findUnAcceptList(int p, Map map) {
+    public Map findUnAcceptList(int p, Map map) throws Exception {
         List<GetUserListDto> list;
         List<Map> result = new ArrayList<>();
 //        부모 리스트 가져오기

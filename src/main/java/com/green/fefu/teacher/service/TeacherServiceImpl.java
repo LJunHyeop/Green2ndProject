@@ -1,4 +1,4 @@
-package com.green.fefu.teacher;
+package com.green.fefu.teacher.service;
 
 
 import com.green.fefu.chcommon.Parser;
@@ -13,6 +13,7 @@ import com.green.fefu.teacher.model.dto.EntityArgument;
 import com.green.fefu.teacher.model.dto.TeacherEntity;
 import com.green.fefu.teacher.model.req.*;
 import com.green.fefu.chcommon.Validation;
+import com.green.fefu.teacher.test.TeacherService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ import java.util.Map;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class TeacherServiceImpl {
+public class TeacherServiceImpl implements TeacherService {
     private final TeacherMapper mapper;
     private final Validation validation;
     private final PasswordEncoder passwordEncoder;
@@ -46,6 +47,7 @@ public class TeacherServiceImpl {
 
     //    회원가입
     @Transactional
+    @Override
     public Map CreateTeacher(CreateTeacherReq p, Map map) throws Exception {
 //         벨리데이션 체크
 //        1. 데이터 널체크
@@ -105,6 +107,7 @@ public class TeacherServiceImpl {
 //=====================================================================================================================
 
     //    로그인
+    @Override
     public Map LogInTeacher(LogInTeacherReq p, Map map, HttpServletResponse res) throws Exception {
 
 //        데이터 널 체크
@@ -180,6 +183,7 @@ public class TeacherServiceImpl {
 //=====================================================================================================================
 
     //    아이디, 이메일 중복 확인
+    @Override
     public void CheckDuplicate(CheckDuplicateReq p) throws Exception {
 
         dataCheck(p);
@@ -216,6 +220,7 @@ public class TeacherServiceImpl {
 //=====================================================================================================================
 
     //    선생님 아이디 찾기
+    @Override
     public Map FindTeacherId(FindTeacherIdReq p, Map map) throws Exception {
 //        널 체크
         FindTeacherIdNullCheck(p);
@@ -248,6 +253,7 @@ public class TeacherServiceImpl {
 //=====================================================================================================================
 
     //    선생님 비밀번호 찾기
+    @Override
     public void FindTeacherPassword(FindTeacherPasswordReq p, Map map) throws Exception {
 //        널 체크
         FindTeacherPasswordNullCheck(p);
@@ -291,6 +297,7 @@ public class TeacherServiceImpl {
 
     //    선생님 비밀번호 변경 ( 로그인 전 )
     @Transactional
+    @Override
     public void ChangePassWord(ChangePassWordReq p) throws Exception {
 
 //        널체크
@@ -352,6 +359,7 @@ public class TeacherServiceImpl {
 //=====================================================================================================================
 
     //    선생님 내정보 불러오기
+    @Override
     public Map TeacherDetail(Map map) throws Exception {
         TeacherEntity teacher = mapper.GetTeacher(
                 EntityArgument.builder()
@@ -381,6 +389,7 @@ public class TeacherServiceImpl {
 
     //    선생님 정보 변경
     @Transactional
+    @Override
     public void ChangeTeacher(ChangeTeacherReq p) throws Exception {
         p.setPk(authenticationFacade.getLoginUserId());
 

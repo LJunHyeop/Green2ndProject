@@ -1,4 +1,4 @@
-package com.green.fefu.teacher;
+package com.green.fefu.teacher.service;
 
 import com.green.fefu.teacher.model.dto.EntityArgument;
 import com.green.fefu.teacher.model.dto.TeacherEntity;

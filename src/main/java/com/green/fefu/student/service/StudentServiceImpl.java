@@ -1,4 +1,4 @@
-package com.green.fefu.student;
+package com.green.fefu.student.service;
 
 import com.green.fefu.chcommon.Parser;
 import com.green.fefu.chcommon.PatternCheck;
@@ -7,6 +7,7 @@ import com.green.fefu.common.CustomFileUtils;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.student.model.dto.*;
 import com.green.fefu.student.model.req.*;
+import com.green.fefu.student.test.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ import static com.green.fefu.student.model.dataset.StudentMapNamingData.*;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class StudentServiceImpl {
+public class StudentServiceImpl implements StudentService {
     private final StudentMapper mapper;
     private final Validation validation;
     private final PatternCheck patternCheck;
@@ -35,9 +36,8 @@ public class StudentServiceImpl {
 
     //    학생 데이터 넣기
     @Transactional
+    @Override
     public Map createStudent(createStudentReq p, MultipartFile pic, Map map) throws Exception {
-//        파일 관련 프로세스
-        fileProcess(p, pic);
 //        널 체크
         createStudentNullCheck(p);
 //        타입 체크
@@ -45,7 +45,11 @@ public class StudentServiceImpl {
 //        길이 체크
         createStudentLengthCheck(p);
 
+        fileNameChange(p, pic);
+
         int result = mapper.createStudent(p);
+//        파일 관련 프로세스
+        fileProcess(p, pic);
 
         if (result != 1) {
             throw new RuntimeException(QUERY_RESULT_ERROR);
@@ -89,12 +93,10 @@ public class StudentServiceImpl {
 
     private void fileProcess(createStudentReq p, MultipartFile pic) throws Exception {
         if (pic != null) {
-            String uuidFileName = customFileUtils.makeRandomFileName(pic);
-            p.setPic(uuidFileName);
             try {
                 String path = String.format("student/%s", p.getPk());
                 customFileUtils.makeFolders(path);
-                String target = String.format("%s/%s", path, uuidFileName);
+                String target = String.format("%s/%s", path, p.getPic());
                 customFileUtils.transferTo(pic, target);
             } catch (Exception e) {
                 throw new RuntimeException(FILE_ERROR);
@@ -102,8 +104,17 @@ public class StudentServiceImpl {
         }
     }
 
+    private void fileNameChange(createStudentReq p, MultipartFile pic) throws Exception {
+        if (pic != null) {
+            String uuidFileName = customFileUtils.makeRandomFileName(pic);
+            p.setPic(uuidFileName);
+        }
+    }
+
     //=====================================================================================================================
 //   학생 삭제
+    @Override
+    @Transactional
     public void deleteStudent(deleteStudentReq p) throws Exception {
 //        널체크
         deleteStudentNullCheck(p);
@@ -131,6 +142,7 @@ public class StudentServiceImpl {
 
     //=====================================================================================================================
 //    선생의 담당 학급 학생리스트 불러오기
+    @Override
     public List getStudentList(List<getStudent> list) throws Exception {
         list = mapper.getStudentList(authenticationFacade.getLoginUserId());
         if (list.size() == 0) {
@@ -140,8 +152,12 @@ public class StudentServiceImpl {
     }
 
     //=====================================================================================================================
+    @Override
     public Map getStudentDetail(long pk, Map map) throws Exception {
         getDetail result = mapper.getStudentDetail(pk);
+        if (result == null) {
+            throw new RuntimeException(QUERY_RESULT_ERROR);
+        }
         map.put(STUDENT_PK, result.getPk());
         map.put(STUDENT_NAME, result.getName());
         map.put(STUDENT_GENDER, result.getGender());
@@ -155,9 +171,14 @@ public class StudentServiceImpl {
         map.put(CONNET, result.getConnet());
         map.put(PARENT_PHONE, result.getParentPhone());
         map.put(TEACHER_NAME, result.getTeacherName());
-
-        String classData = Parser.classParser(result.getUClass());
-        String[] addr = Parser.addressParser(result.getAddr());
+        String classData = null;
+        if (result.getUClass() != null) {
+            classData = Parser.classParser(result.getUClass());
+        }
+        String[] addr = {null, null};
+        if (result.getAddr() != null) {
+            addr = Parser.addressParser(result.getAddr());
+        }
         map.put(STUDENT_CLASS, classData);
         map.put(STUDENT_ZONE_CODE, addr[0]);
         map.put(STUDENT_ADDR, addr[1]);
@@ -170,15 +191,34 @@ public class StudentServiceImpl {
 
     //=====================================================================================================================
 //    학생 정보 수정
+    @Override
+    @Transactional
     public void updateStudent(updateStudentReq p) throws Exception {
+        updateStudentDataCheck(p);
+        int result = mapper.updateStudent(p);
+        if (result != 1) {
+            throw new RuntimeException(QUERY_RESULT_ERROR);
+        }
+    }
+
+    private void updateStudentDataCheck(updateStudentReq p) throws Exception {
         if (p.getAddr() != null && p.getZoneCode() != null) {
             p.setFullAddr(Parser.addressParserMerge(p.getZoneCode(), p.getAddr()));
         }
-        mapper.updateStudent(p);
+        if(p.getPk() < 1){
+            throw new RuntimeException(REQUIRED_DATA_ERROR);
+        }
+        if(p.getPhone() != null) {
+            patternCheck.phoneCheck(p.getPhone());
+        }
+        if(p.getName() != null){
+            patternCheck.nameCheck(p.getName());
+        }
     }
 
     //=====================================================================================================================
 //    부모 없는 학생 List 출력
+    @Override
     public List getStudentListForParent(List<getListForNoParent> list) throws Exception {
         list = mapper.getStudentListForParent();
         for (getListForNoParent p : list) {

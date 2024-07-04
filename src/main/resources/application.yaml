@@ -36,3 +36,15 @@ app:
     token-type: ${JWT_TOKEN_TYPE}
     access-token-expiry: ${JWT_ACCESS_EXPIRY}
     refresh-token-expiry: ${JWT_REFRESH_EXPIRY}
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: tdd
+  datasource:
+    url: ${DEFAULT.DB_URL_TEST}
+  sql:
+    init:
+      mode: always

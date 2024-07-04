@@ -1,4 +1,4 @@
-package com.green.fefu.admin;
+package com.green.fefu.admin.service;
 
 import com.green.fefu.admin.model.dto.GetUserListDto;
 import org.apache.ibatis.annotations.Mapper;

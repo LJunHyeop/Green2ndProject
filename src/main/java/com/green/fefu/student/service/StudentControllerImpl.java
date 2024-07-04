@@ -1,10 +1,11 @@
-package com.green.fefu.student;
+package com.green.fefu.student.service;
 
 import com.green.fefu.student.model.dto.getListForNoParent;
 import com.green.fefu.student.model.dto.getStudent;
 import com.green.fefu.student.model.req.createStudentReq;
 import com.green.fefu.student.model.req.deleteStudentReq;
 import com.green.fefu.student.model.req.updateStudentReq;
+import com.green.fefu.student.test.StudentController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -28,7 +29,7 @@ import static com.green.fefu.chcommon.ResponsDataSet.*;
 @RequestMapping("/api/student")
 @RequiredArgsConstructor
 @Tag(name = "학생 CRUD", description = "학생 관련 클래스")
-public class StudentControllerImpl {
+public class StudentControllerImpl implements StudentController {
     private final StudentServiceImpl service;
 
     //    학생 생성
@@ -42,7 +43,8 @@ public class StudentControllerImpl {
                     description = "에러 난 이유 설명"
             ),
     })
-    public ResponseEntity createStudent(@RequestPart createStudentReq p, @RequestParam MultipartFile pic) {
+    @Override
+    public ResponseEntity createStudent(@RequestPart createStudentReq p, @RequestPart MultipartFile pic) {
         log.info("createStudent req : {}", p);
         Map map = new HashMap();
         try {
@@ -65,6 +67,7 @@ public class StudentControllerImpl {
                     description = "에러 난 이유 설명"
             ),
     })
+    @Override
     public ResponseEntity deleteStudent(@RequestParam deleteStudentReq p) {
         log.info("deleteStudent req : {}", p);
         try {
@@ -101,6 +104,7 @@ public class StudentControllerImpl {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @Override
     public ResponseEntity getStudentList() {
         List<getStudent> result = new ArrayList<>();
         try {
@@ -146,6 +150,7 @@ public class StudentControllerImpl {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @Override
     public ResponseEntity getStudentDetail(@RequestParam long pk) {
         log.info("getStudentDetail req : {}", pk);
         Map map = new HashMap();
@@ -174,6 +179,7 @@ public class StudentControllerImpl {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @Override
     public ResponseEntity updateStudent(@RequestBody updateStudentReq p) {
         log.info("updateStudent req : {}", p);
         try {
@@ -204,6 +210,7 @@ public class StudentControllerImpl {
                     description = "에러 난 이유 설명"
             )
     })
+    @Override
     public ResponseEntity getStudentListForParent() {
         List<getListForNoParent> result = new ArrayList<>();
         try {
