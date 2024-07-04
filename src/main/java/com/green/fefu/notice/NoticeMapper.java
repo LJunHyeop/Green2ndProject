@@ -14,4 +14,6 @@ public interface NoticeMapper {
 
     //TDD를 위한 메소드
     List<GetNoticeRes> getNoticeForTDD();
+
+    List<GetNoticeRes> getNoticeForTDDJustOne(GetOneNoticeForTDD p);
 }

@@ -19,12 +19,6 @@
         WHERE class_id=#{classId}
     </select>
 
-    <select id="getNoticeForTDD">
-        SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
-                title, content, created_at AS createdAt, updated_at AS updatedAt
-        FROM notice
-    </select>
-
     <!--알림장 수정-->
     <update id="putNotice">
         UPDATE notice
@@ -49,4 +43,22 @@
                     AND
               class_id=#{classId}
     </delete>
+
+
+
+
+    <!--TDD용 전체 리스트 가져오는 SELECT-->
+    <select id="getNoticeForTDD">
+        SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
+        title, content, created_at AS createdAt, updated_at AS updatedAt
+        FROM notice
+    </select>
+
+    <!--TDD용 특정 컬럼 가져오는 SELECT-->
+    <select id="getNoticeForTDDJustOne">
+        SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
+        title, content, created_at AS createdAt, updated_at AS updatedAt
+        FROM notice
+        WHERE title=#{title} AND content=#{content}
+    </select>
 </mapper>
