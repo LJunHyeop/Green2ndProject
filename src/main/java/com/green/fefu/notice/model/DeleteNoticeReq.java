@@ -1,6 +1,7 @@
 package com.green.fefu.notice.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.beans.ConstructorProperties;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class DeleteNoticeReq {
     @Schema(name="notice_id")
     private long noticeId;

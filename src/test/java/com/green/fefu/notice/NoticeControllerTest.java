@@ -2,10 +2,7 @@ package com.green.fefu.notice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.green.fefu.CharEncodingConfiguration;
-import com.green.fefu.notice.model.GetNoticeReq;
-import com.green.fefu.notice.model.GetNoticeRes;
-import com.green.fefu.notice.model.PostNoticeReq;
-import com.green.fefu.notice.model.PutNoticeReq;
+import com.green.fefu.notice.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,10 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -28,15 +23,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import(CharEncodingConfiguration.class) //문자열 중 한글이 깨지지 않게 하기 위함
-@WebMvcTest(NoticeControllerImpl.class) //MOCKMvc를 객체 등록 주입
+
+@Import({CharEncodingConfiguration.class}) //문자열 중 한글이 깨지지 않게 하기 위함
+@WebMvcTest({NoticeControllerImpl.class}) //MOCKMvc를 객체 등록 주입
 class NoticeControllerTest {
     @MockBean
     private NoticeService service;
-
     @Autowired
     private MockMvc mvc;
-
     @Autowired
     private ObjectMapper om;
 
@@ -46,7 +40,7 @@ class NoticeControllerTest {
     void postNotice() throws Exception{ //Json 통신! (HTTP통신의 기본)
         int result=1;
         PostNoticeReq p=new PostNoticeReq(100, "제목 100", "내용 100", 100);
-        String reqJson=om.writeValueAsString(p);
+        String reqJson=om.writeValueAsString(p); //객체를 JSON으로
 
         given(service.postNotice(p)).willReturn(result);
 
@@ -56,10 +50,8 @@ class NoticeControllerTest {
         expectedRes.put("result", result);
 
         //제네릭은 레퍼런스 타입으로 줘야함
-        //프라모티브 타입 래퍼 타입 = 값만 담는 용도 VS 주소값을 줘서 메소드 등 활용 가능
-
         String expectedResJson=om.writeValueAsString(expectedRes);
-        //왜 JSON으로 바꾸는가? 제대로 보냈는지 통신 하기 위해
+        //통신의 확인
 
         mvc.perform(post("/api/notice")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -112,20 +104,56 @@ class NoticeControllerTest {
 
         verify(service).getNotice(req1);
 
-
-
     }
 
     @Test
     void putNotice() throws Exception{
+        int result=1;
         PutNoticeReq req1=new PutNoticeReq();
-        req1.setNoticeId(100); req1.setTitle("제목제목"); req1.setContent("내용내용"); req1.setTeaId(100);
+        req1.setNoticeId(100); req1.setTitle("제에목"); req1.setContent("내애용"); req1.setTeaId(100);
         String reqJson=om.writeValueAsString(req1);
 
+        given(service.putNotice(req1)).willReturn(result);
+
+        Map<String, Object> resultDto=new HashMap();
+        resultDto.put("statusCode", HttpStatus.OK);
+        resultDto.put("resultMsg", "성공적으로 수정되었습니다.");
+        resultDto.put("result", result);
+
+        String resultDtoString=om.writeValueAsString(resultDto);
+
+        mvc.perform(put("/api/notice")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(reqJson))
+                    .andExpect(status().isOk())
+                    .andExpect(content().json(resultDtoString))
+                    .andDo(print());
+
+        verify(service).putNotice(req1);
     }
 
-
     @Test
-    void deleteNotice() {
+    void deleteNotice() throws Exception{
+        int effect=1;
+        DeleteNoticeReq req1=new DeleteNoticeReq(1,2,3);
+        MultiValueMap<String, String> params=new LinkedMultiValueMap();
+        params.add("notice_id", String.valueOf(req1.getNoticeId()));
+        params.add("tea_id", String.valueOf(req1.getTeaId()));
+        params.add("class_id", String.valueOf(req1.getClassId()));
+
+        given(service.deleteNotice(req1)).willReturn(effect);
+
+        Map<String, Object> result=new HashMap();
+        result.put("statusCode", HttpStatus.OK);
+        result.put("resultMsg", "성공적으로 삭제했습니다.");
+        result.put("result", effect);
+        String resultDto=om.writeValueAsString(result);
+
+        mvc.perform(delete("/api/notice").params(params))
+                .andExpect(status().isOk())
+                .andExpect(content().json(resultDto))
+                .andDo(print());
+
+        verify(service).deleteNotice(req1);
     }
 }
