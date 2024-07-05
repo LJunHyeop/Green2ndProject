@@ -55,7 +55,7 @@ class NoticeServiceTest {
         list1.add(res1); list1.add(res2);
 
         /*가짜 임무 부여*/
-        GetNoticeReq req1=new GetNoticeReq();
+        GetNoticeReq req1=new GetNoticeReq(100);
         req1.setClassId(1);
         given(mapper.getNotice(req1)).willReturn(list1);
 

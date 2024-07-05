@@ -85,7 +85,7 @@ class NoticeControllerTest {
         res2.setClassId(200); res2.setTeaId(200);
         result.add(res1); result.add(res2);
 
-        GetNoticeReq req1=new GetNoticeReq();
+        GetNoticeReq req1=new GetNoticeReq(100);
         req1.setClassId(100);
 
         //쿼리스트링을 짠다
@@ -100,6 +100,7 @@ class NoticeControllerTest {
         map.put("statusCode", HttpStatus.OK);
         map.put("resultMsg", "성공적으로 조회되었습니다.");
         map.put("result", result);
+
         String resultJson=om.writeValueAsString(map);
 
         //통신 시도
@@ -110,6 +111,8 @@ class NoticeControllerTest {
                 .andDo(print());
 
         verify(service).getNotice(req1);
+
+
 
     }
 

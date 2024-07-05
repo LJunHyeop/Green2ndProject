@@ -43,7 +43,7 @@ class NoticeMapperTest {
         assertEquals(tmp, req1, "넣은 값과 추가된 값이 다름");
 
         /*실제 그 데이터가 업데이트 되었는지*/
-        GetNoticeReq getReq1=new GetNoticeReq();
+        GetNoticeReq getReq1=new GetNoticeReq(100);
         getReq1.setClassId(100);
         List<GetNoticeRes> search=mapper.getNotice(getReq1);
     }
@@ -51,13 +51,13 @@ class NoticeMapperTest {
     @Test
     void getNotice() {
         /*이상한 번호를 넣었을 때 조회되지 않음*/
-        GetNoticeReq req1=new GetNoticeReq();
+        GetNoticeReq req1=new GetNoticeReq(100);
         req1.setClassId(100);
         List<GetNoticeRes> res1=mapper.getNotice(req1);
         assertEquals(0, res1.size(), "조회되는 행이 있음");
 
         /*특정 값을 넣었을 때 n개 조회*/
-        GetNoticeReq req2=new GetNoticeReq();
+        GetNoticeReq req2=new GetNoticeReq(100);
         req2.setClassId(2);
         List<GetNoticeRes> res2=mapper.getNotice(req2);
         assertEquals(2, res2.size(), "조회된 행의 개수가 다름");
@@ -67,7 +67,7 @@ class NoticeMapperTest {
         assertEquals(DEFAULT_NUM, resAll.size(), "전체 행의 개수가 다름");
 
         /*특정 값 조회+n번 행이 실제 그 행인지*/
-        GetNoticeReq req3=new GetNoticeReq();
+        GetNoticeReq req3=new GetNoticeReq(100);
         req3.setClassId(3);
         List<GetNoticeRes> res3=mapper.getNotice(req3);
         assertEquals(2, res3.size(),"조회된 행의 개수가 다름");
