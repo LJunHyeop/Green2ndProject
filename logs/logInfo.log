@@ -1,0 +1,427 @@
+[[34m2024-07-08 09:14:49[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarting FefuApplication using Java 17.0.10 with PID 10676 (D:\Students\BCH\backEnd\fefu\build\classes\java\main started by Administrator in D:\Students\BCH\backEnd\fefu)[0;39m]
+[[34m2024-07-08 09:14:49[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mNo active profile set, falling back to 1 default profile: "default"[0;39m]
+[[34m2024-07-08 09:14:49[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mDevtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable[0;39m]
+[[34m2024-07-08 09:14:49[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mFor additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'[0;39m]
+[[34m2024-07-08 09:14:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat initialized with port 8080 (http)[0;39m]
+[[34m2024-07-08 09:14:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mInitializing ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-08 09:14:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardService[0;39m] [[35mStarting service [Tomcat][0;39m]
+[[34m2024-07-08 09:14:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardEngine[0;39m] [[35mStarting Servlet engine: [Apache Tomcat/10.1.25][0;39m]
+[[34m2024-07-08 09:14:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring embedded WebApplicationContext[0;39m]
+[[34m2024-07-08 09:14:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.servlet.context.ServletWebServerApplicationContext[0;39m] [[35mRoot WebApplicationContext: initialization completed in 1275 ms[0;39m]
+[[34m2024-07-08 09:14:51[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Starting...[0;39m]
+[[34m2024-07-08 09:14:51[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.pool.HikariPool[0;39m] [[35mHikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@26ef6626[0;39m]
+[[34m2024-07-08 09:14:51[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Start completed.[0;39m]
+[[34m2024-07-08 09:14:51[0;39m [33mWARN [0;39mrestartedMain] [[33morg.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration[0;39m] [[35m
+
+Using generated security password: 541e6271-db34-4e3e-8a20-fb87f68c1d84
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+[0;39m]
+[[34m2024-07-08 09:14:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer[0;39m] [[35mGlobal AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager[0;39m]
+[[34m2024-07-08 09:14:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.actuate.endpoint.web.EndpointLinksResolver[0;39m] [[35mExposing 1 endpoint beneath base path '/actuator'[0;39m]
+[[34m2024-07-08 09:14:52[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer[0;39m] [[35mLiveReload server is running on port 35729[0;39m]
+[[34m2024-07-08 09:14:52[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStarting ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-08 09:14:52[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat started on port 8080 (http) with context path '/'[0;39m]
+[[34m2024-07-08 09:14:52[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarted FefuApplication in 2.835 seconds (process running for 3.379)[0;39m]
+[[34m2024-07-08 09:14:52[0;39m [32mINFO [0;39mRMI TCP Connection(3)-192.168.0.48] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring DispatcherServlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-08 09:14:52[0;39m [32mINFO [0;39mRMI TCP Connection(3)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mInitializing Servlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-08 09:14:52[0;39m [32mINFO [0;39mRMI TCP Connection(3)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mCompleted initialization in 2 ms[0;39m]
+[[34m2024-07-08 09:15:13[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:15:13[0;39m [32mINFO [0;39mhttp-nio-8080-exec-3] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:15:13[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:15:13[0;39m [32mINFO [0;39mhttp-nio-8080-exec-5] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:15:13[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:15:13[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:15:13[0;39m [32mINFO [0;39mhttp-nio-8080-exec-9] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:15:13[0;39m [32mINFO [0;39mhttp-nio-8080-exec-8] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:15:13[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:15:13[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33morg.springdoc.api.AbstractOpenApiResource[0;39m] [[35mInit duration for springdoc-openapi is: 209 ms[0;39m]
+[[34m2024-07-08 09:15:20[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:15:20[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.teacher.service.TeacherControllerImpl[0;39m] [[35mCreateTeacher req: CreateTeacherReq(teacherId=test1234, password=Test1234!@#$, name=홍길동, phone=010-0000-0000, email=test1234@naver.com, gender=남, birth=2024-06-28, zoneCode=12345, addr=서울 판교 1234, teacherPk=null, fullAddr=null)[0;39m]
+[[34m2024-07-08 09:15:20[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : test1234[0;39m]
+[[34m2024-07-08 09:15:20[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : $2a$10$oXqpPlp8nacAJYwMYLefqe16lsNOYDhW.9iWAYrM.A9lzq3qdahsq[0;39m]
+[[34m2024-07-08 09:15:20[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 홍길동[0;39m]
+[[34m2024-07-08 09:15:20[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : test1234@naver.com[0;39m]
+[[34m2024-07-08 09:15:20[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 010-0000-0000[0;39m]
+[[34m2024-07-08 09:15:20[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 남[0;39m]
+[[34m2024-07-08 09:15:20[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 12345 # 서울 판교 1234[0;39m]
+[[34m2024-07-08 09:15:20[0;39m [33mWARN [0;39mhttp-nio-8080-exec-6] [[33morg.mariadb.jdbc.message.server.ErrorPacket[0;39m] [[35mError: 1062-23000: Duplicate entry 'test1234' for key 'uid'[0;39m]
+[[34m2024-07-08 09:15:20[0;39m [31mERROR[0;39mhttp-nio-8080-exec-6] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. INSERT INTO TEACHER
+         SET uid = 'test1234',
+            upw = '$2a$10$oXqpPlp8nacAJYwMYLefqe16lsNOYDhW.9iWAYrM.A9lzq3qdahsq',
+            nm = '홍길동',
+            phone = '010-0000-0000',
+            email = 'test1234@naver.com',
+            gender = '남',
+
+                birth = '2024-06-28',
+
+                addr = '12345 # 서울 판교 1234'
+ {FAILED after 7 msec}[0;39m]
+java.sql.SQLIntegrityConstraintViolationException: (conn=3) Duplicate entry 'test1234' for key 'uid'
+	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:297)
+	at org.mariadb.jdbc.export.ExceptionFactory.create(ExceptionFactory.java:378)
+	at org.mariadb.jdbc.message.ClientMessage.readPacket(ClientMessage.java:172)
+	at org.mariadb.jdbc.client.impl.StandardClient.readPacket(StandardClient.java:915)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResults(StandardClient.java:854)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResponse(StandardClient.java:773)
+	at org.mariadb.jdbc.client.impl.StandardClient.execute(StandardClient.java:697)
+	at org.mariadb.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:93)
+	at org.mariadb.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:276)
+	at net.sf.log4jdbc.sql.jdbcapi.PreparedStatementSpy.execute(PreparedStatementSpy.java:443)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:48)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:75)
+	at org.apache.ibatis.executor.SimpleExecutor.doUpdate(SimpleExecutor.java:50)
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117)
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:197)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.insert(DefaultSqlSession.java:184)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	at jdk.proxy2/jdk.proxy2.$Proxy116.insert(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.insert(SqlSessionTemplate.java:272)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:62)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:141)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at jdk.proxy4/jdk.proxy4.$Proxy122.CreateTeacher(Unknown Source)
+	at com.green.fefu.teacher.service.TeacherServiceImpl.CreateTeacher(TeacherServiceImpl.java:76)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.green.fefu.teacher.service.TeacherServiceImpl$$SpringCGLIB$$0.CreateTeacher(<generated>)
+	at com.green.fefu.teacher.service.TeacherControllerImpl.CreateTeacher(TeacherControllerImpl.java:47)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231)
+	at org.springframework.security.web.ObservationFilterChainDecorator$FilterObservation$SimpleFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:479)
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:340)
+	at org.springframework.security.web.ObservationFilterChainDecorator.lambda$wrapSecured$0(ObservationFilterChainDecorator.java:82)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:128)
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at com.green.fefu.security.jwt.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:43)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:323)
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:224)
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:107)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:904)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+[[34m2024-07-08 09:18:46[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStopping ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-08 09:18:46[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
+[[34m2024-07-08 09:18:46[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]
+[[34m2024-07-08 09:18:49[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarting FefuApplication using Java 17.0.10 with PID 11008 (D:\Students\BCH\backEnd\fefu\build\classes\java\main started by Administrator in D:\Students\BCH\backEnd\fefu)[0;39m]
+[[34m2024-07-08 09:18:49[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mNo active profile set, falling back to 1 default profile: "default"[0;39m]
+[[34m2024-07-08 09:18:49[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mDevtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable[0;39m]
+[[34m2024-07-08 09:18:49[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mFor additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'[0;39m]
+[[34m2024-07-08 09:18:50[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat initialized with port 8080 (http)[0;39m]
+[[34m2024-07-08 09:18:50[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mInitializing ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-08 09:18:50[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardService[0;39m] [[35mStarting service [Tomcat][0;39m]
+[[34m2024-07-08 09:18:50[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardEngine[0;39m] [[35mStarting Servlet engine: [Apache Tomcat/10.1.25][0;39m]
+[[34m2024-07-08 09:18:50[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring embedded WebApplicationContext[0;39m]
+[[34m2024-07-08 09:18:50[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.servlet.context.ServletWebServerApplicationContext[0;39m] [[35mRoot WebApplicationContext: initialization completed in 1123 ms[0;39m]
+[[34m2024-07-08 09:18:50[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Starting...[0;39m]
+[[34m2024-07-08 09:18:50[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.pool.HikariPool[0;39m] [[35mHikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@251cd567[0;39m]
+[[34m2024-07-08 09:18:50[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Start completed.[0;39m]
+[[34m2024-07-08 09:18:51[0;39m [33mWARN [0;39mrestartedMain] [[33morg.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration[0;39m] [[35m
+
+Using generated security password: c75aecf0-390a-45dd-bb6b-d031dfc2a798
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+[0;39m]
+[[34m2024-07-08 09:18:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer[0;39m] [[35mGlobal AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager[0;39m]
+[[34m2024-07-08 09:18:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.actuate.endpoint.web.EndpointLinksResolver[0;39m] [[35mExposing 1 endpoint beneath base path '/actuator'[0;39m]
+[[34m2024-07-08 09:18:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer[0;39m] [[35mLiveReload server is running on port 35729[0;39m]
+[[34m2024-07-08 09:18:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStarting ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-08 09:18:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat started on port 8080 (http) with context path '/'[0;39m]
+[[34m2024-07-08 09:18:51[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarted FefuApplication in 2.497 seconds (process running for 2.905)[0;39m]
+[[34m2024-07-08 09:18:52[0;39m [32mINFO [0;39mRMI TCP Connection(1)-192.168.0.48] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring DispatcherServlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-08 09:18:52[0;39m [32mINFO [0;39mRMI TCP Connection(1)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mInitializing Servlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-08 09:18:52[0;39m [32mINFO [0;39mRMI TCP Connection(1)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mCompleted initialization in 2 ms[0;39m]
+[[34m2024-07-08 09:18:53[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:18:53[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.teacher.service.TeacherControllerImpl[0;39m] [[35mCreateTeacher req: CreateTeacherReq(teacherId=test1234, password=Test1234!@#$, name=홍길동, phone=010-0000-0000, email=test1234@naver.com, gender=남, birth=2024-06-28, zoneCode=12345, addr=서울 판교 1234, teacherPk=null, fullAddr=null)[0;39m]
+[[34m2024-07-08 09:18:54[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : test1234[0;39m]
+[[34m2024-07-08 09:18:54[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : $2a$10$0T3x1xv6vVJXalXhVoEPGOXFtLnb/7Qb3SufAjLT0R169O7p4E52O[0;39m]
+[[34m2024-07-08 09:18:54[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 홍길동[0;39m]
+[[34m2024-07-08 09:18:54[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : test1234@naver.com[0;39m]
+[[34m2024-07-08 09:18:54[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 010-0000-0000[0;39m]
+[[34m2024-07-08 09:18:54[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 남[0;39m]
+[[34m2024-07-08 09:18:54[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 12345 # 서울 판교 1234[0;39m]
+[[34m2024-07-08 09:18:54[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-1] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT tea_id AS pk, uid AS id, upw AS password,
+                nm AS name, phone, email, gender, auth,
+                birth, addr, acept,
+                created_at AS createdAt, updated_at AS updatedAt
+        FROM teacher
+         WHERE  uid = 'test1234'
+ {executed in 9 msec}[0;39m]
+[[34m2024-07-08 09:18:54[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mjdbc.resultsettable[0;39m] [[35m
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-----|------|--------------------|-----------|
+|tea_id |uid      |upw                                                          |nm  |phone         |email              |gender |auth         |birth      |addr |acept |created_at          |updated_at |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-----|------|--------------------|-----------|
+|1      |test1234 |$2a$10$SC5oEMeIPMVTM8R/TYwRl.NQsCiOgLrNIna2eQl3PXXXQ7YVIh5/C |홍길동 |010-0000-0000 |test1234@naver.com |남      |ROLE_TEAHCER |2024-06-28 |null |2     |2024-07-04 16:57:03 |null       |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-----|------|--------------------|-----------|
+[0;39m]
+[[34m2024-07-08 09:19:01[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:19:01[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mcom.green.fefu.teacher.service.TeacherControllerImpl[0;39m] [[35mCheckDuplicate req: CheckDuplicateReq(id=test1234, email=null)[0;39m]
+[[34m2024-07-08 09:19:01[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-4] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT tea_id AS pk, uid AS id, upw AS password,
+                nm AS name, phone, email, gender, auth,
+                birth, addr, acept,
+                created_at AS createdAt, updated_at AS updatedAt
+        FROM teacher
+         WHERE  uid = 'test1234'
+ {executed in 0 msec}[0;39m]
+[[34m2024-07-08 09:19:01[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mjdbc.resultsettable[0;39m] [[35m
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-----|------|--------------------|-----------|
+|tea_id |uid      |upw                                                          |nm  |phone         |email              |gender |auth         |birth      |addr |acept |created_at          |updated_at |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-----|------|--------------------|-----------|
+|1      |test1234 |$2a$10$SC5oEMeIPMVTM8R/TYwRl.NQsCiOgLrNIna2eQl3PXXXQ7YVIh5/C |홍길동 |010-0000-0000 |test1234@naver.com |남      |ROLE_TEAHCER |2024-06-28 |null |2     |2024-07-04 16:57:03 |null       |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-----|------|--------------------|-----------|
+[0;39m]
+[[34m2024-07-08 09:19:57[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
+[[34m2024-07-08 09:19:57[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]
+[[34m2024-07-08 09:34:14[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarting FefuApplication using Java 17.0.10 with PID 5616 (D:\Students\BCH\backEnd\fefu\build\classes\java\main started by Administrator in D:\Students\BCH\backEnd\fefu)[0;39m]
+[[34m2024-07-08 09:34:14[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mNo active profile set, falling back to 1 default profile: "default"[0;39m]
+[[34m2024-07-08 09:34:14[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mDevtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable[0;39m]
+[[34m2024-07-08 09:34:14[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mFor additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'[0;39m]
+[[34m2024-07-08 09:34:15[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat initialized with port 8080 (http)[0;39m]
+[[34m2024-07-08 09:34:15[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mInitializing ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-08 09:34:15[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardService[0;39m] [[35mStarting service [Tomcat][0;39m]
+[[34m2024-07-08 09:34:15[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardEngine[0;39m] [[35mStarting Servlet engine: [Apache Tomcat/10.1.25][0;39m]
+[[34m2024-07-08 09:34:15[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring embedded WebApplicationContext[0;39m]
+[[34m2024-07-08 09:34:15[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.servlet.context.ServletWebServerApplicationContext[0;39m] [[35mRoot WebApplicationContext: initialization completed in 1132 ms[0;39m]
+[[34m2024-07-08 09:34:15[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Starting...[0;39m]
+[[34m2024-07-08 09:34:15[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.pool.HikariPool[0;39m] [[35mHikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@7f61d327[0;39m]
+[[34m2024-07-08 09:34:15[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Start completed.[0;39m]
+[[34m2024-07-08 09:34:16[0;39m [33mWARN [0;39mrestartedMain] [[33morg.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration[0;39m] [[35m
+
+Using generated security password: d2f37478-a026-46a7-98fe-ba5a735c9064
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+[0;39m]
+[[34m2024-07-08 09:34:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer[0;39m] [[35mGlobal AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager[0;39m]
+[[34m2024-07-08 09:34:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.actuate.endpoint.web.EndpointLinksResolver[0;39m] [[35mExposing 1 endpoint beneath base path '/actuator'[0;39m]
+[[34m2024-07-08 09:34:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer[0;39m] [[35mLiveReload server is running on port 35729[0;39m]
+[[34m2024-07-08 09:34:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStarting ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-08 09:34:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat started on port 8080 (http) with context path '/'[0;39m]
+[[34m2024-07-08 09:34:16[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarted FefuApplication in 2.585 seconds (process running for 2.992)[0;39m]
+[[34m2024-07-08 09:34:16[0;39m [32mINFO [0;39mRMI TCP Connection(1)-192.168.0.48] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring DispatcherServlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-08 09:34:16[0;39m [32mINFO [0;39mRMI TCP Connection(1)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mInitializing Servlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-08 09:34:16[0;39m [32mINFO [0;39mRMI TCP Connection(1)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mCompleted initialization in 2 ms[0;39m]
+[[34m2024-07-08 09:34:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.teacher.service.TeacherControllerImpl[0;39m] [[35mCheckDuplicate req: CheckDuplicateReq(id=test1234, email=null)[0;39m]
+[[34m2024-07-08 09:34:18[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-1] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT tea_id AS pk, uid AS id, upw AS password,
+                nm AS name, phone, email, gender, auth,
+                birth, addr, acept,
+                created_at AS createdAt, updated_at AS updatedAt
+        FROM teacher
+         WHERE  uid = 'test1234'
+ {executed in 0 msec}[0;39m]
+[[34m2024-07-08 09:34:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mjdbc.resultsettable[0;39m] [[35m
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-----|------|--------------------|-----------|
+|tea_id |uid      |upw                                                          |nm  |phone         |email              |gender |auth         |birth      |addr |acept |created_at          |updated_at |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-----|------|--------------------|-----------|
+|1      |test1234 |$2a$10$SC5oEMeIPMVTM8R/TYwRl.NQsCiOgLrNIna2eQl3PXXXQ7YVIh5/C |홍길동 |010-0000-0000 |test1234@naver.com |남      |ROLE_TEAHCER |2024-06-28 |null |2     |2024-07-04 16:57:03 |null       |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-----|------|--------------------|-----------|
+[0;39m]
+[[34m2024-07-08 09:34:22[0;39m [32mINFO [0;39mhttp-nio-8080-exec-3] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:22[0;39m [32mINFO [0;39mhttp-nio-8080-exec-3] [[33mcom.green.fefu.teacher.service.TeacherControllerImpl[0;39m] [[35mCheckDuplicate req: CheckDuplicateReq(id=1234123123, email=null)[0;39m]
+[[34m2024-07-08 09:34:25[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:25[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.teacher.service.TeacherControllerImpl[0;39m] [[35mCheckDuplicate req: CheckDuplicateReq(id=1234123123asd, email=null)[0;39m]
+[[34m2024-07-08 09:34:27[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:27[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mcom.green.fefu.teacher.service.TeacherControllerImpl[0;39m] [[35mCheckDuplicate req: CheckDuplicateReq(id=1233123asd, email=null)[0;39m]
+[[34m2024-07-08 09:34:27[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-4] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT tea_id AS pk, uid AS id, upw AS password,
+                nm AS name, phone, email, gender, auth,
+                birth, addr, acept,
+                created_at AS createdAt, updated_at AS updatedAt
+        FROM teacher
+         WHERE  uid = '1233123asd'
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-08 09:34:27[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mjdbc.resultsettable[0;39m] [[35m
+|-------|----|----|---|------|------|-------|-----|------|-----|------|-----------|-----------|
+|tea_id |uid |upw |nm |phone |email |gender |auth |birth |addr |acept |created_at |updated_at |
+|-------|----|----|---|------|------|-------|-----|------|-----|------|-----------|-----------|
+|-------|----|----|---|------|------|-------|-----|------|-----|------|-----------|-----------|
+[0;39m]
+[[34m2024-07-08 09:34:49[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
+[[34m2024-07-08 09:34:49[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]
+[[34m2024-07-08 09:34:52[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarting FefuApplication using Java 17.0.10 with PID 1664 (D:\Students\BCH\backEnd\fefu\build\classes\java\main started by Administrator in D:\Students\BCH\backEnd\fefu)[0;39m]
+[[34m2024-07-08 09:34:52[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mNo active profile set, falling back to 1 default profile: "default"[0;39m]
+[[34m2024-07-08 09:34:52[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mDevtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable[0;39m]
+[[34m2024-07-08 09:34:52[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mFor additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'[0;39m]
+[[34m2024-07-08 09:34:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat initialized with port 8080 (http)[0;39m]
+[[34m2024-07-08 09:34:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mInitializing ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-08 09:34:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardService[0;39m] [[35mStarting service [Tomcat][0;39m]
+[[34m2024-07-08 09:34:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardEngine[0;39m] [[35mStarting Servlet engine: [Apache Tomcat/10.1.25][0;39m]
+[[34m2024-07-08 09:34:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring embedded WebApplicationContext[0;39m]
+[[34m2024-07-08 09:34:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.servlet.context.ServletWebServerApplicationContext[0;39m] [[35mRoot WebApplicationContext: initialization completed in 1139 ms[0;39m]
+[[34m2024-07-08 09:34:53[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Starting...[0;39m]
+[[34m2024-07-08 09:34:53[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.pool.HikariPool[0;39m] [[35mHikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@199a6ef4[0;39m]
+[[34m2024-07-08 09:34:53[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Start completed.[0;39m]
+[[34m2024-07-08 09:34:53[0;39m [33mWARN [0;39mrestartedMain] [[33morg.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration[0;39m] [[35m
+
+Using generated security password: de4790ee-7d63-4034-bf28-d61b805ee137
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+[0;39m]
+[[34m2024-07-08 09:34:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer[0;39m] [[35mGlobal AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager[0;39m]
+[[34m2024-07-08 09:34:54[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.actuate.endpoint.web.EndpointLinksResolver[0;39m] [[35mExposing 1 endpoint beneath base path '/actuator'[0;39m]
+[[34m2024-07-08 09:34:54[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer[0;39m] [[35mLiveReload server is running on port 35729[0;39m]
+[[34m2024-07-08 09:34:54[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStarting ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-08 09:34:54[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat started on port 8080 (http) with context path '/'[0;39m]
+[[34m2024-07-08 09:34:54[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarted FefuApplication in 2.491 seconds (process running for 2.886)[0;39m]
+[[34m2024-07-08 09:34:54[0;39m [32mINFO [0;39mRMI TCP Connection(1)-192.168.0.48] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring DispatcherServlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-08 09:34:54[0;39m [32mINFO [0;39mRMI TCP Connection(1)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mInitializing Servlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-08 09:34:54[0;39m [32mINFO [0;39mRMI TCP Connection(1)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mCompleted initialization in 2 ms[0;39m]
+[[34m2024-07-08 09:34:58[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:58[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:58[0;39m [32mINFO [0;39mhttp-nio-8080-exec-3] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:58[0;39m [32mINFO [0;39mhttp-nio-8080-exec-9] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:58[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:58[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:58[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:58[0;39m [32mINFO [0;39mhttp-nio-8080-exec-8] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:58[0;39m [32mINFO [0;39mhttp-nio-8080-exec-10] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-08 09:34:59[0;39m [32mINFO [0;39mhttp-nio-8080-exec-10] [[33morg.springdoc.api.AbstractOpenApiResource[0;39m] [[35mInit duration for springdoc-openapi is: 203 ms[0;39m]
+[[34m2024-07-08 09:40:43[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
+[[34m2024-07-08 09:40:43[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]

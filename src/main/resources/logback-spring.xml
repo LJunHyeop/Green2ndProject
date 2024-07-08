@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
-    <conversionRule conversionWord="color"
-                    converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-    <property name="LOG_PATH" value="./logs" />
-    <property name="LOG_FILE_NAME" value="logInfo" />
-    <property name="LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss} %color(%-5level){} %thread] [%logger] %color(%msg){cyan}%n" />
+    <conversionRule conversionWord = "color" converterClass = "org.springframework.boot.logging.logback.ColorConverter"/>
+    <property name="LOG_PATH" value="./logs"/>
+    <property name="LOG_FILE_NAME" value="./logInfo"/>
+    <property name="LOG_PATTERN" value="[%color(%d{yyyy-MM-dd HH:mm:ss}){blue} %color(%-5level){}%thread] [%color(%logger){yellow}] [%color(%msg){magenta}]%n"/>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>

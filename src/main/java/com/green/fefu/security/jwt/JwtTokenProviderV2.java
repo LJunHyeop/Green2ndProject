@@ -1,5 +1,6 @@
 package com.green.fefu.security.jwt;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.green.fefu.common.AppProperties;
@@ -100,9 +101,9 @@ public class JwtTokenProviderV2 {
         return userDetails == null
                 ? null
                 : new UsernamePasswordAuthenticationToken(userDetails
-                        , null
-                        , userDetails.getAuthorities()
-                      );
+                , null
+                , userDetails.getAuthorities()
+        );
 
         //UserNamePasswordAuthenticationToken객체를 SpringContextHolder에 저장하는 자체만으로도 인증 완료
         //userDetails는 로그인한 사용자의 정보를 controller or service단에서 빼서 사용하기 위함

@@ -40,7 +40,7 @@ public class SecurityConfiguration {
         CommonOAuth2Provider a;
 
         return httpSecurity.sessionManagement(session ->
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ) //시큐리티에서 세션 사용을 하지 않음을 세팅
                 .httpBasic(http -> http.disable())
                 // (SSR 서버사이드 렌더링 하지 않는다. 즉 html화면을 백엔드가 만들지 않는다.)
@@ -51,28 +51,65 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable()) //CSRF (CORS랑 많이 헷갈려 함)
                 //requestMatchers
                 .authorizeHttpRequests(auth ->
-                    auth.requestMatchers(
-                              "/api/feed"
-                            , "/api/feed/*"
-                            , "/api/user/pic"
-                            , "/api/user/follow"
-                    )
-                    .authenticated()
-                    .anyRequest().permitAll()
+                        auth.requestMatchers(
+                                        "/api/feed"
+                                        , "/api/feed/*"
+                                        , "/api/user/pic"
+                                        , "/api/user/follow"
+
+                                        //회원가입, 로그인 인증이 안 되어 있더라도 사용 가능하게 세팅
+                                        "/api/teacher/sign-up"
+                                        , "/api/teacher/sign-in"
+                                        , "/api/teacher/duplicate"
+                                        , "/api/teacher/find_id"
+                                        , "/api/teacher/find_pwd"
+                                        , "/api/teacher/put_pwd"
+                                        , "/api/student/list"
+                                        , "/api/student"
+
+                                        //swagger 사용할 수 있게 세팅
+                                        , "/swagger"
+                                        , "/swagger-ui/**"
+                                        , "/v3/api-docs/**"
+
+                                        //사진
+                                        , "/pic/**"
+                                        , "/fimg/**"
+
+                                        //프론트 화면 보일수 있게 세팅
+                                        , "/"
+                                        , "/index.html"
+                                        , "/css/**"
+                                        , "/js/**"
+                                        , "/static/**"
+
+                                        //프론트에서 사용하는 라우터 주소
+                                        , "/sign-in"
+                                        , "/sign-up"
+                                        , "/profile/*"
+                                        , "/feed"
+
+                                        //actuator
+                                        , "/actuator"
+                                        , "/actuator/*"
+
+                                ).permitAll()
+
+                                .anyRequest().authenticated() //로그인이 되어 있어야만 허용
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-                                                         .accessDeniedHandler(new JwtAuthenticationAccessDeniedHandler())
+                        .accessDeniedHandler(new JwtAuthenticationAccessDeniedHandler())
                 )
-                .oauth2Login( oauth2 -> oauth2.authorizationEndpoint(
-                                            auth -> auth.baseUri("/oauth2/authorization")
-                                                        .authorizationRequestRepository(repository)
+                .oauth2Login(oauth2 -> oauth2.authorizationEndpoint(
+                                        auth -> auth.baseUri("/oauth2/authorization")
+                                                .authorizationRequestRepository(repository)
 
-                                        )
-                        .redirectionEndpoint( redirection -> redirection.baseUri("/*/oauth2/code/*"))
-                        .userInfoEndpoint(userInfo -> userInfo.userService(myOAuth2UserService))
-                        .successHandler(oAuth2AuthenticationSuccessHandler)
-                        .failureHandler(oAuth2AuthenticationFailureHandler)
+                                )
+                                .redirectionEndpoint(redirection -> redirection.baseUri("/*/oauth2/code/*"))
+                                .userInfoEndpoint(userInfo -> userInfo.userService(myOAuth2UserService))
+                                .successHandler(oAuth2AuthenticationSuccessHandler)
+                                .failureHandler(oAuth2AuthenticationFailureHandler)
                 )
 
                 /*

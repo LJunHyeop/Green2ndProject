@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.fefu.student.service.StudentMapper">
+
+    <insert id="createStudent" keyProperty="pk" useGeneratedKeys="true">
+        INSERT INTO student
+        SET
+        grade = #{grade},
+        name = #{name},
+        gender = #{gender},
+        birth = #{birth},
+        addr = #{addr},
+        etc = #{etc},
+        pic = #{pic},
+        eng_name = #{engName},
+        phone = #{phone}
+    </insert>
+
+    <update id="deleteStudent">
+        UPDATE student
+        SET state = #{state}
+    </update>
+
+    <select id="getStudentList">
+        SELECT
+        s.name AS name,
+        s.gender AS gender,
+        s.birth AS birth,
+        s.phone AS phone,
+        p.nm AS parentName,
+        p.phone AS parentPhone
+        FROM
+        student s
+        LEFT JOIN
+        parents p ON s.parents_id = p.parents_id
+        LEFT JOIN
+        student_classes sc ON s.stu_id = sc.stu_id
+        LEFT JOIN
+        class c ON sc.class_id = c.class_id
+        LEFT JOIN
+        teacher t ON c.tea_id = t.tea_id
+        WHERE
+        t.tea_id = #{pk}
+        ORDER BY s.name
+    </select>
+
+    <select id="getStudentDetail">
+        SELECT
+        s.stu_id AS pk,
+        s.name AS name,
+        s.gender AS gender,
+        s.birth AS birth,
+        s.phone AS phone,
+        s.addr AS addr,
+        s.etc AS etc,
+        s.created_at AS createdAt,
+        sc.class_id AS uClass,
+        p.uid AS parentId,
+        p.nm AS parentName,
+        p.connet AS connet,
+        p.phone AS parentPhone,
+        s.pic AS pic,
+        t.nm AS teacherName
+        FROM
+        student s
+        LEFT JOIN
+        parents p ON s.parents_id = p.parents_id
+        LEFT JOIN
+        student_classes sc ON s.stu_id = sc.stu_id
+        LEFT JOIN
+        class c ON sc.class_id = c.class_id
+        LEFT JOIN
+        teacher t ON c.tea_id = t.tea_id
+        WHERE
+        s.stu_id = #{pk}
+    </select>
+
+    <update id="updateStudent">
+        UPDATE student
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name}
+            </if>
+            <if test="phone != null and phone != ''">
+                , phone = #{phone}
+            </if>
+            <if test="fullAddr != null and fullAddr != ''">
+                , addr = #{fullAddr}
+            </if>
+            <if test="etc != null and etc != ''">
+                , etc = #{etc}
+            </if>
+        </set>
+        WHERE stu_id = #{pk}
+    </update>
+
+    <select id="getStudentListForParent">
+        SELECT pic, name, grade, phone, stu_id AS pk
+        FROM student
+        WHERE state = 1 AND parents_id IS NULL
+        ORDER BY name, grade
+    </select>
+
+</mapper>
