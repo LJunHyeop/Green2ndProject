@@ -1,4 +1,4 @@
-package com.green.fefu.exam;
+package com.green.fefu.Exam;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

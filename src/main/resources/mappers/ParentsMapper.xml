@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.second.parents.ParentsUserMapper">
+
+    <insert id="postParentsUser" keyProperty="parentsId" useGeneratedKeys="true" >
+        INSERT INTO parents
+        SET uid = #{uid}
+            , upw = #{upw}
+            , nm = #{nm}
+            , phone = #{phone}
+            , sub_phone = #{subPhone}
+            , email = #{email}
+            , connet = #{connet}
+            , addr = #{addrs}
+    </insert>
+    <select id="getParentsUser">
+        SELECT parents_id AS parentsId
+                , uid
+                , upw
+                , nm
+                , phone
+                , sub_phone AS subPhone
+                , email
+                , connet
+                , auth
+                , addr
+        FROM parents
+        WHERE parents_id = #{signedUserId}
+    </select>
+    <select id="getFindId">
+        SELECT uid
+        FROM parents
+        WHERE nm = #{nm}
+        AND phone = #{phone}
+    </select>
+    <update id="patchParentsUser">
+        UPDATE parents A
+        LEFT JOIN student B
+        ON A.parents_id = B.parents_id
+        <set>
+            <if test="stuNm != null">
+                B.name = #{stuNm},
+            </if>
+            <if test="nm != null">
+                A.nm = #{nm},
+            </if>
+            <if test="connet != null">
+                A.connet = #{connet},
+            </if>
+            <if test="phone != null">
+                A.phone = #{phone},
+            </if>
+            <if test="subPhone != null">
+                A.sub_phone = #{subPhone},
+            </if>
+            <if test="stuPhone != null">
+                B.phone = #{stuPhone},
+            </if>
+            <if test="email != null">
+                A.email = #{email},
+            </if>
+            <if test="stuEngNm != null">
+                B.eng_name = #{stuEngNm},
+            </if>
+            <if test="addr != null">
+                A.addr = #{addr},
+            </if>
+            <if test="stuEtc != null">
+                B.etc = #{stuEtc},
+            </if>
+        </set>
+        WHERE A.parents_id = #{parentsId}
+    </update>
+    <update id="patchPassword">
+        UPDATE parents
+        SET upw = #{newUpw}
+        WHERE parents_id = #{parentsId}
+    </update>
+    <select id="signInPost">
+        SELECT parents_id AS parentsId
+                , uid
+                , upw
+                , nm
+                , phone
+                , sub_phone AS subPhone
+                , email
+                , connet
+                , auth
+                , addr
+                , acept
+                , created_at AS createdAt
+                , updated_at AS updatedAt
+        FROM parents
+        WHERE uid = #{uid}
+    </select>
+    <select id="getParentUserList">
+        SELECT parents_id AS parentsId
+                , uid
+                , upw
+                , nm
+                , phone
+                , sub_phone AS subPhone
+                , email
+                , connet
+                , addr
+        FROM parents
+        WHERE uid = #{uid}
+        AND phone = #{phone}
+    </select>
+    <insert id="signature" keyProperty="signId" useGeneratedKeys="true">
+        INSERT INTO score_sign
+        SET stu_id = #{stuId}
+            , year = #{year}
+            , semester = #{semester}
+            , pic = #{pic}
+    </insert>
+    
+    <select id="selTest">
+        SELECT parents_id AS parentId
+        , uid
+        , upw
+        , nm
+        , phone
+        , sub_phone AS subPhone
+        , email
+        , connet
+        , auth
+        , addr
+        , acept
+        , created_at AS createdAt
+        , updated_at AS updatedAt
+        FROM parents
+        <where>
+            <if test="signedUserId > 0">
+                parents_id = #{signedUserId}
+            </if>
+        </where>
+        ORDER BY parents_id
+    </select>
+    <update id="updStudent">
+        UPDATE student
+        SET parents_id = #{parentsId}
+        WHERE stu_id = #{stuId}
+    </update>
+
+</mapper>

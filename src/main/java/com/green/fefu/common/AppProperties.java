@@ -23,6 +23,7 @@ public class AppProperties {
         private String headerSchemaName;
         private String tokenType;
         private long accessTokenExpiry;
+        private String refreshTokenCookieName ;
         private long refreshTokenExpiry;
         private int refreshTokenCookieMaxAge;
 

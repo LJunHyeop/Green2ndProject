@@ -1,4 +1,4 @@
-package com.green.fefu.exam;
+package com.green.fefu.Exam;
 
 import org.apache.ibatis.annotations.Mapper;
 

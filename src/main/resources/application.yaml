@@ -60,6 +60,12 @@ app:
       - http://192.168.0.144:5125/oauth/redirect #내부 도커서버 IP
       - http://112.222.157.156:5125/oauth/redirect #외부 IP
 
+coolsms:
+  api:
+    key: ${COOLSMS.API_KEY}
+    secret: ${COOLSMS.SECRET_KEY}
+    caller: ${COOLSMS.PHONE_NUMBER}
+
 management:
   endpoint: #엔드포인트 (URL)
     health:

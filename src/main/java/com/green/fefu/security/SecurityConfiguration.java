@@ -58,7 +58,7 @@ public class SecurityConfiguration {
                                         , "/api/user/follow"
 
                                         //회원가입, 로그인 인증이 안 되어 있더라도 사용 가능하게 세팅
-                                        "/api/teacher/sign-up"
+                                        ,"/api/teacher/sign-up"
                                         , "/api/teacher/sign-in"
                                         , "/api/teacher/duplicate"
                                         , "/api/teacher/find_id"
