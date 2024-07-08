@@ -22,7 +22,7 @@ public class CreateTeacherReq {
     private String phone;
     @Schema(example = "test1234@naver.com", description = "선생님 이메일", required = true)
     private String email;
-    @Schema(example = "남 / 여", description = "선생님 성별", required = true)
+    @Schema(example = "남", description = "선생님 성별", required = true)
     private String gender;
 
     //    선택

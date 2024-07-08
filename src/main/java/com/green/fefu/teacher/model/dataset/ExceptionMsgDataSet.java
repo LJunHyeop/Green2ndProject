@@ -16,5 +16,5 @@ public interface ExceptionMsgDataSet {
     String SMS_SEND_ERROR = "문자 메세지 보내기 실패";
     String MULTIPLE_DATA_ERROR = "필요한 값을 초과했습니다.";
     String STUDENT_GRADE_DATA_ERROR = "학생의 학년/반/번호 입력을 확인 해주세요.";
-
+    String ADDR_DATA_ERROR = "주소값 혹은 우편번호 값이 부족합니다.";
 }

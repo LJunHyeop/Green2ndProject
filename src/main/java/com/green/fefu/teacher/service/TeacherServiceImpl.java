@@ -58,9 +58,32 @@ public class TeacherServiceImpl implements TeacherService {
         String hashpw = passwordEncoder.encode(p.getPassword());
         p.setPassword(hashpw);
 //        4. 주소 데이터 합성
+        if ((p.getAddr() == null
+                && p.getZoneCode() != null)
+                || (p.getAddr() != null
+                && p.getZoneCode() == null)
+        ) {
+          throw new RuntimeException(ADDR_DATA_ERROR);
+        } else if (p.getZoneCode() != null
+                && p.getAddr() != null) {
+            String fullAddr = Parser.addressParserMerge(p.getZoneCode(), p.getAddr());
+            p.setFullAddr(fullAddr);
+        }
 //        만들어야 함
 //        5. 데이터 길이 체크
         createTeacherLengthCheck(p);
+
+        TeacherEntity teacher = mapper.GetTeacher(
+                EntityArgument.builder()
+                        .id(p.getTeacherId())
+                        .build()
+        );
+
+        if(teacher != null) {
+            throw new RuntimeException(DUPLICATE_DATA_ERROR);
+        }
+
+
 //        5. 쿼리 실행
         int result = mapper.CreateTeacher(p);
 //        6. 쿼리 결과 체크
