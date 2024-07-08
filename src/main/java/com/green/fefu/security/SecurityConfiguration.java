@@ -70,8 +70,13 @@ public class SecurityConfiguration {
                                         , "/api/teacher/find_pwd"
                                         , "/api/teacher/put_pwd"
                                         , "/api/student/list"
-                                        , "/api/student"
-
+                                        , "/api/student",
+                                        "/api/user/parents/sign-up",
+                                        "/api/user/parents/sign-in",
+                                        "/api/user/access-token",
+                                        "/api/user/parents/find-password",
+                                        "/api/user/parents/find-id",
+                                        "/api/user/parents/signature"
                                         //swagger 사용할 수 있게 세팅
                                         , "/swagger"
                                         , "/swagger-ui/**"
