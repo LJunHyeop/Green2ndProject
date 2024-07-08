@@ -1,5 +1,6 @@
 //package com.green.fefu.security;
 //
+//import com.green.fefu.security.jwt.JwtTokenProvider;
 //import jakarta.servlet.FilterChain;
 //import jakarta.servlet.ServletException;
 //import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@
 //@RequiredArgsConstructor
 //public class JwtAuthenticationFilter extends OncePerRequestFilter/*1번만 실행*/ {
 //    private final JwtTokenProvider jwtTokenProvider; //빈등록+DI
+//
 //    @Override/*추상클래스의 구현부가 없는 메소드 구현의 강제성*/
 //    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 //                                    throws ServletException/*서블릿 바깥으로 갔을 때*/, IOException/*입출력 오류*/ {

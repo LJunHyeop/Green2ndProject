@@ -19,12 +19,12 @@ public class ScoreServiceImpl {
     }
     public Dto getScore(InsScoreReq p){
         Dto dto = new Dto();
+        StuGetRes res = mapper.getStu(p.getScId());
         if(p.getSemester() == 0 ){
-            StuGetRes res = mapper.getStu(p.getScId());
             res.getLatestSemester();
             p.setSemester(res.getLatestSemester());
         }
-        dto. setList(mapper.getScore(p));
+        dto.setList(mapper.getScore(p));
         dto.setStuId(mapper.getStu(p.getScId()));
         return dto;
     }

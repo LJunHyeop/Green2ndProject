@@ -15,6 +15,4 @@ public interface ScoreMapper {
     List<InsScoreList> getScore(InsScoreReq p);
 
     StuGetRes getStu(long sutId);
-
-
 }

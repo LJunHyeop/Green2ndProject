@@ -2,9 +2,7 @@ package com.green.fefu.score;
 
 import com.green.fefu.common.ResultDto;
 import com.green.fefu.score.model.Dto;
-import com.green.fefu.score.model.InsScoreList;
 import com.green.fefu.score.model.InsScoreReq;
-import com.green.fefu.score.model.InsScoreRes;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
