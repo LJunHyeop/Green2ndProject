@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.fefu.score.ScoreMapper">
+        <insert id="postScore" keyProperty="scoreId" useGeneratedKeys="true">
+            INSERT INTO score
+            SET sc_id = #{scId}
+            , year = #{year}
+            , semester = #{semester}
+            , name = #{name}
+            , exam = #{exam}
+            , mark = #{mark}
+        </insert>
+    <select id="getScore">
+        SELECT
+        score_id AS scoreId
+        ,stu_id AS stuId
+        ,class_id AS classId
+        ,subject_name AS name
+        ,year AS year
+        ,exam AS exam
+        ,mark AS mark
+        ,class_avg AS classAvg
+        ,class_rank AS classRank
+        ,school_avg AS schoolRank
+        ,midterm_avg AS midtermAvg
+        ,final_avg AS finalAvg
+        ,subject_avg AS subjectAvg
+        <if test="semester == 1">
+            FROM view_score_semester1
+        </if>
+        <if test="semester == 2">
+            FROM view_score_semester2
+        </if>
+        <where>
+           stu_id =#{scId}
+        </where>
+    </select>
+    <select id="getStu">
+        SELECT
+        s.stu_id AS stuId,
+        LEFT(c.class_id, 1) AS latestGrade,
+        scr.semester AS latestSemester,
+        scr.year AS latestYear
+        FROM
+        STUDENT s
+        JOIN
+        student_classes sc ON s.stu_id = sc.stu_id
+        JOIN
+        CLASS c ON sc.class_id = c.class_id
+        JOIN
+        score scr ON sc.sc_id = scr.sc_id
+        WHERE
+        (scr.year, scr.semester) = (
+        SELECT
+        scr2.year, scr2.semester
+        FROM
+        score scr2
+        JOIN
+        student_classes sc2 ON scr2.sc_id = sc2.sc_id
+        WHERE
+        sc2.stu_id = s.stu_id
+        ORDER BY
+        scr2.year DESC,
+        scr2.semester DESC
+        LIMIT 1
+        )
+        AND s.stu_id = #{stuId}
+        GROUP BY s.stu_id
+        ORDER BY
+        s.stu_id;
+    </select>
+</mapper>
