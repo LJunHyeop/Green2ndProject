@@ -75,6 +75,10 @@ class TeacherMapperTest {
 
     @Test
     void getCurrentClassesByTeacherId() {
+        String result = mapper.getCurrentClassesByTeacherId(1L);
+        assertEquals("101", result ,"담당 학급이 다릅니다");
+        result = mapper.getCurrentClassesByTeacherId(10L);
+        assertEquals("502", result ,"담당 학급이 다릅니다");
     }
 
     @Test
