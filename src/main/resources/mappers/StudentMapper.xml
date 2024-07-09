@@ -21,6 +21,7 @@
     <update id="deleteStudent">
         UPDATE student
         SET state = #{state}
+        WHERE stu_id = #{pk}
     </update>
 
     <select id="getStudentList">
@@ -114,5 +115,14 @@
         SET stu_id = #{studentPk},
         class_id = #{subNumber}
     </insert>
+
+    <select id="selOneTest">
+        SELECT stu_id AS pk, parents_id AS parentId,
+        grade, name, gender, birth, pic, addr, phone, etc,
+        eng_name AS engName, created_at AS createdAt,
+        state, updated_at AS updatedAt
+        FROM student
+        WHERE stu_id = #{pk}
+    </select>
 
 </mapper>

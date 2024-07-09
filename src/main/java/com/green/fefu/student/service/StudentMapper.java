@@ -23,4 +23,6 @@ public interface StudentMapper {
     int updStudentGrade(studentAdvanceGradeReq p);
 
     int insNewClass(studentAdvanceGradeReq p);
+
+    getUserTest selOneTest(long pk);
 }

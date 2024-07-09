@@ -1712,3 +1712,302 @@ java.lang.RuntimeException: 잘못된 학년입니다.
 [[34m2024-07-09 13:20:01[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mClosing JPA EntityManagerFactory for persistence unit 'default'[0;39m]
 [[34m2024-07-09 13:20:01[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
 [[34m2024-07-09 13:20:01[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]
+[2024-07-09 14:59:52 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-09 14:59:52 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Starting StudentMapperTest using Java 17.0.11 with PID 2448 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-09 14:59:52 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-09 14:59:53 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-09 14:59:53 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@40a1b6d4]
+[2024-07-09 14:59:53 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-09 14:59:53 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Started StudentMapperTest in 1.177 seconds (process running for 2.074)]
+[2024-07-09 14:59:53 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. INSERT INTO student
+        SET
+        grade = '10101',
+        name = '홍길동',
+        gender = '남',
+        birth = '2024-07-09',
+        addr = '1234 # 서울 판교',
+        etc = '갑각류 알러지 있음',
+        pic = 'a.jpg',
+        eng_name = 'hong',
+        phone = '010-0000-0000'
+ {executed in 1 msec}]
+[2024-07-09 14:59:53 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyStatement.getGeneratedKeys(ProxyStatement.java:229)
+1. getGeneratedKeys on query: INSERT INTO student
+        SET
+        grade = '10101',
+        name = '홍길동',
+        gender = '남',
+        birth = '2024-07-09',
+        addr = '1234 # 서울 판교',
+        etc = '갑각류 알러지 있음',
+        pic = 'a.jpg',
+        eng_name = 'hong',
+        phone = '010-0000-0000'
+ {executed in 0 msec}]
+[2024-07-09 14:59:53 INFO Test worker] [jdbc.resultsettable] [
+|----------|
+|insert_id |
+|----------|
+|22        |
+|----------|
+]
+[2024-07-09 14:59:54 WARN Test worker] [org.mariadb.jdbc.message.server.ErrorPacket] [Error: 1054-42S22: Unknown column 'parent_id' in 'field list']
+[2024-07-09 14:59:54 ERRORTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT stu_id AS pk, parent_id AS parentId,
+        grade, name, gender, birth, pic, addr, phone, etc,
+        eng_name AS engName, created_at AS createdAt,
+        updated_at AS updatedAt
+        FROM student
+        WHERE stu_id = 22
+ {FAILED after 1 msec}]
+java.sql.SQLSyntaxErrorException: (conn=1567) Unknown column 'parent_id' in 'field list'
+	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:289)
+	at org.mariadb.jdbc.export.ExceptionFactory.create(ExceptionFactory.java:378)
+	at org.mariadb.jdbc.message.ClientMessage.readPacket(ClientMessage.java:172)
+	at org.mariadb.jdbc.client.impl.StandardClient.readPacket(StandardClient.java:915)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResults(StandardClient.java:854)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResponse(StandardClient.java:773)
+	at org.mariadb.jdbc.client.impl.StandardClient.execute(StandardClient.java:697)
+	at org.mariadb.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:93)
+	at org.mariadb.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:276)
+	at net.sf.log4jdbc.sql.jdbcapi.PreparedStatementSpy.execute(PreparedStatementSpy.java:443)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:65)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:80)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:65)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:110)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:90)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectOne(DefaultSqlSession.java:75)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	at jdk.proxy3/jdk.proxy3.$Proxy84.selectOne(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectOne(SqlSessionTemplate.java:160)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:87)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:141)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at jdk.proxy3/jdk.proxy3.$Proxy87.selOneTest(Unknown Source)
+	at com.green.fefu.student.service.StudentMapperTest.createStudent(StudentMapperTest.java:35)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:218)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:214)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:139)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:107)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:119)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:94)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:89)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:62)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
+	at jdk.proxy1/jdk.proxy1.$Proxy2.stop(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:193)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:129)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:100)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:60)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:119)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:66)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+[2024-07-09 14:59:54 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-09 14:59:54 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
+[2024-07-09 15:00:35 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-09 15:00:35 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Starting StudentMapperTest using Java 17.0.11 with PID 7472 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-09 15:00:35 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-09 15:00:36 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-09 15:00:36 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@40a1b6d4]
+[2024-07-09 15:00:36 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-09 15:00:36 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Started StudentMapperTest in 1.166 seconds (process running for 2.071)]
+[2024-07-09 15:00:37 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. INSERT INTO student
+        SET
+        grade = '10101',
+        name = '홍길동',
+        gender = '남',
+        birth = '2024-07-09',
+        addr = '1234 # 서울 판교',
+        etc = '갑각류 알러지 있음',
+        pic = 'a.jpg',
+        eng_name = 'hong',
+        phone = '010-0000-0000'
+ {executed in 1 msec}]
+[2024-07-09 15:00:37 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyStatement.getGeneratedKeys(ProxyStatement.java:229)
+1. getGeneratedKeys on query: INSERT INTO student
+        SET
+        grade = '10101',
+        name = '홍길동',
+        gender = '남',
+        birth = '2024-07-09',
+        addr = '1234 # 서울 판교',
+        etc = '갑각류 알러지 있음',
+        pic = 'a.jpg',
+        eng_name = 'hong',
+        phone = '010-0000-0000'
+ {executed in 0 msec}]
+[2024-07-09 15:00:37 INFO Test worker] [jdbc.resultsettable] [
+|----------|
+|insert_id |
+|----------|
+|23        |
+|----------|
+]
+[2024-07-09 15:00:37 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT stu_id AS pk, parents_id AS parentId,
+        grade, name, gender, birth, pic, addr, phone, etc,
+        eng_name AS engName, created_at AS createdAt,
+        updated_at AS updatedAt
+        FROM student
+        WHERE stu_id = 23
+ {executed in 1 msec}]
+[2024-07-09 15:00:37 INFO Test worker] [jdbc.resultsettable] [
+|-------|-----------|------|-----|-------|-----------|------|-------------|--------------|-----------|---------|--------------------|-----------|
+|stu_id |parents_id |grade |name |gender |birth      |pic   |addr         |phone         |etc        |eng_name |created_at          |updated_at |
+|-------|-----------|------|-----|-------|-----------|------|-------------|--------------|-----------|---------|--------------------|-----------|
+|23     |null       |10101 |홍길동  |남      |2024-07-09 |a.jpg |1234 # 서울 판교 |010-0000-0000 |갑각류 알러지 있음 |hong     |2024-07-09 15:00:36 |null       |
+|-------|-----------|------|-----|-------|-----------|------|-------------|--------------|-----------|---------|--------------------|-----------|
+]
+[2024-07-09 15:00:37 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-09 15:00:37 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
+[2024-07-09 15:02:57 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-09 15:02:57 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Starting StudentMapperTest using Java 17.0.11 with PID 2052 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-09 15:02:57 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-09 15:02:57 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-09 15:02:57 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@175581eb]
+[2024-07-09 15:02:57 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-09 15:02:57 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Started StudentMapperTest in 1.19 seconds (process running for 2.079)]
+[2024-07-09 15:02:58 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. UPDATE student
+        SET state = 2
+ {executed in 2 msec}]
+[2024-07-09 15:02:58 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-09 15:02:58 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
+[2024-07-09 15:03:59 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-09 15:03:59 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Starting StudentMapperTest using Java 17.0.11 with PID 11332 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-09 15:03:59 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-09 15:03:59 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-09 15:03:59 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@175581eb]
+[2024-07-09 15:03:59 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-09 15:03:59 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Started StudentMapperTest in 1.16 seconds (process running for 2.058)]
+[2024-07-09 15:04:00 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. UPDATE student
+        SET state = 2
+        WHERE stu_id = 1
+ {executed in 1 msec}]
+[2024-07-09 15:04:00 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT stu_id AS pk, parents_id AS parentId,
+        grade, name, gender, birth, pic, addr, phone, etc,
+        eng_name AS engName, created_at AS createdAt,
+        state, updated_at AS updatedAt
+        FROM student
+        WHERE stu_id = 1
+ {executed in 1 msec}]
+[2024-07-09 15:04:00 INFO Test worker] [jdbc.resultsettable] [
+|-------|-----------|------|-----|-------|-----------|----|--------|--------------|----|------------|--------------------|------|--------------------|
+|stu_id |parents_id |grade |name |gender |birth      |pic |addr    |phone         |etc |eng_name    |created_at          |state |updated_at          |
+|-------|-----------|------|-----|-------|-----------|----|--------|--------------|----|------------|--------------------|------|--------------------|
+|1      |1          |20201 |김학생  |남      |2010-05-15 |null|서울시 강남구 |010-1111-2222 |null|Kim Student |2024-07-04 08:02:22 |2     |2024-07-09 15:04:00 |
+|-------|-----------|------|-----|-------|-----------|----|--------|--------------|----|------------|--------------------|------|--------------------|
+]
+[2024-07-09 15:04:00 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-09 15:04:00 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
+[2024-07-09 15:04:43 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-09 15:04:43 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Starting StudentMapperTest using Java 17.0.11 with PID 10624 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-09 15:04:43 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-09 15:04:44 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-09 15:04:44 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@5f0f70c7]
+[2024-07-09 15:04:44 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-09 15:04:44 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Started StudentMapperTest in 1.173 seconds (process running for 2.062)]
+[2024-07-09 15:04:45 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. UPDATE student
+        SET state = 2
+        WHERE stu_id = 1
+ {executed in 1 msec}]
+[2024-07-09 15:04:45 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT stu_id AS pk, parents_id AS parentId,
+        grade, name, gender, birth, pic, addr, phone, etc,
+        eng_name AS engName, created_at AS createdAt,
+        state, updated_at AS updatedAt
+        FROM student
+        WHERE stu_id = 1
+ {executed in 1 msec}]
+[2024-07-09 15:04:45 INFO Test worker] [jdbc.resultsettable] [
+|-------|-----------|------|-----|-------|-----------|----|--------|--------------|----|------------|--------------------|------|--------------------|
+|stu_id |parents_id |grade |name |gender |birth      |pic |addr    |phone         |etc |eng_name    |created_at          |state |updated_at          |
+|-------|-----------|------|-----|-------|-----------|----|--------|--------------|----|------------|--------------------|------|--------------------|
+|1      |1          |20201 |김학생  |남      |2010-05-15 |null|서울시 강남구 |010-1111-2222 |null|Kim Student |2024-07-04 08:02:22 |2     |2024-07-09 15:04:44 |
+|-------|-----------|------|-----|-------|-----------|----|--------|--------------|----|------------|--------------------|------|--------------------|
+]
+[2024-07-09 15:04:45 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-09 15:04:45 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
