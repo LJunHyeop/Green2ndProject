@@ -60,7 +60,7 @@ public class SmsService {
         params.put("to", to);
         params.put("from", from);
         params.put("type", "SMS");
-        params.put("text", "[Web 발신]\n 임시비밀번호입니다. 비밀번호를 변경해 주세요.\n 임시비밀번호: " + text);
+        params.put("text", "[Web 발신]\n 본인 확인용 코드입니다. 코드를 입력해주세요.\n 코드: " + text);
 
         try {
             logger.info("Attempting to send SMS: " + params);

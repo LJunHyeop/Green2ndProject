@@ -52,6 +52,4 @@ public class ScoreServiceImpl {
 //        }
         return dto;
     }
-
-
 }

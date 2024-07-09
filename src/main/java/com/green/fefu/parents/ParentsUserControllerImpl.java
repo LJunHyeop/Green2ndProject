@@ -16,7 +16,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import static com.green.fefu.chcommon.ResponsDataSet.OK;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,9 +37,9 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         return ResponseEntity.ok().body(result) ;
     }
     // 아이디, 이메일 중복조회
-    @Override @GetMapping("/check-duplication") @Operation(summary = "아이디, 이메일 중복조회")
-    public ResponseEntity<CheckEmailOrUidRes> checkEmailOrUid(@RequestBody CheckEmailOrUidReq req) {
-        CheckEmailOrUidRes res = service.checkEmailOrUid(req) ;
+    @Override @GetMapping("/check-duplication") @Operation(summary = "아이디, 이메일 중복조회", description = "리턴 => 없음 <br><strong>아이디 이메일 둘중 하나만 넣어주세요</strong>")
+    public ResponseEntity<String> checkEmailOrUid(@ModelAttribute @ParameterObject CheckEmailOrUidReq req) {
+        String res = service.checkEmailOrUid(req) ;
         return ResponseEntity.ok().body(res) ;
     }
     // 정보 조회
@@ -82,8 +85,9 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     // 학부모 비밀번호 찾기
     @Override @GetMapping("/find-password") @Operation(summary = "비밀번호 찾기", description = "문자발송")
     public ResponseEntity<GetFindPasswordRes> getFindPassword(@ModelAttribute @ParameterObject GetFindPasswordReq req) {
-        GetFindPasswordRes res = service.getFindPassword(req);
-        return ResponseEntity.ok().body(res) ;
+        Map map = new HashMap<>() ;
+        service.getFindPassword(req, map);
+        return new ResponseEntity<>(OK) ;
     }
     // 전자서명
     @Override @PostMapping("/signature") @Operation(summary = "전자서명") @PreAuthorize("hasRole('PARENT')")
