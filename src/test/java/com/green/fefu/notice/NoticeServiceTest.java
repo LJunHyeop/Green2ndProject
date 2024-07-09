@@ -37,7 +37,8 @@ class NoticeServiceTest {
 
     @Test
     void postNotice() {
-        PostNoticeReq req1=new PostNoticeReq(100,"제목 100", "내용 100", 100);
+        PostNoticeReq req1=new PostNoticeReq();
+        req1.setTeaId(100); req1.setClassId(100); req1.setTitle("제목 100"); req1.setContent("내용 100");
         given(mapper.postNotice(req1)).willReturn(1);
         int answer=service.postNotice(req1);
         verify(mapper).postNotice(req1);

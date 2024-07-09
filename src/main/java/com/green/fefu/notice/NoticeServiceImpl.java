@@ -23,16 +23,18 @@ public class NoticeServiceImpl implements NoticeService{
     public int postNotice(PostNoticeReq p){
         p.setTeaId(authenticationFacade.getLoginUserId());
         p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
+        //로그인 안 된 사람
         return mapper.postNotice(p);
     }
     public List<GetNoticeRes> getNotice(GetNoticeReq p){
         return mapper.getNotice(p);
     }
     public int putNotice(PutNoticeReq p){
+        p.setTeaId(authenticationFacade.getLoginUserId());
         return mapper.putNotice(p);
     }
-
     public int deleteNotice(DeleteNoticeReq p){
+        p.setTeaId(authenticationFacade.getLoginUserId());
         return mapper.deleteNotice(p);
     }
 

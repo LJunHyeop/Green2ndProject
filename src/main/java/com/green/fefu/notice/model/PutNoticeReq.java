@@ -12,7 +12,7 @@ import lombok.Setter;
 public class PutNoticeReq {
     //@JsonIgnore
     private long noticeId;
-    //@JsonIgnore
+    @JsonIgnore
     private long teaId;
 
     private String title;

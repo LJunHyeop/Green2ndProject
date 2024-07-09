@@ -28,7 +28,9 @@ class NoticeMapperTest {
         assertEquals(DEFAULT_NUM, all.size(),"기존 리스트의 값이 다름");
 
         /*영향 받은 행의 값이 1인지*/
-        PostNoticeReq req1=new PostNoticeReq(100, "제목 100", "내용 100", 100);
+        PostNoticeReq req1=new PostNoticeReq();
+        req1.setTeaId(100); req1.setClassId(100); req1.setTitle("제목 100"); req1.setContent("내용 100");
+
         //PostNoticeReq req1=new PostNoticeReq(200, "제목 200", "내용 200", 200); //다른 값으로 확인
         int effect=mapper.postNotice(req1);
         assertEquals(1, effect, "영향 받은 행의 개수가 다름");
@@ -39,7 +41,9 @@ class NoticeMapperTest {
 
         /*마지막에 실제 그 데이터가 있는지*/
         GetNoticeRes res1=plusOne.get(10); //리스트 0번부터 시작
-        PostNoticeReq tmp=new PostNoticeReq(res1.getTeaId(), res1.getTitle(), res1.getContent(), res1.getClassId());
+        PostNoticeReq tmp=new PostNoticeReq();
+        tmp.setTeaId(res1.getTeaId()); tmp.setClassId(res1.getClassId());
+        tmp.setTitle(res1.getTitle()); tmp.setContent(res1.getContent());
         assertEquals(tmp, req1, "넣은 값과 추가된 값이 다름");
 
         /*실제 그 데이터가 업데이트 되었는지*/

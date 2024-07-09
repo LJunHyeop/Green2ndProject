@@ -17,7 +17,7 @@ public class NoticeControllerImpl implements NoticeController{
 
     @PostMapping("")
     public ResultDto<Integer> postNotice(@RequestBody PostNoticeReq p){
-        int result=service.postNotice(p);
+        int result = service.postNotice(p);
         return ResultDto.<Integer>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMsg("성공적으로 업로드 되었습니다.")
