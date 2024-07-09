@@ -2011,3 +2011,52 @@ java.sql.SQLSyntaxErrorException: (conn=1567) Unknown column 'parent_id' in 'fie
 ]
 [2024-07-09 15:04:45 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
 [2024-07-09 15:04:45 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
+[2024-07-09 15:10:05 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-09 15:10:06 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Starting StudentMapperTest using Java 17.0.11 with PID 11224 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-09 15:10:06 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-09 15:10:06 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-09 15:10:06 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@5d14e99e]
+[2024-07-09 15:10:06 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-09 15:10:06 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Started StudentMapperTest in 1.179 seconds (process running for 2.074)]
+[2024-07-09 15:10:07 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. UPDATE student
+        SET state = 2
+        WHERE stu_id = 1
+ {executed in 1 msec}]
+[2024-07-09 15:10:07 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT stu_id AS pk, parents_id AS parentId,
+        grade, name, gender, birth, pic, addr, phone, etc,
+        eng_name AS engName, created_at AS createdAt,
+        state, updated_at AS updatedAt
+        FROM student
+        WHERE stu_id = 1
+ {executed in 1 msec}]
+[2024-07-09 15:10:07 INFO Test worker] [jdbc.resultsettable] [
+|-------|-----------|------|-----|-------|-----------|----|--------|--------------|----|------------|--------------------|------|--------------------|
+|stu_id |parents_id |grade |name |gender |birth      |pic |addr    |phone         |etc |eng_name    |created_at          |state |updated_at          |
+|-------|-----------|------|-----|-------|-----------|----|--------|--------------|----|------------|--------------------|------|--------------------|
+|1      |1          |20201 |김학생  |남      |2010-05-15 |null|서울시 강남구 |010-1111-2222 |null|Kim Student |2024-07-04 08:02:22 |2     |2024-07-09 15:10:06 |
+|-------|-----------|------|-----|-------|-----------|----|--------|--------------|----|------------|--------------------|------|--------------------|
+]
+[2024-07-09 15:10:07 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. UPDATE student
+        SET state = 3
+        WHERE stu_id = 2
+ {executed in 1 msec}]
+[2024-07-09 15:10:07 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT stu_id AS pk, parents_id AS parentId,
+        grade, name, gender, birth, pic, addr, phone, etc,
+        eng_name AS engName, created_at AS createdAt,
+        state, updated_at AS updatedAt
+        FROM student
+        WHERE stu_id = 2
+ {executed in 0 msec}]
+[2024-07-09 15:10:07 INFO Test worker] [jdbc.resultsettable] [
+|-------|-----------|------|-----|-------|-----------|----|---------|--------------|----|------------|--------------------|------|--------------------|
+|stu_id |parents_id |grade |name |gender |birth      |pic |addr     |phone         |etc |eng_name    |created_at          |state |updated_at          |
+|-------|-----------|------|-----|-------|-----------|----|---------|--------------|----|------------|--------------------|------|--------------------|
+|2      |2          |10102 |이학생  |여      |2010-07-20 |null|부산시 해운대구 |010-2222-3333 |null|Lee Student |2024-07-04 08:02:22 |3     |2024-07-09 15:10:06 |
+|-------|-----------|------|-----|-------|-----------|----|---------|--------------|----|------------|--------------------|------|--------------------|
+]
+[2024-07-09 15:10:07 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-09 15:10:07 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]

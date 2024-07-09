@@ -60,11 +60,17 @@ class StudentMapperTest {
 
         deleteStudentReq p2 = new deleteStudentReq();
         p2.setPk(2L);
+        p2.setState(3);
+        result = mapper.deleteStudent(p2);
+        assertEquals(1, result, resultMsg);
+        getUserTest entity2 = mapper.selOneTest(p2.getPk());
+        assertEquals(p2.getState().toString(), entity2.getState(), msg);
     }
 
     @Test
     @DisplayName("선생의 담당 학급 학생 리스트")
     void getStudentList() {
+
     }
 
     @Test

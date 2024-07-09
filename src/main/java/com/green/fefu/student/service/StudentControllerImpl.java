@@ -86,6 +86,7 @@ public class StudentControllerImpl implements StudentController {
             @ApiResponse(responseCode = "200",
                     description = "[\n" +
                             "  {\n" +
+                            "    \"num\": \"1\",\n" +
                             "    \"name\": \"홍길동\",\n" +
                             "    \"gender\": \"남자\",\n" +
                             "    \"birth\": \"2024-07-03\",\n" +
