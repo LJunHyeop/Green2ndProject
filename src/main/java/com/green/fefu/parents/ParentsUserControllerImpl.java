@@ -33,6 +33,12 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         int result = service.postParentsUser(p) ;
         return ResponseEntity.ok().body(result) ;
     }
+    // 아이디, 이메일 중복조회
+    @Override @GetMapping("/check-duplication") @Operation(summary = "아이디, 이메일 중복조회")
+    public ResponseEntity<CheckEmailOrUidRes> checkEmailOrUid(@RequestBody CheckEmailOrUidReq req) {
+        CheckEmailOrUidRes res = service.checkEmailOrUid(req) ;
+        return ResponseEntity.ok().body(res) ;
+    }
     // 정보 조회
     @Override @GetMapping("/parent-info") @Operation(summary = "정보조회") @PreAuthorize("hasRole('PARENT')")
     public ResponseEntity<ParentsUserEntity> getParentsUser(HttpServletRequest req) {

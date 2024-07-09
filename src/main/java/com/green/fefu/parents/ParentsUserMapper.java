@@ -9,6 +9,8 @@ import java.util.List;
 public interface ParentsUserMapper {
     // 회원가입
     int postParentsUser(PostParentsUserReq p);
+    // 아이디, 이메일 중복 체크
+    CheckEmailOrUidRes checkEmailOrUid(CheckEmailOrUidReq c);
     // 회원정보 확인
     ParentsUserEntity getParentsUser(GetParentsUserReq parentsId);
     // 회원 정보 수정

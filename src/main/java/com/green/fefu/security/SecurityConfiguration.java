@@ -60,7 +60,7 @@ public class SecurityConfiguration {
                                         "/api/feed"
                                         , "/api/feed/*"
                                         , "/api/user/pic"
-                                        , "/api/user/follow",
+                                        , "/api/user/follow"
 
                                         //회원가입, 로그인 인증이 안 되어 있더라도 사용 가능하게 세팅
                                         ,"/api/teacher/sign-up"
@@ -76,7 +76,8 @@ public class SecurityConfiguration {
                                         "/api/user/access-token",
                                         "/api/user/parents/find-password",
                                         "/api/user/parents/find-id",
-                                        "/api/user/parents/signature"
+                                        "/api/user/parents/signature",
+                                        "/api/user/parents/check-duplication"
                                         //swagger 사용할 수 있게 세팅
                                         , "/swagger"
                                         , "/swagger-ui/**"

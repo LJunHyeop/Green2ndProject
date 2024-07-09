@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.xml.stream.events.DTD;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -23,6 +25,9 @@ public class ScoreServiceImpl {
         if(p.getSemester() == 0 ){
             res.getLatestSemester();
             p.setSemester(res.getLatestSemester());
+        }
+        if(dto.getList().isEmpty()){
+            return (Dto) Collections.EMPTY_LIST;
         }
         dto.setList(mapper.getScore(p));
         dto.setStuId(mapper.getStu(p.getScId()));

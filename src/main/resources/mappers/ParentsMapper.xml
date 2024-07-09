@@ -15,6 +15,14 @@
             , connet = #{connet}
             , addr = #{addrs}
     </insert>
+    <select id="checkEmailOrUid">
+        SELECT uid, email
+        FROM parents
+        <where>
+        WHERE uid = #{uid}
+        OR email = #{email}
+        </where>
+    </select>
     <select id="getParentsUser">
         SELECT parents_id AS parentsId
                 , uid

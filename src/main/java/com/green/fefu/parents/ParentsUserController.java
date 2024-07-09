@@ -11,6 +11,8 @@ import java.util.Map;
 public interface ParentsUserController {
     // 회원가입
     ResponseEntity<Integer> postParents(PostParentsUserReq p);
+    // 아이디, 이메일 중복확인
+    ResponseEntity<CheckEmailOrUidRes> checkEmailOrUid(CheckEmailOrUidReq req);
     // 회원정보 조회
     ResponseEntity<ParentsUserEntity> getParentsUser(HttpServletRequest p);
     // 회원정보 수정

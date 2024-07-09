@@ -77,6 +77,16 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         }
         return result;
     }
+    @Override
+    public CheckEmailOrUidRes checkEmailOrUid(CheckEmailOrUidReq req) {
+        CheckEmailOrUidRes res = mapper.checkEmailOrUid(req) ;
+        if(res.getUid() != null){
+            throw new RuntimeException("아이디가 중복된 값입니다.") ;
+        } else if (res.getEmail() != null) {
+            throw new RuntimeException("Email이 중복된 값입니다.") ;
+        }
+        return res ;
+    }
     @Override // 회원정보 조회
     public ParentsUserEntity getParentsUser(String token) {
         Authentication auth = jwtTokenProvider.getAuthentication(token) ;
