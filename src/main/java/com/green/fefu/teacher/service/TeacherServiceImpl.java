@@ -411,7 +411,9 @@ public class TeacherServiceImpl implements TeacherService {
 
 //        주소 자를껀지 물어보고 잘라야 하면 잘라서 보내주기
 //        (현재 우편번호 # 주소 ) 임
-        map.put(TEACHER_ADDR, teacher.getAddr());
+        String[] fullAddr = Parser.addressParser(teacher.getAddr());
+        map.put(TEACHER_ZONE_CODE, fullAddr[0]);
+        map.put(TEACHER_ADDR, fullAddr[1]);
 
         return map;
     }

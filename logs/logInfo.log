@@ -1,0 +1,262 @@
+[[34m2024-07-09 10:30:15[0;39m [32mINFO [0;39mbackground-preinit] [[33morg.hibernate.validator.internal.util.Version[0;39m] [[35mHV000001: Hibernate Validator 8.0.1.Final[0;39m]
+[[34m2024-07-09 10:30:16[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarting FefuApplication using Java 17.0.10 with PID 5572 (D:\Students\BCH\backEnd\fefu\build\classes\java\main started by Administrator in D:\Students\BCH\backEnd\fefu)[0;39m]
+[[34m2024-07-09 10:30:16[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mNo active profile set, falling back to 1 default profile: "default"[0;39m]
+[[34m2024-07-09 10:30:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mDevtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable[0;39m]
+[[34m2024-07-09 10:30:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mFor additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'[0;39m]
+[[34m2024-07-09 10:30:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mBootstrapping Spring Data JPA repositories in DEFAULT mode.[0;39m]
+[[34m2024-07-09 10:30:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mFinished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.[0;39m]
+[[34m2024-07-09 10:30:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat initialized with port 8080 (http)[0;39m]
+[[34m2024-07-09 10:30:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mInitializing ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-09 10:30:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardService[0;39m] [[35mStarting service [Tomcat][0;39m]
+[[34m2024-07-09 10:30:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardEngine[0;39m] [[35mStarting Servlet engine: [Apache Tomcat/10.1.25][0;39m]
+[[34m2024-07-09 10:30:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring embedded WebApplicationContext[0;39m]
+[[34m2024-07-09 10:30:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.servlet.context.ServletWebServerApplicationContext[0;39m] [[35mRoot WebApplicationContext: initialization completed in 1587 ms[0;39m]
+[[34m2024-07-09 10:30:17[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Starting...[0;39m]
+[[34m2024-07-09 10:30:17[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.pool.HikariPool[0;39m] [[35mHikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@522b0ec3[0;39m]
+[[34m2024-07-09 10:30:17[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Start completed.[0;39m]
+[[34m2024-07-09 10:30:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.jpa.internal.util.LogHelper[0;39m] [[35mHHH000204: Processing PersistenceUnitInfo [name: default][0;39m]
+[[34m2024-07-09 10:30:18[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.Version[0;39m] [[35mHHH000412: Hibernate ORM core version 6.5.2.Final[0;39m]
+[[34m2024-07-09 10:30:18[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.cache.internal.RegionFactoryInitiator[0;39m] [[35mHHH000026: Second-level cache disabled[0;39m]
+[[34m2024-07-09 10:30:18[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo[0;39m] [[35mNo LoadTimeWeaver setup: ignoring JPA class transformer[0;39m]
+[[34m2024-07-09 10:30:18[0;39m [32mDEBUG[0;39mrestartedMain] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
+1. SELECT @@character_set_database, @@sql_mode
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-09 10:30:18[0;39m [33mWARN [0;39mrestartedMain] [[33morg.hibernate.orm.deprecation[0;39m] [[35mHHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)[0;39m]
+[[34m2024-07-09 10:30:18[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator[0;39m] [[35mHHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)[0;39m]
+[[34m2024-07-09 10:30:18[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mInitialized JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-09 10:30:18[0;39m [33mWARN [0;39mrestartedMain] [[33morg.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration[0;39m] [[35mspring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning[0;39m]
+[[34m2024-07-09 10:30:19[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.actuate.endpoint.web.EndpointLinksResolver[0;39m] [[35mExposing 15 endpoints beneath base path '/actuator'[0;39m]
+[[34m2024-07-09 10:30:19[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer[0;39m] [[35mLiveReload server is running on port 35729[0;39m]
+[[34m2024-07-09 10:30:19[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStarting ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-09 10:30:19[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat started on port 8080 (http) with context path '/'[0;39m]
+[[34m2024-07-09 10:30:19[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarted FefuApplication in 4.208 seconds (process running for 4.662)[0;39m]
+[[34m2024-07-09 10:30:20[0;39m [32mINFO [0;39mRMI TCP Connection(3)-192.168.0.48] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring DispatcherServlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-09 10:30:20[0;39m [32mINFO [0;39mRMI TCP Connection(3)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mInitializing Servlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-09 10:30:20[0;39m [32mINFO [0;39mRMI TCP Connection(3)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mCompleted initialization in 2 ms[0;39m]
+[[34m2024-07-09 10:30:25[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:25[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:25[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:25[0;39m [32mINFO [0;39mhttp-nio-8080-exec-5] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:25[0;39m [32mINFO [0;39mhttp-nio-8080-exec-10] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:25[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:25[0;39m [32mINFO [0;39mhttp-nio-8080-exec-3] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:25[0;39m [32mINFO [0;39mhttp-nio-8080-exec-8] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:25[0;39m [32mINFO [0;39mhttp-nio-8080-exec-9] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:26[0;39m [32mINFO [0;39mhttp-nio-8080-exec-9] [[33morg.springdoc.api.AbstractOpenApiResource[0;39m] [[35mInit duration for springdoc-openapi is: 394 ms[0;39m]
+[[34m2024-07-09 10:30:34[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:34[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mcom.green.fefu.teacher.service.TeacherControllerImpl[0;39m] [[35mLogInTeacher req: LogInTeacherReq(teacherId=test1234, password=Test1234!@#$)[0;39m]
+[[34m2024-07-09 10:30:34[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-2] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT tea_id AS pk, uid AS id, upw AS password,
+                nm AS name, phone, email, gender, auth,
+                birth, addr, acept,
+                created_at AS createdAt, updated_at AS updatedAt
+        FROM teacher
+         WHERE  uid = 'test1234'
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-09 10:30:34[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mjdbc.resultsettable[0;39m] [[35m
+|-------|----|----|---|------|------|-------|-----|------|-----|------|-----------|-----------|
+|tea_id |uid |upw |nm |phone |email |gender |auth |birth |addr |acept |created_at |updated_at |
+|-------|----|----|---|------|------|-------|-----|------|-----|------|-----------|-----------|
+|-------|----|----|---|------|------|-------|-----|------|-----|------|-----------|-----------|
+[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.teacher.service.TeacherControllerImpl[0;39m] [[35mCreateTeacher req: CreateTeacherReq(teacherId=test1234, password=Test1234!@#$, name=홍길동, phone=010-0000-0000, email=test1234@naver.com, gender=남, birth=2024-06-28, zoneCode=12345, addr=서울 판교 1234, teacherPk=null, fullAddr=null)[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : test1234[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : $2a$10$QkkFHwq6USBUkLPr/W4LL.qNSx8WakVOahlLVNqQ3cuXqitKcZDvS[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 홍길동[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : test1234@naver.com[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 010-0000-0000[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 남[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 12345 # 서울 판교 1234[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-1] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT tea_id AS pk, uid AS id, upw AS password,
+                nm AS name, phone, email, gender, auth,
+                birth, addr, acept,
+                created_at AS createdAt, updated_at AS updatedAt
+        FROM teacher
+         WHERE  uid = 'test1234'
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mjdbc.resultsettable[0;39m] [[35m
+|-------|----|----|---|------|------|-------|-----|------|-----|------|-----------|-----------|
+|tea_id |uid |upw |nm |phone |email |gender |auth |birth |addr |acept |created_at |updated_at |
+|-------|----|----|---|------|------|-------|-----|------|-----|------|-----------|-----------|
+|-------|----|----|---|------|------|-------|-----|------|-----|------|-----------|-----------|
+[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-1] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. INSERT INTO TEACHER
+         SET uid = 'test1234',
+            upw = '$2a$10$QkkFHwq6USBUkLPr/W4LL.qNSx8WakVOahlLVNqQ3cuXqitKcZDvS',
+            nm = '홍길동',
+            phone = '010-0000-0000',
+            email = 'test1234@naver.com',
+            gender = '남',
+
+                birth = '2024-06-28',
+
+                addr = '12345 # 서울 판교 1234'
+ {executed in 2 msec}[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-1] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyStatement.getGeneratedKeys(ProxyStatement.java:229)
+1. getGeneratedKeys on query: INSERT INTO TEACHER
+         SET uid = 'test1234',
+            upw = '$2a$10$QkkFHwq6USBUkLPr/W4LL.qNSx8WakVOahlLVNqQ3cuXqitKcZDvS',
+            nm = '홍길동',
+            phone = '010-0000-0000',
+            email = 'test1234@naver.com',
+            gender = '남',
+
+                birth = '2024-06-28',
+
+                addr = '12345 # 서울 판교 1234'
+ {executed in 0 msec}[0;39m]
+[[34m2024-07-09 10:30:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mjdbc.resultsettable[0;39m] [[35m
+|----------|
+|insert_id |
+|----------|
+|21        |
+|----------|
+[0;39m]
+[[34m2024-07-09 10:30:47[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-09 10:30:47[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mcom.green.fefu.teacher.service.TeacherControllerImpl[0;39m] [[35mLogInTeacher req: LogInTeacherReq(teacherId=test1234, password=Test1234!@#$)[0;39m]
+[[34m2024-07-09 10:30:47[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-4] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT tea_id AS pk, uid AS id, upw AS password,
+                nm AS name, phone, email, gender, auth,
+                birth, addr, acept,
+                created_at AS createdAt, updated_at AS updatedAt
+        FROM teacher
+         WHERE  uid = 'test1234'
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-09 10:30:47[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mjdbc.resultsettable[0;39m] [[35m
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-------------------|------|--------------------|-----------|
+|tea_id |uid      |upw                                                          |nm  |phone         |email              |gender |auth         |birth      |addr               |acept |created_at          |updated_at |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-------------------|------|--------------------|-----------|
+|21     |test1234 |$2a$10$QkkFHwq6USBUkLPr/W4LL.qNSx8WakVOahlLVNqQ3cuXqitKcZDvS |홍길동 |010-0000-0000 |test1234@naver.com |남      |ROLE_TEAHCER |2024-06-28 |12345 # 서울 판교 1234 |2     |2024-07-09 10:30:40 |null       |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-------------------|------|--------------------|-----------|
+[0;39m]
+[[34m2024-07-09 10:30:47[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-4] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        c.class_id AS classId
+        FROM
+        class AS c
+        JOIN
+        teacher AS t
+        ON c.tea_id = t.tea_id
+        WHERE
+        t.tea_id = 21
+        AND YEAR(c.created_at) = YEAR(CURDATE())
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-09 10:30:47[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mjdbc.resultsettable[0;39m] [[35m
+|---------|
+|class_id |
+|---------|
+|---------|
+[0;39m]
+[[34m2024-07-09 10:31:03[0;39m [32mINFO [0;39mhttp-nio-8080-exec-10] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjA0ODg2NDcsImV4cCI6MTcyMDQ4OTI0Nywic2lnbmVkVXNlciI6IntcInVzZXJJZFwiOjIxLFwicm9sZVwiOlwiUk9MRV9URUFIQ0VSXCJ9In0.E9RDn-iSXKzw4ouV8jarkqc7LpRP29lBSaEyUd2z7vPPNjvHUTRSE33JujvrVwcReqIH9k6JSfajfBFJKrDxqg[0;39m]
+[[34m2024-07-09 10:31:03[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-10] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT tea_id AS pk, uid AS id, upw AS password,
+                nm AS name, phone, email, gender, auth,
+                birth, addr, acept,
+                created_at AS createdAt, updated_at AS updatedAt
+        FROM teacher
+         WHERE tea_id = 21
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-09 10:31:03[0;39m [32mINFO [0;39mhttp-nio-8080-exec-10] [[33mjdbc.resultsettable[0;39m] [[35m
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-------------------|------|--------------------|-----------|
+|tea_id |uid      |upw                                                          |nm  |phone         |email              |gender |auth         |birth      |addr               |acept |created_at          |updated_at |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-------------------|------|--------------------|-----------|
+|21     |test1234 |$2a$10$QkkFHwq6USBUkLPr/W4LL.qNSx8WakVOahlLVNqQ3cuXqitKcZDvS |홍길동 |010-0000-0000 |test1234@naver.com |남      |ROLE_TEAHCER |2024-06-28 |12345 # 서울 판교 1234 |2     |2024-07-09 10:30:40 |null       |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-------------------|------|--------------------|-----------|
+[0;39m]
+[[34m2024-07-09 10:31:03[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-10] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        c.class_id AS classId
+        FROM
+        class AS c
+        JOIN
+        teacher AS t
+        ON c.tea_id = t.tea_id
+        WHERE
+        t.tea_id = 21
+        AND YEAR(c.created_at) = YEAR(CURDATE())
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-09 10:31:03[0;39m [32mINFO [0;39mhttp-nio-8080-exec-10] [[33mjdbc.resultsettable[0;39m] [[35m
+|---------|
+|class_id |
+|---------|
+|---------|
+[0;39m]
+[[34m2024-07-09 10:33:59[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mClosing JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-09 10:33:59[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
+[[34m2024-07-09 10:33:59[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]
+[[34m2024-07-09 10:34:02[0;39m [32mINFO [0;39mbackground-preinit] [[33morg.hibernate.validator.internal.util.Version[0;39m] [[35mHV000001: Hibernate Validator 8.0.1.Final[0;39m]
+[[34m2024-07-09 10:34:02[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarting FefuApplication using Java 17.0.10 with PID 828 (D:\Students\BCH\backEnd\fefu\build\classes\java\main started by Administrator in D:\Students\BCH\backEnd\fefu)[0;39m]
+[[34m2024-07-09 10:34:02[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mNo active profile set, falling back to 1 default profile: "default"[0;39m]
+[[34m2024-07-09 10:34:02[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mDevtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable[0;39m]
+[[34m2024-07-09 10:34:02[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mFor additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'[0;39m]
+[[34m2024-07-09 10:34:03[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mBootstrapping Spring Data JPA repositories in DEFAULT mode.[0;39m]
+[[34m2024-07-09 10:34:03[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mFinished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.[0;39m]
+[[34m2024-07-09 10:34:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat initialized with port 8080 (http)[0;39m]
+[[34m2024-07-09 10:34:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mInitializing ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-09 10:34:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardService[0;39m] [[35mStarting service [Tomcat][0;39m]
+[[34m2024-07-09 10:34:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardEngine[0;39m] [[35mStarting Servlet engine: [Apache Tomcat/10.1.25][0;39m]
+[[34m2024-07-09 10:34:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring embedded WebApplicationContext[0;39m]
+[[34m2024-07-09 10:34:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.servlet.context.ServletWebServerApplicationContext[0;39m] [[35mRoot WebApplicationContext: initialization completed in 1598 ms[0;39m]
+[[34m2024-07-09 10:34:04[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Starting...[0;39m]
+[[34m2024-07-09 10:34:04[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.pool.HikariPool[0;39m] [[35mHikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@2e3796b8[0;39m]
+[[34m2024-07-09 10:34:04[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Start completed.[0;39m]
+[[34m2024-07-09 10:34:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.jpa.internal.util.LogHelper[0;39m] [[35mHHH000204: Processing PersistenceUnitInfo [name: default][0;39m]
+[[34m2024-07-09 10:34:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.Version[0;39m] [[35mHHH000412: Hibernate ORM core version 6.5.2.Final[0;39m]
+[[34m2024-07-09 10:34:05[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.cache.internal.RegionFactoryInitiator[0;39m] [[35mHHH000026: Second-level cache disabled[0;39m]
+[[34m2024-07-09 10:34:05[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo[0;39m] [[35mNo LoadTimeWeaver setup: ignoring JPA class transformer[0;39m]
+[[34m2024-07-09 10:34:05[0;39m [32mDEBUG[0;39mrestartedMain] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
+1. SELECT @@character_set_database, @@sql_mode
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-09 10:34:05[0;39m [33mWARN [0;39mrestartedMain] [[33morg.hibernate.orm.deprecation[0;39m] [[35mHHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)[0;39m]
+[[34m2024-07-09 10:34:05[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator[0;39m] [[35mHHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)[0;39m]
+[[34m2024-07-09 10:34:05[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mInitialized JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-09 10:34:05[0;39m [33mWARN [0;39mrestartedMain] [[33morg.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration[0;39m] [[35mspring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning[0;39m]
+[[34m2024-07-09 10:34:06[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.actuate.endpoint.web.EndpointLinksResolver[0;39m] [[35mExposing 15 endpoints beneath base path '/actuator'[0;39m]
+[[34m2024-07-09 10:34:06[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer[0;39m] [[35mLiveReload server is running on port 35729[0;39m]
+[[34m2024-07-09 10:34:06[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStarting ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-09 10:34:06[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat started on port 8080 (http) with context path '/'[0;39m]
+[[34m2024-07-09 10:34:06[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarted FefuApplication in 4.222 seconds (process running for 4.73)[0;39m]
+[[34m2024-07-09 10:34:07[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring DispatcherServlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-09 10:34:07[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mInitializing Servlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-09 10:34:07[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mCompleted initialization in 2 ms[0;39m]
+[[34m2024-07-09 10:34:07[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjA0ODg2NDcsImV4cCI6MTcyMDQ4OTI0Nywic2lnbmVkVXNlciI6IntcInVzZXJJZFwiOjIxLFwicm9sZVwiOlwiUk9MRV9URUFIQ0VSXCJ9In0.E9RDn-iSXKzw4ouV8jarkqc7LpRP29lBSaEyUd2z7vPPNjvHUTRSE33JujvrVwcReqIH9k6JSfajfBFJKrDxqg[0;39m]
+[[34m2024-07-09 10:34:08[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-1] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT tea_id AS pk, uid AS id, upw AS password,
+                nm AS name, phone, email, gender, auth,
+                birth, addr, acept,
+                created_at AS createdAt, updated_at AS updatedAt
+        FROM teacher
+         WHERE tea_id = 21
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-09 10:34:08[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mjdbc.resultsettable[0;39m] [[35m
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-------------------|------|--------------------|-----------|
+|tea_id |uid      |upw                                                          |nm  |phone         |email              |gender |auth         |birth      |addr               |acept |created_at          |updated_at |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-------------------|------|--------------------|-----------|
+|21     |test1234 |$2a$10$QkkFHwq6USBUkLPr/W4LL.qNSx8WakVOahlLVNqQ3cuXqitKcZDvS |홍길동 |010-0000-0000 |test1234@naver.com |남      |ROLE_TEAHCER |2024-06-28 |12345 # 서울 판교 1234 |2     |2024-07-09 10:30:40 |null       |
+|-------|---------|-------------------------------------------------------------|----|--------------|-------------------|-------|-------------|-----------|-------------------|------|--------------------|-----------|
+[0;39m]
+[[34m2024-07-09 10:34:08[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-1] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        c.class_id AS classId
+        FROM
+        class AS c
+        JOIN
+        teacher AS t
+        ON c.tea_id = t.tea_id
+        WHERE
+        t.tea_id = 21
+        AND YEAR(c.created_at) = YEAR(CURDATE())
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-09 10:34:08[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mjdbc.resultsettable[0;39m] [[35m
+|---------|
+|class_id |
+|---------|
+|---------|
+[0;39m]
+[[34m2024-07-09 10:37:25[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStopping ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-09 10:37:25[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mClosing JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-09 10:37:25[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
+[[34m2024-07-09 10:37:25[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]
