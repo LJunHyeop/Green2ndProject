@@ -44,16 +44,4 @@ public class ScoreControllerImpl implements ScoreController {
             return ResultDto.resultDto1(ERROR_CODE,"성적조회 실패");
         }
     }
-
-    @GetMapping("/JSH_GET")
-    public ResultDto<List<JshGetRes>> getScoreVerJSH(@ParameterObject @ModelAttribute JshGetReq p){
-        log.info("controller : {}",p);
-        List<JshGetRes> result = service.getScoreVerJSH(p);
-        log.info("{}", result);
-        return ResultDto.<List<JshGetRes>>builder()
-                .resultData(result)
-                .resultMsg("뭐지")
-                .build();
-    }
-
 }
