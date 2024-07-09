@@ -11,7 +11,7 @@ public interface ParentsUserService {
     // 회원가입
     int postParentsUser(PostParentsUserReq p);
     // 아이디, 이메일 중복확인
-    CheckEmailOrUidRes checkEmailOrUid(CheckEmailOrUidReq c);
+    String checkEmailOrUid(CheckEmailOrUidReq c);
     // 회원정보 조회
     ParentsUserEntity getParentsUser(String id);
     // 회원정보 수정
@@ -25,7 +25,7 @@ public interface ParentsUserService {
     // 토큰정보 확인
     Map getAccessToken(HttpServletRequest req);
     // 비밀번호 찾기
-    GetFindPasswordRes getFindPassword(GetFindPasswordReq req);
+    void getFindPassword(GetFindPasswordReq req, Map map);
     // 전자서명 관련
     SignatureRes signature(MultipartFile pic, SignatureReq req) ;
 }

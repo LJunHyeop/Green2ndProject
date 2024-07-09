@@ -12,6 +12,4 @@ public interface ScoreMapper {
     List<InsScoreList> getScore(InsScoreReq p);
 
     StuGetRes getStu(long stuId);
-
-    List<JshGetRes> getScoreVerJSH(JshGetReq p);
 }

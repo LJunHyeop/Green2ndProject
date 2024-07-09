@@ -16,11 +16,15 @@
             , addr = #{addrs}
     </insert>
     <select id="checkEmailOrUid">
-        SELECT uid, email
+        SELECT *
         FROM parents
         <where>
-        WHERE uid = #{uid}
-        OR email = #{email}
+            <if test="uid != null and uid != ''">
+                uid = #{uid}
+            </if>
+            <if test="email != null and email != ''" >
+                and email = #{email}
+            </if>
         </where>
     </select>
     <select id="getParentsUser">
