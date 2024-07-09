@@ -198,11 +198,10 @@ public class ParentsUserServiceImpl implements ParentsUserService {
             String path = String.format("sign/%d", req.getSignId()) ;
             String fullPath = customFileUtils.makeFolders(path) ;
             String saveFileName = customFileUtils.makeRandomFileName(pic) ;
-            String target1 = saveFileName ;
             String target = String.format("%s/%s", path, saveFileName) ;
 
             customFileUtils.transferTo(pic, target);
-            req.setPic(target1) ;
+            req.setPic(saveFileName) ;
 
             int result = mapper.signature(req) ;
         } catch (Exception e) {
