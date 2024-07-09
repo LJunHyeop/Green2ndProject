@@ -5,7 +5,7 @@
 <mapper namespace="com.green.fefu.score.ScoreMapper">
         <insert id="postScore" keyProperty="scoreId" useGeneratedKeys="true">
             INSERT INTO score
-            SET sc_id = #{scId}
+            SET sc_id = #{stuId}
             , year = #{year}
             , semester = #{semester}
             , name = #{name}
@@ -34,41 +34,47 @@
             FROM view_score_semester2
         </if>
         <where>
-           stu_id =#{scId}
+           stu_id =#{stuId}
         </where>
     </select>
     <select id="getStu">
         SELECT
+        v.scoreId,
         s.stu_id AS stuId,
-        LEFT(c.class_id, 1) AS latestGrade,
+        v.latestGrade,
         scr.semester AS latestSemester,
         scr.year AS latestYear
-        FROM
-        STUDENT s
-        JOIN
-        student_classes sc ON s.stu_id = sc.stu_id
-        JOIN
-        CLASS c ON sc.class_id = c.class_id
-        JOIN
-        score scr ON sc.sc_id = scr.sc_id
-        WHERE
-        (scr.year, scr.semester) = (
-        SELECT
-        scr2.year, scr2.semester
-        FROM
-        score scr2
-        JOIN
-        student_classes sc2 ON scr2.sc_id = sc2.sc_id
-        WHERE
-        sc2.stu_id = s.stu_id
-        ORDER BY
-        scr2.year DESC,
-        scr2.semester DESC
-        LIMIT 1
-        )
-        AND s.stu_id = #{stuId}
+        FROM student s
+        left JOIN student_classes sc ON s.stu_id = sc.stu_id
+        left JOIN score scr ON sc.sc_id = scr.sc_id
+        left JOIN (
+        SELECT LEFT(a.grade, 1) AS latestGrade ,
+        b.score_id AS scoreId
+        FROM student a
+        LEFT JOIN score b
+        ON a.stu_id = b.sc_id
+        WHERE stu_id = #{stuId}
+        ) v
+        ON left(s.grade,1) = v.latestGrade
+        WHERE s.stu_id = #{stuId}
         GROUP BY s.stu_id
-        ORDER BY
-        s.stu_id;
+        ORDER BY s.stu_id ;
     </select>
+
+    <select id="getScoreVerJSH">
+        SELECT name, mark AS `score`
+        FROM score C
+        RIGHT JOIN (SELECT A.stu_id AS stuId
+                    FROM student A
+                    INNER JOIN (SELECT A.stu_id, SUBSTRING(A.grade, 2, 2)
+                                FROM student A
+                                INNER JOIN student_classes B
+                                ON A.stu_id=B.stu_id
+                                WHERE LEFT(A.grade, 1)=#{gradle} AND SUBSTRING(A.grade, 2, 2)=#{ban}) AS LJH
+                    ON LJH.stu_id=A.stu_id
+                    WHERE A.stu_id=#{stuId}) D
+        ON C.sc_id=D.stuId
+        WHERE `year`=#{year} AND sc_id=#{stuId} AND semester=#{semester} AND exam=#{exam}
+    </select>
+
 </mapper>

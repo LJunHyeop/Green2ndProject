@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 
 public class StuGetRes {
-
     private long stuId;
     private int latestGrade;
     private int latestSemester;

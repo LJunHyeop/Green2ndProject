@@ -1,9 +1,6 @@
 package com.green.fefu.score;
 
-import com.green.fefu.score.model.InsScoreList;
-import com.green.fefu.score.model.InsScoreReq;
-import com.green.fefu.score.model.InsScoreRes;
-import com.green.fefu.score.model.StuGetRes;
+import com.green.fefu.score.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,5 +11,7 @@ public interface ScoreMapper {
 
     List<InsScoreList> getScore(InsScoreReq p);
 
-    StuGetRes getStu(long sutId);
+    StuGetRes getStu(long stuId);
+
+    List<JshGetRes> getScoreVerJSH(JshGetReq p);
 }
