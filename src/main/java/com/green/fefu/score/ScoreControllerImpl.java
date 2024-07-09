@@ -44,4 +44,18 @@ public class ScoreControllerImpl implements ScoreController {
             return ResultDto.resultDto1(ERROR_CODE,"성적조회 실패");
         }
     }
+    @GetMapping("/getScoreDetail")
+    @Operation(summary = "학생성적조회 학년과 학기 조회시  ")
+    public ResultDto<DtoDetail> getDetailScore(@ParameterObject @ModelAttribute InsScoreReq p){
+        DtoDetail res = service.getDetailScore(p);
+        try {
+            if(res.getList().size() == 0){
+                return null;
+            }
+            return ResultDto.resultDto(SUCCESS_CODE,"성적조회성공",res);
+        }catch (RuntimeException e){
+            return ResultDto.resultDto1(ERROR_CODE,"성적조회 실패");
+        }
+    }
+
 }
