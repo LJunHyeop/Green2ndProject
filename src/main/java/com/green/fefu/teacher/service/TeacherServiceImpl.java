@@ -396,7 +396,10 @@ public class TeacherServiceImpl implements TeacherService {
         );
 
         String teacherClass = mapper.getCurrentClassesByTeacherId(teacher.getPk());
-        String tClass = Parser.classParser(teacherClass);
+        String tClass = null;
+        if (teacherClass != null) {
+            tClass = Parser.classParser(teacherClass);
+        }
 
         map.put(TEACHER_ID, teacher.getId());
         map.put(TEACHER_NAME, teacher.getName());
