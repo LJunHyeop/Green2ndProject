@@ -54,14 +54,15 @@ public class SecurityConfiguration {
                 // 정리하면, 시큐리티에서 제공해주는 로그인 화면 사용하지 않겠다.
                 .formLogin(form -> form.disable()) //form 로그인 방식을 사용하지 않음을 세팅
                 .csrf(csrf -> csrf.disable()) //CSRF (CORS랑 많이 헷갈려 함)
-                //requestMatchers
+                //requestMatcher
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(
                                         "/api/feed"
                                         , "/api/feed/*"
                                         , "/api/user/pic"
                                         , "/api/user/follow"
-
+                                        ,  "/api/Score/*"
+                                        , "api/Score/get/Detail/Score"
                                         //회원가입, 로그인 인증이 안 되어 있더라도 사용 가능하게 세팅
                                         ,"/api/teacher/sign-up"
                                         , "/api/teacher/sign-in"

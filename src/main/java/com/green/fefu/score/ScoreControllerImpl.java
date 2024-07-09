@@ -32,7 +32,7 @@ public class ScoreControllerImpl implements ScoreController {
         }
     }
     @GetMapping("/getScore")
-    @Operation(summary = "학생 성적 조회")
+    @Operation(summary = "학생성적조회 최초 성적조회 화면 이동시 ")
     public ResultDto<Dto> getScore(@ParameterObject @ModelAttribute InsScoreReq p){
         Dto res = service.getScore(p);
         try {
@@ -45,15 +45,17 @@ public class ScoreControllerImpl implements ScoreController {
         }
     }
 
-    @GetMapping("/JSH_GET")
-    public ResultDto<List<JshGetRes>> getScoreVerJSH(@ParameterObject @ModelAttribute JshGetReq p){
-        log.info("controller : {}",p);
-        List<JshGetRes> result = service.getScoreVerJSH(p);
-        log.info("{}", result);
-        return ResultDto.<List<JshGetRes>>builder()
-                .resultData(result)
-                .resultMsg("뭐지")
-                .build();
+    @GetMapping("/get/Detail/Score")
+    @Operation(summary = "학생성적조회 내가 원하는 학년과 학기 성적 조회시 ")
+    public ResultDto<DtoDetail> getDetailScore(@ParameterObject @ModelAttribute InsScoreReq p){
+        DtoDetail res = service.getDetailScore(p);
+        try {
+            if(res.getList().size() == 0){
+                return null;
+            }
+            return ResultDto.resultDto(SUCCESS_CODE,"성적조회성공",res);
+        }catch (RuntimeException e){
+            return ResultDto.resultDto1(ERROR_CODE,"성적조회 실패");
+        }
     }
-
 }
