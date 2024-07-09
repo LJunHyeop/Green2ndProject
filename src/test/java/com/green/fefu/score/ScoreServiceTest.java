@@ -35,7 +35,7 @@ class ScoreServiceTest {
         p.setExam(1);
         p.setName("김철수철수");
         p.setMark(1);
-        p.setScId(1);
+        p.setStuId(1);
         given(mapper.postScore(p)).willReturn(1);
 //        long res = service.postScore(p);
         assertEquals(1,service.postScore(p));

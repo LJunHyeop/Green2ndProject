@@ -58,13 +58,12 @@ public class ScoreServiceImpl {
         //        }
         return dto;
     }
+
     // 디테일하게 조회 EX 학년 학기
 
     public  DtoDetail getDetailScore(InsScoreReq p){
         DtoDetail dto = new DtoDetail();
         dto.setList(mapper.getDetailScore(p));
         return  dto;
-
     }
-
 }

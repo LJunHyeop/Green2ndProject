@@ -184,13 +184,17 @@ public class TeacherControllerImpl implements TeacherController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description =
-                            "<p> id : \"test1234\"</p>" +
-                                    "<p> name : \"홍길동\"</p>" +
-                                    "<p> phone : \"010-0000-0000\"</p>" +
-                                    "<p> email : \"test1234@naver.com\"</p>" +
-                                    "<p> gender : \"여자\"</p>" +
-                                    "<p> class : \"1학년 1반\"</p>" +
-                                    "<p> birth : \"1980-01-01\"</p>"
+                            "{\n" +
+                                    "  \"gender\": \"남\",\n" +
+                                    "  \"phone\": \"010-0000-0000\",\n" +
+                                    "  \"name\": \"홍길동\",\n" +
+                                    "  \"birth\": \"2024-06-28\",\n" +
+                                    "  \"id\": \"test1234\",\n" +
+                                    "  \"addr\": \"서울 판교 1234\",\n" +
+                                    "  \"class\": 1학년 1반,\n" +
+                                    "  \"email\": \"test1234@naver.com\",\n" +
+                                    "  \"zoneCode\": \"12345\"\n" +
+                                    "}"
             ),
             @ApiResponse(responseCode = "404",
                     description = "에러 난 이유 설명"
