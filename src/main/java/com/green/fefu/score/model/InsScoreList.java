@@ -1,16 +1,18 @@
 package com.green.fefu.score.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class InsScoreList {
     private String name;
 
     private int exam;
 
     private int mark;
+
+    private Integer scoreId;
 
     private int stu_id;
 
@@ -33,6 +35,5 @@ public class InsScoreList {
 
 
     private double subjectAvg;
-
 
 }
