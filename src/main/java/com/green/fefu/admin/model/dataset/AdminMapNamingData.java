@@ -12,4 +12,5 @@ public interface AdminMapNamingData {
     String CLASS = "class";
     String CREATEDAT = "createdAt";
     String LIST = "userList";
+    String ADMIN_ACCESS_TOKEN = "accessToken";
 }

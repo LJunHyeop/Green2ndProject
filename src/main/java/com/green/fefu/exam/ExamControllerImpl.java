@@ -1,4 +1,4 @@
-package com.green.fefu.exam;
+package com.green.fefu.Exam;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

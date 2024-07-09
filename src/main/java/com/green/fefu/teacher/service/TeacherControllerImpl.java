@@ -7,10 +7,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -234,6 +236,18 @@ public class TeacherControllerImpl implements TeacherController {
         try {
             service.ChangeTeacher(p);
         } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+        }
+        return new ResponseEntity<>(OK);
+    }
+
+    @GetMapping("access-token")
+    @Operation(summary = "엑세스 토큰 재 발행", description = "리턴 => 토큰값")
+    public ResponseEntity getRefreshToken(HttpServletRequest req) {
+        Map map = new HashMap<>();
+        try {
+            map = service.getAccessToken(map, req);
+        }catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
         }
         return new ResponseEntity<>(OK);
