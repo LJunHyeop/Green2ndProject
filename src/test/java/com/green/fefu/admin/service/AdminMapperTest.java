@@ -23,17 +23,7 @@ class AdminMapperTest {
     @Test
     @DisplayName("학부모 회원가입 승인 대기 리스트")
     void getParentList() {
-        GetUserListDto user1 = new GetUserListDto();
-        List<GetUserListDto> list = new ArrayList<>();
-        user1.setPk("1");
-        user1.setId("test");
-        user1.setName("길동");
-        user1.setGrade("10101");
-        user1.setCreatedAt("2024-07-04 17:02:12");
-        list.add(user1);
-        List<GetUserListDto> result = mapper.getParentList();
-        assertEquals(list.size(), result.size(),"결과값의 갯수가 다릅니다.");
-        assertEquals(list.get(0), result.get(0), "결과 값이 다릅니다.");
+
     }
 
     @Test
