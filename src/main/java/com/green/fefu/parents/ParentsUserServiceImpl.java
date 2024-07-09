@@ -1,5 +1,6 @@
 package com.green.fefu.parents;
 
+import com.green.fefu.chcommon.SmsSender;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.parents.model.*;
 import com.green.fefu.security.MyUserDetails;
@@ -29,6 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
+
+import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.DUPLICATE_DATA_ERROR;
+import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.SMS_SEND_ERROR;
 
 
 @Service
@@ -77,15 +81,21 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         }
         return result;
     }
-    @Override
-    public CheckEmailOrUidRes checkEmailOrUid(CheckEmailOrUidReq req) {
-        CheckEmailOrUidRes res = mapper.checkEmailOrUid(req) ;
-        if(res.getUid() != null){
-            throw new RuntimeException("아이디가 중복된 값입니다.") ;
-        } else if (res.getEmail() != null) {
-            throw new RuntimeException("Email이 중복된 값입니다.") ;
+    @Override // 아이디, 이메일 중복조회
+    public String checkEmailOrUid(CheckEmailOrUidReq req) {
+        if(req.getEmail() != null && req.getUid() != null){
+            return "아이디 및 이메일을 하나만 입력해주세요" ;
         }
-        return res ;
+        CheckEmailOrUidRes res = mapper.checkEmailOrUid(req) ;
+        if(res == null){
+            return "사용할 수 있는 값입니다." ;
+        }
+        if(res.getUid() != null){
+            return DUPLICATE_DATA_ERROR ;
+        } else if (res.getEmail() != null) {
+            return DUPLICATE_DATA_ERROR ;
+        }
+        return "사용할 수 있는 값입니다." ;
     }
     @Override // 회원정보 조회
     public ParentsUserEntity getParentsUser(String token) {
@@ -117,9 +127,6 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         ParentsUserEntity entity = mapper.getParentsUser(req);
         if(Objects.isNull(entity)){
             throw new IllegalArgumentException("아이디를 확인해 주세요");
-        } else if(!passwordEncoder.matches(p.getUpw(), entity.getUpw())) {
-            log.info("p pass: {}, entity pass: {}", p.getUpw(), entity.getUpw());
-            throw new IllegalArgumentException("비밀번호를 확인해 주세요");
         }
         String password = passwordEncoder.encode(p.getNewUpw());
         p.setParentsId(entity.getParentsId());
@@ -172,32 +179,22 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         return map;
     }
     @Override // 문자발송 비밀번호 찾기
-    public GetFindPasswordRes getFindPassword(GetFindPasswordReq req) {
-        // 랜덤한 문자열 만들기
-        String randomValue = SmsService.generateRandomMessage(8);
+    public void getFindPassword(GetFindPasswordReq req, Map map) {
+        // 랜덤코드 6자리 생성
+        String code = SmsSender.makeRandomCode();
         List<ParentsUserEntity> list = mapper.getParentUserList(req);
         // 회원정보 확인
         if(list == null || list.isEmpty()){
             throw new IllegalArgumentException("회원정보가 존재하지 않습니다.");
         }
-        GetParentsUserReq p = new GetParentsUserReq();
-        p.setSignedUserId(list.get(0).getParentsId());
-        ParentsUserEntity entity = mapper.getParentsUser(p);
+        try{
+            // 문자보내기
+            smsService.sendPasswordSms(req.getPhone(), coolsmsApiCaller, code);
+        } catch (Exception e){
+            throw new RuntimeException(SMS_SEND_ERROR);
+        }
 
-        // 랜덤 문자열로 비밀번호 변경
-        String password = passwordEncoder.encode(randomValue);
-        PatchPasswordReq pp = new PatchPasswordReq();
-        pp.setParentsId(entity.getParentsId());
-        pp.setNewUpw(password);
-        // 비밀번호 업데이트
-        mapper.patchPassword(pp);
-        // 변경정보 세팅
-        GetFindPasswordRes res = new GetFindPasswordRes();
-        res.setUpw(pp.getNewUpw());
-
-        // 문자보내기
-        smsService.sendPasswordSms(req.getPhone(), coolsmsApiCaller, randomValue);
-        return res;
+        map.put("RANDOM_CODE", code) ;
     }
     @Override @Transactional // 전자서명
     public SignatureRes signature(MultipartFile pic, SignatureReq req){
