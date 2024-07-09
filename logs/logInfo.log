@@ -700,3 +700,50 @@ java.io.FileNotFoundException: class path resource [static/index.html] cannot be
 [[34m2024-07-09 12:34:32[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mClosing JPA EntityManagerFactory for persistence unit 'default'[0;39m]
 [[34m2024-07-09 12:34:32[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
 [[34m2024-07-09 12:34:32[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]
+[2024-07-09 12:37:27 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-09 12:37:27 INFO Test worker] [com.green.fefu.teacher.service.TeacherMapperTest] [Starting TeacherMapperTest using Java 17.0.11 with PID 844 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-09 12:37:27 INFO Test worker] [com.green.fefu.teacher.service.TeacherMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-09 12:37:27 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-09 12:37:27 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@103c97ff]
+[2024-07-09 12:37:27 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-09 12:37:27 INFO Test worker] [com.green.fefu.teacher.service.TeacherMapperTest] [Started TeacherMapperTest in 1.142 seconds (process running for 2.032)]
+[2024-07-09 12:37:28 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        c.class_id AS classId
+        FROM
+        class AS c
+        JOIN
+        teacher AS t
+        ON c.tea_id = t.tea_id
+        WHERE
+        t.tea_id = 1
+        AND YEAR(c.created_at) = YEAR(CURDATE())
+ {executed in 1 msec}]
+[2024-07-09 12:37:28 INFO Test worker] [jdbc.resultsettable] [
+|---------|
+|class_id |
+|---------|
+|101      |
+|---------|
+]
+[2024-07-09 12:37:28 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        c.class_id AS classId
+        FROM
+        class AS c
+        JOIN
+        teacher AS t
+        ON c.tea_id = t.tea_id
+        WHERE
+        t.tea_id = 10
+        AND YEAR(c.created_at) = YEAR(CURDATE())
+ {executed in 0 msec}]
+[2024-07-09 12:37:28 INFO Test worker] [jdbc.resultsettable] [
+|---------|
+|class_id |
+|---------|
+|502      |
+|---------|
+]
+[2024-07-09 12:37:28 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-09 12:37:28 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
