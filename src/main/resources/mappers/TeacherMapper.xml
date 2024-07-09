@@ -76,13 +76,13 @@
                 nm = #{name}
             </if>
             <if test="phone != null and name != ''">
-                AND phone = #{phone}
+                , phone = #{phone}
             </if>
             <if test="email != null and email != ''">
-                AND email = #{email}
+                , email = #{email}
             </if>
             <if test="fullAddr != null and fullAddr !=''">
-                AND addr = #{fullAddr}
+                , addr = #{fullAddr}
             </if>
         </set>
         WHERE tea_id = #{pk}

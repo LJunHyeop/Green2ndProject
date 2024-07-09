@@ -33,7 +33,7 @@ public class ScoreControllerImpl implements ScoreController {
     }
     @GetMapping("/getScore")
     @Operation(summary = "학생성적조회 최초 성적조회 화면 이동시 ")
-    public ResultDto<Dto> getScore(@ParameterObject @ModelAttribute InsScoreReq p){
+    public ResultDto<Dto> getScore(@ParameterObject @ModelAttribute GetScoreReq p){
         Dto res = service.getScore(p);
         try {
             if(res.getList().size() == 0){
@@ -46,7 +46,7 @@ public class ScoreControllerImpl implements ScoreController {
     }
     @GetMapping("/getScoreDetail")
     @Operation(summary = "학생성적조회 학년과 학기 조회시  ")
-    public ResultDto<DtoDetail> getDetailScore(@ParameterObject @ModelAttribute InsScoreReq p){
+    public ResultDto<DtoDetail> getDetailScore(@ParameterObject @ModelAttribute GetDetailScoreReq p){
         DtoDetail res = service.getDetailScore(p);
         try {
             if(res.getList().size() == 0){

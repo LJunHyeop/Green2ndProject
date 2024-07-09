@@ -19,7 +19,7 @@ public class ScoreServiceImpl {
         return mapper.postScore(p);
     }
     //점수 받아오기
-    public Dto getScore(InsScoreReq p){
+    public Dto getScore(GetScoreReq p){
             //학생, 학년, 년도, 학기, 과목(이름), 점수
             Dto dto = new Dto();
             StuGetRes res = mapper.getStu(p.getStuId());
@@ -33,9 +33,7 @@ public class ScoreServiceImpl {
                 }
             }
         dto.setStuId(p.getStuId());
-        if(res.getLatestGrade() < p.getGradle()){
-            throw  new RuntimeException("잘못된 학년입니다.");
-        }
+
         dto.setLatestGrade(res.getLatestGrade());
         log.info("StuGetRes - latestGrade: {}", res.getLatestGrade());
         dto.setLatestSemester(res.getLatestSemester());
@@ -61,7 +59,11 @@ public class ScoreServiceImpl {
 
     // 디테일하게 조회 EX 학년 학기
 
-    public  DtoDetail getDetailScore(InsScoreReq p){
+    public  DtoDetail getDetailScore(GetDetailScoreReq p){
+        StuGetRes res = mapper.getStu(p.getStuId());
+        if(res.getLatestGrade() < p.getGradle()){
+            throw  new RuntimeException("잘못된 학년입니다.");
+        }
         DtoDetail dto = new DtoDetail();
         dto.setList(mapper.getDetailScore(p));
         return  dto;
