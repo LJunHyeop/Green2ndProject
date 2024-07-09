@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -128,5 +129,15 @@ public class AdminControllerImpl implements AdminController {
         return new ResponseEntity<>(OK);
     }
 
-
+    @GetMapping("access-token")
+    @Operation(summary = "엑세스 토큰 재 발행", description = "리턴 => 토큰값")
+    public ResponseEntity getRefreshToken(HttpServletRequest req) {
+        Map map = new HashMap<>();
+        try {
+            map = service.getAccessToken(map, req);
+        }catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+        }
+        return new ResponseEntity<>(OK);
+    }
 }

@@ -19,4 +19,8 @@ public interface StudentMapper {
     int updateStudent(updateStudentReq p);
 
     List<getListForNoParent> getStudentListForParent();
+
+    int updStudentGrade(studentAdvanceGradeReq p);
+
+    int insNewClass(studentAdvanceGradeReq p);
 }

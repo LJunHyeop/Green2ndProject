@@ -4,6 +4,7 @@ import com.green.fefu.student.model.dto.getListForNoParent;
 import com.green.fefu.student.model.dto.getStudent;
 import com.green.fefu.student.model.req.createStudentReq;
 import com.green.fefu.student.model.req.deleteStudentReq;
+import com.green.fefu.student.model.req.studentAdvanceGradeReq;
 import com.green.fefu.student.model.req.updateStudentReq;
 import com.green.fefu.student.test.StudentController;
 import io.swagger.v3.oas.annotations.Operation;
@@ -219,5 +220,25 @@ public class StudentControllerImpl implements StudentController {
             return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
         }
         return new ResponseEntity<>(result, OK);
+    }
+
+    @PatchMapping
+    @Operation(summary = "학생 학년 증가", description = "리턴 => 없음")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "리턴 값 없음!"
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명"
+            )
+    })
+    public ResponseEntity studentAdvanceGrade(@RequestBody List<studentAdvanceGradeReq> p){
+        log.info("studentAdvanceGrade req : {}", p);
+        try {
+            service.studentAdvanceGrade(p);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+        }
+        return new ResponseEntity<>(OK);
     }
 }

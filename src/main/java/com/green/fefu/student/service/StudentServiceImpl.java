@@ -205,13 +205,13 @@ public class StudentServiceImpl implements StudentService {
         if (p.getAddr() != null && p.getZoneCode() != null) {
             p.setFullAddr(Parser.addressParserMerge(p.getZoneCode(), p.getAddr()));
         }
-        if(p.getPk() < 1){
+        if (p.getPk() < 1) {
             throw new RuntimeException(REQUIRED_DATA_ERROR);
         }
-        if(p.getPhone() != null) {
+        if (p.getPhone() != null) {
             patternCheck.phoneCheck(p.getPhone());
         }
-        if(p.getName() != null){
+        if (p.getName() != null) {
             patternCheck.nameCheck(p.getName());
         }
     }
@@ -226,5 +226,53 @@ public class StudentServiceImpl implements StudentService {
             p.setPhone(Parser.phoneParser(p.getPhone()));
         }
         return list;
+    }
+
+
+    @Transactional
+    public void studentAdvanceGrade(List<studentAdvanceGradeReq> p) throws Exception {
+//        널체크
+        if (p == null || p.isEmpty()) {
+            throw new RuntimeException(REQUIRED_DATA_ERROR);
+        }
+        for (studentAdvanceGradeReq item : p) {
+            studentAdvanceGradeNullCheck(item);
+//        타입 체크
+            studentAdvanceGradeTypeCheck(item);
+//        데이터 파싱
+            studentAdvanceGradeParse(item);
+        }
+
+//        쿼리 실행
+        for (studentAdvanceGradeReq item : p) {
+            int result1 = mapper.updStudentGrade(item);
+            int result2 = mapper.insNewClass(item);
+//        쿼리 에러
+            if (result1 != 1) {
+                throw new RuntimeException(QUERY_RESULT_ERROR);
+            }
+            if (result2 != 1) {
+                throw new RuntimeException(QUERY_RESULT_ERROR);
+            }
+        }
+    }
+
+    private void studentAdvanceGradeNullCheck(studentAdvanceGradeReq p) throws Exception {
+        if (p.getStudentPk() != null && p.getGrade() != null) {
+            return;
+        } else {
+            throw new RuntimeException(REQUIRED_DATA_ERROR);
+        }
+    }
+
+    private void studentAdvanceGradeTypeCheck(studentAdvanceGradeReq p) throws Exception {
+        validation.typeCheck(p.getStudentPk(), Long.class, TYPE_ERROR);
+        validation.typeCheck(p.getGrade(), Integer.class, TYPE_ERROR);
+        patternCheck.gradeNumberCheck(p.getGrade());
+    }
+
+    private void studentAdvanceGradeParse(studentAdvanceGradeReq p) throws Exception {
+//        20101 -> 201
+        p.setSubNumber(p.getGrade().substring(0,3));
     }
 }

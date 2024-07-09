@@ -6,8 +6,16 @@ import com.green.fefu.admin.model.req.*;
 import com.green.fefu.admin.test.AdminService;
 import com.green.fefu.chcommon.Parser;
 import com.green.fefu.chcommon.Validation;
+import com.green.fefu.common.AppProperties;
+import com.green.fefu.common.CookieUtils;
+import com.green.fefu.security.MyUser;
+import com.green.fefu.security.MyUserDetails;
+import com.green.fefu.security.jwt.JwtTokenProviderV2;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +33,9 @@ import java.util.Map;
 public class AdminServiceImpl implements AdminService {
     private final AdminMapper mapper;
     private final Validation validation;
+    private final AppProperties appProperties;
+    private final JwtTokenProviderV2 jwtTokenProvider;
+    private final CookieUtils cookieUtils;
 
     //    유저 리스트 가져오기
     public Map findUnAcceptList(int p, Map map) throws Exception {
@@ -118,5 +129,27 @@ public class AdminServiceImpl implements AdminService {
     private void acceptUserNullCheck(adminUserReq p) throws Exception {
         validation.nullCheck(p.getP().toString());
         validation.nullCheck(p.getPk().toString());
+    }
+
+
+
+    public Map getAccessToken(Map map, HttpServletRequest req) throws Exception {
+        Cookie cookie = cookieUtils.getCookie(req, appProperties.getJwt().getRefreshTokenCookieName());
+        // refreshToken 값이 있는 쿠키의 존재 유무
+        if (cookie == null) {
+            throw new RuntimeException(COOKIE_NOT_FOUND_ERROR);
+        }
+        String refreshToken = cookie.getValue();
+        // refreshToken 만료시간 체크
+        if (!jwtTokenProvider.isValidateToken(refreshToken)) {
+            throw new RuntimeException(RE_FRESH_TOKEN_TIME_OUT_ERROR);
+        }
+
+        Authentication auth = jwtTokenProvider.getAuthentication(refreshToken);
+        MyUser myUser = ((MyUserDetails) auth).getMyUser();
+        String accessToken = jwtTokenProvider.generateAccessToken(myUser);
+
+        map.put(ADMIN_ACCESS_TOKEN, accessToken);
+        return map;
     }
 }

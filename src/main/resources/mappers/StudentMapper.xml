@@ -103,4 +103,16 @@
         ORDER BY name, grade
     </select>
 
+    <update id="updStudentGrade">
+        UPDATE student
+        SET grade = #{grade}
+        WHERE stu_id = #{studentPk}
+    </update>
+
+    <insert id="insNewClass">
+        INSERT INTO student_classes
+        SET stu_id = #{studentPk},
+        class_id = #{subNumber}
+    </insert>
+
 </mapper>

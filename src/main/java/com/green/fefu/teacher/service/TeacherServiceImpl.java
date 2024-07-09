@@ -8,15 +8,19 @@ import com.green.fefu.common.AppProperties;
 import com.green.fefu.common.CookieUtils;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
+import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
 import com.green.fefu.teacher.model.dto.EntityArgument;
 import com.green.fefu.teacher.model.dto.TeacherEntity;
 import com.green.fefu.teacher.model.req.*;
 import com.green.fefu.chcommon.Validation;
 import com.green.fefu.teacher.test.TeacherService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +31,7 @@ import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.*;
 
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -63,7 +68,7 @@ public class TeacherServiceImpl implements TeacherService {
                 || (p.getAddr() != null
                 && p.getZoneCode() == null)
         ) {
-          throw new RuntimeException(ADDR_DATA_ERROR);
+            throw new RuntimeException(ADDR_DATA_ERROR);
         } else if (p.getZoneCode() != null
                 && p.getAddr() != null) {
             String fullAddr = Parser.addressParserMerge(p.getZoneCode(), p.getAddr());
@@ -79,7 +84,7 @@ public class TeacherServiceImpl implements TeacherService {
                         .build()
         );
 
-        if(teacher != null) {
+        if (teacher != null) {
             throw new RuntimeException(DUPLICATE_DATA_ERROR);
         }
 
@@ -442,5 +447,25 @@ public class TeacherServiceImpl implements TeacherService {
             patternCheck.emailCheck(p.getEmail());
             validation.lengthCheck(p.getEmail(), TEACHER_EMAIL_MAX_LENGTH);
         }
+    }
+
+    public Map getAccessToken(Map map, HttpServletRequest req) throws Exception {
+        Cookie cookie = cookieUtils.getCookie(req, appProperties.getJwt().getRefreshTokenCookieName());
+        // refreshToken 값이 있는 쿠키의 존재 유무
+        if (cookie == null) {
+            throw new RuntimeException(COOKIE_NOT_FOUND_ERROR);
+        }
+        String refreshToken = cookie.getValue();
+        // refreshToken 만료시간 체크
+        if (!jwtTokenProvider.isValidateToken(refreshToken)) {
+            throw new RuntimeException(RE_FRESH_TOKEN_TIME_OUT_ERROR);
+        }
+
+        Authentication auth = jwtTokenProvider.getAuthentication(refreshToken);
+        MyUser myUser = ((MyUserDetails) auth).getMyUser();
+        String accessToken = jwtTokenProvider.generateAccessToken(myUser);
+
+        map.put(TEACHER_ACCESS_TOKEN, accessToken);
+        return map;
     }
 }

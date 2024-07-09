@@ -20,7 +20,8 @@ public class PatternCheck {
     private final Pattern phonePattern = Pattern.compile(PHONE_PATTERN);
     private final String GRADE_PATTERN = "^[1-6]\\d{4}$";
     private final Pattern gradePattern = Pattern.compile(GRADE_PATTERN);
-
+    private final String GRADE_NUMBER_PATTERN = "^[1-6](0[1-9]|[1-9][0-9])(0[1-9]|[1-9][0-9])$";
+    private final Pattern gradeNumberPattern = Pattern.compile(GRADE_NUMBER_PATTERN);
     public void idCheck(String p) {
         if (!idPattern.matcher(p).matches()) {
             throw new RuntimeException(ID_PATTERN_ERROR);
@@ -61,6 +62,12 @@ public class PatternCheck {
             throw new RuntimeException(STUDENT_GRADE_DATA_ERROR);
         }
         if (number < 1) {
+            throw new RuntimeException(STUDENT_GRADE_DATA_ERROR);
+        }
+    }
+
+    public void gradeNumberCheck(String p) {
+        if (!gradeNumberPattern.matcher(p).matches()) {
             throw new RuntimeException(STUDENT_GRADE_DATA_ERROR);
         }
     }
