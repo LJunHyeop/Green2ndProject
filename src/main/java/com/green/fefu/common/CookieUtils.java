@@ -32,12 +32,15 @@ public class CookieUtils {
 
     //요청 header에 내가 원하는 쿠키를 찾는 메소드
     public Cookie getCookie(HttpServletRequest req, String name) {
-        Cookie[] cookies = req.getCookies(); //요청에서 모든 쿠키 정보를 받는다.
-        if(cookies != null && cookies.length > 0) { //쿠키 정보가 있고 쿠키가 하나 이상 있다면
-            for(Cookie cookie : cookies) {
+        // req에서 모든 쿠키 정보를 받는다.
+        Cookie[] cookies = req.getCookies();
 
-                //찾고자하는 key가 있는지 확인 후 있다면 해당 쿠키 리턴
-                if(name.equals(cookie.getName())) {
+        //쿠키 정보가 있고 쿠키가 하나이상 있다면
+        if (cookies != null && cookies.length > 0) {
+            for (Cookie cookie : cookies) {
+
+                //찾고자 하는 key가 있는지 확인 후 있으면 리턴
+                if (cookie.getName().equals(name)) {
                     return cookie;
                 }
             }
@@ -56,9 +59,12 @@ public class CookieUtils {
 
     public void setCookie(HttpServletResponse res, String name, String value, int maxAge) {
         Cookie cookie = new Cookie(name, value);
-        cookie.setPath("/"); //Root URL (우리 백엔드 모든 요청에 해당하게 세팅)
-        cookie.setHttpOnly(true); //보안 쿠키
-        cookie.setMaxAge(maxAge); //만료 시간
+        // Root URL ( 우리 백엔드 모든 요청에 해당하게 셋팅 )
+        cookie.setPath("/");
+        // 보안 쿠키
+        cookie.setHttpOnly(true);
+        // 만료 시간
+        cookie.setMaxAge(maxAge);
         res.addCookie(cookie);
     }
 

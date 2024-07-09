@@ -23,8 +23,8 @@ class ExamMapperTest {
         p.setExamId(1);
         p.setSubjectId(3);
 
-        long res = mapper.examIns(p);
-        assertEquals(1, res);
+
+        assertEquals(1, 0);
 //        SemesterReq p = new SemesterReq();
 //        p.setSemesterId(1);
 //        p.setOption(1);

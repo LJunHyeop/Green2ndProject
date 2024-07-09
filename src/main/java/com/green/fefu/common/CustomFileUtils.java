@@ -16,8 +16,10 @@ public class CustomFileUtils {
     public CustomFileUtils(@Value("${file.directory}")String uploadPath) {
         this.uploadPath = uploadPath;
     }
-    public String makeFolders(String path){
-        File folder = new File(uploadPath,path);
+
+    //폴더 만들기
+    public String makeFolders(String path) {
+        File folder = new File(uploadPath, path);
         folder.mkdirs();
         return folder.getAbsolutePath();
     }
