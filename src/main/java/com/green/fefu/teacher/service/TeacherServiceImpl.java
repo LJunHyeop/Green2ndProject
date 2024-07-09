@@ -10,6 +10,7 @@ import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
+import com.green.fefu.sms.SmsService;
 import com.green.fefu.teacher.model.dto.EntityArgument;
 import com.green.fefu.teacher.model.dto.TeacherEntity;
 import com.green.fefu.teacher.model.req.*;
@@ -20,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,9 @@ public class TeacherServiceImpl implements TeacherService {
     private final AppProperties appProperties;
     private final CookieUtils cookieUtils;
     private final PatternCheck patternCheck;
+    private final SmsService smsService;
+    @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
+
 
 
 //=====================================================================================================================
@@ -300,9 +305,10 @@ public class TeacherServiceImpl implements TeacherService {
 //        랜덤 코드 6자리 생성
         String code = SmsSender.makeRandomCode();
 //        휴대폰으로 문자 보내기
+
 //        짜야함 ( 미완성 )
         try {
-            SmsSender.sendSms(p.getPhone(), code);
+            smsService.sendPasswordSms(p.getPhone(), coolsmsApiCaller, code);
         } catch (Exception e) {
             throw new RuntimeException(SMS_SEND_ERROR);
         }
