@@ -10,14 +10,11 @@ import java.util.List;
 @Getter
 @Setter
 public class InsScoreRes {
-   private int scId;
+   private int stuId;
 
    private int year;
 
    private int semester;
 
-   List<InsScoreList> exam1;
-
-   List<InsScoreList> exam2;
-
+   private int gradle;
 }

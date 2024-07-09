@@ -1,10 +1,7 @@
 package com.green.fefu.score;
 
 import com.green.fefu.common.ResultDto;
-import com.green.fefu.score.model.Dto;
-import com.green.fefu.score.model.InsScoreList;
-import com.green.fefu.score.model.InsScoreReq;
-import com.green.fefu.score.model.InsScoreRes;
+import com.green.fefu.score.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,10 +36,24 @@ public class ScoreControllerImpl implements ScoreController {
     public ResultDto<Dto> getScore(@ParameterObject @ModelAttribute InsScoreReq p){
         Dto res = service.getScore(p);
         try {
+            if(res.getList().size() == 0){
+                return null;
+            }
             return ResultDto.resultDto(SUCCESS_CODE,"성적조회성공",res);
         }catch (RuntimeException e){
             return ResultDto.resultDto1(ERROR_CODE,"성적조회 실패");
         }
+    }
+
+    @GetMapping("/JSH_GET")
+    public ResultDto<List<JshGetRes>> getScoreVerJSH(@ParameterObject @ModelAttribute JshGetReq p){
+        log.info("controller : {}",p);
+        List<JshGetRes> result = service.getScoreVerJSH(p);
+        log.info("{}", result);
+        return ResultDto.<List<JshGetRes>>builder()
+                .resultData(result)
+                .resultMsg("뭐지")
+                .build();
     }
 
 }
