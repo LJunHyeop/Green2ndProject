@@ -63,6 +63,7 @@ public class SecurityConfiguration {
                                         , "/api/user/follow"
 
                                             // 알림장
+                                        ,"/api/notice"
                                         ,"/api/notice/**"
                                             // 점수 입력 및 불러오기
                                         ,  "/api/Score/**"
