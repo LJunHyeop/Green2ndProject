@@ -52,15 +52,4 @@ public class ScoreServiceImpl {
 //        }
         return dto;
     }
-
-    public List<JshGetRes> getScoreVerJSH(JshGetReq p) {
-        log.info("service : {}",p);
-        List<JshGetRes> list = mapper.getScoreVerJSH(p);
-        log.info("{}", list);
-        if (list.isEmpty()) {
-            return null;
-        } else {
-            return list;
-        }
-    }
 }
