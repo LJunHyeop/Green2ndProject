@@ -32,7 +32,7 @@ public class ScoreControllerImpl implements ScoreController {
         }
     }
     @GetMapping("/getScore")
-    @Operation(summary = "학생 성적 조회")
+    @Operation(summary = "학생성적조회 최초 성적조회 화면 이동시 ")
     public ResultDto<Dto> getScore(@ParameterObject @ModelAttribute InsScoreReq p){
         Dto res = service.getScore(p);
         try {

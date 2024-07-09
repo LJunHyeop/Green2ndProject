@@ -14,19 +14,19 @@
         </insert>
     <select id="getScore">
         SELECT
-        score_id AS scoreId
-        ,stu_id AS stuId
-        ,class_id AS classId
-        ,subject_name AS name
-        ,year AS year
-        ,exam AS exam
-        ,mark AS mark
-        ,class_avg AS classAvg
-        ,class_rank AS classRank
-        ,school_avg AS schoolRank
-        ,midterm_avg AS midtermAvg
-        ,final_avg AS finalAvg
-        ,subject_avg AS subjectAvg
+        score_id AS scoreId,
+        stu_id AS stuId,
+        CONCAT(#{latestGrade}, SUBSTRING(class_id, 2)) AS classId,
+        subject_name AS name,
+        year AS year,
+        exam AS exam,
+        mark AS mark,
+        class_avg AS classAvg,
+        class_rank AS classRank,
+        school_avg AS schoolRank,
+        midterm_avg AS midtermAvg,
+        final_avg AS finalAvg,
+        subject_avg AS subjectAvg
         <if test="semester == 1">
             FROM view_score_semester1
         </if>
@@ -34,7 +34,8 @@
             FROM view_score_semester2
         </if>
         <where>
-           stu_id =#{stuId}
+            stu_id = #{stuId}
+            AND SUBSTRING(class_id, 1, 1) = #{latestGrade}
         </where>
     </select>
     <select id="getStu">
@@ -61,20 +62,30 @@
         ORDER BY s.stu_id ;
     </select>
 
-    <select id="getScoreVerJSH">
-        SELECT name, mark AS `score`
-        FROM score C
-        RIGHT JOIN (SELECT A.stu_id AS stuId
-                    FROM student A
-                    INNER JOIN (SELECT A.stu_id, SUBSTRING(A.grade, 2, 2)
-                                FROM student A
-                                INNER JOIN student_classes B
-                                ON A.stu_id=B.stu_id
-                                WHERE LEFT(A.grade, 1)=#{gradle} AND SUBSTRING(A.grade, 2, 2)=#{ban}) AS LJH
-                    ON LJH.stu_id=A.stu_id
-                    WHERE A.stu_id=#{stuId}) D
-        ON C.sc_id=D.stuId
-        WHERE `year`=#{year} AND sc_id=#{stuId} AND semester=#{semester} AND exam=#{exam}
+    <select id="getDetailScore">
+        SELECT
+        score_id AS scoreId,
+        stu_id AS stuId,
+        CONCAT(#{latestGrade}, SUBSTRING(class_id, 2)) AS classId,
+        subject_name AS name,
+        year AS year,
+        exam AS exam,
+        mark AS mark,
+        class_avg AS classAvg,
+        class_rank AS classRank,
+        school_avg AS schoolRank,
+        midterm_avg AS midtermAvg,
+        final_avg AS finalAvg,
+        subject_avg AS subjectAvg
+        <if test="semester == 1">
+            FROM view_score_semester1
+        </if>
+        <if test="semester == 2">
+            FROM view_score_semester2
+        </if>
+        <where>
+            stu_id = #{stuId}
+            AND SUBSTRING(class_id, 1, 1) = #{gradle}
+        </where>
     </select>
-
 </mapper>

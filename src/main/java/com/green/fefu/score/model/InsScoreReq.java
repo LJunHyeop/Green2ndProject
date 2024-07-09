@@ -27,4 +27,7 @@ public class InsScoreReq {
     private int exam;
     @Schema(example = "96", description = "점수")
     private int mark;
+
+    @JsonIgnore
+    private int latestGrade;
 }
