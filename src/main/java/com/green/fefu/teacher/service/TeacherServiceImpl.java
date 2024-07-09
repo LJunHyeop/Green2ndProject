@@ -10,6 +10,7 @@ import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
+import com.green.fefu.sms.SmsService;
 import com.green.fefu.teacher.model.dto.EntityArgument;
 import com.green.fefu.teacher.model.dto.TeacherEntity;
 import com.green.fefu.teacher.model.req.*;
@@ -20,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,9 @@ public class TeacherServiceImpl implements TeacherService {
     private final AppProperties appProperties;
     private final CookieUtils cookieUtils;
     private final PatternCheck patternCheck;
+    private final SmsService smsService;
+    @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
+
 
 
 //=====================================================================================================================
@@ -300,9 +305,10 @@ public class TeacherServiceImpl implements TeacherService {
 //        랜덤 코드 6자리 생성
         String code = SmsSender.makeRandomCode();
 //        휴대폰으로 문자 보내기
+
 //        짜야함 ( 미완성 )
         try {
-            SmsSender.sendSms(p.getPhone(), code);
+            smsService.sendPasswordSms(p.getPhone(), coolsmsApiCaller, code);
         } catch (Exception e) {
             throw new RuntimeException(SMS_SEND_ERROR);
         }
@@ -396,7 +402,10 @@ public class TeacherServiceImpl implements TeacherService {
         );
 
         String teacherClass = mapper.getCurrentClassesByTeacherId(teacher.getPk());
-        String tClass = Parser.classParser(teacherClass);
+        String tClass = null;
+        if (teacherClass != null) {
+            tClass = Parser.classParser(teacherClass);
+        }
 
         map.put(TEACHER_ID, teacher.getId());
         map.put(TEACHER_NAME, teacher.getName());
@@ -408,7 +417,9 @@ public class TeacherServiceImpl implements TeacherService {
 
 //        주소 자를껀지 물어보고 잘라야 하면 잘라서 보내주기
 //        (현재 우편번호 # 주소 ) 임
-        map.put(TEACHER_ADDR, teacher.getAddr());
+        String[] fullAddr = Parser.addressParser(teacher.getAddr());
+        map.put(TEACHER_ZONE_CODE, fullAddr[0]);
+        map.put(TEACHER_ADDR, fullAddr[1]);
 
         return map;
     }

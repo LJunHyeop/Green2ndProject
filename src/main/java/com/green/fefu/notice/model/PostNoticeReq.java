@@ -1,5 +1,6 @@
 package com.green.fefu.notice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,13 +15,15 @@ import java.beans.ConstructorProperties;
 @Setter
 @EqualsAndHashCode
 public class PostNoticeReq {
-    @JsonProperty("tea_id")
+    @JsonIgnore
+    //@JsonProperty("tea_id")
     private long teaId;
 
     private String title;
     private String content;
 
-    @JsonProperty("class_id")
+    @JsonIgnore
+    //@JsonProperty("class_id")
     private long classId;
 
     @ConstructorProperties({"tea_id", "title", "content", "class_id"})
