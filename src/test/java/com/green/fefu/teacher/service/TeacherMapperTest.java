@@ -2,6 +2,8 @@ package com.green.fefu.teacher.service;
 
 import com.green.fefu.teacher.model.dto.EntityArgument;
 import com.green.fefu.teacher.model.dto.TeacherEntity;
+import com.green.fefu.teacher.model.req.ChangePassWordReq;
+import com.green.fefu.teacher.model.req.ChangeTeacherReq;
 import com.green.fefu.teacher.model.req.CreateTeacherReq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,6 +37,7 @@ class TeacherMapperTest {
     }
 
     @Test
+    @DisplayName("선생 앤티티 가져오기")
     void getTeacher() {
         TeacherEntity entity = mapper.GetTeacher(EntityArgument.builder()
                 .pk(1L)
@@ -74,18 +77,52 @@ class TeacherMapperTest {
     }
 
     @Test
+    @DisplayName("선생 담당학급 가져오기")
     void getCurrentClassesByTeacherId() {
         String result = mapper.getCurrentClassesByTeacherId(1L);
-        assertEquals("101", result ,"담당 학급이 다릅니다");
+        assertEquals("101", result, "담당 학급이 다릅니다");
         result = mapper.getCurrentClassesByTeacherId(10L);
-        assertEquals("502", result ,"담당 학급이 다릅니다");
+        assertEquals("502", result, "담당 학급이 다릅니다");
     }
 
     @Test
+    @DisplayName("선생 비밀번호 변경")
     void changePassWord() {
+        ChangePassWordReq p = new ChangePassWordReq();
+        p.setTeacherId("teacher1");
+        p.setPassWord("password2");
+        p.setPk(1L);
+        int result = mapper.ChangePassWord(p);
+        assertEquals(1, result, "값이 바뀌지 않음");
+        TeacherEntity teacher = mapper.GetTeacher(EntityArgument.builder()
+                .pk(p.getPk())
+                .build()
+        );
+        assertEquals(p.getTeacherId(), teacher.getId(), "값 변경되지 않음");
+        assertEquals(p.getPassWord(), teacher.getPassword(), "값 변경되지 않음");
+
+
     }
 
     @Test
+    @DisplayName("선생 정보 변경")
     void changeTeacher() {
+        String msg = "값이 바뀌지 않음";
+        ChangeTeacherReq p = new ChangeTeacherReq();
+        p.setPk(1L);
+        p.setName("수현tv");
+        p.setPhone("010-0000-0000");
+        p.setEmail("test1234@naver.com");
+        p.setFullAddr("12345 # 서울 판교");
+        int result = mapper.ChangeTeacher(p);
+        assertEquals(1, result, "변경되지 않았다.");
+        TeacherEntity teacher = mapper.GetTeacher(EntityArgument.builder()
+                .pk(p.getPk())
+                .build()
+        );
+        assertEquals(p.getName(), teacher.getName(), msg);
+        assertEquals(p.getPhone(), teacher.getPhone(), msg);
+        assertEquals(p.getEmail(), teacher.getEmail(), msg);
+        assertEquals(p.getFullAddr(), teacher.getAddr(), msg);
     }
 }
