@@ -35,7 +35,7 @@ public class StudentControllerImpl implements StudentController {
 
     //    학생 생성
     @PostMapping
-    @Operation(summary = "학생 생성", description = "리턴 => 학생 PK")
+    @Operation(summary = "학생 생성 프론트 사용 XXXXX (백에서 데이터 넣을려고 만듦)", description = "리턴 => 학생 PK")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "studentPk : \"1\""
@@ -86,6 +86,7 @@ public class StudentControllerImpl implements StudentController {
             @ApiResponse(responseCode = "200",
                     description = "[\n" +
                             "  {\n" +
+                            "    \"num\": \"1\",\n" +
                             "    \"name\": \"홍길동\",\n" +
                             "    \"gender\": \"남자\",\n" +
                             "    \"birth\": \"2024-07-03\",\n" +
@@ -123,22 +124,29 @@ public class StudentControllerImpl implements StudentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "{\n" +
-                            "  \"studentBirth\": \"2024-07-03\",\n" +
+                            "  \"studentBirth\": \"2010-05-15\",\n" +
                             "  \"connet\": \"부\",\n" +
-                            "  \"teacherName\": \"백창현\",\n" +
-                            "  \"studentAddr\": \"대구 중구\",\n" +
-                            "  \"parentPhone\": \"010-1111-1111\",\n" +
-                            "  \"studentClass\": \"1학년 1반\",\n" +
+                            "  \"teacherName\": \"정선생\",\n" +
+                            "  \"studentAddr\": \"서울시 강남구\",\n" +
+                            "  \"parentId\": \"parent1\",\n" +
+                            "  \"parentPhone\": \"010-1234-5678\",\n" +
+                            "  \"studentClass\": \"2학년 1반\",\n" +
                             "  \"studentEtc\": null,\n" +
                             "  \"studentPk\": \"1\",\n" +
-                            "  \"studentId\": \"test1234\",\n" +
-                            "  \"studentZoneCode\": \"1324\",\n" +
-                            "  \"parentName\": \"부모\",\n" +
-                            "  \"studentGender\": \"남자\",\n" +
-                            "  \"studentName\": \"홍길동\",\n" +
+                            "  \"studentZoneCode\": \"123\",\n" +
+                            "  \"parentName\": \"김부모\",\n" +
+                            "  \"studentGender\": \"남\",\n" +
+                            "  \"studentName\": \"김학생\",\n" +
                             "  \"studentPic\": null,\n" +
-                            "  \"studentPhone\": \"010-0000-0000\",\n" +
-                            "  \"studentCreatedAt\": \"2024-07-03 15:55:03\"\n" +
+                            "  \"studentPhone\": \"010-1111-2222\",\n" +
+                            "  \"prevEtcList\": [\n" +
+                            "    {\n" +
+                            "      \"etc\": null,\n" +
+                            "      \"teacherName\": \"홍길동\",\n" +
+                            "      \"uclass\": \"101\"\n" +
+                            "    }\n" +
+                            "  ],\n" +
+                            "  \"studentCreatedAt\": \"2024-07-04 08:02:22\"\n" +
                             "}"
             ),
             @ApiResponse(responseCode = "404",

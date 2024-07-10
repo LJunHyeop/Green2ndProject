@@ -39,7 +39,8 @@ class NoticeControllerTest {
     @Test
     void postNotice() throws Exception{ //Json 통신! (HTTP통신의 기본)
         int result=1;
-        PostNoticeReq p=new PostNoticeReq(100, "제목 100", "내용 100", 100);
+        PostNoticeReq p=new PostNoticeReq();
+        p.setTeaId(100); p.setClassId(100); p.setTitle("100"); p.setContent("100");
         String reqJson=om.writeValueAsString(p); //객체를 JSON으로
 
         given(service.postNotice(p)).willReturn(result);

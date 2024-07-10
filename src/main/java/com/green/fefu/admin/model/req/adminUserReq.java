@@ -9,8 +9,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class adminUserReq {
-    @Schema(example = "1", description = "1-> 부모List, 2-> 선생List")
+    @Schema(example = "1", description = "1-> 부모List, 2-> 선생List", required = true)
     private Integer p;
-    @Schema(example = "1", description = "승인/반려 할 사용자 pk값")
+    @Schema(example = "1", description = "승인/반려 할 사용자 pk값", required = true)
     private Long pk;
 }
