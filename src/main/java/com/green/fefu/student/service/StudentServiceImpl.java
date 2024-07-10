@@ -190,8 +190,10 @@ public class StudentServiceImpl implements StudentService {
 //        이건 구현 해야함
 //        리스트 젤 마지막꺼 자르고 줘야함 ( 마지막껀 현재 정보기 때문 )
         List<prevStudentEtc> prevEtc = mapper.selPrevEtc(pk);
-        
-
+        log.info("prevEtc.size() = " + prevEtc.size());
+        prevEtc.remove(prevEtc.size()-1);
+        log.info("removePrevEtc.size() = " + prevEtc.size());
+        map.put(PREV_ETC_LIST, prevEtc);
 
         return map;
     }

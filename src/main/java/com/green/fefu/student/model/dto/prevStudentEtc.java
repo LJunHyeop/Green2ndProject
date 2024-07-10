@@ -8,4 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class prevStudentEtc {
+    private String uClass;
+    private String etc;
+    private String teacherName;
 }

@@ -143,4 +143,21 @@
         )
     </update>
 
+    <select id="selPrevEtc">
+        SELECT
+        sc.class_id AS uClass,
+        sc.etc AS etc,
+        t.nm AS teacherName
+        FROM
+        student_classes sc
+        JOIN
+        CLASS c
+        ON sc.class_id = c.class_id
+        JOIN teacher t
+        ON c.tea_id = t.tea_id
+        WHERE
+        sc.stu_id = #{pk}
+        ORDER BY uClass
+    </select>
+
 </mapper>
