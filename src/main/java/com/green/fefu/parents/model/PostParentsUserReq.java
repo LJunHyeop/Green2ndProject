@@ -10,10 +10,10 @@ import lombok.EqualsAndHashCode;
 public class PostParentsUserReq {
     @JsonIgnore
     private long parentsId;
-    @Schema(description = "아이디: 영어, 숫자포함 6~12자", required = true)
+    @Schema(description = "아이디", required = true)
     private String uid;
 
-    @Schema(description = "비밀번호: 영어소문자, 대문자, 특수문자, 숫자 포함 8~20자", required = true)
+    @Schema(description = "비밀번호", required = true)
     private String upw;
 
     @Schema(description = "이름", required = true)

@@ -162,44 +162,22 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     }
     @Override // access token
     public Map<String, Object> getAccessToken(HttpServletRequest req){
-        log.info("req: {}", req);
-
-        // Step 1: 쿠키 가져오기
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                log.info("Cookie: {}={}", cookie.getName(), cookie.getValue());
-            }
-        } else {
-            log.info("No cookies found");
-        }
-
         Cookie cookie = cookieUtils.getCookie(req, "refresh-token");
         if(cookie == null){
-            throw new RuntimeException("Refresh token cookie not found");
+            throw new RuntimeException();
         }
         String refreshToken = cookie.getValue();
-
-        // Step 2: 토큰 유효성 검사
         if(!jwtTokenProvider.isValidateToken(refreshToken)){
-            throw new RuntimeException("Invalid refresh token");
+            throw new RuntimeException();
         }
-
-        // Step 3: 토큰에서 사용자 정보 추출
         UserDetails auth = jwtTokenProvider.getUserDetailsFromToken(refreshToken);
-        if (auth == null) {
-            throw new RuntimeException("User details not found in token");
-        }
         MyUser myUser = ((MyUserDetails)auth).getMyUser();
-
-        // Step 4: 새로운 Access Token 생성
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
 
         Map<String, Object> map = new HashMap<>();
         map.put("accessToken", accessToken);
         return map;
     }
-
     @Override // 문자발송 비밀번호 찾기
     public void getFindPassword(GetFindPasswordReq req, Map map) {
         // 랜덤코드 6자리 생성
@@ -227,7 +205,6 @@ public class ParentsUserServiceImpl implements ParentsUserService {
             String path = String.format("sign/%d", req.getSignId()) ;
             String fullPath = customFileUtils.makeFolders(path) ;
             String saveFileName = customFileUtils.makeRandomFileName(pic) ;
-            log.info("Generated saveFileName: {}", saveFileName);
             String target = String.format("%s/%s", path, saveFileName) ;
 
             customFileUtils.transferTo(pic, target);

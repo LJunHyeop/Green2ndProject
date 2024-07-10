@@ -187,7 +187,13 @@ public class StudentServiceImpl implements StudentService {
         map.put(STUDENT_ADDR, addr[1]);
 
 //       역대 etc
-//       역대 성적 넣어야하지 않나?
+//        이건 구현 해야함
+//        리스트 젤 마지막꺼 자르고 줘야함 ( 마지막껀 현재 정보기 때문 )
+        List<prevStudentEtc> prevEtc = mapper.selPrevEtc(pk);
+        log.info("prevEtc.size() = " + prevEtc.size());
+        prevEtc.remove(prevEtc.size()-1);
+        log.info("removePrevEtc.size() = " + prevEtc.size());
+        map.put(PREV_ETC_LIST, prevEtc);
 
         return map;
     }
@@ -248,6 +254,9 @@ public class StudentServiceImpl implements StudentService {
 
 //        쿼리 실행
         for (studentAdvanceGradeReq item : p) {
+            String etc = mapper.getStudentEtc( Long.parseLong(item.getStudentPk()));
+            item.setEtc(etc);
+            mapper.updStudentEtc(Long.parseLong(item.getStudentPk()), etc);
             int result1 = mapper.updStudentGrade(item);
             int result2 = mapper.insNewClass(item);
 //        쿼리 에러
