@@ -116,7 +116,7 @@ class NoticeMapperTest {
         assertEquals(DEFAULT_NUM, allRes.size(), "전체 행의 개수가 다름");
 
         /*삭제 됐는지*/
-        DeleteNoticeReq req1 = new DeleteNoticeReq(1,1,101);
+        DeleteNoticeReq req1 = new DeleteNoticeReq(1,1);
         int effect = mapper.deleteNotice(req1);
         assertEquals( 1, effect, "영향 받은 행이 다름");
 

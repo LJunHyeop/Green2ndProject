@@ -24,6 +24,9 @@ public class NoticeServiceImpl implements NoticeService{
     public int postNotice(PostNoticeReq p){
         //p.setTeaId(authenticationFacade.getLoginUserId());
         p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
+        if(!(p.getState()==1) && !(p.getState()==2)){
+            throw new RuntimeException("정상적이지 않은 항목입니다.");
+        }
         log.info("service : {}",p);
         //로그인 안 된 사람 처리
         return mapper.postNotice(p);
@@ -31,12 +34,13 @@ public class NoticeServiceImpl implements NoticeService{
     public List<GetNoticeRes> getNotice(GetNoticeReq p){
         return mapper.getNotice(p);
     }
-    public int putNotice(PutNoticeReq p){
+    public int putNotice(PutNoticeReq p){ //구현 예정
         //p.setTeaId(authenticationFacade.getLoginUserId());
         return mapper.putNotice(p);
     }
     public int deleteNotice(DeleteNoticeReq p){
         //p.setTeaId(authenticationFacade.getLoginUserId());
+        p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
         return mapper.deleteNotice(p);
     }
 

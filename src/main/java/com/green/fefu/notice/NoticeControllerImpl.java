@@ -43,7 +43,7 @@ public class NoticeControllerImpl implements NoticeController{
                 .build();
     }
 
-    @PutMapping("")
+    @PutMapping("") //구현 예정
     @Operation(summary = "알림장 수정", description = "<strong>알림장 수정</strong>")
     public ResultDto<Integer> putNotice(@RequestBody PutNoticeReq p){
         int result=service.putNotice(p);

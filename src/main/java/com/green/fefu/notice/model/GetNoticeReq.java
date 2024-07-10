@@ -15,6 +15,8 @@ public class GetNoticeReq {
     @Schema(name="class_id")
     private long classId;
 
+    private int state;
+
     public GetNoticeReq(@BindParam("class_id")long classId) {
         this.classId = classId;
     }

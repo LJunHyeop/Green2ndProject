@@ -7,9 +7,9 @@
     <!--알림장 작성-->
     <insert id="postNotice">
         INSERT INTO notice
-        (tea_id, title, content, class_id)
+        (tea_id, title, content, class_id, state)
         VALUES
-        (#{teaId}, #{title}, #{content}, #{classId})
+        (#{teaId}, #{title}, #{content}, #{classId}, #{state})
     </insert>
 
 
@@ -18,11 +18,11 @@
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
                title, content, created_at AS createdAt, updated_at AS updatedAt
         FROM notice
-        WHERE class_id=#{classId}
+        WHERE class_id=#{classId} AND state=#{state}
     </select>
 
 
-    <!--알림장 수정-->
+    <!--알림장 수정(구현 예정)-->
     <update id="putNotice">
         UPDATE notice
         <set>
