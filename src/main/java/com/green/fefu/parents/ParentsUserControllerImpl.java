@@ -80,6 +80,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     @Override @GetMapping("/access-token") @Operation(summary = "accessToken - 확인")
     public ResponseEntity<Map> getAccessToken(@ModelAttribute @ParameterObject HttpServletRequest req) {
         Map<String, Object> res = service.getAccessToken(req) ;
+        log.info("reqController: {}", req);
         return ResponseEntity.ok().body(res) ;
     }
     // 학부모 비밀번호 찾기

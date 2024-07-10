@@ -148,6 +148,9 @@ public class StudentServiceImpl implements StudentService {
         if (list.size() == 0) {
             throw new RuntimeException(QUERY_RESULT_ERROR);
         }
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setNum(i+1);
+        }
         return list;
     }
 

@@ -55,7 +55,6 @@ public class JwtTokenProviderV2 {
                 .issuedAt(new Date(System.currentTimeMillis())) // JWT 생성일시
                 .expiration(new Date(System.currentTimeMillis() + tokenValidMilliSecond)) // JWT 만료일시
                 .claims(createClaims(myUser)) // claims는 payload에 저장하고 싶은 내용을 저장
-
                 .signWith(secretKey, Jwts.SIG.HS512) // 서명 (JWT 암호화 선택, 위변조 검증)
                 .compact(); //토큰 생성
 

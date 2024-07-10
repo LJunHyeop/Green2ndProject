@@ -1,21 +1,27 @@
 package com.green.fefu.parents;
 
 import com.green.fefu.parents.model.*;
+import com.green.fefu.student.model.req.createStudentReq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @MybatisTest
-@ActiveProfiles("tdd")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ParentsUserMapperTest {
     @Autowired ParentsUserMapper mapper;
+    @Value("${file.directory}") String uploadPath ;
 
     @Test @DisplayName("학부모 post") // 회원가입
     void postParentsUser() {
@@ -192,7 +198,7 @@ class ParentsUserMapperTest {
         ParentsUserEntity entity1 = mapper.getParentsUser(req1) ;
         assertNull(entity1);
     }
-    @Test @DisplayName("비밀번호 찾기 용 회원찾기") // 회원찾기
+    @Test @DisplayName("비밀번호 찾기 용 회원찾기") // 회원찾기 비밀번호
     void getFindPassword(){
         GetFindPasswordReq req = new GetFindPasswordReq() ;
         req.setUid("parent1");
@@ -205,5 +211,59 @@ class ParentsUserMapperTest {
         req1.setPhone("010-4252-4567");
         List<ParentsUserEntity> list1 = mapper.getParentUserList(req1) ;
         assertEquals(0, list1.size());
+    }
+    @Test @DisplayName("아이디, 이메일 중복체크") // 아이디, 이메일 중복 체크
+    void checkEmailOrUid(){
+        PostParentsUserReq p = new PostParentsUserReq();
+        p.setUid("p1");
+        p.setUpw("1212");
+        p.setNm("홍길동");
+        p.setPhone("010-1234-1234");
+        p.setConnet("부");
+        p.setEmail("tg03067@gmail.com");
+        p.setParentsId(1);
+        int affectedRow = mapper.postParentsUser(p);
+        assertEquals(1, affectedRow);
+
+        ParentsUserEntity entity = new ParentsUserEntity();
+        entity.setUid(p.getUid()) ;
+        entity.setUpw(p.getUpw()) ;
+        entity.setEmail(p.getEmail()) ;
+        entity.setParentsId(p.getParentsId()) ;
+        entity.setNm(p.getNm()) ;
+        entity.setPhone(p.getPhone()) ;
+        entity.setConnet(p.getConnet()) ;
+
+        ParentsUserEntity entity1 = new ParentsUserEntity() ;
+        entity1.setEmail("tg123123@gmail.com");
+
+        CheckEmailOrUidReq req = new CheckEmailOrUidReq() ;
+        req.setUid("p1") ;
+        CheckEmailOrUidRes res = mapper.checkEmailOrUid(req) ;
+        assertEquals(entity.getUid(), res.getUid()) ;
+
+        CheckEmailOrUidReq req1 = new CheckEmailOrUidReq() ;
+        req1.setEmail("asdf@gmail.com");
+        CheckEmailOrUidRes res1 = mapper.checkEmailOrUid(req) ;
+        assertNotEquals(entity1.getUid(), res1.getUid()) ;
+
+    }
+    @Test @DisplayName("전자서명") // 전자서명
+    void signature() throws IOException {
+        createStudentReq req = new createStudentReq() ;
+        req.setPk(1);
+        MultipartFile file = new MockMultipartFile("pic", "a.png","image/png",
+                new FileInputStream(String.format("%s/sign/a.png", uploadPath)));
+
+        SignatureReq signatureReq = SignatureReq
+                .builder()
+                .stuId(req.getPk())
+                .year(2024)
+                .pic(String.valueOf(file))
+                .semester(1)
+                .build() ;
+
+        int result = mapper.signature(signatureReq) ;
+        assertEquals(1, result, "1. 먼가 이상") ;
     }
 }

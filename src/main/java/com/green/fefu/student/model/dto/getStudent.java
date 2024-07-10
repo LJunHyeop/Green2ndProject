@@ -12,4 +12,5 @@ public class getStudent {
     private String phone;
     private String parentName;
     private String parentPhone;
+    private int num;
 }

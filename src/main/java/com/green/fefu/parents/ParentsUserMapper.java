@@ -28,6 +28,6 @@ public interface ParentsUserMapper {
 
     // TDD select
     List<ParentsUser> selTest(long signedId);
-    // 학생정보 수정 ( 학부모 pk )
-    int updStudent(UpdateStudentParentsIdReq p);
+    // 학생정보 수정
+
 }
