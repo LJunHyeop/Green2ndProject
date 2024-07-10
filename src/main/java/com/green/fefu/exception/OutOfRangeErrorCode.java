@@ -7,7 +7,13 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum OutOfRangeErrorCode implements ErrorCode{
 
-    NOTICE_STATE_CHECK(HttpStatus.BAD_REQUEST,"정상적이지 않은 항목을 호출하였습니다.");
+    NOTICE_STATE_CHECK(HttpStatus.BAD_REQUEST,"정상적이지 않은 알림장 항목을 호출하였습니다."),
+
+    CLASS_CHECK_PLEASE(HttpStatus.NOT_FOUND, "호출한 학급이 존재하지 않습니다.");
+
+    //권한 없음, 토큰 만료, 뭐가 또 있지........?!
+    //2학기 아직 시작 안 했는데 2학기 조회라던가 "해당학기의 정보를 조회할 수 없습니다."
+    //아이디 비번 일치, 회원정보, 비밀번호나 다른거 정규식,
 
     private final HttpStatus httpStatus;
     private final String message;

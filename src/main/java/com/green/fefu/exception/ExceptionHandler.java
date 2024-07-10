@@ -49,7 +49,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler{
         return MyErrorResponse.builder()
                 .statusCode(errorCode.getHttpStatus())
                 .resultMsg(errorCode.getMessage())
-                .resultData(errorCode.name())//enum의 이름
+                .result(errorCode.name())//enum의 이름
                 .valids(e==null? null: getValidationError(e)/*list*/)//validation 에러 메세지 정리
                 .build();
     }

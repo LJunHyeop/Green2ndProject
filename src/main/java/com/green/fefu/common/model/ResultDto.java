@@ -3,10 +3,11 @@ package com.green.fefu.common.model;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
-@Builder
+@SuperBuilder
 @Getter
 @EqualsAndHashCode
 public class ResultDto<T>{

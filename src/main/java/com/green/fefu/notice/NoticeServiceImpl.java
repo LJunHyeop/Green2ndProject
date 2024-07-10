@@ -22,6 +22,7 @@ public class NoticeServiceImpl implements NoticeService{
     public int postNotice(PostNoticeReq p){
         //p.setTeaId(authenticationFacade.getLoginUserId());
         p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
+        log.info("{}", p);
         if(!(p.getState()==1) && !(p.getState()==2)){
             throw new CustomException(OutOfRangeErrorCode.NOTICE_STATE_CHECK);
         }
