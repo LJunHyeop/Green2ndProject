@@ -12,6 +12,8 @@ public interface NoticeMapper {
     int putNotice(PutNoticeReq p); //구현 예정
     int deleteNotice(DeleteNoticeReq p);
 
+    int teacherHomeroom(long teaId);
+
     //TDD를 위한 메소드
     List<GetNoticeRes> getNoticeForTDD();
 
