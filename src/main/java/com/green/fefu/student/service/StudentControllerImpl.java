@@ -35,7 +35,7 @@ public class StudentControllerImpl implements StudentController {
 
     //    학생 생성
     @PostMapping
-    @Operation(summary = "학생 생성", description = "리턴 => 학생 PK")
+    @Operation(summary = "학생 생성 프론트 사용 XXXXX (백에서 데이터 넣을려고 만듦)", description = "리턴 => 학생 PK")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "studentPk : \"1\""
