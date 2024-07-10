@@ -9,7 +9,7 @@ import java.util.List;
 public interface NoticeMapper {
     int postNotice(PostNoticeReq p);
     List<GetNoticeRes> getNotice(GetNoticeReq p);
-    int putNotice(PutNoticeReq p);
+    int putNotice(PutNoticeReq p); //구현 예정
     int deleteNotice(DeleteNoticeReq p);
 
     //선생님의 담당 반을 찾는 메소드

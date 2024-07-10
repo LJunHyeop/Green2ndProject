@@ -18,14 +18,11 @@ public class PostNoticeReq {
     @JsonProperty("tea_id")
     //@JsonIgnore
     private long teaId;
-
     private String title;
     private String content;
 
-
     //@JsonProperty("class_id")
-    @JsonIgnore
+    @JsonIgnore //선생님이 맡은 학급을 자동으로 띄워줌
     private long classId;
-
-
+    private int state;
 }

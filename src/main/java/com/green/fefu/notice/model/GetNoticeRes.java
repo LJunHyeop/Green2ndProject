@@ -16,4 +16,5 @@ public class GetNoticeRes {
     private String content;
     private String createdAt;
     private String updatedAt;
+    private String state;
 }

@@ -17,13 +17,13 @@ public class DeleteNoticeReq {
     //@JsonIgnore
     @Schema(name="tea_id")
     private long teaId;
-    @Schema(name="class_id")
+    @JsonIgnore
+    //@Schema(name="class_id")
     private long classId;
 
-    @ConstructorProperties({"notice_id", "tea_id", "class_id"})
-    public DeleteNoticeReq(long noticeId, long teaId, long classId){
+    @ConstructorProperties({"notice_id", "tea_id"})
+    public DeleteNoticeReq(long noticeId, long teaId){
         this.noticeId=noticeId;
         this.teaId=teaId;
-        this.classId=classId;
     }
 }

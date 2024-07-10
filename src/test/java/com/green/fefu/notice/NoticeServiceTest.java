@@ -81,7 +81,7 @@ class NoticeServiceTest {
         assertEquals(mockList1, real,"리턴 리스트 값이 다름");
     }
 
-    //여기부터!
+
     @Test
     void putNotice() {
         PutNoticeReq req1=new PutNoticeReq();
@@ -97,7 +97,7 @@ class NoticeServiceTest {
 
     @Test
     void deleteNotice() {
-        DeleteNoticeReq req1=new DeleteNoticeReq(100,200, 300);
+        DeleteNoticeReq req1=new DeleteNoticeReq(100,200);
         given(mapper.deleteNotice(req1)).willReturn(EFFECT);
         int effect=service.deleteNotice(req1);
         verify(mapper).deleteNotice(req1);
