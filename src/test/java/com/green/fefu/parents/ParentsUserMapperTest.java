@@ -12,7 +12,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 @MybatisTest
-@ActiveProfiles("tdd")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ParentsUserMapperTest {
     @Autowired ParentsUserMapper mapper;
@@ -147,7 +146,6 @@ class ParentsUserMapperTest {
         PatchPasswordReq req1 = new PatchPasswordReq();
         req1.setUid(p.getUid());
         req1.setParentsId(p.getParentsId());
-        req1.setUpw("1212");
         req1.setNewUpw("123123");
         int affectedRow1 = mapper.patchPassword(req1);
         assertEquals(1, affectedRow1);
@@ -206,5 +204,19 @@ class ParentsUserMapperTest {
         req1.setPhone("010-4252-4567");
         List<ParentsUserEntity> list1 = mapper.getParentUserList(req1) ;
         assertEquals(0, list1.size());
+    }
+    @Test @DisplayName("전자서명") // 전자서명
+    void signature(){
+        SignatureReq req = SignatureReq.builder()
+                .stuId(1)
+                .year(2024)
+                .semester(1)
+                .pic("test-pic.png")
+                .build();
+
+        int result = mapper.signature(req);
+
+        assertNotNull(req.getSignId()); // useGeneratedKeys=true 이므로, signId가 자동으로 생성되었는지 확인
+        assertEquals(1, result);
     }
 }

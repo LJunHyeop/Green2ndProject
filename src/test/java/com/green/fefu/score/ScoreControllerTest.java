@@ -58,7 +58,6 @@ class ScoreControllerTest {
         p.setExam(1);
         p.setName("김철수철수");
         p.setMark(1);
-        p.setScId(1);
 
         String reqJson = om.writeValueAsString(p);
         given(service.postScore(p)).willReturn(1L);

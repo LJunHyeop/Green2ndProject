@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ExamMapperTest {
     @Autowired
-    private ExamMapper mapper;
+    private ExamMapperTest mapperTest;
 
     @Test
     void examIns() {

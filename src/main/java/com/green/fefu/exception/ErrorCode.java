@@ -1,8 +1,10 @@
 package com.green.fefu.exception;
 
+import org.springframework.http.HttpStatus;
+
 public interface ErrorCode {
     String name();
-    String getHttpStatus();
+    HttpStatus getHttpStatus();
     String getMessage();
 
 }
