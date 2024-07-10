@@ -861,3 +861,593 @@ java.sql.SQLIntegrityConstraintViolationException: (conn=76) Column 'class_id' i
 [[34m2024-07-10 15:58:06[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mClosing JPA EntityManagerFactory for persistence unit 'default'[0;39m]
 [[34m2024-07-10 15:58:06[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-2 - Shutdown initiated...[0;39m]
 [[34m2024-07-10 15:58:06[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-2 - Shutdown completed.[0;39m]
+[[34m2024-07-10 16:16:51[0;39m [32mINFO [0;39mbackground-preinit] [[33morg.hibernate.validator.internal.util.Version[0;39m] [[35mHV000001: Hibernate Validator 8.0.1.Final[0;39m]
+[[34m2024-07-10 16:16:51[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarting FefuApplication using Java 17.0.10 with PID 6856 (D:\Students\BCH\backEnd\fefu\build\classes\java\main started by Administrator in D:\Students\BCH\backEnd\fefu)[0;39m]
+[[34m2024-07-10 16:16:51[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mNo active profile set, falling back to 1 default profile: "default"[0;39m]
+[[34m2024-07-10 16:16:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mDevtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable[0;39m]
+[[34m2024-07-10 16:16:51[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mFor additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'[0;39m]
+[[34m2024-07-10 16:16:52[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mBootstrapping Spring Data JPA repositories in DEFAULT mode.[0;39m]
+[[34m2024-07-10 16:16:52[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mFinished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.[0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat initialized with port 8080 (http)[0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mInitializing ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardService[0;39m] [[35mStarting service [Tomcat][0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardEngine[0;39m] [[35mStarting Servlet engine: [Apache Tomcat/10.1.25][0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring embedded WebApplicationContext[0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.servlet.context.ServletWebServerApplicationContext[0;39m] [[35mRoot WebApplicationContext: initialization completed in 1640 ms[0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Starting...[0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.pool.HikariPool[0;39m] [[35mHikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@4d4ae96a[0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Start completed.[0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.jpa.internal.util.LogHelper[0;39m] [[35mHHH000204: Processing PersistenceUnitInfo [name: default][0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.Version[0;39m] [[35mHHH000412: Hibernate ORM core version 6.5.2.Final[0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.cache.internal.RegionFactoryInitiator[0;39m] [[35mHHH000026: Second-level cache disabled[0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo[0;39m] [[35mNo LoadTimeWeaver setup: ignoring JPA class transformer[0;39m]
+[[34m2024-07-10 16:16:53[0;39m [32mDEBUG[0;39mrestartedMain] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
+1. SELECT @@character_set_database, @@sql_mode
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-10 16:16:53[0;39m [33mWARN [0;39mrestartedMain] [[33morg.hibernate.orm.deprecation[0;39m] [[35mHHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)[0;39m]
+[[34m2024-07-10 16:16:54[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator[0;39m] [[35mHHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)[0;39m]
+[[34m2024-07-10 16:16:54[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mInitialized JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-10 16:16:54[0;39m [33mWARN [0;39mrestartedMain] [[33morg.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration[0;39m] [[35mspring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning[0;39m]
+[[34m2024-07-10 16:16:54[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.actuate.endpoint.web.EndpointLinksResolver[0;39m] [[35mExposing 15 endpoints beneath base path '/actuator'[0;39m]
+[[34m2024-07-10 16:16:55[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer[0;39m] [[35mLiveReload server is running on port 35729[0;39m]
+[[34m2024-07-10 16:16:55[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStarting ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-10 16:16:55[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat started on port 8080 (http) with context path '/'[0;39m]
+[[34m2024-07-10 16:16:55[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarted FefuApplication in 4.357 seconds (process running for 4.945)[0;39m]
+[[34m2024-07-10 16:16:55[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring DispatcherServlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-10 16:16:55[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mInitializing Servlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-10 16:16:55[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mCompleted initialization in 1 ms[0;39m]
+[[34m2024-07-10 16:26:18[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mClosing JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-10 16:26:18[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
+[[34m2024-07-10 16:26:18[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]
+[2024-07-10 16:32:18 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-10 16:32:18 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Starting StudentMapperTest using Java 17.0.11 with PID 3076 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-10 16:32:18 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-10 16:32:18 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-10 16:32:18 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@35fa450f]
+[2024-07-10 16:32:18 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-10 16:32:18 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Started StudentMapperTest in 1.229 seconds (process running for 2.153)]
+[2024-07-10 16:32:19 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        s.stu_id AS pk,
+        s.name AS name,
+        s.gender AS gender,
+        s.birth AS birth,
+        s.phone AS phone,
+        s.addr AS addr,
+        s.etc AS etc,
+        s.created_at AS createdAt,
+        sc.class_id AS uClass,
+        p.parents_id AS parentId,
+        p.nm AS parentName,
+        p.connet AS connet,
+        p.phone AS parentPhone,
+        s.pic AS pic,
+        t.nm AS teacherName
+        FROM
+        student s
+        LEFT JOIN
+        parents p ON s.parents_id = p.parents_id
+        LEFT JOIN
+        student_classes sc ON s.stu_id = sc.stu_id
+        LEFT JOIN
+        class c ON sc.class_id = c.class_id
+        LEFT JOIN
+        teacher t ON c.tea_id = t.tea_id
+        WHERE
+        s.stu_id = 1
+        LIMIT 1
+ {executed in 1 msec}]
+[2024-07-10 16:32:19 INFO Test worker] [jdbc.resultsettable] [
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+|stu_id |name |gender |birth      |phone         |addr              |etc        |created_at          |class_id |parents_id |nm  |connet |phone         |pic |nm  |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+|1      |홍길동  |남      |2010-05-15 |010-0000-0000 |1234 # 서울 판교로 112 |갑각류 알러지 있음 |2024-07-04 08:02:22 |201      |1          |김부모 |부      |010-1234-5678 |null|정선생 |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+]
+[2024-07-10 16:32:19 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-10 16:32:19 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
+[2024-07-10 16:32:33 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-10 16:32:33 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Starting StudentMapperTest using Java 17.0.11 with PID 3364 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-10 16:32:33 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-10 16:32:34 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-10 16:32:34 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@13516600]
+[2024-07-10 16:32:34 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-10 16:32:34 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Started StudentMapperTest in 1.179 seconds (process running for 2.085)]
+[2024-07-10 16:32:35 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        s.stu_id AS pk,
+        s.name AS name,
+        s.gender AS gender,
+        s.birth AS birth,
+        s.phone AS phone,
+        s.addr AS addr,
+        s.etc AS etc,
+        s.created_at AS createdAt,
+        sc.class_id AS uClass,
+        p.parents_id AS parentId,
+        p.nm AS parentName,
+        p.connet AS connet,
+        p.phone AS parentPhone,
+        s.pic AS pic,
+        t.nm AS teacherName
+        FROM
+        student s
+        LEFT JOIN
+        parents p ON s.parents_id = p.parents_id
+        LEFT JOIN
+        student_classes sc ON s.stu_id = sc.stu_id
+        LEFT JOIN
+        class c ON sc.class_id = c.class_id
+        LEFT JOIN
+        teacher t ON c.tea_id = t.tea_id
+        WHERE
+        s.stu_id = 1
+        LIMIT 1
+ {executed in 1 msec}]
+[2024-07-10 16:32:35 INFO Test worker] [jdbc.resultsettable] [
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+|stu_id |name |gender |birth      |phone         |addr              |etc        |created_at          |class_id |parents_id |nm  |connet |phone         |pic |nm  |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+|1      |홍길동  |남      |2010-05-15 |010-0000-0000 |1234 # 서울 판교로 112 |갑각류 알러지 있음 |2024-07-04 08:02:22 |201      |1          |김부모 |부      |010-1234-5678 |null|정선생 |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+]
+[2024-07-10 16:32:35 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-10 16:32:35 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
+[2024-07-10 16:33:41 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-10 16:33:41 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Starting StudentMapperTest using Java 17.0.11 with PID 11904 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-10 16:33:41 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-10 16:33:41 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-10 16:33:42 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@35d7386b]
+[2024-07-10 16:33:42 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-10 16:33:42 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Started StudentMapperTest in 1.187 seconds (process running for 2.083)]
+[2024-07-10 16:33:42 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        s.stu_id AS pk,
+        s.name AS name,
+        s.gender AS gender,
+        s.birth AS birth,
+        s.phone AS phone,
+        s.addr AS addr,
+        s.etc AS etc,
+        s.created_at AS createdAt,
+        sc.class_id AS uClass,
+        p.parents_id AS parentId,
+        p.nm AS parentName,
+        p.connet AS connet,
+        p.phone AS parentPhone,
+        s.pic AS pic,
+        t.nm AS teacherName
+        FROM
+        student s
+        LEFT JOIN
+        parents p ON s.parents_id = p.parents_id
+        LEFT JOIN
+        student_classes sc ON s.stu_id = sc.stu_id
+        LEFT JOIN
+        class c ON sc.class_id = c.class_id
+        LEFT JOIN
+        teacher t ON c.tea_id = t.tea_id
+        WHERE
+        s.stu_id = 1
+        LIMIT 1
+ {executed in 1 msec}]
+[2024-07-10 16:33:42 INFO Test worker] [jdbc.resultsettable] [
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+|stu_id |name |gender |birth      |phone         |addr              |etc        |created_at          |class_id |parents_id |nm  |connet |phone         |pic |nm  |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+|1      |홍길동  |남      |2010-05-15 |010-0000-0000 |1234 # 서울 판교로 112 |갑각류 알러지 있음 |2024-07-04 08:02:22 |201      |1          |김부모 |부      |010-1234-5678 |null|정선생 |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+]
+[2024-07-10 16:33:42 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-10 16:33:42 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
+[[34m2024-07-10 16:37:12[0;39m [32mINFO [0;39mbackground-preinit] [[33morg.hibernate.validator.internal.util.Version[0;39m] [[35mHV000001: Hibernate Validator 8.0.1.Final[0;39m]
+[[34m2024-07-10 16:37:12[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarting FefuApplication using Java 17.0.10 with PID 676 (D:\Students\BCH\backEnd\fefu\build\classes\java\main started by Administrator in D:\Students\BCH\backEnd\fefu)[0;39m]
+[[34m2024-07-10 16:37:12[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mNo active profile set, falling back to 1 default profile: "default"[0;39m]
+[[34m2024-07-10 16:37:12[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mDevtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable[0;39m]
+[[34m2024-07-10 16:37:12[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mFor additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'[0;39m]
+[[34m2024-07-10 16:37:13[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mBootstrapping Spring Data JPA repositories in DEFAULT mode.[0;39m]
+[[34m2024-07-10 16:37:13[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mFinished Spring Data repository scanning in 11 ms. Found 0 JPA repository interfaces.[0;39m]
+[[34m2024-07-10 16:37:13[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat initialized with port 8080 (http)[0;39m]
+[[34m2024-07-10 16:37:13[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mInitializing ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-10 16:37:13[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardService[0;39m] [[35mStarting service [Tomcat][0;39m]
+[[34m2024-07-10 16:37:13[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardEngine[0;39m] [[35mStarting Servlet engine: [Apache Tomcat/10.1.25][0;39m]
+[[34m2024-07-10 16:37:13[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring embedded WebApplicationContext[0;39m]
+[[34m2024-07-10 16:37:13[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.servlet.context.ServletWebServerApplicationContext[0;39m] [[35mRoot WebApplicationContext: initialization completed in 1630 ms[0;39m]
+[[34m2024-07-10 16:37:14[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Starting...[0;39m]
+[[34m2024-07-10 16:37:14[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.pool.HikariPool[0;39m] [[35mHikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@56efad10[0;39m]
+[[34m2024-07-10 16:37:14[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Start completed.[0;39m]
+[[34m2024-07-10 16:37:14[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.jpa.internal.util.LogHelper[0;39m] [[35mHHH000204: Processing PersistenceUnitInfo [name: default][0;39m]
+[[34m2024-07-10 16:37:14[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.Version[0;39m] [[35mHHH000412: Hibernate ORM core version 6.5.2.Final[0;39m]
+[[34m2024-07-10 16:37:14[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.cache.internal.RegionFactoryInitiator[0;39m] [[35mHHH000026: Second-level cache disabled[0;39m]
+[[34m2024-07-10 16:37:14[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo[0;39m] [[35mNo LoadTimeWeaver setup: ignoring JPA class transformer[0;39m]
+[[34m2024-07-10 16:37:14[0;39m [32mDEBUG[0;39mrestartedMain] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
+1. SELECT @@character_set_database, @@sql_mode
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-10 16:37:14[0;39m [33mWARN [0;39mrestartedMain] [[33morg.hibernate.orm.deprecation[0;39m] [[35mHHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)[0;39m]
+[[34m2024-07-10 16:37:14[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator[0;39m] [[35mHHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)[0;39m]
+[[34m2024-07-10 16:37:14[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mInitialized JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-10 16:37:15[0;39m [33mWARN [0;39mrestartedMain] [[33morg.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration[0;39m] [[35mspring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning[0;39m]
+[[34m2024-07-10 16:37:15[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.actuate.endpoint.web.EndpointLinksResolver[0;39m] [[35mExposing 15 endpoints beneath base path '/actuator'[0;39m]
+[[34m2024-07-10 16:37:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer[0;39m] [[35mLiveReload server is running on port 35729[0;39m]
+[[34m2024-07-10 16:37:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStarting ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-10 16:37:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat started on port 8080 (http) with context path '/'[0;39m]
+[[34m2024-07-10 16:37:16[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarted FefuApplication in 4.495 seconds (process running for 5.041)[0;39m]
+[[34m2024-07-10 16:37:16[0;39m [32mINFO [0;39mRMI TCP Connection(3)-192.168.0.48] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring DispatcherServlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-10 16:37:16[0;39m [32mINFO [0;39mRMI TCP Connection(3)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mInitializing Servlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-10 16:37:16[0;39m [32mINFO [0;39mRMI TCP Connection(3)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mCompleted initialization in 3 ms[0;39m]
+[[34m2024-07-10 16:37:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 16:37:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 16:37:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-3] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 16:37:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 16:37:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 16:37:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 16:37:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-5] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 16:37:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-9] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 16:37:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-8] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 16:37:18[0;39m [32mINFO [0;39mhttp-nio-8080-exec-10] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 16:37:19[0;39m [32mINFO [0;39mhttp-nio-8080-exec-10] [[33morg.springdoc.api.AbstractOpenApiResource[0;39m] [[35mInit duration for springdoc-openapi is: 378 ms[0;39m]
+[[34m2024-07-10 16:37:22[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 16:37:22[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.teacher.service.TeacherControllerImpl[0;39m] [[35mLogInTeacher req: LogInTeacherReq(teacherId=test1234, password=Test1234!@#$)[0;39m]
+[[34m2024-07-10 16:37:22[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-1] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT tea_id AS pk, uid AS id, upw AS password,
+                nm AS name, phone, email, gender, auth,
+                birth, addr, acept,
+                created_at AS createdAt, updated_at AS updatedAt
+        FROM teacher
+         WHERE  uid = 'test1234'
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-10 16:37:22[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mjdbc.resultsettable[0;39m] [[35m
+|-------|---------|-------------------------------------------------------------|----|--------------|--------------------|-------|-----------|-----------|--------------|------|--------------------|--------------------|
+|tea_id |uid      |upw                                                          |nm  |phone         |email               |gender |auth       |birth      |addr          |acept |created_at          |updated_at          |
+|-------|---------|-------------------------------------------------------------|----|--------------|--------------------|-------|-----------|-----------|--------------|------|--------------------|--------------------|
+|1      |test1234 |$2a$10$SC5oEMeIPMVTM8R/TYwRl.NQsCiOgLrNIna2eQl3PXXXQ7YVIh5/C |홍길동 |010-3333-4444 |teacher1@school.com |여      |ROLE_ADMIN |1980-03-10 |123 # 서울시 강남구 |2     |2024-07-04 08:02:22 |2024-07-09 18:02:11 |
+|-------|---------|-------------------------------------------------------------|----|--------------|--------------------|-------|-----------|-----------|--------------|------|--------------------|--------------------|
+[0;39m]
+[[34m2024-07-10 16:37:22[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-1] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        c.class_id AS classId
+        FROM
+        class AS c
+        JOIN
+        teacher AS t
+        ON c.tea_id = t.tea_id
+        WHERE
+        t.tea_id = 1
+        AND YEAR(c.created_at) = YEAR(CURDATE())
+ {executed in 1 msec}[0;39m]
+[[34m2024-07-10 16:37:22[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mjdbc.resultsettable[0;39m] [[35m
+|---------|
+|class_id |
+|---------|
+|101      |
+|---------|
+[0;39m]
+[[34m2024-07-10 16:37:36[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjA1OTcwNDIsImV4cCI6MTcyMDU5NzY0Miwic2lnbmVkVXNlciI6IntcInVzZXJJZFwiOjEsXCJyb2xlXCI6XCJST0xFX0FETUlOXCJ9In0.-SQ7RbyYShhGFpszE5hH-PjjE4rXnew8Um1aBomE1JXO6ibO7DxEQnofvBnWs6Ns7POsbk6WPFq2w0HPqz3ztw[0;39m]
+[[34m2024-07-10 16:37:36[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mcom.green.fefu.student.service.StudentControllerImpl[0;39m] [[35mgetStudentDetail req : 1[0;39m]
+[[34m2024-07-10 16:37:36[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-2] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        s.stu_id AS pk,
+        s.name AS name,
+        s.gender AS gender,
+        s.birth AS birth,
+        s.phone AS phone,
+        s.addr AS addr,
+        s.etc AS etc,
+        s.created_at AS createdAt,
+        sc.class_id AS uClass,
+        p.parents_id AS parentId,
+        p.nm AS parentName,
+        p.connet AS connet,
+        p.phone AS parentPhone,
+        s.pic AS pic,
+        t.nm AS teacherName
+        FROM
+        student s
+        LEFT JOIN
+        parents p ON s.parents_id = p.parents_id
+        LEFT JOIN
+        student_classes sc ON s.stu_id = sc.stu_id
+        LEFT JOIN
+        class c ON sc.class_id = c.class_id
+        LEFT JOIN
+        teacher t ON c.tea_id = t.tea_id
+        WHERE
+        s.stu_id = 1
+        LIMIT 1
+ {executed in 0 msec}[0;39m]
+[[34m2024-07-10 16:37:36[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mjdbc.resultsettable[0;39m] [[35m
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+|stu_id |name |gender |birth      |phone         |addr              |etc        |created_at          |class_id |parents_id |nm  |connet |phone         |pic |nm  |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+|1      |홍길동  |남      |2010-05-15 |010-0000-0000 |1234 # 서울 판교로 112 |갑각류 알러지 있음 |2024-07-04 08:02:22 |201      |1          |김부모 |부      |010-1234-5678 |null|정선생 |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|-----------|----|-------|--------------|----|----|
+[0;39m]
+[[34m2024-07-10 16:37:36[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-2] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        sc.class_id AS uClass,
+        sc.etc AS etc,
+        t.nm AS teacherName
+        FROM
+        student_classes sc
+        JOIN
+        CLASS c
+        ON sc.class_id = c.class_id
+        JOIN teacher t
+        ON c.tea_id = t.tea_id
+        WHERE
+        sc.stu_id = 1
+        ORDER BY uClass
+ {executed in 0 msec}[0;39m]
+[[34m2024-07-10 16:37:36[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mjdbc.resultsettable[0;39m] [[35m
+|---------|-------|----|
+|class_id |etc    |nm  |
+|---------|-------|----|
+|101      |null   |홍길동 |
+|201      |새우 알러지 |정선생 |
+|---------|-------|----|
+[0;39m]
+[[34m2024-07-10 16:37:36[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mcom.green.fefu.student.service.StudentServiceImpl[0;39m] [[35mprevEtc.size() = 2[0;39m]
+[[34m2024-07-10 16:37:36[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mcom.green.fefu.student.service.StudentServiceImpl[0;39m] [[35mremovePrevEtc.size() = 1[0;39m]
+[[34m2024-07-10 16:39:46[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mClosing JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-10 16:39:46[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
+[[34m2024-07-10 16:39:46[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]
+[2024-07-10 16:51:46 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-10 16:51:46 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Starting StudentMapperTest using Java 17.0.11 with PID 3880 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-10 16:51:46 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-10 16:51:47 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-10 16:51:47 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@35fa450f]
+[2024-07-10 16:51:47 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-10 16:51:47 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Started StudentMapperTest in 1.174 seconds (process running for 2.068)]
+[2024-07-10 16:51:48 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        s.stu_id AS pk,
+        s.name AS name,
+        s.gender AS gender,
+        s.birth AS birth,
+        s.phone AS phone,
+        s.addr AS addr,
+        s.etc AS etc,
+        s.created_at AS createdAt,
+        sc.class_id AS uClass,
+        p.uid AS parentId,
+        p.nm AS parentName,
+        p.connet AS connet,
+        p.phone AS parentPhone,
+        s.pic AS pic,
+        t.nm AS teacherName
+        FROM
+        student s
+        LEFT JOIN
+        parents p ON s.parents_id = p.parents_id
+        LEFT JOIN
+        student_classes sc ON s.stu_id = sc.stu_id
+        LEFT JOIN
+        class c ON sc.class_id = c.class_id
+        LEFT JOIN
+        teacher t ON c.tea_id = t.tea_id
+        WHERE
+        s.stu_id = 1
+        LIMIT 1
+ {executed in 1 msec}]
+[2024-07-10 16:51:48 INFO Test worker] [jdbc.resultsettable] [
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|--------|----|-------|--------------|----|----|
+|stu_id |name |gender |birth      |phone         |addr              |etc        |created_at          |class_id |uid     |nm  |connet |phone         |pic |nm  |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|--------|----|-------|--------------|----|----|
+|1      |홍길동  |남      |2010-05-15 |010-0000-0000 |1234 # 서울 판교로 112 |갑각류 알러지 있음 |2024-07-04 08:02:22 |201      |parent1 |김부모 |부      |010-1234-5678 |null|정선생 |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|--------|----|-------|--------------|----|----|
+]
+[2024-07-10 16:51:48 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-10 16:51:48 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
+[2024-07-10 16:52:38 INFO background-preinit] [org.hibernate.validator.internal.util.Version] [HV000001: Hibernate Validator 8.0.1.Final]
+[2024-07-10 16:52:38 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Starting StudentMapperTest using Java 17.0.11 with PID 1716 (started by Administrator in D:\Students\BCH\backEnd\fefu)]
+[2024-07-10 16:52:38 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [No active profile set, falling back to 1 default profile: "default"]
+[2024-07-10 16:52:39 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Starting...]
+[2024-07-10 16:52:39 INFO Test worker] [com.zaxxer.hikari.pool.HikariPool] [HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@21002393]
+[2024-07-10 16:52:39 INFO Test worker] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Start completed.]
+[2024-07-10 16:52:39 INFO Test worker] [com.green.fefu.student.service.StudentMapperTest] [Started StudentMapperTest in 1.175 seconds (process running for 2.07)]
+[2024-07-10 16:52:40 DEBUGTest worker] [jdbc.sqltiming] [ com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+        s.stu_id AS pk,
+        s.name AS name,
+        s.gender AS gender,
+        s.birth AS birth,
+        s.phone AS phone,
+        s.addr AS addr,
+        s.etc AS etc,
+        s.created_at AS createdAt,
+        sc.class_id AS uClass,
+        p.uid AS parentId,
+        p.nm AS parentName,
+        p.connet AS connet,
+        p.phone AS parentPhone,
+        s.pic AS pic,
+        t.nm AS teacherName
+        FROM
+        student s
+        LEFT JOIN
+        parents p ON s.parents_id = p.parents_id
+        LEFT JOIN
+        student_classes sc ON s.stu_id = sc.stu_id
+        LEFT JOIN
+        class c ON sc.class_id = c.class_id
+        LEFT JOIN
+        teacher t ON c.tea_id = t.tea_id
+        WHERE
+        s.stu_id = 1
+        LIMIT 1
+ {executed in 1 msec}]
+[2024-07-10 16:52:40 INFO Test worker] [jdbc.resultsettable] [
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|--------|----|-------|--------------|----|----|
+|stu_id |name |gender |birth      |phone         |addr              |etc        |created_at          |class_id |uid     |nm  |connet |phone         |pic |nm  |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|--------|----|-------|--------------|----|----|
+|1      |홍길동  |남      |2010-05-15 |010-0000-0000 |1234 # 서울 판교로 112 |갑각류 알러지 있음 |2024-07-04 08:02:22 |201      |parent1 |김부모 |부      |010-1234-5678 |null|정선생 |
+|-------|-----|-------|-----------|--------------|------------------|-----------|--------------------|---------|--------|----|-------|--------------|----|----|
+]
+[2024-07-10 16:52:40 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown initiated...]
+[2024-07-10 16:52:40 INFO SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] [HikariPool-1 - Shutdown completed.]
+[[34m2024-07-10 17:06:09[0;39m [32mINFO [0;39mbackground-preinit] [[33morg.hibernate.validator.internal.util.Version[0;39m] [[35mHV000001: Hibernate Validator 8.0.1.Final[0;39m]
+[[34m2024-07-10 17:06:09[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarting FefuApplication using Java 17.0.10 with PID 9204 (D:\Students\BCH\backEnd\fefu\build\classes\java\main started by Administrator in D:\Students\BCH\backEnd\fefu)[0;39m]
+[[34m2024-07-10 17:06:09[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mNo active profile set, falling back to 1 default profile: "default"[0;39m]
+[[34m2024-07-10 17:06:09[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mDevtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable[0;39m]
+[[34m2024-07-10 17:06:09[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mFor additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'[0;39m]
+[[34m2024-07-10 17:06:10[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mBootstrapping Spring Data JPA repositories in DEFAULT mode.[0;39m]
+[[34m2024-07-10 17:06:10[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mFinished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.[0;39m]
+[[34m2024-07-10 17:06:10[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat initialized with port 8080 (http)[0;39m]
+[[34m2024-07-10 17:06:10[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mInitializing ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-10 17:06:10[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardService[0;39m] [[35mStarting service [Tomcat][0;39m]
+[[34m2024-07-10 17:06:10[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardEngine[0;39m] [[35mStarting Servlet engine: [Apache Tomcat/10.1.25][0;39m]
+[[34m2024-07-10 17:06:10[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring embedded WebApplicationContext[0;39m]
+[[34m2024-07-10 17:06:10[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.servlet.context.ServletWebServerApplicationContext[0;39m] [[35mRoot WebApplicationContext: initialization completed in 1554 ms[0;39m]
+[[34m2024-07-10 17:06:11[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Starting...[0;39m]
+[[34m2024-07-10 17:06:11[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.pool.HikariPool[0;39m] [[35mHikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@5c8596d3[0;39m]
+[[34m2024-07-10 17:06:11[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Start completed.[0;39m]
+[[34m2024-07-10 17:06:11[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.jpa.internal.util.LogHelper[0;39m] [[35mHHH000204: Processing PersistenceUnitInfo [name: default][0;39m]
+[[34m2024-07-10 17:06:11[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.Version[0;39m] [[35mHHH000412: Hibernate ORM core version 6.5.2.Final[0;39m]
+[[34m2024-07-10 17:06:11[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.cache.internal.RegionFactoryInitiator[0;39m] [[35mHHH000026: Second-level cache disabled[0;39m]
+[[34m2024-07-10 17:06:11[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo[0;39m] [[35mNo LoadTimeWeaver setup: ignoring JPA class transformer[0;39m]
+[[34m2024-07-10 17:06:11[0;39m [32mDEBUG[0;39mrestartedMain] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
+1. SELECT @@character_set_database, @@sql_mode
+ {executed in 0 msec}[0;39m]
+[[34m2024-07-10 17:06:11[0;39m [33mWARN [0;39mrestartedMain] [[33morg.hibernate.orm.deprecation[0;39m] [[35mHHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)[0;39m]
+[[34m2024-07-10 17:06:11[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator[0;39m] [[35mHHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)[0;39m]
+[[34m2024-07-10 17:06:11[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mInitialized JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-10 17:06:12[0;39m [33mWARN [0;39mrestartedMain] [[33morg.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration[0;39m] [[35mspring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning[0;39m]
+[[34m2024-07-10 17:06:12[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.actuate.endpoint.web.EndpointLinksResolver[0;39m] [[35mExposing 15 endpoints beneath base path '/actuator'[0;39m]
+[[34m2024-07-10 17:06:13[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer[0;39m] [[35mLiveReload server is running on port 35729[0;39m]
+[[34m2024-07-10 17:06:13[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStarting ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-10 17:06:13[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat started on port 8080 (http) with context path '/'[0;39m]
+[[34m2024-07-10 17:06:13[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarted FefuApplication in 4.31 seconds (process running for 4.755)[0;39m]
+[[34m2024-07-10 17:06:13[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring DispatcherServlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-10 17:06:13[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mInitializing Servlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-10 17:06:13[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mCompleted initialization in 3 ms[0;39m]
+[[34m2024-07-10 17:06:41[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:06:41[0;39m [33mWARN [0;39mhttp-nio-8080-exec-1] [[33morg.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver[0;39m] [[35mResolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded][0;39m]
+[[34m2024-07-10 17:07:13[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mClosing JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-10 17:07:13[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
+[[34m2024-07-10 17:07:13[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]
+[[34m2024-07-10 17:07:15[0;39m [32mINFO [0;39mbackground-preinit] [[33morg.hibernate.validator.internal.util.Version[0;39m] [[35mHV000001: Hibernate Validator 8.0.1.Final[0;39m]
+[[34m2024-07-10 17:07:15[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarting FefuApplication using Java 17.0.10 with PID 13964 (D:\Students\BCH\backEnd\fefu\build\classes\java\main started by Administrator in D:\Students\BCH\backEnd\fefu)[0;39m]
+[[34m2024-07-10 17:07:15[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mNo active profile set, falling back to 1 default profile: "default"[0;39m]
+[[34m2024-07-10 17:07:15[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mDevtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable[0;39m]
+[[34m2024-07-10 17:07:15[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor[0;39m] [[35mFor additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'[0;39m]
+[[34m2024-07-10 17:07:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mBootstrapping Spring Data JPA repositories in DEFAULT mode.[0;39m]
+[[34m2024-07-10 17:07:16[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mFinished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.[0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat initialized with port 8080 (http)[0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mInitializing ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardService[0;39m] [[35mStarting service [Tomcat][0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardEngine[0;39m] [[35mStarting Servlet engine: [Apache Tomcat/10.1.25][0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring embedded WebApplicationContext[0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.servlet.context.ServletWebServerApplicationContext[0;39m] [[35mRoot WebApplicationContext: initialization completed in 1578 ms[0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Starting...[0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.pool.HikariPool[0;39m] [[35mHikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@53e1474e[0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Start completed.[0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.jpa.internal.util.LogHelper[0;39m] [[35mHHH000204: Processing PersistenceUnitInfo [name: default][0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.Version[0;39m] [[35mHHH000412: Hibernate ORM core version 6.5.2.Final[0;39m]
+[[34m2024-07-10 17:07:17[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.cache.internal.RegionFactoryInitiator[0;39m] [[35mHHH000026: Second-level cache disabled[0;39m]
+[[34m2024-07-10 17:07:18[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo[0;39m] [[35mNo LoadTimeWeaver setup: ignoring JPA class transformer[0;39m]
+[[34m2024-07-10 17:07:18[0;39m [32mDEBUG[0;39mrestartedMain] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
+1. SELECT @@character_set_database, @@sql_mode
+ {executed in 0 msec}[0;39m]
+[[34m2024-07-10 17:07:18[0;39m [33mWARN [0;39mrestartedMain] [[33morg.hibernate.orm.deprecation[0;39m] [[35mHHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)[0;39m]
+[[34m2024-07-10 17:07:18[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator[0;39m] [[35mHHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)[0;39m]
+[[34m2024-07-10 17:07:18[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mInitialized JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-10 17:07:18[0;39m [33mWARN [0;39mrestartedMain] [[33morg.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration[0;39m] [[35mspring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning[0;39m]
+[[34m2024-07-10 17:07:19[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.actuate.endpoint.web.EndpointLinksResolver[0;39m] [[35mExposing 15 endpoints beneath base path '/actuator'[0;39m]
+[[34m2024-07-10 17:07:19[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer[0;39m] [[35mLiveReload server is running on port 35729[0;39m]
+[[34m2024-07-10 17:07:19[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStarting ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-10 17:07:19[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat started on port 8080 (http) with context path '/'[0;39m]
+[[34m2024-07-10 17:07:19[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarted FefuApplication in 4.356 seconds (process running for 4.814)[0;39m]
+[[34m2024-07-10 17:07:20[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring DispatcherServlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-10 17:07:20[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mInitializing Servlet 'dispatcherServlet'[0;39m]
+[[34m2024-07-10 17:07:20[0;39m [32mINFO [0;39mRMI TCP Connection(2)-192.168.0.48] [[33morg.springframework.web.servlet.DispatcherServlet[0;39m] [[35mCompleted initialization in 2 ms[0;39m]
+[[34m2024-07-10 17:07:22[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:07:22[0;39m [33mWARN [0;39mhttp-nio-8080-exec-1] [[33morg.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver[0;39m] [[35mResolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded][0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.student.service.StudentControllerImpl[0;39m] [[35mcreateStudent req : createStudentReq(grade=10101, name=홍길동, gender=남/여, birth=1998-01-01, addr=서울 판교로 112, etc=갑각류 알러지 있음, pic=test.jpg, engName=adela, phone=010-0000-0000, pk=0)[0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 홍길동[0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 남/여[0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : test.jpg[0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 서울 판교로 112[0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 갑각류 알러지 있음[0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : 010-0000-0000[0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.chcommon.Validation[0;39m] [[35mstr : adela[0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-7] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. INSERT INTO student
+        SET
+        grade = '10101',
+        name = '홍길동',
+        gender = '남/여',
+        birth = '1998-01-01',
+        addr = '서울 판교로 112',
+        etc = '갑각류 알러지 있음',
+        pic = '47872175-b41f-4080-bcf9-dc72604c46d5.png',
+        eng_name = 'adela',
+        phone = '010-0000-0000'
+ {executed in 0 msec}[0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mDEBUG[0;39mhttp-nio-8080-exec-7] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyStatement.getGeneratedKeys(ProxyStatement.java:229)
+1. getGeneratedKeys on query: INSERT INTO student
+        SET
+        grade = '10101',
+        name = '홍길동',
+        gender = '남/여',
+        birth = '1998-01-01',
+        addr = '서울 판교로 112',
+        etc = '갑각류 알러지 있음',
+        pic = '47872175-b41f-4080-bcf9-dc72604c46d5.png',
+        eng_name = 'adela',
+        phone = '010-0000-0000'
+ {executed in 0 msec}[0;39m]
+[[34m2024-07-10 17:08:07[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mjdbc.resultsettable[0;39m] [[35m
+|----------|
+|insert_id |
+|----------|
+|24        |
+|----------|
+[0;39m]
+[[34m2024-07-10 17:12:16[0;39m [32mINFO [0;39mhttp-nio-8080-exec-5] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:12:16[0;39m [32mINFO [0;39mhttp-nio-8080-exec-6] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:12:16[0;39m [32mINFO [0;39mhttp-nio-8080-exec-3] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:12:16[0;39m [32mINFO [0;39mhttp-nio-8080-exec-8] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:12:16[0;39m [32mINFO [0;39mhttp-nio-8080-exec-2] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:12:16[0;39m [32mINFO [0;39mhttp-nio-8080-exec-4] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:12:16[0;39m [32mINFO [0;39mhttp-nio-8080-exec-10] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:12:16[0;39m [32mINFO [0;39mhttp-nio-8080-exec-1] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:12:16[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33mcom.green.fefu.security.jwt.JwtAuthenticationFilter[0;39m] [[35mJwtAuthenticationFilter-Token: null[0;39m]
+[[34m2024-07-10 17:12:17[0;39m [32mINFO [0;39mhttp-nio-8080-exec-7] [[33morg.springdoc.api.AbstractOpenApiResource[0;39m] [[35mInit duration for springdoc-openapi is: 338 ms[0;39m]
+[[34m2024-07-10 17:49:03[0;39m [32mINFO [0;39mFile Watcher] [[33morg.springframework.boot.devtools.autoconfigure.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener[0;39m] [[35mRestarting due to 15 class path changes (0 additions, 0 deletions, 15 modifications)[0;39m]
+[[34m2024-07-10 17:49:03[0;39m [32mINFO [0;39mThread-5] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStopping ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-10 17:49:03[0;39m [32mINFO [0;39mThread-5] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mClosing JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-10 17:49:03[0;39m [32mINFO [0;39mThread-5] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown initiated...[0;39m]
+[[34m2024-07-10 17:49:03[0;39m [32mINFO [0;39mThread-5] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-1 - Shutdown completed.[0;39m]
+[[34m2024-07-10 17:49:03[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarting FefuApplication using Java 17.0.10 with PID 13964 (D:\Students\BCH\backEnd\fefu\build\classes\java\main started by Administrator in D:\Students\BCH\backEnd\fefu)[0;39m]
+[[34m2024-07-10 17:49:03[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mNo active profile set, falling back to 1 default profile: "default"[0;39m]
+[[34m2024-07-10 17:49:03[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mBootstrapping Spring Data JPA repositories in DEFAULT mode.[0;39m]
+[[34m2024-07-10 17:49:03[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.data.repository.config.RepositoryConfigurationDelegate[0;39m] [[35mFinished Spring Data repository scanning in 7 ms. Found 0 JPA repository interfaces.[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat initialized with port 8080 (http)[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mInitializing ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardService[0;39m] [[35mStarting service [Tomcat][0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.StandardEngine[0;39m] [[35mStarting Servlet engine: [Apache Tomcat/10.1.25][0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/][0;39m] [[35mInitializing Spring embedded WebApplicationContext[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.servlet.context.ServletWebServerApplicationContext[0;39m] [[35mRoot WebApplicationContext: initialization completed in 495 ms[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-2 - Starting...[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.pool.HikariPool[0;39m] [[35mHikariPool-2 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@36ad1498[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-2 - Start completed.[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.jpa.internal.util.LogHelper[0;39m] [[35mHHH000204: Processing PersistenceUnitInfo [name: default][0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.cache.internal.RegionFactoryInitiator[0;39m] [[35mHHH000026: Second-level cache disabled[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo[0;39m] [[35mNo LoadTimeWeaver setup: ignoring JPA class transformer[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mDEBUG[0;39mrestartedMain] [[33mjdbc.sqltiming[0;39m] [[35m com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
+21. SELECT @@character_set_database, @@sql_mode
+ {executed in 0 msec}[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [33mWARN [0;39mrestartedMain] [[33morg.hibernate.orm.deprecation[0;39m] [[35mHHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator[0;39m] [[35mHHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mInitialized JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [33mWARN [0;39mrestartedMain] [[33morg.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration[0;39m] [[35mspring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.actuate.endpoint.web.EndpointLinksResolver[0;39m] [[35mExposing 15 endpoints beneath base path '/actuator'[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer[0;39m] [[35mLiveReload server is running on port 35729[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.apache.coyote.http11.Http11NioProtocol[0;39m] [[35mStarting ProtocolHandler ["http-nio-8080"][0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.web.embedded.tomcat.TomcatWebServer[0;39m] [[35mTomcat started on port 8080 (http) with context path '/'[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33mcom.green.fefu.FefuApplication[0;39m] [[35mStarted FefuApplication in 1.376 seconds (process running for 2509.964)[0;39m]
+[[34m2024-07-10 17:49:04[0;39m [32mINFO [0;39mrestartedMain] [[33morg.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener[0;39m] [[35mCondition evaluation unchanged[0;39m]
+[[34m2024-07-10 17:49:05[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33morg.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean[0;39m] [[35mClosing JPA EntityManagerFactory for persistence unit 'default'[0;39m]
+[[34m2024-07-10 17:49:05[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-2 - Shutdown initiated...[0;39m]
+[[34m2024-07-10 17:49:05[0;39m [32mINFO [0;39mSpringApplicationShutdownHook] [[33mcom.zaxxer.hikari.HikariDataSource[0;39m] [[35mHikariPool-2 - Shutdown completed.[0;39m]

@@ -147,7 +147,6 @@ class ParentsUserMapperTest {
         PatchPasswordReq req1 = new PatchPasswordReq();
         req1.setUid(p.getUid());
         req1.setParentsId(p.getParentsId());
-        req1.setUpw("1212");
         req1.setNewUpw("123123");
         int affectedRow1 = mapper.patchPassword(req1);
         assertEquals(1, affectedRow1);
