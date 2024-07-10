@@ -32,22 +32,9 @@ public class ScoreControllerImpl implements ScoreController {
         }
     }
     @GetMapping("/getScore")
-    @Operation(summary = "학생성적조회 최초 성적조회 화면 이동시 ")
-    public ResultDto<Dto> getScore(@ParameterObject @ModelAttribute GetScoreReq p){
+    @Operation(summary = "학생 성적 조회")
+    public ResultDto<Dto> getScore(@ParameterObject @ModelAttribute InsScoreReq p){
         Dto res = service.getScore(p);
-        try {
-            if(res.getList().size() == 0){
-                return null;
-            }
-            return ResultDto.resultDto(SUCCESS_CODE,"성적조회성공",res);
-        }catch (RuntimeException e){
-            return ResultDto.resultDto1(ERROR_CODE,"성적조회 실패");
-        }
-    }
-    @GetMapping("/getScoreDetail")
-    @Operation(summary = "학생성적조회 학년과 학기 조회시  ")
-    public ResultDto<DtoDetail> getDetailScore(@ParameterObject @ModelAttribute GetDetailScoreReq p){
-        DtoDetail res = service.getDetailScore(p);
         try {
             if(res.getList().size() == 0){
                 return null;

@@ -1,6 +1,6 @@
-package com.green.fefu.score;
+package com.green.fefu.Exam;
 
-import com.green.fefu.score.model.InsScoreReq;
+import com.green.fefu.Exam.model.ExamReq;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,33 +8,23 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-
 @MybatisTest
 @ActiveProfiles("tdd")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class ScoreMapperTest {
-
+class ExamMapperTest {
     @Autowired
-    private ScoreMapper mapper;
+    private ExamMapper mapper;
 
     @Test
-    void postScore() {
-        InsScoreReq p = new InsScoreReq();
-        p.setName("영어");
-        p.setExam(1);
-        p.setMark(95);
-        p.setYear(2023);
-        p.setScId(1);
-        p.setScoreId(182);
-        p.setSemester(1);
-
-        int res = mapper.postScore(p);
-        System.out.println(res);
-        assertEquals(1,res);
+    void examIns() {
+        ExamReq p = new ExamReq();
+        p.setSemesterId(8);
+        p.setOption(1);
+        p.setExamId(1);
+        p.setSubjectId(3);
 
 
-    }
+        assertEquals(1, 0);
 //        SemesterReq p = new SemesterReq();
 //        p.setSemesterId(1);
 //        p.setOption(1);
@@ -47,5 +37,6 @@ class ScoreMapperTest {
 //
 //        long res1= mapper.postSemester(p1);
 //        assertEquals(1, res1);
-//    }
+//
+    }
 }

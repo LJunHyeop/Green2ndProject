@@ -11,7 +11,6 @@ public interface TeacherMapNamingData {
     String TEACHER_BIRTH = "birth"; //생년월일
     String TEACHER_AUTH = "auth"; //권한
     String TEACHER_ADDR = "addr"; //주소
-    String TEACHER_ZONE_CODE = "zoneCode"; //주소
     String TEACHER_ACEPT = "acept"; //승인 여부
     String TEACHER_CREATE_AT = "createdAt"; //생성일
     String TEACHER_UPDATED_AT = "updatedAt"; //수정일
