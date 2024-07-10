@@ -71,7 +71,8 @@ public class SecurityConfiguration {
                                         , "/api/teacher/find_pwd"
                                         , "/api/teacher/put_pwd"
                                         , "/api/student/list"
-                                        , "/api/student",
+                                        , "/api/student"
+                                        ,"/api/student/detail",
                                         "/api/user/parents/sign-up",
                                         "/api/user/parents/sign-in",
                                         "/api/user/access-token",

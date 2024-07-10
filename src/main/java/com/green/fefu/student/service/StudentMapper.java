@@ -25,4 +25,10 @@ public interface StudentMapper {
     int insNewClass(studentAdvanceGradeReq p);
 
     getUserTest selOneTest(long pk);
+
+    String getStudentEtc(long pk);
+
+    void updStudentEtc(long pk, String etc);
+
+    List<prevStudentEtc> selPrevEtc(long pk);
 }

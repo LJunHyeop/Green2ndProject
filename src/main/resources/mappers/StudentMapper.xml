@@ -44,7 +44,7 @@
         teacher t ON c.tea_id = t.tea_id
         WHERE
         t.tea_id = #{pk}
-        ORDER BY s.name
+        ORDER BY s.name, s.birth
     </select>
 
     <select id="getStudentDetail">
@@ -76,6 +76,7 @@
         teacher t ON c.tea_id = t.tea_id
         WHERE
         s.stu_id = #{pk}
+        LIMIT 1
     </select>
 
     <update id="updateStudent">
@@ -106,14 +107,15 @@
 
     <update id="updStudentGrade">
         UPDATE student
-        SET grade = #{grade}
+        SET grade = #{grade}, etc = null
         WHERE stu_id = #{studentPk}
     </update>
 
     <insert id="insNewClass">
         INSERT INTO student_classes
         SET stu_id = #{studentPk},
-        class_id = #{subNumber}
+        class_id = #{subNumber},
+        etc = #{etc}
     </insert>
 
     <select id="selOneTest">
@@ -124,5 +126,21 @@
         FROM student
         WHERE stu_id = #{pk}
     </select>
+
+    <select id="getStudentEtc">
+        SELECT etc
+        FROM student
+        WHERE stu_id = #{pk}
+    </select>
+
+    <update id="updStudentEtc">
+        UPDATE student_classes
+        SET etc = #{etc}
+        WHERE sc_id = (
+        SELECT MAX(sc_id)
+        FROM student_classes
+        WHERE stu_id = #{pk}
+        )
+    </update>
 
 </mapper>

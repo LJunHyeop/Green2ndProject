@@ -1,5 +1,7 @@
 package com.green.fefu.student.service;
 
+import com.green.fefu.student.model.dto.getDetail;
+import com.green.fefu.student.model.dto.getStudent;
 import com.green.fefu.student.model.dto.getUserTest;
 import com.green.fefu.student.model.req.createStudentReq;
 import com.green.fefu.student.model.req.deleteStudentReq;
@@ -8,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -70,12 +75,59 @@ class StudentMapperTest {
     @Test
     @DisplayName("선생의 담당 학급 학생 리스트")
     void getStudentList() {
+        List<getStudent> list = new ArrayList<>();
+        getStudent p1 = new getStudent();
+        p1.setName("유학생");
+        p1.setGender("여");
+        p1.setBirth("2009-01-01");
+        p1.setPhone("010-9999-0000");
+        p1.setParentName("유부모");
+        p1.setParentPhone("010-1234-3456");
+        getStudent p2 = new getStudent();
+        p2.setName("노학생");
+        p2.setGender("남");
+        p2.setBirth("2008-12-12");
+        p2.setPhone("010-0000-1111");
+        p2.setParentName("노부모");
+        p2.setParentPhone("010-2345-4567");
 
+        list.add(p2);
+        list.add(p1);
+
+        List<getStudent> result = mapper.getStudentList(15L);
+        assertEquals(2, result.size(), resultMsg);
+        assertEquals(result.size(), list.size(), resultMsg);
+        for (int i = 0; i < list.size(); i++) {
+            assertEquals(result.get(i).getName(), list.get(i).getName(), msg);
+            assertEquals(result.get(i).getGender(), list.get(i).getGender(), msg);
+            assertEquals(result.get(i).getBirth(), list.get(i).getBirth(), msg);
+            assertEquals(result.get(i).getPhone(), list.get(i).getPhone(), msg);
+            assertEquals(result.get(i).getParentName(), list.get(i).getParentName(), msg);
+            assertEquals(result.get(i).getParentPhone(), list.get(i).getParentPhone(), msg);
+        }
     }
 
     @Test
     @DisplayName("학생 상세 정보")
     void getStudentDetail() {
+        getDetail p = new getDetail();
+        p.setPk("1L");
+        p.setName("김학생");
+        p.setBirth("2010-05-15");
+        p.setGender("남");
+        p.setPhone("010-1111-2222");
+        p.setAddr("서울시 강남구");
+        p.setEtc(null);
+        p.setCreatedAt("2024-07-04 08:02:22");
+        p.setParentId("1");
+        p.setUClass("");
+        p.setParentName("");
+        p.setConnet("");
+        p.setParentPhone("");
+        p.setPic("");
+        p.setTeacherName("");
+        getDetail result = mapper.getStudentDetail(1L);
+
     }
 
     @Test
