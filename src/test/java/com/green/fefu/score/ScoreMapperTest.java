@@ -1,5 +1,7 @@
 package com.green.fefu.score;
 
+import com.green.fefu.score.model.GetScoreReq;
+import com.green.fefu.score.model.InsScoreList;
 import com.green.fefu.score.model.InsScoreReq;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -7,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @MybatisTest
-@ActiveProfiles("tdd")
+
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ScoreMapperTest {
 
@@ -28,12 +32,33 @@ class ScoreMapperTest {
         p.setStuId(1);
         p.setScoreId(182);
         p.setSemester(1);
-
         int res = mapper.postScore(p);
         System.out.println(res);
         assertEquals(1,res);
 
 
+    }
+
+    @Test
+    void getScore() {
+        GetScoreReq p = new  GetScoreReq();
+        p.setScoreId(1);
+        p.setLatestGrade(1);
+        p.setSemester(1);
+        p.setStuId(1);
+        List<InsScoreList> res  = mapper.getScore(p);
+        assertEquals(1,res.size());
+        assertNotEquals(2,res.size());
+
+    }
+
+    @Test
+    void getStu() {
+
+    }
+
+    @Test
+    void getDetailScore() {
     }
 //        SemesterReq p = new SemesterReq();
 //        p.setSemesterId(1);
