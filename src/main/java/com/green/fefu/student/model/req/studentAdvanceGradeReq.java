@@ -14,6 +14,4 @@ public class studentAdvanceGradeReq {
 
     @JsonIgnore
     private String subNumber;
-    @JsonIgnore
-    private String etc;
 }

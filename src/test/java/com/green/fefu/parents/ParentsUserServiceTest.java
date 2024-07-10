@@ -284,11 +284,13 @@ class ParentsUserServiceTest {
         PatchPasswordReq req1 = new PatchPasswordReq();
         req1.setParentsId(p1.getParentsId());
         req1.setUid(p1.getUid());
+        req1.setUpw("aAbB!@1212");
         req1.setNewUpw(encodedNewPassword);
 
         GetParentsUserReq q = new GetParentsUserReq();
         q.setSignedUserId(p1.getParentsId());;
         given(mapper.getParentsUser(q)).willReturn(p1);
+        given(passwordEncoder.matches(req1.getUpw(), encodedOldPassword)).willReturn(true);
         given(passwordEncoder.encode(req1.getNewUpw())).willReturn(encodedNewPassword);
         given(mapper.patchPassword(any(PatchPasswordReq.class))).willReturn(1);
 

@@ -1,6 +1,5 @@
 package com.green.fefu.notice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,7 +13,6 @@ import java.beans.ConstructorProperties;
 public class DeleteNoticeReq {
     @Schema(name="notice_id")
     private long noticeId;
-    //@JsonIgnore
     @Schema(name="tea_id")
     private long teaId;
     @Schema(name="class_id")

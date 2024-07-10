@@ -54,7 +54,7 @@ public class SecurityConfiguration {
                 // 정리하면, 시큐리티에서 제공해주는 로그인 화면 사용하지 않겠다.
                 .formLogin(form -> form.disable()) //form 로그인 방식을 사용하지 않음을 세팅
                 .csrf(csrf -> csrf.disable()) //CSRF (CORS랑 많이 헷갈려 함)
-                //requestMatcher
+                //requestMatchers
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(
                                         "/api/feed"
@@ -62,12 +62,6 @@ public class SecurityConfiguration {
                                         , "/api/user/pic"
                                         , "/api/user/follow"
 
-                                            // 알림장
-                                        ,"/api/notice"
-                                        ,"/api/notice/**"
-                                            // 점수 입력 및 불러오기
-                                        ,  "/api/Score/**"
-                                        , "/api/Score/getScoreDetail"
                                         //회원가입, 로그인 인증이 안 되어 있더라도 사용 가능하게 세팅
                                         ,"/api/teacher/sign-up"
                                         , "/api/teacher/sign-in"
@@ -76,8 +70,7 @@ public class SecurityConfiguration {
                                         , "/api/teacher/find_pwd"
                                         , "/api/teacher/put_pwd"
                                         , "/api/student/list"
-                                        , "/api/student"
-                                        ,"/api/student/detail",
+                                        , "/api/student",
                                         "/api/user/parents/sign-up",
                                         "/api/user/parents/sign-in",
                                         "/api/user/access-token",

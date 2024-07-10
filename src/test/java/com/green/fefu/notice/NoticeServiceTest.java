@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.verify;
 
  /*
@@ -27,7 +29,6 @@ import static org.mockito.Mockito.verify;
 @Import({NoticeServiceImpl.class})
 class NoticeServiceTest {
     private final int EFFECT=1;
-    private final int MASTER_CLASS=502;
     @MockBean
     private NoticeMapper mapper;
 
@@ -36,17 +37,11 @@ class NoticeServiceTest {
 
     @Test
     void postNotice() {
-        /*기본 세팅*/
-        PostNoticeReq req1=new PostNoticeReq();
-        req1.setTeaId(100); req1.setTitle("제목 100"); req1.setContent("내용 100");
-        given(mapper.teacherHomeroom(req1.getTeaId())).willReturn(MASTER_CLASS);
-        req1.setClassId(mapper.teacherHomeroom(req1.getTeaId()));
-
-        /*가짜 임무 부여 및 확인+실제 메소드 전달 확인*/
-        given(mapper.postNotice(req1)).willReturn(EFFECT);
+        PostNoticeReq req1=new PostNoticeReq(100,"제목 100", "내용 100", 100);
+        given(mapper.postNotice(req1)).willReturn(1);
         int answer=service.postNotice(req1);
-        assertEquals(EFFECT, answer,"영향받은 행이 다름");
         verify(mapper).postNotice(req1);
+        assertEquals(EFFECT, answer,"영향받은 행이 다름");
     }
 
     @Test
@@ -55,22 +50,21 @@ class NoticeServiceTest {
         List<GetNoticeRes> list1=new ArrayList();
         GetNoticeRes res1=new GetNoticeRes();
         GetNoticeRes res2=new GetNoticeRes();
-        res1.setNoticeId(1); res1.setTitle("가짜 1"); res1.setContent("가짜 1"); res1.setClassId(100);
-        res2.setNoticeId(2); res2.setTitle("가짜 2"); res2.setContent("가짜 2"); res2.setClassId(100);
+        res1.setNoticeId(1); res1.setTitle("가짜 1"); res1.setContent("가짜 1");
+        res1.setNoticeId(2); res1.setTitle("가짜 2"); res1.setContent("가짜 2");
         list1.add(res1); list1.add(res2);
 
         /*가짜 임무 부여*/
         GetNoticeReq req1=new GetNoticeReq(100);
+        req1.setClassId(1);
         given(mapper.getNotice(req1)).willReturn(list1);
 
         /*가짜 리스트 복제*/
         List<GetNoticeRes> mockList1=new ArrayList();
         GetNoticeRes mockRes1=new GetNoticeRes();
         GetNoticeRes mockRes2=new GetNoticeRes();
-        mockRes1.setNoticeId(res1.getNoticeId()); mockRes1.setTitle(res1.getTitle());
-        mockRes1.setContent(res1.getContent()); mockRes1.setClassId(res1.getClassId());
-        mockRes2.setNoticeId(res2.getNoticeId()); mockRes2.setTitle(res2.getTitle());
-        mockRes2.setContent(res2.getContent()); mockRes2.setClassId(res2.getClassId());
+        mockRes1.setNoticeId(res1.getNoticeId()); mockRes1.setTitle(res1.getTitle()); mockRes1.setContent(res1.getContent());
+        mockRes2.setNoticeId(res2.getNoticeId()); mockRes2.setTitle(res2.getTitle()); mockRes2.setContent(res2.getContent());
         mockList1.add(mockRes1); mockList1.add(mockRes2);
 
         List<GetNoticeRes> real=service.getNotice(req1);
@@ -81,7 +75,6 @@ class NoticeServiceTest {
         assertEquals(mockList1, real,"리턴 리스트 값이 다름");
     }
 
-    //여기부터!
     @Test
     void putNotice() {
         PutNoticeReq req1=new PutNoticeReq();

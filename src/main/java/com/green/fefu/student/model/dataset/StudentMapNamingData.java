@@ -17,5 +17,4 @@ public interface StudentMapNamingData {
     String CONNET = "connet";
     String PARENT_PHONE = "parentPhone";
     String TEACHER_NAME = "teacherName";
-    String PREV_ETC_LIST = "prevEtcList";
 }

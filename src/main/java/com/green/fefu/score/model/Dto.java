@@ -13,8 +13,5 @@ public class Dto <T>{
 
     private  T stuId;
 
-    private int latestGrade;
-    private int latestSemester;
-    private long latestYear;
 
 }
