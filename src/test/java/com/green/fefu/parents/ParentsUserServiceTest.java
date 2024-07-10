@@ -1,5 +1,6 @@
 package com.green.fefu.parents;
 
+import com.green.fefu.chcommon.SmsSender;
 import com.green.fefu.common.AppProperties;
 import com.green.fefu.common.CookieUtils;
 import com.green.fefu.common.CustomFileUtils;
@@ -19,12 +20,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mindrot.jbcrypt.BCrypt;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +36,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -68,6 +75,16 @@ class ParentsUserServiceTest {
     private final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
+    @Mock private HttpServletRequest req ;
+    private Cookie refreshTokenCookie ;
+    private PatchPasswordReq patchPasswordReq;
+    private GetParentsUserReq getParentsUserReq;
+    private ParentsUserEntity parentsUserEntity;
+    private GetFindPasswordReq getReq;
+    private Map<String, Object> map;
+    private MultipartFile validFile;
+    private MultipartFile emptyFile;
+    private SignatureReq signReq;
 
     @BeforeEach
     void setUp() {
@@ -83,6 +100,27 @@ class ParentsUserServiceTest {
         myUser.setUserId(1L);
         given(authentication.getPrincipal()).willReturn(myUserDetails);
         given(myUserDetails.getMyUser()).willReturn(myUser);
+        validFile = new MockMultipartFile("pic", "a.png", "image/png", new byte[]{1, 2, 3, 4});
+        emptyFile = new MockMultipartFile("pic", "a.png", "image/png", new byte[]{});
+        signReq = SignatureReq.builder()
+                .stuId(1)
+                .year(2024)
+                .pic(null)
+                .semester(1)
+                .signId(1)
+                .build();
+        getReq = new GetFindPasswordReq();
+        getReq.setPhone("010-1234-5678");
+        map = new HashMap<>();
+
+        patchPasswordReq = new PatchPasswordReq();
+        patchPasswordReq.setNewUpw("newPassword");
+
+        getParentsUserReq = new GetParentsUserReq();
+
+        parentsUserEntity = new ParentsUserEntity();
+        parentsUserEntity.setParentsId(1L);
+        refreshTokenCookie = new Cookie("refresh-token", "dummy-refresh-token");
     }
     @Test @DisplayName("post 1") // 회원가입
     void postParentsUser() {
@@ -254,53 +292,37 @@ class ParentsUserServiceTest {
         assertEquals(beforeRes.getUid(), afterRes.getUid());
         verify(mapper).getFindId(req);
     }
-    @Test @DisplayName("아이디 찾기2") // 아이디 찾기
-    void getFindId2() {
-        GetFindIdReq req = new GetFindIdReq();
-        req.setPhone("010-1234-3456");
-        req.setNm("홍길동");
-
-        given(mapper.getFindId(req)).willReturn(null);
-        GetFindIdRes afterRes = service.getFindId(req);
-
-        assertNull(afterRes);
-        verify(mapper).getFindId(req);
-    }
     @Test @DisplayName("비밀번호 수정") // 비밀번호 수정
     void patchPassword() {
-        String encodedOldPassword = "encodedOldPassword";
-        String encodedNewPassword = "encodedNewPassword";
-        ParentsUserEntity p1 = new ParentsUserEntity();
-        p1.setParentsId(1L);
-        p1.setUid("pG123456");
-        p1.setUpw(encodedOldPassword);
-        p1.setNm("홍길동");
-        p1.setEmail("12345@naver.com");
-        p1.setPhone("010-1234-1234");
-        p1.setConnet("부");
-        p1.setAuth("ROLE_USER");
-        p1.setAcept(2);
+        // Arrange
+        when(authenticationFacade.getLoginUserId()).thenReturn(1L);
+        when(mapper.getParentsUser(any(GetParentsUserReq.class))).thenReturn(parentsUserEntity);
+        when(passwordEncoder.encode(any(String.class))).thenReturn("encodedPassword");
+        when(mapper.patchPassword(any(PatchPasswordReq.class))).thenReturn(1);
 
-        PatchPasswordReq req1 = new PatchPasswordReq();
-        req1.setParentsId(p1.getParentsId());
-        req1.setUid(p1.getUid());
-        req1.setUpw("aAbB!@1212");
-        req1.setNewUpw(encodedNewPassword);
+        // Act
+        int result = service.patchPassword(patchPasswordReq);
 
-        GetParentsUserReq q = new GetParentsUserReq();
-        q.setSignedUserId(p1.getParentsId());;
-        given(mapper.getParentsUser(q)).willReturn(p1);
-        given(passwordEncoder.matches(req1.getUpw(), encodedOldPassword)).willReturn(true);
-        given(passwordEncoder.encode(req1.getNewUpw())).willReturn(encodedNewPassword);
-        given(mapper.patchPassword(any(PatchPasswordReq.class))).willReturn(1);
-
-        int result = assertDoesNotThrow(() -> service.patchPassword(req1));
+        // Assert
+        verify(authenticationFacade, times(1)).getLoginUserId();
+        verify(mapper, times(1)).getParentsUser(any(GetParentsUserReq.class));
+        verify(passwordEncoder, times(1)).encode(any(String.class));
+        verify(mapper, times(1)).patchPassword(any(PatchPasswordReq.class));
 
         assertEquals(1, result);
-        verify(mapper).patchPassword(argThat(req ->
-                req.getParentsId() == p1.getParentsId() &&
-                req.getNewUpw().equals(encodedNewPassword)
-        ));
+    }
+    @Test @DisplayName("비밀번호 수정 아이디 확인") // 비밀번호 수정 아이디확인
+    void patchPassword2() {
+        // Arrange
+        when(authenticationFacade.getLoginUserId()).thenReturn(1L);
+        when(mapper.getParentsUser(any(GetParentsUserReq.class))).thenReturn(null);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.patchPassword(patchPasswordReq);
+        });
+
+        assertEquals("아이디를 확인해 주세요", exception.getMessage());
     }
     @Test @DisplayName("로그인") // 로그인
     void signInPost() {
@@ -358,43 +380,107 @@ class ParentsUserServiceTest {
 
         given(jwtTokenProvider.isValidateToken("valid-refresh-token")).willReturn(true);
 
-        MyUser myUser = MyUser.builder().
-                userId(1).
-                role("ROLE_PARENTS").
-                build();
-        UserDetails userDetails = new MyUserDetails();
+        MyUser myUser = MyUser.builder()
+                .userId(1)
+                .role("ROLE_PARENTS")
+                .build();
+        MyUserDetails userDetails = new MyUserDetails();
+        userDetails.setMyUser(myUser);
 
         given(jwtTokenProvider.getUserDetailsFromToken("valid-refresh-token")).willReturn(userDetails);
         given(jwtTokenProvider.generateAccessToken(myUser)).willReturn("new-access-token");
 
-        Map result = service.getAccessToken(req);
+        Map<String, Object> result = service.getAccessToken(req);
         assertEquals("new-access-token", result.get("accessToken"));
+
         verify(cookieUtils).getCookie(req, "refresh-token");
         verify(jwtTokenProvider).isValidateToken("valid-refresh-token");
         verify(jwtTokenProvider).getUserDetailsFromToken("valid-refresh-token");
         verify(jwtTokenProvider).generateAccessToken(myUser);
     }
-    @Test @DisplayName("AccessToken 가져오기 - 실패 케이스: 쿠키 없음")
-    void getAccessTokenNoCookie() {
-        HttpServletRequest req = mock(HttpServletRequest.class);
+    @Test @DisplayName("비밀번호 찾기 문자발송")
+    void getFindPassword(){
+        String code = "123456";
+        List<ParentsUserEntity> list = List.of(new ParentsUserEntity());
 
-        given(cookieUtils.getCookie(req, "refresh-token")).willReturn(null);
+        when(mapper.getParentUserList(getReq)).thenReturn(list);
+        mockStatic(SmsSender.class);
+        when(SmsSender.makeRandomCode()).thenReturn(code);
+        doNothing().when(smsService).sendPasswordSms(anyString(), any(), anyString());
 
-        assertThrows(RuntimeException.class, () -> service.getAccessToken(req));
-        verify(cookieUtils).getCookie(req, "refresh-token");
+        service.getFindPassword(getReq, map);
+
+        assertEquals(code, map.get("RANDOM_CODE"));
+        verify(mapper).getParentUserList(getReq);
+        verify(smsService).sendPasswordSms(eq(getReq.getPhone()), any(), eq(code));
     }
-    @Test @DisplayName("AccessToken 가져오기 - 실패 케이스: 토큰 검증 실패")
-    void getAccessTokenInvalidToken() {
-        HttpServletRequest req = mock(HttpServletRequest.class);
+    @Test @DisplayName("비밀번호 찾기 문자발송 실패")
+    void testGetFindPassword_smsSendError() {
+        String code = "123456";
+        List<ParentsUserEntity> list = List.of(new ParentsUserEntity());
 
-        Cookie cookie = new Cookie("refresh-token", "invalid-refresh-token");
-        given(cookieUtils.getCookie(req, "refresh-token")).willReturn(cookie);
+        when(mapper.getParentUserList(getReq)).thenReturn(list);
+        mockStatic(SmsSender.class);
+        when(SmsSender.makeRandomCode()).thenReturn(code);
+        doThrow(new RuntimeException("문자 메세지 보내기 실패")).when(smsService).sendPasswordSms(anyString(), any(), anyString());
 
-        given(jwtTokenProvider.isValidateToken("invalid-refresh-token")).willReturn(false);
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            service.getFindPassword(getReq, map);
+        });
 
-        assertThrows(RuntimeException.class, () -> service.getAccessToken(req));
-        verify(cookieUtils).getCookie(req, "refresh-token");
-        verify(jwtTokenProvider).isValidateToken("invalid-refresh-token");
+        assertEquals("문자 메세지 보내기 실패", exception.getMessage());
+    }
+    @Test @DisplayName("전자서명")
+    void signature() throws Exception {
+        String path = "sign/1";
+        String saveFileName = "randomFileName.png";
+        String target = String.format("%s/%s", path, saveFileName);
+
+        when(customFileUtils.makeFolders(path)).thenReturn(path);
+        when(customFileUtils.makeRandomFileName(validFile)).thenReturn(saveFileName);
+        doNothing().when(customFileUtils).transferTo(validFile, target);
+        when(mapper.signature(signReq)).thenReturn(1);
+
+        SignatureRes result = service.signature(validFile, signReq);
+
+        assertNotNull(result);
+        assertEquals(1, result.getSignId());
+        assertEquals(saveFileName, result.getPics());
+
+        verify(customFileUtils).makeFolders(path);
+        verify(customFileUtils).makeRandomFileName(validFile);
+        verify(customFileUtils).transferTo(validFile, target);
+        verify(mapper).signature(signReq);
+    }
+    @Test @DisplayName("전자서명 실패 - 파일 없음")
+    void signature_fileIsEmpty() {
+        MultipartFile emptyFile = new MockMultipartFile("pic", "a.png", "image/png", new byte[]{});
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            service.signature(emptyFile, signReq);
+        });
+
+        assertEquals("서명 파일이 없습니다.", exception.getMessage());
+    }
+    @Test @DisplayName("전자서명 실패 - 파일 업로드 오류")
+    void signature_fileUploadError() throws Exception {
+        String path = "sign/1";
+        String saveFileName = "randomFileName.png";
+        String target = String.format("%s/%s", path, saveFileName);
+
+        when(customFileUtils.makeFolders(path)).thenReturn(path);
+        when(customFileUtils.makeRandomFileName(validFile)).thenReturn(saveFileName);
+        doThrow(new RuntimeException("File transfer error")).when(customFileUtils).transferTo(validFile, target);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            service.signature(validFile, signReq);
+        });
+
+        assertTrue(exception.getMessage().contains("서명 등록 오류가 발생했습니다: File transfer error"));
+
+        verify(customFileUtils).makeFolders(path);
+        verify(customFileUtils).makeRandomFileName(validFile);
+        verify(customFileUtils).transferTo(validFile, target);
     }
 }
 

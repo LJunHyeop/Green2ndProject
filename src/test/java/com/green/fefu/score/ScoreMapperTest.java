@@ -25,7 +25,6 @@ class ScoreMapperTest {
         p.setExam(1);
         p.setMark(95);
         p.setYear(2023);
-        p.setScId(1);
         p.setScoreId(182);
         p.setSemester(1);
 
