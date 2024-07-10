@@ -6,6 +6,8 @@ build/
 !**/src/test/**/build/
 .env
 logs/
+logs/logInfo.log
+
 
 ### STS ###
 .apt_generated
