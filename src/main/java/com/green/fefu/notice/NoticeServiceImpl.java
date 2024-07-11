@@ -4,6 +4,7 @@ import com.green.fefu.exception.CustomException;
 import com.green.fefu.exception.OutOfRangeErrorCode;
 import com.green.fefu.notice.model.*;
 import com.green.fefu.security.AuthenticationFacade;
+import com.green.fefu.security.MyUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,13 +33,13 @@ public class NoticeServiceImpl implements NoticeService{
     }
     //학부모냐 선생님이냐 따라 갈림
     public List<GetNoticeRes> getNotice(GetNoticeReq p){
-        long userId=authenticationFacade.getLoginUserId();
-
-        if(p.getState()>1){
+        //MyUser user=authenticationFacade.getLoginUser();
+        //String userRole=user.getRole();
+        //if(userRole.equals("임시 수치")){ //선생님 PK
             return mapper.getNotice_teacher(p);
-        }else{
-            return mapper.getNotice_parent(p);
-        }
+        //}else{
+        //    return mapper.getNotice_parent(p);
+        //}
 
     }
 
