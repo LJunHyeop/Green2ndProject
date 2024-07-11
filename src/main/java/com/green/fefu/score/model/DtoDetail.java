@@ -8,13 +8,11 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Dto <T>{
+public class DtoDetail<T>{
     private List<T> list = new ArrayList<T>();
 
     private  T stuId;
 
-    private int latestGrade;
-    private int latestSemester;
-    private long latestYear;
+
 
 }
