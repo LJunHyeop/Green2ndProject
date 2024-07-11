@@ -32,7 +32,7 @@
     </select>
 
     <delete id="delParent">
-        DELETE FROM parent
+        DELETE FROM parents
         WHERE parents_id = #{pk}
     </delete>
 
@@ -42,7 +42,7 @@
     </delete>
 
     <update id="updParent">
-        UPDATE parent
+        UPDATE parents
         SET acept = 1
         WHERE parents_id = #{pk}
     </update>
