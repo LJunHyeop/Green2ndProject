@@ -25,4 +25,8 @@ public class updateStudentReq {
 
     @JsonIgnore
     private String fullAddr;
+
+    public void setFullAddr() {
+        this.fullAddr = zoneCode + "#" + addr;
+    }
 }
