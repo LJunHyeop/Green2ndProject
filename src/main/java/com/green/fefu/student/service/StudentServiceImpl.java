@@ -206,7 +206,7 @@ public class StudentServiceImpl implements StudentService {
         updateStudentDataCheck(p);
         int result = mapper.updateStudent(p);
         if (result != 1) {
-            throw new RuntimeException(QUERY_RESULT_ERROR);
+            throw new RuntimeException();
         }
     }
 
