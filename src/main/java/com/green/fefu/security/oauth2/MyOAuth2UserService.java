@@ -6,10 +6,10 @@ import com.green.fefu.security.MyUserOAuth2Vo;
 
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfoFactory;
-import com.green.fefu.user.UserMapper;
-import com.green.fefu.user.model.SignInPostReq;
-import com.green.fefu.user.model.SignUpPostReq;
-import com.green.fefu.user.model.User;
+//import com.green.fefu.user.UserMapper;
+//import com.green.fefu.user.model.SignInPostReq;
+//import com.green.fefu.user.model.SignUpPostReq;
+//import com.green.fefu.user.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -40,7 +40,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MyOAuth2UserService extends DefaultOAuth2UserService {
-    private final UserMapper mapper;
+//    private final UserMapper mapper;
     private final OAuth2UserInfoFactory oAuth2UserInfoFactory;
 
     @Override
@@ -66,33 +66,34 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         // oAuth2User.getAttributes() > Data가 HashMap 객체로 변환
         OAuth2UserInfo oAuth2UserInfo = oAuth2UserInfoFactory.getOAuth2UserInfo(signInProviderType, oAuth2User.getAttributes());
 
-        //기존에 회원가입이 되어있는가 체크
-        SignInPostReq signInParam = new SignInPostReq();
-        signInParam.setUid(oAuth2UserInfo.getId()); //플랫폼에서 넘어오는 유니크값(항상 같은 값이며 다른 사용자와 구별되는 유니크 값)
-        signInParam.setProviderType(signInProviderType.name());
-        User user = mapper.signInPost(signInParam);
-
-        if(user == null) { //회원가입 처리
-            SignUpPostReq signUpParam = new SignUpPostReq();
-            signUpParam.setProviderType(signInProviderType);
-            signUpParam.setUid(oAuth2UserInfo.getId());
-            signUpParam.setNm(oAuth2UserInfo.getName());
-            signUpParam.setPic(oAuth2UserInfo.getProfilePicUrl());
-            int result = mapper.signUpPostReq(signUpParam);
-            user = new User( signUpParam.getUserId()
-                           , signInParam.getUid()
-                           , null
-                           , signUpParam.getNm()
-                           , signUpParam.getPic()
-                           , null
-                           , null );
-        }
-
-        MyUserOAuth2Vo myUserOAuth2Vo
-                = new MyUserOAuth2Vo(user.getUserId(), "ROLE_USER", user.getNm(), user.getPic());
-
-        MyUserDetails signInUser = new MyUserDetails();
-        signInUser.setMyUser(myUserOAuth2Vo);
-        return signInUser;
+//        //기존에 회원가입이 되어있는가 체크
+//        SignInPostReq signInParam = new SignInPostReq();
+//        signInParam.setUid(oAuth2UserInfo.getId()); //플랫폼에서 넘어오는 유니크값(항상 같은 값이며 다른 사용자와 구별되는 유니크 값)
+//        signInParam.setProviderType(signInProviderType.name());
+//        User user = mapper.signInPost(signInParam);
+//
+//        if(user == null) { //회원가입 처리
+//            SignUpPostReq signUpParam = new SignUpPostReq();
+//            signUpParam.setProviderType(signInProviderType);
+//            signUpParam.setUid(oAuth2UserInfo.getId());
+//            signUpParam.setNm(oAuth2UserInfo.getName());
+//            signUpParam.setPic(oAuth2UserInfo.getProfilePicUrl());
+//            int result = mapper.signUpPostReq(signUpParam);
+//            user = new User( signUpParam.getUserId()
+//                           , signInParam.getUid()
+//                           , null
+//                           , signUpParam.getNm()
+//                           , signUpParam.getPic()
+//                           , null
+//                           , null );
+//        }
+//
+//        MyUserOAuth2Vo myUserOAuth2Vo
+//                = new MyUserOAuth2Vo(user.getUserId(), "ROLE_USER", user.getNm(), user.getPic());
+//
+//        MyUserDetails signInUser = new MyUserDetails();
+//        signInUser.setMyUser(myUserOAuth2Vo);
+//        return signInUser;
+        return null;
     }
 }
