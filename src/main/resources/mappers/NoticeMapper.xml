@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.fefu.notice.NoticeMapper">
 
-    <!--알림장 작성-->
+    <!--알림장 작성 Create-->
     <insert id="postNotice">
         INSERT INTO notice
         (tea_id, title, content, class_id, state)
@@ -13,7 +13,7 @@
     </insert>
 
 
-    <!--알림장 조회-->
+    <!--알림장 조회 Read-->
     <select id="getNotice">
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
                title, content, created_at AS createdAt, updated_at AS updatedAt, state
@@ -21,7 +21,16 @@
         WHERE class_id=#{classId} AND state=#{state}
     </select>
 
-    <!--자녀의 학반 조회-->
+
+    <!--로그인 한 선생님에 따른 담당 학반 조회-->
+    <select id="teacherHomeroom">
+        SELECT class_id
+        FROM class
+        WHERE tea_id=#{teaId};
+    </select>
+
+
+    <!--로그인 한 학부모에 따른 자녀의 학반 조회-->
     <select id="childClassRoom">
         SELECT class_id
         FROM parents A
@@ -33,22 +42,7 @@
     </select>
 
 
-    <!--이거 아님-->
-    <select id="getNotice_parent">
-        SELECT DISTINCT a.notice_id AS noticeId, a.tea_id AS teaId, a.class_id AS classId,
-                        a.title, a.content, a.created_at AS createdAt, a.updated_at AS updatedAt
-        FROM notice a
-        JOIN student_classes b
-        ON a.class_id = b.class_id
-        JOIN student c
-        ON b.stu_id = c.stu_id
-        JOIN parents d
-        ON c.parents_id = d.parents_id
-        WHERE a.class_id=#{classId} AND a.state=#{state};
-    </select>
-
-
-    <!--알림장 수정(구현 예정)-->
+    <!--알림장 수정(구현 예정) Update-->
     <update id="putNotice">
         UPDATE notice
         <set>
@@ -63,7 +57,7 @@
     </update>
 
 
-    <!--알림장 삭제-->
+    <!--알림장 삭제 Delete-->
     <delete id="deleteNotice">
         DELETE
         FROM notice
@@ -75,13 +69,15 @@
     </delete>
 
 
-    <!--로그인 한 선생님에 따른 학급 ID 호출 메소드-->
-    <select id="teacherHomeroom">
-        SELECT class_id
-        FROM class
-        WHERE tea_id=#{teaId};
-    </select>
 
+
+
+
+
+
+
+
+    <!--TDD에 쓰는 메소드-->
 
     <!--TDD용 전체 리스트 가져오는 SELECT-->
     <select id="getNoticeForTDD">
@@ -89,7 +85,6 @@
         title, content, created_at AS createdAt, updated_at AS updatedAt, state
         FROM notice
     </select>
-
 
     <!--TDD용 특정 컬럼 가져오는 SELECT-->
     <select id="getNoticeForTDDJustOne">
