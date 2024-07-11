@@ -57,5 +57,4 @@ public class ScoreControllerImpl implements ScoreController {
             return ResultDto.resultDto1(ERROR_CODE,"성적조회 실패");
         }
     }
-
 }

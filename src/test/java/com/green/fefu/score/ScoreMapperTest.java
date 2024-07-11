@@ -1,6 +1,5 @@
 package com.green.fefu.score;
 
-import com.green.fefu.score.model.GetScoreReq;
 import com.green.fefu.score.model.InsScoreList;
 import com.green.fefu.score.model.InsScoreReq;
 import org.junit.jupiter.api.Test;

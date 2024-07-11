@@ -136,8 +136,8 @@ management:
     env:
       enabled: true
 
-  server:
-    port: 8080
+server:
+  port: 8080
 
 ---
 
@@ -161,6 +161,7 @@ spring:
     url: ${PROD.DB_URL}
     username: ${PROD.DB_USERNAME}
     password: ${PROD.DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
 
 file:
   directory: ${PROD.FILE_DIRECTORY}
