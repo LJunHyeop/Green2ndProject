@@ -9,8 +9,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class deleteStudentReq {
-    @Schema(example = "1",description = "삭제할 유저 pk값", required = true)
+    @Schema(example = "1",description = "삭제할 유저 pk값")
     private Long pk;
-    @Schema(example = "2",description = "변경할 값 ( 1 -> 재학중, 2 -> 졸업, 3 -> 전학 )", required = true)
+    @Schema(example = "2",description = "변경할 값 ( 1 -> 재학중, 2 -> 졸업, 3 -> 전학 )")
     private Integer state;
 }
