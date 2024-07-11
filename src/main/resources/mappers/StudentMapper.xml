@@ -26,6 +26,7 @@
 
     <select id="getStudentList">
         SELECT
+        s.stu_id AS studentPk,
         s.name AS name,
         s.gender AS gender,
         s.birth AS birth,

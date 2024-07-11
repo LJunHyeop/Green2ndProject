@@ -111,22 +111,24 @@ class StudentMapperTest {
     @DisplayName("학생 상세 정보")
     void getStudentDetail() {
         getDetail p = new getDetail();
-        p.setPk("1L");
-        p.setName("김학생");
+        p.setPk("1");
+        p.setName("홍길동");
         p.setBirth("2010-05-15");
         p.setGender("남");
-        p.setPhone("010-1111-2222");
-        p.setAddr("서울시 강남구");
-        p.setEtc(null);
+        p.setPhone("010-0000-0000");
+        p.setAddr("1234 # 서울 판교로 112");
+        p.setEtc("갑각류 알러지 있음");
         p.setCreatedAt("2024-07-04 08:02:22");
-        p.setParentId("1");
-        p.setUClass("");
-        p.setParentName("");
-        p.setConnet("");
-        p.setParentPhone("");
-        p.setPic("");
-        p.setTeacherName("");
+        p.setParentId("parent1");
+        p.setUClass("201");
+        p.setParentName("김부모");
+        p.setConnet("부");
+        p.setParentPhone("010-1234-5678");
+        p.setPic(null);
+        p.setTeacherName("정선생");
         getDetail result = mapper.getStudentDetail(1L);
+        assertEquals(p,result);
+        assertNotNull(result);
 
     }
 
