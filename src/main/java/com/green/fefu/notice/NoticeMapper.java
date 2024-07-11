@@ -8,7 +8,8 @@ import java.util.List;
 @Mapper
 public interface NoticeMapper {
     int postNotice(PostNoticeReq p);
-    List<GetNoticeRes> getNotice(GetNoticeReq p);
+    List<GetNoticeRes> getNotice_teacher(GetNoticeReq p);
+    List<GetNoticeRes> getNotice_parent(GetNoticeReq p);
     int putNotice(PutNoticeReq p); //구현 예정
     int deleteNotice(DeleteNoticeReq p);
 

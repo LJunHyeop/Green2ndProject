@@ -13,12 +13,26 @@
     </insert>
 
 
-    <!--알림장 조회-->
-    <select id="getNotice">
+    <!--알림장 조회 선생님-->
+    <select id="getNotice_teacher">
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
                title, content, created_at AS createdAt, updated_at AS updatedAt, state
         FROM notice
         WHERE class_id=#{classId} AND state=#{state}
+    </select>
+
+    <!--알림장 조회 학부모-->
+    <select id="getNotice_parent">
+        SELECT DISTINCT a.notice_id AS noticeId, a.tea_id AS teaId, a.class_id AS classId,
+                        a.title, a.content, a.created_at AS createdAt, a.updated_at AS updatedAt
+        FROM notice a
+        JOIN student_classes b
+        ON a.class_id = b.class_id
+        JOIN student c
+        ON b.stu_id = c.stu_id
+        JOIN parents d
+        ON c.parents_id = d.parents_id
+        WHERE a.class_id=#{classId} AND a.state=#{state};
     </select>
 
 

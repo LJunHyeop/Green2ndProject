@@ -15,8 +15,8 @@ import java.beans.ConstructorProperties;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostNoticeReq {
-    @JsonProperty("tea_id")
-    //@JsonIgnore
+    //@JsonProperty("tea_id")
+    @JsonIgnore
     private long teaId;
     private String title;
     private String content;
