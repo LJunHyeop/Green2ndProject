@@ -9,9 +9,13 @@ import java.util.List;
 public interface ScoreMapper {
     int postScore(InsScoreReq p);
 
-    List<InsScoreList> getScore(GetScoreReq p);
+    List<InsScoreList> getScoreMidterm(StuGetRes p);
+
+    List<InsScoreList> getScoreFinal(StuGetRes p);
 
     StuGetRes getStu(long stuId);
 
     List<InsScoreList> getDetailScore(GetDetailScoreReq p);
+
+    List<InsScoreList> getDetailScoreFinal(GetDetailScoreReq p);
 }

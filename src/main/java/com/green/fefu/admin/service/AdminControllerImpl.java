@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -30,6 +31,7 @@ public class AdminControllerImpl implements AdminController {
 
     //    list Get
     @GetMapping("{p}")
+
     @Operation(summary = "승인 필요한 계정List 불러오기", description = "리턴 => 학부모, 승인 대기 학부모 리스트" +
             "승인 신청일, 자녀 학년, 자녀 학급, 부모 pk, 부모 id, 부모 이름")
     @ApiResponses(value = {

@@ -10,7 +10,10 @@ import com.green.fefu.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfiguration {
     //@Component로 빈등록을 하였기 때문에 DI가 된다.
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -56,7 +60,8 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable()) //CSRF (CORS랑 많이갈려 함)
                 //requestMatcher 헷
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers(
+                        auth.
+                                requestMatchers(
                                         "/api/feed"
                                         , "/api/feed/*"
                                         , "/api/user/pic"

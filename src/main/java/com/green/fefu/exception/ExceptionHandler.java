@@ -31,12 +31,12 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler{
     }
 
     //이외의 모든 예외 캐치
-    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleException(Exception e){
-        log.error("Exception - handlerException: {}");
-        //return handleExceptionInternal(null);
-        return handleExceptionInternal(OutOfRangeErrorCode.NOTICE_STATE_CHECK);
-    }
+//    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+//    public ResponseEntity<Object> handleException(Exception e){
+//        log.error("Exception - handlerException: {}");
+//        //return handleExceptionInternal(null);
+//        return handleExceptionInternal(OutOfRangeErrorCode.NOTICE_STATE_CHECK);
+//    }
     private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode){
         return handleExceptionInternal(errorCode, null);
     }

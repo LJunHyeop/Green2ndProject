@@ -14,5 +14,4 @@ public class DtoDetail<T>{
     private  T stuId;
 
 
-
 }

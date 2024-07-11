@@ -16,5 +16,6 @@ public class Dto <T>{
     private int latestGrade;
     private int latestSemester;
     private long latestYear;
+    private int exam;
 
 }

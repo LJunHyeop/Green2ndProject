@@ -12,4 +12,6 @@ public class StuGetRes {
     private int latestGrade;
     private int latestSemester;
     private long latestYear;
+
+    private int exam;
 }
