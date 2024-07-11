@@ -11,10 +11,10 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 public class PutNoticeReq {
-    //@JsonIgnore
     @JsonProperty("notice_id")
     private long noticeId;
-    @JsonProperty("tea_id")
+    @JsonIgnore
+    //@JsonProperty("tea_id")
     private long teaId;
 
     private String title;
