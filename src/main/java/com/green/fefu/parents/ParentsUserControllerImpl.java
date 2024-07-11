@@ -95,7 +95,4 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         SignatureRes result = service.signature(pic, req);
         return ResponseEntity.ok().body(result) ;
     }
-    // 과목별 성적 학인 ( 과목 별 원점수, 전체평균, 반평균, 전체등수, 반등수 )
-
-    // 성적통계
 }

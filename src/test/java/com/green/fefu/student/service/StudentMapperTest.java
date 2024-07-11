@@ -1,15 +1,18 @@
 package com.green.fefu.student.service;
 
 import com.green.fefu.student.model.dto.getDetail;
+import com.green.fefu.student.model.dto.getListForNoParent;
 import com.green.fefu.student.model.dto.getStudent;
 import com.green.fefu.student.model.dto.getUserTest;
 import com.green.fefu.student.model.req.createStudentReq;
 import com.green.fefu.student.model.req.deleteStudentReq;
+import com.green.fefu.student.model.req.updateStudentReq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +127,7 @@ class StudentMapperTest {
         p.setParentName("김부모");
         p.setConnet("부");
         p.setParentPhone("010-1234-5678");
-        p.setPic(null);
+        p.setPic("47872175-b41f-4080-bcf9-dc72604c46d5.png");
         p.setTeacherName("정선생");
         getDetail result = mapper.getStudentDetail(1L);
         assertEquals(p,result);
@@ -135,11 +138,84 @@ class StudentMapperTest {
     @Test
     @DisplayName("학생 정보 변경")
     void updateStudent() {
+        updateStudentReq p = new updateStudentReq();
+        p.setPk(1);
+        p.setName("강길동");
+        int result = mapper.updateStudent(p);
+        assertEquals(1, result, resultMsg);
+        getUserTest entity = mapper.selOneTest(p.getPk());
+        assertEquals(p.getName(), entity.getName(), msg);
+
+
+
+    }
+
+    @Test
+    @Transactional
+    public void testUpdateStudent_OptionalFieldsMissing() {
+        // Given
+        updateStudentReq p = new updateStudentReq();
+        p.setPk(1);
+        p.setName("강길동");
+        p.setAddr("서울 판교로 112");
+        p.setZoneCode("1234");
+        p.setFullAddr(); // fullAddr 설정
+
+        // When
+        int result = mapper.updateStudent(p);
+
+        // Then
+        assertEquals(1, result, "Update result should be 1");
+
+        // Fetch updated entity
+        getUserTest entity = mapper.selOneTest(p.getPk());
+
+        // Verify updated fields
+        assertEquals(p.getName(), entity.getName(), "Name should be updated");
+        assertEquals(p.getFullAddr(), entity.getAddr(), "Full address should be updated");
+    }
+
+    @Test
+    @Transactional
+    public void testUpdateStudent_NonExistentPk() {
+        // Given
+        updateStudentReq p = new updateStudentReq();
+        p.setPk(999); // Non-existent pk
+        p.setName("강길동");
+        p.setAddr("서울 판교로 112");
+        p.setZoneCode("1234");
+        p.setPhone("010-0000-0000");
+        p.setEtc("갑각류 알러지 있음");
+        p.setFullAddr(); // fullAddr 설정
+
+        // When
+        int result = mapper.updateStudent(p);
+
+        // Then
+        assertEquals(0, result, "Update result should be 0 for non-existent pk");
     }
 
     @Test
     @DisplayName("부모 없는 학생 리스트")
     void getStudentListForParent() {
+        getListForNoParent p1 = new getListForNoParent();
+        p1.setPk(24);
+        p1.setPic("47872175-b41f-4080-bcf9-dc72604c46d5.png");
+        p1.setName("홍길동");
+        p1.setGrade("10101");
+        p1.setPhone("010-0000-0000");
+        List<getListForNoParent> list = new ArrayList<>();
+        list.add(p1);
+
+        List<getListForNoParent> result = mapper.getStudentListForParent();
+        assertEquals(list.size(), result.size(), resultMsg);
+        for (int i = 0; i < list.size(); i++) {
+            assertEquals(result.get(i).getName(), list.get(i).getName(), msg);
+            assertEquals(result.get(i).getGrade(), list.get(i).getGrade(), msg);
+            assertEquals(result.get(i).getPhone(), list.get(i).getPhone(), msg);
+            assertEquals(result.get(i).getPk(), list.get(i).getPk(), msg);
+            assertEquals(result.get(i).getPic(), list.get(i).getPic(), msg);
+        }
     }
 
     @Test

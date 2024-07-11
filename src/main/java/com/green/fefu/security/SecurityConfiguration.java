@@ -53,8 +53,8 @@ public class SecurityConfiguration {
                 // 하기 위해서 사용하는 개념
                 // 정리하면, 시큐리티에서 제공해주는 로그인 화면 사용하지 않겠다.
                 .formLogin(form -> form.disable()) //form 로그인 방식을 사용하지 않음을 세팅
-                .csrf(csrf -> csrf.disable()) //CSRF (CORS랑 많이 헷갈려 함)
-                //requestMatcher
+                .csrf(csrf -> csrf.disable()) //CSRF (CORS랑 많이갈려 함)
+                //requestMatcher 헷
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(
                                         "/api/feed"
