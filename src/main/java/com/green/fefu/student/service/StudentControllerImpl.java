@@ -13,7 +13,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -68,8 +70,9 @@ public class StudentControllerImpl implements StudentController {
                     description = "에러 난 이유 설명"
             ),
     })
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEAHCER')")
     @Override
-    public ResponseEntity deleteStudent(@RequestParam deleteStudentReq p) {
+    public ResponseEntity deleteStudent(@ParameterObject @ModelAttribute deleteStudentReq p) {
         log.info("deleteStudent req : {}", p);
         try {
             service.deleteStudent(p);
@@ -84,16 +87,17 @@ public class StudentControllerImpl implements StudentController {
     @Operation(summary = "담당 학급의 학생 List", description = "리턴 => 이름, 성별, 생년월일, 전화번호, 부모 이름, 부모 전화번호")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "[\n" +
-                            "  {\n" +
-                            "    \"num\": \"1\",\n" +
-                            "    \"name\": \"홍길동\",\n" +
-                            "    \"gender\": \"남자\",\n" +
-                            "    \"birth\": \"2024-07-03\",\n" +
-                            "    \"phone\": \"010-0000-0000\",\n" +
-                            "    \"parentName\": \"부모\",\n" +
-                            "    \"parentPhone\": \"010-1111-1111\"\n" +
-                            "  }\n" +
+                    description = "[" +
+                            "{\n" +
+                            "    \"studentPk\": 2,\n" +
+                            "    \"num\": 1,\n" +
+                            "    \"name\": \"이학생\",\n" +
+                            "    \"gender\": \"여\",\n" +
+                            "    \"birth\": \"2010-07-20\",\n" +
+                            "    \"phone\": \"010-2222-3333\",\n" +
+                            "    \"parentName\": \"이부모\",\n" +
+                            "    \"parentPhone\": \"010-2345-6789\"\n" +
+                            "  }" +
                             "]"
             ),
             @ApiResponse(responseCode = "404",
@@ -106,6 +110,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @PreAuthorize("hasRole('TEAHCER') or hasRole('ADMIN')")
     @Override
     public ResponseEntity getStudentList() {
         List<getStudent> result = new ArrayList<>();
@@ -159,6 +164,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @PreAuthorize("hasRole('TEAHCER')")
     @Override
     public ResponseEntity getStudentDetail(@RequestParam long pk) {
         log.info("getStudentDetail req : {}", pk);
@@ -188,6 +194,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @PreAuthorize("hasRole('TEAHCER')")
     @Override
     public ResponseEntity updateStudent(@RequestBody updateStudentReq p) {
         log.info("updateStudent req : {}", p);
@@ -240,6 +247,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "에러 난 이유 설명"
             )
     })
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEAHCER')")
     public ResponseEntity studentAdvanceGrade(@RequestBody List<studentAdvanceGradeReq> p){
         log.info("studentAdvanceGrade req : {}", p);
         try {
