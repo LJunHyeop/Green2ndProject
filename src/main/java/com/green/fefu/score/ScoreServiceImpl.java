@@ -19,25 +19,26 @@ public class ScoreServiceImpl {
         return mapper.postScore(p);
     }
     //점수 받아오기
-    public Dto getScore(GetScoreReq p){
+    public Dto getScore(StuGetRes p){
         //학생, 학년, 년도, 학기, 과목(이름), 점수
         Dto dto = new Dto();
         StuGetRes res = mapper.getStu(p.getStuId());
         //학생의 점수 PK, 학생 PK, 직전 학년, 학기, 년도
-        if (p.getSemester() == 0) { //학기가 0이면
+        if (p.getLatestSemester() == 0) { //학기가 0이면
             Integer latestSemester = res.getLatestSemester();
             if (latestSemester == null || latestSemester == 0) {
-                p.setSemester(1);
-            } else {
-                p.setSemester(latestSemester);
+                p.setLatestSemester(1);
             }
+            log.info("adsfasdf : {}",res.getLatestSemester());
+
+            log.info("2: {}",res.getExam());
         }
         dto.setStuId(p.getStuId());
-
         dto.setLatestGrade(res.getLatestGrade());
         log.info("StuGetRes - latestGrade: {}", res.getLatestGrade());
         dto.setLatestSemester(res.getLatestSemester());
         dto.setLatestYear(res.getLatestYear());
+        dto.setExam(res.getExam());
 
 
         System.out.println(dto.getList().toString());
@@ -45,8 +46,18 @@ public class ScoreServiceImpl {
         StuGetRes aa = mapper.getStu(p.getStuId());
         dto.setStuId(aa.getStuId());
         p.setLatestGrade(res.getLatestGrade());
-        List<InsScoreList> list = mapper.getScore(p);
-        dto.setList(list);
+        res.setExam(p.getExam());
+        log.info("exam: {}", res.getExam());
+        log.info("latestSemester: {}", res.getLatestSemester());
+
+        if(res.getExam() == 1){
+            List<InsScoreList> list = mapper.getScoreMidterm(res);
+            dto.setList(list);
+        }else {
+            List<InsScoreList> list1 = mapper.getScoreFinal(res);
+            dto.setList(list1);
+        }
+
         //        List <InsScoreReq> list = new ArrayList<>();
         //       if(list.size() == 0){
         //            List list1 = new ArrayList();
@@ -57,15 +68,23 @@ public class ScoreServiceImpl {
         return dto;
     }
 
+
     // 디테일하게 조회 EX 학년 학기
 
     public  DtoDetail getDetailScore(GetDetailScoreReq p){
         StuGetRes res = mapper.getStu(p.getStuId());
+        DtoDetail dto = new DtoDetail();
         if(res.getLatestGrade() < p.getGradle()){
             throw  new RuntimeException("잘못된 학년입니다.");
         }
-        DtoDetail dto = new DtoDetail();
-        dto.setList(mapper.getDetailScore(p));
-        return  dto;
+        if(dto.getList() == null || dto.getList().size() == 0){
+            throw new RuntimeException("조회된 성적이 없습니다");
+        }
+        if ((p.getSemester() == 1 || p.getSemester() == 2) && p.getExam() == 1 ) {
+            dto.setList(mapper.getDetailScore(p));
+        }else if((p.getSemester() == 1 || p.getSemester() ==2) && p.getExam() ==2 ) {
+            dto.setList(mapper.getDetailScoreFinal(p));
+        }
+        return dto;
     }
 }

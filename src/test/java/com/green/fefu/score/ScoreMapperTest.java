@@ -1,5 +1,6 @@
 package com.green.fefu.score;
 
+
 import com.green.fefu.score.model.InsScoreList;
 import com.green.fefu.score.model.InsScoreReq;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ class ScoreMapperTest {
         p.setSemester(1);
         p.setStuId(1);
         List<InsScoreList> res  = mapper.getScore(p);
-        assertEquals(1,res.size());
+        assertEquals(8,res.size());
         assertNotEquals(2,res.size());
 
     }

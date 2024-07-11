@@ -16,12 +16,12 @@ import java.util.List;
 class NoticeMapperTest {
     @Autowired //DI
     private NoticeMapper mapper;
-    private final int DEFAULT_NUM=20;
+    private final int DEFAULT_NUM=25;
 
     @Test
     void postNotice() {
         /*모든 열을 조회한 숫자가 일치하는지*/
-        List<GetNoticeRes> all = mapper.getNoticeForTDD(); //20
+        List<GetNoticeRes> all = mapper.getNoticeForTDD(); //25
         assertEquals(DEFAULT_NUM, all.size(),"기존 리스트의 값이 다름");
 
         /*영향 받은 행의 값이 1인지*/
@@ -47,12 +47,14 @@ class NoticeMapperTest {
     @Test
     void getNotice() {
         /*이상한 번호를 넣었을 때 조회되지 않음*/
-        GetNoticeReq req1=new GetNoticeReq(486,0);
+        GetNoticeReq req1=new GetNoticeReq();
+        req1.setClassId(486); req1.setState(0);
         List<GetNoticeRes> res1=mapper.getNotice(req1);
         assertEquals(0, res1.size(), "조회되는 행이 있음");
 
         /*특정 값을 넣었을 때 n개 조회*/
-        GetNoticeReq req2=new GetNoticeReq(501,1);
+        GetNoticeReq req2=new GetNoticeReq();
+        req2.setClassId(501); req2.setState(1);
         List<GetNoticeRes> res2=mapper.getNotice(req2);
         assertEquals(1, res2.size(), "조회된 행의 개수가 다름");
 

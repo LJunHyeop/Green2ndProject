@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -202,6 +203,7 @@ public class TeacherControllerImpl implements TeacherController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @PreAuthorize("hasRole('TEAHCER')")
     @Override
     public ResponseEntity TeacherDetail() {
         Map map = new HashMap();
@@ -230,6 +232,7 @@ public class TeacherControllerImpl implements TeacherController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @PreAuthorize("hasRole('TEAHCER')")
     @Override
     public ResponseEntity ChangeTeacher(@RequestBody ChangeTeacherReq p) {
         log.info("ChangeTeacher req: {}", p);

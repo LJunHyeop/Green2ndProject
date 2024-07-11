@@ -11,7 +11,12 @@ public class GetScoreReq {
     @Schema(example = "1", description = "학생Pk")
     private int stuId;
     @JsonIgnore
-    private int semester;
+    private int latestSemester;
     @JsonIgnore
     private int latestGrade;
+    @JsonIgnore
+    private int semester;
+
+    @Schema(example = "1", description = "중간고사 기말고사 ")
+    private int exam;
 }

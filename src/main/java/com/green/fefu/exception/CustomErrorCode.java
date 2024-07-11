@@ -5,11 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
-public enum OutOfRangeErrorCode implements ErrorCode{
+public enum CustomErrorCode implements ErrorCode{
 
     NOTICE_STATE_CHECK(HttpStatus.BAD_REQUEST,"정상적이지 않은 알림장 항목을 호출하였습니다."),
 
-    CLASS_CHECK_PLEASE(HttpStatus.NOT_FOUND, "호출한 학급이 존재하지 않습니다.");
+    CLASS_CHECK_PLEASE(HttpStatus.NOT_FOUND, "호출한 학급이 존재하지 않습니다."),
+
+    YOU_ARE_NOT_TEACHER(HttpStatus.FORBIDDEN, "선생님만 접근할 수 있습니다.");
 
     //권한 없음, 토큰 만료, 뭐가 또 있지........?!
     //2학기 아직 시작 안 했는데 2학기 조회라던가 "해당학기의 정보를 조회할 수 없습니다."

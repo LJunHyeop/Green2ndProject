@@ -14,8 +14,8 @@ import java.beans.ConstructorProperties;
 public class DeleteNoticeReq {
     @Schema(name="notice_id")
     private long noticeId;
-    //@JsonIgnore
-    @Schema(name="tea_id")
+    @JsonIgnore
+    //@Schema(name="tea_id")
     private long teaId;
     @JsonIgnore
     //@Schema(name="class_id")

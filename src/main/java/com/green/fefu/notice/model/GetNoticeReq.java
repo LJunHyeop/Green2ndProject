@@ -12,13 +12,10 @@ import org.springframework.web.bind.annotation.BindParam;
 @Setter
 @EqualsAndHashCode
 public class GetNoticeReq {
-    @Schema(name="class_id")
+    //@Schema(name="class_id")
+    @JsonIgnore
     private long classId;
 
     private int state;
 
-    public GetNoticeReq(@BindParam("class_id")long classId, int state) {
-        this.classId = classId;
-        this.state=state;
-    }
 }
