@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.fefu.notice.NoticeMapper">
 
-    <!--알림장 작성-->
+    <!--알림장 작성 Create-->
     <insert id="postNotice">
         INSERT INTO notice
         (tea_id, title, content, class_id, state)
@@ -13,7 +13,7 @@
     </insert>
 
 
-    <!--알림장 조회-->
+    <!--알림장 조회 Read-->
     <select id="getNotice">
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
                title, content, created_at AS createdAt, updated_at AS updatedAt, state
@@ -22,7 +22,27 @@
     </select>
 
 
-    <!--알림장 수정(구현 예정)-->
+    <!--로그인 한 선생님에 따른 담당 학반 조회-->
+    <select id="teacherHomeroom">
+        SELECT class_id
+        FROM class
+        WHERE tea_id=#{teaId};
+    </select>
+
+
+    <!--로그인 한 학부모에 따른 자녀의 학반 조회-->
+    <select id="childClassRoom">
+        SELECT class_id
+        FROM parents A
+        INNER JOIN student B
+        ON A.parents_id=B.parents_id
+        INNER JOIN student_classes C
+        ON C.stu_id=B.stu_id
+        WHERE A.parents_id=#{userId};
+    </select>
+
+
+    <!--알림장 수정(구현 예정) Update-->
     <update id="putNotice">
         UPDATE notice
         <set>
@@ -37,7 +57,7 @@
     </update>
 
 
-    <!--알림장 삭제-->
+    <!--알림장 삭제 Delete-->
     <delete id="deleteNotice">
         DELETE
         FROM notice
@@ -49,13 +69,15 @@
     </delete>
 
 
-    <!--로그인 한 선생님에 따른 학급 ID 호출 메소드-->
-    <select id="teacherHomeroom">
-        SELECT class_id
-        FROM class
-        WHERE tea_id=#{teaId};
-    </select>
 
+
+
+
+
+
+
+
+    <!--TDD에 쓰는 메소드-->
 
     <!--TDD용 전체 리스트 가져오는 SELECT-->
     <select id="getNoticeForTDD">
@@ -63,7 +85,6 @@
         title, content, created_at AS createdAt, updated_at AS updatedAt, state
         FROM notice
     </select>
-
 
     <!--TDD용 특정 컬럼 가져오는 SELECT-->
     <select id="getNoticeForTDDJustOne">

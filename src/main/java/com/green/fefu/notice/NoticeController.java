@@ -5,6 +5,7 @@ import com.green.fefu.notice.model.*;
 import java.util.List;
 
 public interface NoticeController {
+
     ResultDto<Integer> postNotice(PostNoticeReq p);
     ResultDto<List<GetNoticeRes>> getNotice(GetNoticeReq p);
 
