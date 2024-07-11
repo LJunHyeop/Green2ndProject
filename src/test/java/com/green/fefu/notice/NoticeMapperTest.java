@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -13,15 +14,16 @@ import java.util.List;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace/*testDB를 대체할지*/.NONE/*하지 않음*/)
+@Transactional
 class NoticeMapperTest {
     @Autowired //DI
     private NoticeMapper mapper;
-    private final int DEFAULT_NUM=25;
+    private final int DEFAULT_NUM=24;
 
     @Test
     void postNotice() {
         /*모든 열을 조회한 숫자가 일치하는지*/
-        List<GetNoticeRes> all = mapper.getNoticeForTDD(); //25
+        List<GetNoticeRes> all = mapper.getNoticeForTDD(); //20
         assertEquals(DEFAULT_NUM, all.size(),"기존 리스트의 값이 다름");
 
         /*영향 받은 행의 값이 1인지*/
@@ -111,7 +113,7 @@ class NoticeMapperTest {
         assertEquals(DEFAULT_NUM, allRes.size(), "전체 행의 개수가 다름");
 
         /*영향받은 행이 1인지*/
-        DeleteNoticeReq req1 = new DeleteNoticeReq(1,1);
+        DeleteNoticeReq req1 = new DeleteNoticeReq(24);
         req1.setClassId(mapper.teacherHomeroom(req1.getTeaId()));
         int effect = mapper.deleteNotice(req1);
         assertEquals( 1, effect, "영향 받은 행이 다름");
@@ -124,5 +126,18 @@ class NoticeMapperTest {
         for(GetNoticeRes res: allRes2){
             assertNotEquals(res.getNoticeId(), req1.getNoticeId(), "지워진 행의 PK값이 조회됨");
         }
+    }
+
+    @Test
+    void teacherHomeroom() {
+        int answer1=mapper.teacherHomeroom(1);
+        assertEquals(answer1, 101, "다른 학급이 조회됨");
+
+        int answer2=mapper.teacherHomeroom(2);
+        assertEquals(answer2, 102, "다른 학급이 조회됨");
+
+        int answer3=mapper.teacherHomeroom(3);
+        assertEquals(answer3, 201, "다른 학급이 조회됨 ");
+
     }
 }

@@ -64,8 +64,10 @@ public class NoticeServiceImpl implements NoticeService{
 
 
     public int deleteNotice(DeleteNoticeReq p){
+        log.info("ser1: {}", p);
         p.setTeaId(authenticationFacade.getLoginUserId());
         p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
+        log.info("ser2: {}", p);
         return mapper.deleteNotice(p);
     }
 

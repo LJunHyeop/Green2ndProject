@@ -8,13 +8,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/notice")
@@ -71,6 +72,7 @@ public class NoticeControllerImpl implements NoticeController{
             description = "<strong> 변수명 : notice_id </strong> <p> 알림장 PK ex)1 </p>" )
     @PreAuthorize("hasRole('TEAHCER')")
     public ResultDto<Integer> deleteNotice(@ModelAttribute @ParameterObject DeleteNoticeReq p){
+        log.info("Con: {}", p);
         int result=service.deleteNotice(p);
         return ResultDto.<Integer>builder()
                 .statusCode(HttpStatus.OK)
