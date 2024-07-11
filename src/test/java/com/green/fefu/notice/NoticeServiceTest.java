@@ -98,7 +98,7 @@ class NoticeServiceTest {
 
     @Test
     void deleteNotice() {
-        DeleteNoticeReq req1=new DeleteNoticeReq(100,200);
+        DeleteNoticeReq req1=new DeleteNoticeReq(100);
         given(mapper.deleteNotice(req1)).willReturn(EFFECT);
         int effect=service.deleteNotice(req1);
         verify(mapper).deleteNotice(req1);

@@ -27,16 +27,16 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler{
 
     //Validation 예외가 발생되었을 경우 캐치
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        return handleExceptionInternal(CustomErrorCode.NOTICE_STATE_CHECK, ex);
+        return handleExceptionInternal(OutOfRangeErrorCode.NOTICE_STATE_CHECK, ex);
     }
 
     //이외의 모든 예외 캐치
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
-//    public ResponseEntity<Object> handleException(Exception e){
-//        log.error("Exception - handlerException: {}");
-//        //return handleExceptionInternal(null);
-//        return handleExceptionInternal(CustomErrorCode.NOTICE_STATE_CHECK);
-//    }
+    public ResponseEntity<Object> handleException(Exception e){
+        log.error("Exception - handlerException: {}");
+        //return handleExceptionInternal(null);
+        return handleExceptionInternal(OutOfRangeErrorCode.NOTICE_STATE_CHECK);
+    }
     private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode){
         return handleExceptionInternal(errorCode, null);
     }
