@@ -21,4 +21,6 @@ public class GetDetailScoreReq {
     private int semester;
     @JsonIgnore
     private int latestGrade;
+    @Schema(example = "1", description = "중간고사 기말고사 ")
+    private int exam;
 }
