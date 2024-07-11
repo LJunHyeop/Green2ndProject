@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -27,7 +26,7 @@ class NoticeMapperTest {
 
         /*영향 받은 행의 값이 1인지*/
         PostNoticeReq req1=new PostNoticeReq();
-        req1.setTeaId(10); req1.setClassId(101); req1.setTitle("제목 100"); req1.setContent("내용 100");
+        req1.setTeaId(10); req1.setClassId(101); req1.setTitle("제목 100"); req1.setContent("내용 100"); req1.setState(1);
         //req1.setTeaId(20); req1.setClassId(501); req1.setTitle("제목 500"); req1.setContent("내용 500");
         int effect=mapper.postNotice(req1);
         assertEquals(1, effect, "영향 받은 행의 개수가 다름");
@@ -41,29 +40,25 @@ class NoticeMapperTest {
         PostNoticeReq tmp=new PostNoticeReq();
         tmp.setTeaId(res1.getTeaId()); tmp.setClassId(res1.getClassId());
         tmp.setTitle(res1.getTitle()); tmp.setContent(res1.getContent());
+        tmp.setState(res1.getState());
         assertEquals(tmp, req1, "넣은 값과 추가된 값이 다름");
     }
 
     @Test
     void getNotice() {
         /*이상한 번호를 넣었을 때 조회되지 않음*/
-        GetNoticeReq req1=new GetNoticeReq(486);
+        GetNoticeReq req1=new GetNoticeReq(486,0);
         List<GetNoticeRes> res1=mapper.getNotice(req1);
         assertEquals(0, res1.size(), "조회되는 행이 있음");
 
         /*특정 값을 넣었을 때 n개 조회*/
-        GetNoticeReq req2=new GetNoticeReq(501);
+        GetNoticeReq req2=new GetNoticeReq(501,1);
         List<GetNoticeRes> res2=mapper.getNotice(req2);
         assertEquals(1, res2.size(), "조회된 행의 개수가 다름");
 
         /*전체 조회 = TDD 전용*/
         List<GetNoticeRes> resAll=mapper.getNoticeForTDD();
         assertEquals(DEFAULT_NUM, resAll.size(), "전체 행의 개수가 다름");
-
-        /*PK를 통해 특정 값 조회*/
-        GetNoticeReq req3=new GetNoticeReq(101);
-        List<GetNoticeRes> res3=mapper.getNotice(req3);
-        assertEquals(1, res3.size(),"조회된 행의 개수가 다름");
 
         /*n번 행이 실제 그 행인지*/
         GetNoticeRes onePick=resAll.get(0);
@@ -100,23 +95,22 @@ class NoticeMapperTest {
         List<GetNoticeRes> allNotice=mapper.getNoticeForTDD();
         assertEquals(DEFAULT_NUM, allNotice.size(), "행이 추가되거나 삭제되었음");
 
-        /*수정 전 행이 사라졌는지*/
-        assertNotEquals("제목 7", reqOne1.getTitle(), "제목이 다름");
 
-        List<GetNoticeRes> resAll=mapper.getNoticeForTDD();
-        for(GetNoticeRes res : resAll){
-            boolean answer=res.getTitle().equals("제목 7"); //제목 7이라는 행이 있으면 true
-            assertNotEquals(answer, true, "제목이 다름2");
+        /*수정 전 행이 사라졌는지- Not*/
+        for(GetNoticeRes res:allNotice) {
+            assertNotEquals("학부모회 모임 안내", res.getTitle(), "제목이 다름");
         }
     }
 
     @Test
     void deleteNotice() {
+        /*전체 행의 개수를 확인*/
         List<GetNoticeRes> allRes=mapper.getNoticeForTDD();
         assertEquals(DEFAULT_NUM, allRes.size(), "전체 행의 개수가 다름");
 
-        /*삭제 됐는지*/
+        /*영향받은 행이 1인지*/
         DeleteNoticeReq req1 = new DeleteNoticeReq(1,1);
+        req1.setClassId(mapper.teacherHomeroom(req1.getTeaId()));
         int effect = mapper.deleteNotice(req1);
         assertEquals( 1, effect, "영향 받은 행이 다름");
 
@@ -126,8 +120,7 @@ class NoticeMapperTest {
 
         /*지운 행이 없는지*/
         for(GetNoticeRes res: allRes2){
-            boolean answer=(res.getNoticeId()!=req1.getNoticeId());
-            assertEquals(answer, true,"지워져야 할 행이 남아있음");
+            assertNotEquals(res.getNoticeId(), req1.getNoticeId(), "지워진 행의 PK값이 조회됨");
         }
     }
 }

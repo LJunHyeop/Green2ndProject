@@ -16,7 +16,7 @@
     <!--알림장 조회-->
     <select id="getNotice">
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
-               title, content, created_at AS createdAt, updated_at AS updatedAt
+               title, content, created_at AS createdAt, updated_at AS updatedAt, state
         FROM notice
         WHERE class_id=#{classId} AND state=#{state}
     </select>
@@ -60,7 +60,7 @@
     <!--TDD용 전체 리스트 가져오는 SELECT-->
     <select id="getNoticeForTDD">
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
-        title, content, created_at AS createdAt, updated_at AS updatedAt
+        title, content, created_at AS createdAt, updated_at AS updatedAt, state
         FROM notice
     </select>
 
@@ -68,7 +68,7 @@
     <!--TDD용 특정 컬럼 가져오는 SELECT-->
     <select id="getNoticeForTDDJustOne">
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
-        title, content, created_at AS createdAt, updated_at AS updatedAt
+        title, content, created_at AS createdAt, updated_at AS updatedAt, state
         FROM notice
         WHERE title=#{title} AND content=#{content}
     </select>

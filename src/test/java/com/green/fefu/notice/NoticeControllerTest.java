@@ -78,7 +78,7 @@ class NoticeControllerTest {
         res2.setClassId(200); res2.setTeaId(200);
         result.add(res1); result.add(res2);
 
-        GetNoticeReq req1=new GetNoticeReq(100);
+        GetNoticeReq req1=new GetNoticeReq(100,1);
         req1.setClassId(100);
 
         //쿼리스트링을 짠다
