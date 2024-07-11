@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -58,6 +59,7 @@ public class AdminControllerImpl implements AdminController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public ResponseEntity findUnAcceptList(@PathVariable @Schema(example = "1", description = "1-> 부모List, 2-> 선생List") int p) {
         log.info("parameter p: {}", p);
@@ -89,6 +91,7 @@ public class AdminControllerImpl implements AdminController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public ResponseEntity deleteUser(@ParameterObject @ModelAttribute adminUserReq p) {
         log.info("deleteUser req : {}", p);
@@ -118,6 +121,7 @@ public class AdminControllerImpl implements AdminController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public ResponseEntity acceptUser(@ParameterObject @ModelAttribute adminUserReq p) {
         log.info("acceptUser req : {}", p);
