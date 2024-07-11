@@ -17,7 +17,8 @@ public class GetNoticeReq {
 
     private int state;
 
-    public GetNoticeReq(@BindParam("class_id")long classId) {
+    public GetNoticeReq(@BindParam("class_id")long classId, int state) {
         this.classId = classId;
+        this.state=state;
     }
 }
