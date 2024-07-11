@@ -20,9 +20,13 @@ public class updateStudentReq {
     private String zoneCode;
     @Schema(example = "갑각류 알러지 있음", description = "특이사항 기입")
     private String etc;
-    @Schema(example = "1", description = "바꿀 학생의 pk값")
+    @Schema(example = "1", description = "바꿀 학생의 pk값", required = true)
     private long pk;
 
     @JsonIgnore
     private String fullAddr;
+
+    public void setFullAddr() {
+        this.fullAddr = zoneCode + "#" + addr;
+    }
 }

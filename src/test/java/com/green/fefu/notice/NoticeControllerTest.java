@@ -39,7 +39,8 @@ class NoticeControllerTest {
     @Test
     void postNotice() throws Exception{ //Json 통신! (HTTP통신의 기본)
         int result=1;
-        PostNoticeReq p=new PostNoticeReq(100, "제목 100", "내용 100", 100);
+        PostNoticeReq p=new PostNoticeReq();
+        p.setTeaId(100); p.setClassId(100); p.setTitle("100"); p.setContent("100");
         String reqJson=om.writeValueAsString(p); //객체를 JSON으로
 
         given(service.postNotice(p)).willReturn(result);
@@ -77,7 +78,7 @@ class NoticeControllerTest {
         res2.setClassId(200); res2.setTeaId(200);
         result.add(res1); result.add(res2);
 
-        GetNoticeReq req1=new GetNoticeReq(100);
+        GetNoticeReq req1=new GetNoticeReq(100,1);
         req1.setClassId(100);
 
         //쿼리스트링을 짠다
@@ -135,7 +136,7 @@ class NoticeControllerTest {
     @Test
     void deleteNotice() throws Exception{
         int effect=1;
-        DeleteNoticeReq req1=new DeleteNoticeReq(1,2,3);
+        DeleteNoticeReq req1=new DeleteNoticeReq(1,2);
         MultiValueMap<String, String> params=new LinkedMultiValueMap();
         params.add("notice_id", String.valueOf(req1.getNoticeId()));
         params.add("tea_id", String.valueOf(req1.getTeaId()));

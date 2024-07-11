@@ -3,23 +3,26 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.fefu.notice.NoticeMapper">
+
     <!--알림장 작성-->
     <insert id="postNotice">
         INSERT INTO notice
-        (tea_id, title, content, class_id)
+        (tea_id, title, content, class_id, state)
         VALUES
-        (#{teaId}, #{title}, #{content}, #{classId})
+        (#{teaId}, #{title}, #{content}, #{classId}, #{state})
     </insert>
+
 
     <!--알림장 조회-->
     <select id="getNotice">
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
-               title, content, created_at AS createdAt, updated_at AS updatedAt
+               title, content, created_at AS createdAt, updated_at AS updatedAt, state
         FROM notice
-        WHERE class_id=#{classId}
+        WHERE class_id=#{classId} AND state=#{state}
     </select>
 
-    <!--알림장 수정-->
+
+    <!--알림장 수정(구현 예정)-->
     <update id="putNotice">
         UPDATE notice
         <set>
@@ -27,11 +30,12 @@
             title=#{title},
         </if>
         <if test="content!=null">
-                content=#{content}
+            content=#{content}
         </if>
         </set>
         WHERE notice_id=#{noticeId} AND tea_id=#{teaId}
     </update>
+
 
     <!--알림장 삭제-->
     <delete id="deleteNotice">
@@ -44,25 +48,27 @@
               class_id=#{classId}
     </delete>
 
+
     <!--로그인 한 선생님에 따른 학급 ID 호출 메소드-->
     <select id="teacherHomeroom">
         SELECT class_id
         FROM class
-        WHERE tea_id=#{tea_id};
+        WHERE tea_id=#{teaId};
     </select>
 
 
     <!--TDD용 전체 리스트 가져오는 SELECT-->
     <select id="getNoticeForTDD">
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
-        title, content, created_at AS createdAt, updated_at AS updatedAt
+        title, content, created_at AS createdAt, updated_at AS updatedAt, state
         FROM notice
     </select>
+
 
     <!--TDD용 특정 컬럼 가져오는 SELECT-->
     <select id="getNoticeForTDDJustOne">
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
-        title, content, created_at AS createdAt, updated_at AS updatedAt
+        title, content, created_at AS createdAt, updated_at AS updatedAt, state
         FROM notice
         WHERE title=#{title} AND content=#{content}
     </select>

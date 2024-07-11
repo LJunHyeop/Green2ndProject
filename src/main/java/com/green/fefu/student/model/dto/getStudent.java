@@ -6,6 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class getStudent {
+    private long studentPk;
+    private int num;
     private String name;
     private String gender;
     private String birth;

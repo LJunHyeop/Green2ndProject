@@ -211,6 +211,9 @@ public class ParentsUserServiceImpl implements ParentsUserService {
             req.setPic(saveFileName) ;
 
             int result = mapper.signature(req) ;
+            if(result != 1){
+                throw new RuntimeException("서명 등록 오류가 발생했습니다: 저장에 실패했습니다.");
+            }
         } catch (Exception e) {
             log.error("File upload error", e);
             throw new RuntimeException("서명 등록 오류가 발생했습니다: " + e.getMessage());

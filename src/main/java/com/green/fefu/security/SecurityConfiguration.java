@@ -61,6 +61,11 @@ public class SecurityConfiguration {
                                         , "/api/feed/*"
                                         , "/api/user/pic"
                                         , "/api/user/follow"
+
+                                            // 알림장
+                                        ,"/api/notice"
+                                        ,"/api/notice/**"
+                                            // 점수 입력 및 불러오기
                                         ,  "/api/Score/**"
                                         , "/api/Score/getScoreDetail"
                                         //회원가입, 로그인 인증이 안 되어 있더라도 사용 가능하게 세팅
@@ -71,7 +76,8 @@ public class SecurityConfiguration {
                                         , "/api/teacher/find_pwd"
                                         , "/api/teacher/put_pwd"
                                         , "/api/student/list"
-                                        , "/api/student",
+                                        , "/api/student"
+                                        ,"/api/student/detail",
                                         "/api/user/parents/sign-up",
                                         "/api/user/parents/sign-in",
                                         "/api/user/access-token",
