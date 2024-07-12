@@ -9,11 +9,11 @@
         p.created_at AS createdAt
         FROM
         parents p
-        JOIN student s
+        LEFT JOIN student s
         ON p.parents_id = s.parents_id
-        JOIN student_classes sc
+        LEFT JOIN student_classes sc
         ON s.stu_id = sc.stu_id
-        JOIN class c
+        LEFT JOIN class c
         ON sc.class_id = c.class_id
         WHERE
         p.acept = 2
@@ -25,7 +25,7 @@
         t.nm AS name, c.class_id AS grade,
         t.created_at AS createdAt
         FROM teacher t
-        JOIN class c
+        LEFT JOIN class c
         ON c.tea_id = t.tea_id
         WHERE t.acept = 2
         ORDER BY t.created_at
