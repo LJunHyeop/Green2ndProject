@@ -36,8 +36,8 @@ public class ScoreControllerImpl implements ScoreController {
     }
     @GetMapping("/getScore")
     @Operation(summary = "학생성적조회 최초 성적조회 화면 이동시 ")
-    @PreAuthorize("hasRole('TEAHCER') or hasRole('PARENTS')")
-    public ResultDto<Dto> getScore(@ParameterObject @ModelAttribute StuGetRes p){
+    @PreAuthorize("hasRole('ROLE_TEAHCER') or hasRole('PARENTS')")
+    public ResultDto<Dto> getScore(@ParameterObject StuGetRes p){
         try {
             Dto res = service.getScore(p);
             if(res.getList().size() == 0){

@@ -18,4 +18,8 @@ public interface ScoreMapper {
     List<InsScoreList> getDetailScore(GetDetailScoreReq p);
 
     List<InsScoreList> getDetailScoreFinal(GetDetailScoreReq p);
+
+    int delScore(DelScore stuId);
+
+    List<InsScoreList> totalList(DelScore p);
 }

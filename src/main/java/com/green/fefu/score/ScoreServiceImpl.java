@@ -16,6 +16,17 @@ public class ScoreServiceImpl {
     private final ScoreMapper mapper;
     //점수 넣기
     public long postScore(InsScoreReq p){
+        DelScore delScore = new DelScore();
+        delScore.setExam(p.getExam());
+        delScore.setSemester(p.getSemester());
+        delScore.setName(p.getName());
+        delScore.setScId(p.getStuId());
+        List<InsScoreList> list = mapper.totalList(delScore) ;
+        for(InsScoreList afterList : list){
+            if (afterList != null){
+                mapper.delScore(delScore);
+            }
+        }
         return mapper.postScore(p);
     }
     //점수 받아오기
@@ -33,7 +44,7 @@ public class ScoreServiceImpl {
 
             log.info("2: {}",res.getExam());
         }
-        dto.setStuId(p.getStuId());
+        dto.setStuId(res.getStuId());
         dto.setLatestGrade(res.getLatestGrade());
         log.info("StuGetRes - latestGrade: {}", res.getLatestGrade());
         dto.setLatestSemester(res.getLatestSemester());
@@ -53,7 +64,7 @@ public class ScoreServiceImpl {
         if(res.getExam() == 1){
             List<InsScoreList> list = mapper.getScoreMidterm(res);
             dto.setList(list);
-        }else {
+        }else if(res.getExam() == 2){
             List<InsScoreList> list1 = mapper.getScoreFinal(res);
             dto.setList(list1);
         }
