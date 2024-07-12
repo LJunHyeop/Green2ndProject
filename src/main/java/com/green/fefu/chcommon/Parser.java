@@ -8,10 +8,10 @@ public class Parser {
     private static final int cNumber = 2;
 
     public static String[] addressParser(String address) {
-        String[] result = address.split("#", 2);
-        result[zoneCode] = result[zoneCode].trim();
-        result[addr] = result[addr].trim();
-        return result;
+            String[] result = address.split("#", 2);
+            result[zoneCode] = result[zoneCode].trim();
+            result[addr] = result[addr].trim();
+            return result;
     }
 
     public static String addressParserMerge(String zoneCode, String addr) {
@@ -20,7 +20,11 @@ public class Parser {
 
     //    학년 반 합친거
     public static String classParser(String data) {
+        if(data == null){
+            return null ;
+        }
         String[] result = classParserArray(data);
+
         if (data.length() == 5) {
             return String.format("%s %s %s", result[grade], result[uClass], result[cNumber]);
         }
@@ -30,6 +34,9 @@ public class Parser {
     //    학년 반 나눈거
     public static String[] classParserArray(String data) {
         String[] result = new String[3];
+        if(data == null){
+            return result ;
+        }
         result[grade] = String.format("%s학년", data.substring(0, 1));
         int classroomNumber = Integer.parseInt(data.substring(1, 3));
         result[uClass] = String.format("%s반", classroomNumber);

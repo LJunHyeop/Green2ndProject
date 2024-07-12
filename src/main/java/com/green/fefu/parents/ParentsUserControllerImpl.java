@@ -43,17 +43,19 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         return ResponseEntity.ok().body(res) ;
     }
     // 정보 조회
-    @Override @GetMapping("/parent-info") @Operation(summary = "정보조회") @PreAuthorize("hasRole('PARENT')")
+    @Override @GetMapping("/parent-info") @Operation(summary = "정보조회") @PreAuthorize("hasRole('PARENTS')")
     public ResponseEntity<ParentsUserEntity> getParentsUser(HttpServletRequest req) {
         String token = tokenProvider.resolveToken(req) ;
+
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build() ;
         }
         ParentsUserEntity p = service.getParentsUser(token);
+        log.info("parentsUser: {}", p) ;
         return ResponseEntity.ok().body(p) ;
     }
     // 정보 수정
-    @Override @PutMapping("/info-update") @Operation(summary = "정보수정") @PreAuthorize("hasRole('PARENT')")
+    @Override @PutMapping("/info-update") @Operation(summary = "정보수정") @PreAuthorize("hasRole('PARENTS')")
     public ResponseEntity<Integer> patchParentsUser(@RequestBody PatchParentsUserReq p) {
         int result = service.patchParentsUser(p) ;
         return ResponseEntity.ok().body(result) ;
@@ -65,7 +67,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         return ResponseEntity.ok().body(res) ;
     }
     // 비밀번호 수정
-    @Override @PutMapping("/password-update") @Operation(summary = "비밀번호 수정") @PreAuthorize("hasRole('PARENT')")
+    @Override @PutMapping("/password-update") @Operation(summary = "비밀번호 수정") @PreAuthorize("hasRole('PARENTS')")
     public ResponseEntity<Integer> patchPassword(@RequestBody PatchPasswordReq p) {
         int result = service.patchPassword(p) ;
         return ResponseEntity.ok().body(result) ;
@@ -90,7 +92,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         return new ResponseEntity<>(OK) ;
     }
     // 전자서명
-    @Override @PostMapping("/signature") @Operation(summary = "전자서명") @PreAuthorize("hasRole('PARENT')")
+    @Override @PostMapping("/signature") @Operation(summary = "전자서명") @PreAuthorize("hasRole('PARENTS')")
     public ResponseEntity<SignatureRes> signature(@RequestPart MultipartFile pic, @RequestPart SignatureReq req){
         SignatureRes result = service.signature(pic, req);
         return ResponseEntity.ok().body(result) ;
