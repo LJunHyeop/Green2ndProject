@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,7 +19,7 @@ public class ScoreServiceImpl {
         delScore.setExam(p.getExam());
         delScore.setSemester(p.getSemester());
         delScore.setName(p.getName());
-        delScore.setScId(p.getStuId());
+        delScore.setScId(p.getStudentPk());
         List<InsScoreList> list = mapper.totalList(delScore) ;
         for(InsScoreList afterList : list){
             if (afterList != null){
@@ -33,7 +32,7 @@ public class ScoreServiceImpl {
     public Dto getScore(StuGetRes p){
         //학생, 학년, 년도, 학기, 과목(이름), 점수
         Dto dto = new Dto();
-        StuGetRes res = mapper.getStu(p.getStuId());
+        StuGetRes res = mapper.getStu(p.getStudentPk());
         //학생의 점수 PK, 학생 PK, 직전 학년, 학기, 년도
         if (p.getLatestSemester() == 0) { //학기가 0이면
             Integer latestSemester = res.getLatestSemester();
@@ -44,7 +43,7 @@ public class ScoreServiceImpl {
 
             log.info("2: {}",res.getExam());
         }
-        dto.setStuId(res.getStuId());
+        dto.setStudentPk(res.getStudentPk());
         dto.setLatestGrade(res.getLatestGrade());
         log.info("StuGetRes - latestGrade: {}", res.getLatestGrade());
         dto.setLatestSemester(res.getLatestSemester());
@@ -54,8 +53,8 @@ public class ScoreServiceImpl {
 
         System.out.println(dto.getList().toString());
         log.info("List : {}", dto.getList().toString());
-        StuGetRes aa = mapper.getStu(p.getStuId());
-        dto.setStuId(aa.getStuId());
+        StuGetRes aa = mapper.getStu(p.getStudentPk());
+        dto.setStudentPk(aa.getStudentPk());
         p.setLatestGrade(res.getLatestGrade());
         res.setExam(p.getExam());
         log.info("exam: {}", res.getExam());
@@ -83,7 +82,7 @@ public class ScoreServiceImpl {
     // 디테일하게 조회 EX 학년 학기
 
     public  DtoDetail getDetailScore(GetDetailScoreReq p){
-        StuGetRes res = mapper.getStu(p.getStuId());
+        StuGetRes res = mapper.getStu(p.getStudentPk());
         log.info("ddd: {}",p.getSemester());
         log.info("ddd: {}",p.getExam());
         DtoDetail dto = new DtoDetail();
@@ -100,7 +99,7 @@ public class ScoreServiceImpl {
         if(dto.getList() == null || dto.getList().size() == 0){
             throw new RuntimeException("조회된 성적이 없습니다");
         }
-        dto.setStuId(p.getStuId());
+        dto.setStudentPk(p.getStudentPk());
         return dto;
     }
 }

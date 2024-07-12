@@ -9,7 +9,7 @@ public class GetScoreReq {
     @JsonIgnore
     private int scoreId;
     @Schema(example = "1", description = "학생Pk")
-    private int stuId;
+    private int studentPk;
     @JsonIgnore
     private int latestSemester;
     @JsonIgnore

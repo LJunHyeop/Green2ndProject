@@ -14,7 +14,7 @@ public class GetDetailScoreReq {
     @JsonIgnore
     private int scoreId;
     @Schema(example = "1", description = "학생Pk")
-    private int stuId;
+    private int studentPk;
     @Schema(example = "1", description = "학년")
     private int gradle;
     @Schema(example = "1", description = "학기")
