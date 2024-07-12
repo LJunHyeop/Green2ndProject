@@ -50,6 +50,7 @@ public class ScoreControllerImpl implements ScoreController {
     }
     @GetMapping("/getScoreDetail")
     @Operation(summary = "학생성적조회 학년과 학기 조회시")
+    @PreAuthorize("hasRole('ROLE_TEAHCER') or hasRole('PARENTS')")
     public ResultDto<DtoDetail> getDetailScore(@ParameterObject @ModelAttribute GetDetailScoreReq p){
         try {
             DtoDetail res = service.getDetailScore(p);

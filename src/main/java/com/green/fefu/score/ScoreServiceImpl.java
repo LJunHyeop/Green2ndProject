@@ -84,18 +84,23 @@ public class ScoreServiceImpl {
 
     public  DtoDetail getDetailScore(GetDetailScoreReq p){
         StuGetRes res = mapper.getStu(p.getStuId());
+        log.info("ddd: {}",p.getSemester());
+        log.info("ddd: {}",p.getExam());
         DtoDetail dto = new DtoDetail();
+
+        log.info("dto: {}", dto.getList().toString());
+        if ((p.getSemester() == 1 || p.getSemester() == 2) && p.getExam() == 1 ) {
+            dto.setList(mapper.getDetailScore(p));
+        }else if((p.getSemester() == 1 || p.getSemester() ==2) && p.getExam() ==2 ) {
+            dto.setList(mapper.getDetailScoreFinal(p));
+        }
         if(res.getLatestGrade() < p.getGradle()){
             throw  new RuntimeException("잘못된 학년입니다.");
         }
         if(dto.getList() == null || dto.getList().size() == 0){
             throw new RuntimeException("조회된 성적이 없습니다");
         }
-        if ((p.getSemester() == 1 || p.getSemester() == 2) && p.getExam() == 1 ) {
-            dto.setList(mapper.getDetailScore(p));
-        }else if((p.getSemester() == 1 || p.getSemester() ==2) && p.getExam() ==2 ) {
-            dto.setList(mapper.getDetailScoreFinal(p));
-        }
+        dto.setStuId(p.getStuId());
         return dto;
     }
 }
