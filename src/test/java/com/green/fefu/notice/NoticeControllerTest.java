@@ -137,7 +137,9 @@ class NoticeControllerTest {
     @Test
     void deleteNotice() throws Exception{
         int effect=1;
-        DeleteNoticeReq req1=new DeleteNoticeReq(1,2);
+        DeleteNoticeReq req1=new DeleteNoticeReq(1);
+        req1.setNoticeId(26);
+        req1.setTeaId(1); req1.setClassId(105);
         MultiValueMap<String, String> params=new LinkedMultiValueMap();
         params.add("notice_id", String.valueOf(req1.getNoticeId()));
         params.add("tea_id", String.valueOf(req1.getTeaId()));
