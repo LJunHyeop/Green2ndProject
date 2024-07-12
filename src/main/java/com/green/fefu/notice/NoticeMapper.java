@@ -1,6 +1,7 @@
 package com.green.fefu.notice;
 
 import com.green.fefu.notice.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public interface NoticeMapper {
     int deleteNotice(DeleteNoticeReq p);
 
     int teacherHomeroom(long teaId);
+
 
     //TDD를 위한 메소드
     List<GetNoticeRes> getNoticeForTDD();
