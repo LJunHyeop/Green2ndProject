@@ -11,7 +11,7 @@ import java.util.List;
 public class DtoDetail<T>{
     private List<T> list = new ArrayList<T>();
 
-    private  T stuId;
+    private  T studentPk;
 
 
 }
