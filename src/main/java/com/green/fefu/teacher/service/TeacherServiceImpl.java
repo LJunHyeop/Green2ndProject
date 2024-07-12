@@ -403,8 +403,10 @@ public class TeacherServiceImpl implements TeacherService {
         map.put(TEACHER_PHONE, teacher.getPhone());
         map.put(TEACHER_EMAIL, teacher.getEmail());
         map.put(TEACHER_GENDER, teacher.getGender());
-        map.put(TEACHER_CLASS, tClass);
         map.put(TEACHER_BIRTH, teacher.getBirth());
+        map.put(TEACHER_CLASS, tClass);
+
+
 
 //        주소 자를껀지 물어보고 잘라야 하면 잘라서 보내주기
 //        (현재 우편번호 # 주소 ) 임
