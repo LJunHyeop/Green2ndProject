@@ -60,10 +60,18 @@ public class AdminServiceImpl implements AdminService {
             dto.put(PK, getUserListDto.getPk());
             dto.put(ID, getUserListDto.getId());
             dto.put(NAME, getUserListDto.getName());
-            String[] tClass = Parser.classParserArray(getUserListDto.getGrade());
-            dto.put(GRADE, tClass[0]); // 학년
-            dto.put(CLASS, tClass[1]); // 반
-            dto.put(CREATEDAT, getUserListDto.getCreatedAt());
+
+            String grade = getUserListDto.getGrade();
+            if(grade != null && !grade.isEmpty()) {
+                String[] tClass = Parser.classParserArray(getUserListDto.getGrade());
+                dto.put(GRADE, tClass[0]); // 학년
+                dto.put(CLASS, tClass[1]); // 반
+                dto.put(CREATEDAT, getUserListDto.getCreatedAt());
+            } else {
+                dto.put(GRADE, null); // 학년
+                dto.put(CLASS, null); // 반
+                dto.put(CREATEDAT, getUserListDto.getCreatedAt());
+            }
             result.add(dto);
         }
         map.put(LIST, result);
