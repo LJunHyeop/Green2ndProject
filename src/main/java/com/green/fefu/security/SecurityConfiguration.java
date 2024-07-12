@@ -29,6 +29,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @RequiredArgsConstructor
 @EnableWebMvc
 @EnableMethodSecurity
+@EnableWebSecurity
 public class SecurityConfiguration {
     //@Component로 빈등록을 하였기 때문에 DI가 된다.
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
