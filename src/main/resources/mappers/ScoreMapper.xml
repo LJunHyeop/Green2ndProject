@@ -82,7 +82,7 @@
         LEFT JOIN
         score b ON a.stu_id = b.sc_id
         WHERE
-        a.stu_id = 1
+        a.stu_id = #{stuId}
         ) v ON LEFT(s.grade, 1) = v.latestGrade
         LEFT JOIN (
         SELECT
@@ -93,13 +93,13 @@
         LEFT JOIN
         score b ON a.stu_id = b.sc_id
         WHERE
-        a.stu_id = 1
+        a.stu_id = #{stuId}
         ORDER BY
         b.semester DESC
         LIMIT 1  -- 최신 학기만 가져오기 위해 LIMIT 1 사용
         ) T ON LEFT(scr.semester, 1) = v.latestGrade
         WHERE
-        s.stu_id = 1
+        s.stu_id = #{stuId}
         GROUP BY
         s.stu_id
         ORDER BY
@@ -119,7 +119,6 @@
         class_rank AS classRank,
         school_avg AS schoolRank,
         midterm_avg AS midtermAvg
-
         <if test="semester == 1 and exam == 1">
             FROM view_score_semester1_midterm
         </if>
@@ -155,5 +154,17 @@
             stu_id = #{stuId}
             AND SUBSTRING(class_id, 1, 1) = #{gradle}
         </where>
+    </select>
+    <delete id="delScore">
+        DELETE  FROM score
+        WHERE sc_id = #{scId}
+        AND semester = #{semester} AND name = #{name}
+        AND exam = #{exam}
+    </delete>
+    <select id="totalList">
+        SELECT *  FROM  score
+        WHERE sc_id = #{scId}
+        AND semester = #{semester} AND name = #{name}
+        AND exam = #{exam}
     </select>
 </mapper>

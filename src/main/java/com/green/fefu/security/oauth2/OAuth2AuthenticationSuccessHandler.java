@@ -20,6 +20,20 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 import java.net.URI;
 
+/*
+    인증받고 싶은 소셜 로그인 선택(redirect_uri 는 소셜로그인 마무리 되고 프론트엔드로 가는 url)
+    소셜로그인 화면출력
+
+    아이디/비번 입력해서 로그인 시도 (redirect_uri 는 백엔드로 가는 url)
+    인가 코드를 받기위한 작업이 이루저임
+    제공자 provider는 아이디/비번이 일치한다면 백엔드 redirect_uri로 인가코드를보내줌
+    백엔드 인가코드로 access_token 을 받기 위한 작업이 이루어짐
+    백엔드 access _token 으로 사용자 정보를 받기 위한 작업이 이루어짐
+    로컬 로그인 작업 수행 SuccessHandler
+    프론트 엔드 redirect_uri 로 리다이렉트를 하면서 필요한 정보를 파라미터로 보내준다
+
+ */
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
