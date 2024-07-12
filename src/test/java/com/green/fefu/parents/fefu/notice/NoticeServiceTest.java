@@ -1,5 +1,8 @@
-package com.green.fefu.notice;
+package com.green.fefu.parents.fefu.notice;
 
+import com.green.fefu.notice.NoticeMapper;
+import com.green.fefu.notice.NoticeService;
+import com.green.fefu.notice.NoticeServiceImpl;
 import com.green.fefu.notice.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -98,7 +101,7 @@ class NoticeServiceTest {
 
     @Test
     void deleteNotice() {
-        DeleteNoticeReq req1=new DeleteNoticeReq(100);
+        DeleteNoticeReq req1=new DeleteNoticeReq(100,200);
         given(mapper.deleteNotice(req1)).willReturn(EFFECT);
         int effect=service.deleteNotice(req1);
         verify(mapper).deleteNotice(req1);

@@ -1,17 +1,14 @@
-package com.green.fefu.score;
+package com.green.fefu.parents.fefu.score;
 
 
-import com.green.fefu.score.model.InsScoreList;
+import com.green.fefu.score.ScoreMapper;
 import com.green.fefu.score.model.InsScoreReq;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @MybatisTest

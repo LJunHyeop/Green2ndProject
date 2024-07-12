@@ -24,13 +24,14 @@ public class NoticeServiceImpl implements NoticeService{
     public int postNotice(PostNoticeReq p){
         p.setTeaId(authenticationFacade.getLoginUserId());
         MyUser myUser=authenticationFacade.getLoginUser();
-        log.info("{}", myUser.getRole());
-//        if(!myUser.getRole().equals("TEAHCER")){
-//            throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
-//        }
+        log.info("signedUserId:{}, UserRole:{}", p.getTeaId(), myUser.getRole());
+//if(!myUser.getRole().equals("TEAHCER")){
+// throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
+//}
         p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
         log.info("{}", p);
-        if(!(p.getState()==1) && !(p.getState()==2)){
+
+        if(!(p.getState()==1 || p.getState()==2)){
             throw new CustomException(CustomErrorCode.NOTICE_STATE_CHECK);
         }
         log.info("service : {}",p);
@@ -64,8 +65,10 @@ public class NoticeServiceImpl implements NoticeService{
 
 
     public int deleteNotice(DeleteNoticeReq p){
+        log.info("ser1: {}", p);
         p.setTeaId(authenticationFacade.getLoginUserId());
         p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
+        log.info("ser2: {}", p);
         return mapper.deleteNotice(p);
     }
 

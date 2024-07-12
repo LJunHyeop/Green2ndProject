@@ -1,8 +1,10 @@
-package com.green.fefu.notice;
+package com.green.fefu.parents.fefu.notice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.green.fefu.CharEncodingConfiguration;
+import com.green.fefu.notice.NoticeControllerImpl;
+import com.green.fefu.notice.NoticeService;
 import com.green.fefu.notice.model.*;
+import com.green.fefu.parents.fefu.CharEncodingConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,9 +16,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.mockito.ArgumentMatchers.endsWith;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -137,9 +141,7 @@ class NoticeControllerTest {
     @Test
     void deleteNotice() throws Exception{
         int effect=1;
-        DeleteNoticeReq req1=new DeleteNoticeReq(1);
-        req1.setNoticeId(26);
-        req1.setTeaId(1); req1.setClassId(105);
+        DeleteNoticeReq req1=new DeleteNoticeReq(1,2);
         MultiValueMap<String, String> params=new LinkedMultiValueMap();
         params.add("notice_id", String.valueOf(req1.getNoticeId()));
         params.add("tea_id", String.valueOf(req1.getTeaId()));
