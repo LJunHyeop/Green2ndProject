@@ -18,7 +18,7 @@ import java.util.List;
 class NoticeMapperTest {
     @Autowired //DI
     private NoticeMapper mapper;
-    private final int DEFAULT_NUM=24;
+    private final int DEFAULT_NUM=27;
 
     @Test
     void postNotice() {
