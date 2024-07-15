@@ -26,10 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.DUPLICATE_DATA_ERROR;
@@ -147,6 +144,9 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         } else if (!BCrypt.checkpw(p.getUpw(), user.getUpw())) {
             throw new IllegalArgumentException("비밀번호를 확인해 주세요");
         }
+        if(user.getAcept() != 1){
+            throw new IllegalArgumentException("아직 승인되지않은 아이디 입니다.");
+        }
 
         MyUser myUser = MyUser.builder().
                 userId(user.getParentsId()).
@@ -167,17 +167,44 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 build();
     }
     @Override // access token
-    public Map<String, Object> getAccessToken(HttpServletRequest req){
+    public Map<String, Object> getAccessToken(HttpServletRequest req) {
+        System.out.println("Checking for refresh token cookie");
+
+        // 요청 헤더 출력
+        Enumeration<String> headerNames = req.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = req.getHeader(headerName);
+            System.out.println("Header: " + headerName + " = " + headerValue);
+        }
+
+        // 요청에서 모든 쿠키 출력
+        if (req.getCookies() != null) {
+            for (Cookie cookie : req.getCookies()) {
+                System.out.println("Cookie Name: " + cookie.getName() + ", Cookie Value: " + cookie.getValue());
+            }
+        } else {
+            System.out.println("No cookies found in the request");
+        }
+
         Cookie cookie = cookieUtils.getCookie(req, "refresh-token");
-        if(cookie == null){
-            throw new RuntimeException();
+        if (cookie == null) {
+            System.out.println("Refresh token cookie is missing");
+            throw new RuntimeException("Refresh token cookie is missing");
         }
         String refreshToken = cookie.getValue();
-        if(!jwtTokenProvider.isValidateToken(refreshToken)){
-            throw new RuntimeException();
+        System.out.println("Refresh token found: " + refreshToken);
+        if (!jwtTokenProvider.isValidateToken(refreshToken)) {
+            throw new RuntimeException("Refresh token is invalid");
         }
         UserDetails auth = jwtTokenProvider.getUserDetailsFromToken(refreshToken);
-        MyUser myUser = ((MyUserDetails)auth).getMyUser();
+        if (auth == null) {
+            throw new RuntimeException("Failed to get user details from token");
+        }
+        MyUser myUser = ((MyUserDetails) auth).getMyUser();
+        if (myUser == null) {
+            throw new RuntimeException("Failed to get MyUser from UserDetails");
+        }
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
 
         Map<String, Object> map = new HashMap<>();
@@ -229,5 +256,16 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .signId(req.getSignId())
                 .pics(req.getPic())
                 .build() ;
+    }
+    @Override
+    public List<GetStudentParentsRes> getStudentParents(String token){
+        Authentication auth = jwtTokenProvider.getAuthentication(token) ;
+        SecurityContextHolder.getContext().setAuthentication(auth) ;
+        MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
+        long parentsId = userDetails.getMyUser().getUserId() ;
+        GetParentsUserReq req = new GetParentsUserReq();
+        req.setSignedUserId(parentsId);
+        List<GetStudentParentsRes> list = mapper.getStudentParents(req.getSignedUserId());
+        return list ;
     }
 }

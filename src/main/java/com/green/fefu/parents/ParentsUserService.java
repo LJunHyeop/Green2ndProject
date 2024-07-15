@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ParentsUserService {
@@ -28,4 +29,6 @@ public interface ParentsUserService {
     void getFindPassword(GetFindPasswordReq req, Map map);
     // 전자서명 관련
     SignatureRes signature(MultipartFile pic, SignatureReq req) ;
+    // 학생정보 조회
+    List<GetStudentParentsRes> getStudentParents(String token) ;
 }

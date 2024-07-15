@@ -12,18 +12,17 @@ import com.green.fefu.security.MyUser;
 import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
 import com.green.fefu.sms.SmsService;
+import com.green.fefu.student.service.StudentMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mindrot.jbcrypt.BCrypt;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -68,6 +67,7 @@ class ParentsUserServiceTest {
     @MockBean private Authentication authentication ;
     @MockBean private AppProperties appProperties;
     @MockBean private SmsService smsService ;
+    @MockBean private StudentMapper studentMapper;
     private final String ID_PATTERN = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{6,12}$";
     private final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d|.*[!@#$%^&*()\\-_=+\\\\|\\[{\\]};:'\",<.>/?]).{8,20}$";
     private final Pattern idPattern = Pattern.compile(ID_PATTERN);
@@ -131,6 +131,7 @@ class ParentsUserServiceTest {
         p1.setEmail("12345@naver.com");
         p1.setPhone("010-1234-1234");
         p1.setConnet("부");
+        p1.setStudentPk(1);
 
         PostParentsUserReq p2 = new PostParentsUserReq();
         p2.setUid("pG234567");
@@ -139,6 +140,10 @@ class ParentsUserServiceTest {
         p1.setEmail("12345678@naver.com");
         p2.setPhone("010-2345-2345");
         p2.setConnet("모");
+        p2.setStudentPk(2);
+
+        given(studentMapper.updStudentParent(p1.getStudentPk(), p1.getParentsId())).willReturn(1) ;
+        given(studentMapper.updStudentParent(p2.getStudentPk(), p2.getParentsId())).willReturn(1) ;
 
         given(mapper.postParentsUser(p1)).willReturn(1);
         given(mapper.postParentsUser(p2)).willReturn(1);
@@ -400,19 +405,20 @@ class ParentsUserServiceTest {
     }
     @Test @DisplayName("비밀번호 찾기 문자발송")
     void getFindPassword(){
-        String code = "123456";
-        List<ParentsUserEntity> list = List.of(new ParentsUserEntity());
+        try(MockedStatic<SmsSender> mockedStatic = mockStatic(SmsSender.class)) {
+            String code = "123456";
+            List<ParentsUserEntity> list = List.of(new ParentsUserEntity());
 
-        when(mapper.getParentUserList(getReq)).thenReturn(list);
-        mockStatic(SmsSender.class);
-        when(SmsSender.makeRandomCode()).thenReturn(code);
-        doNothing().when(smsService).sendPasswordSms(anyString(), any(), anyString());
+            when(mapper.getParentUserList(getReq)).thenReturn(list);
+            when(SmsSender.makeRandomCode()).thenReturn(code);
+            doNothing().when(smsService).sendPasswordSms(anyString(), any(), anyString());
 
-        service.getFindPassword(getReq, map);
+            service.getFindPassword(getReq, map);
 
-        assertEquals(code, map.get("RANDOM_CODE"));
-        verify(mapper).getParentUserList(getReq);
-        verify(smsService).sendPasswordSms(eq(getReq.getPhone()), any(), eq(code));
+            assertEquals(code, map.get("RANDOM_CODE"));
+            verify(mapper).getParentUserList(getReq);
+            verify(smsService).sendPasswordSms(eq(getReq.getPhone()), any(), eq(code));
+        }
     }
     @Test @DisplayName("비밀번호 찾기 문자발송 실패")
     void testGetFindPassword_smsSendError() {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.green.fefu.chcommon.ResponsDataSet.OK;
@@ -96,5 +97,15 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     public ResponseEntity<SignatureRes> signature(@RequestPart MultipartFile pic, @RequestPart SignatureReq req){
         SignatureRes result = service.signature(pic, req);
         return ResponseEntity.ok().body(result) ;
+    }
+    // 학생정보 조회
+    @Override @GetMapping("/get-student-parent") @Operation(summary = "자녀 학생정보 조회") @PreAuthorize("hasRole('PARENTS')")
+    public ResponseEntity<List<GetStudentParentsRes>> getStudentParents(HttpServletRequest req) {
+        String token = tokenProvider.resolveToken(req) ;
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build() ;
+        }
+        List<GetStudentParentsRes> list = service.getStudentParents(token) ;
+        return ResponseEntity.ok().body(list) ;
     }
 }
