@@ -14,10 +14,6 @@ public class InsScoreList {
 
     private int subjectGradeRank;
 
-    private double midtermAvg;
-
-    private  double finalAvg;
-
     private double classStudentCount;
 
     private int classRank;
@@ -25,7 +21,5 @@ public class InsScoreList {
     private double gradeRank;
 
     private double gradeStudentCount;
-
-    private double subjectAvg;
 
 }
