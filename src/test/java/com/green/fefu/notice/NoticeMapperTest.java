@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,10 +16,11 @@ import java.util.List;
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace/*testDB를 대체할지*/.NONE/*하지 않음*/)
 @Transactional
+//@ActiveProfiles("tdd")
 class NoticeMapperTest {
     @Autowired //DI
     private NoticeMapper mapper;
-    private final int DEFAULT_NUM=27;
+    private final int DEFAULT_NUM=25;
 
     @Test
     void postNotice() {
