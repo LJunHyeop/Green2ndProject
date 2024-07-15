@@ -55,6 +55,18 @@ public class StudentServiceImpl implements StudentService {
             throw new RuntimeException(QUERY_RESULT_ERROR);
         }
 
+//        grade에서 반 정보 뽑아내기 ( 지금은 10101 << 이 폼임 )
+        String classData = p.getGrade().substring(0, 3);
+        ClassInsert classInsert = new ClassInsert();
+        classInsert.setClassPk(Integer.parseInt(classData));
+        classInsert.setTeacherPk(p.getTeacherPk());
+        classInsert.setStudentPk(p.getPk());
+//        반이 없으면 반 생성
+        mapper.insertClassIfNotExists(classInsert);
+//        반에 학생 추가
+        mapper.insertClassStudent(classInsert);
+
+
         map.put(STUDENT_PK, p.getPk());
 
         return map;
@@ -149,7 +161,7 @@ public class StudentServiceImpl implements StudentService {
             throw new RuntimeException(QUERY_RESULT_ERROR);
         }
         for (int i = 0; i < list.size(); i++) {
-            list.get(i).setNum(i+1);
+            list.get(i).setNum(i + 1);
         }
         return list;
     }
@@ -182,6 +194,7 @@ public class StudentServiceImpl implements StudentService {
         if (result.getAddr() != null) {
             addr = Parser.addressParser(result.getAddr());
         }
+        log.info("data : {}", classData);
         map.put(STUDENT_CLASS, classData);
         map.put(STUDENT_ZONE_CODE, addr[0]);
         map.put(STUDENT_ADDR, addr[1]);
@@ -191,8 +204,12 @@ public class StudentServiceImpl implements StudentService {
 //        리스트 젤 마지막꺼 자르고 줘야함 ( 마지막껀 현재 정보기 때문 )
         List<prevStudentEtc> prevEtc = mapper.selPrevEtc(pk);
         log.info("prevEtc.size() = " + prevEtc.size());
-        prevEtc.remove(prevEtc.size()-1);
+        prevEtc.remove(prevEtc.size() - 1);
         log.info("removePrevEtc.size() = " + prevEtc.size());
+        for (int i = 0; i < prevEtc.size(); i++) {
+            String etcClass = Parser.classParser(prevEtc.get(i).getUClass());
+            prevEtc.get(i).setUClass(etcClass);
+        }
         map.put(PREV_ETC_LIST, prevEtc);
 
         return map;
@@ -254,7 +271,7 @@ public class StudentServiceImpl implements StudentService {
 
 //        쿼리 실행
         for (studentAdvanceGradeReq item : p) {
-            String etc = mapper.getStudentEtc( Long.parseLong(item.getStudentPk()));
+            String etc = mapper.getStudentEtc(Long.parseLong(item.getStudentPk()));
             item.setEtc(etc);
             mapper.updStudentEtc(Long.parseLong(item.getStudentPk()), etc);
             int result1 = mapper.updStudentGrade(item);
@@ -285,6 +302,6 @@ public class StudentServiceImpl implements StudentService {
 
     private void studentAdvanceGradeParse(studentAdvanceGradeReq p) throws Exception {
 //        20101 -> 201
-        p.setSubNumber(p.getGrade().substring(0,3));
+        p.setSubNumber(p.getGrade().substring(0, 3));
     }
 }
