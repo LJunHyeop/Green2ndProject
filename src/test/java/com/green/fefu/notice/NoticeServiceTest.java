@@ -1,6 +1,7 @@
 package com.green.fefu.notice;
 
 import com.green.fefu.notice.model.*;
+import com.green.fefu.security.AuthenticationFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,25 @@ import static org.mockito.Mockito.verify;
 class NoticeServiceTest {
     private final int EFFECT=1;
     private final int MASTER_CLASS=502;
+    private final long MASTER_TEACHER_PK=1000;
+
     @MockBean
     private NoticeMapper mapper;
 
     @Autowired
     private NoticeService service;
 
+    @MockBean
+    private AuthenticationFacade authenticationFacade;
+
+
     @Test
     void postNotice() {
         /*기본 세팅*/
         PostNoticeReq req1=new PostNoticeReq();
-        req1.setTeaId(100); req1.setTitle("제목 100"); req1.setContent("내용 100");
+        req1.setTeaId(MASTER_TEACHER_PK);
+        req1.setTitle("제목 100"); req1.setContent("내용 100");
+        req1.setClassId(100); req1.setState(1);
         given(mapper.teacherHomeroom(req1.getTeaId())).willReturn(MASTER_CLASS);
         req1.setClassId(mapper.teacherHomeroom(req1.getTeaId()));
 

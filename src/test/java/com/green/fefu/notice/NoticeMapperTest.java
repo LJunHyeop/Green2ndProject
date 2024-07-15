@@ -15,12 +15,11 @@ import java.util.List;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace/*testDB를 대체할지*/.NONE/*하지 않음*/)
-@Transactional
 //@ActiveProfiles("tdd")
 class NoticeMapperTest {
     @Autowired //DI
     private NoticeMapper mapper;
-    private final int DEFAULT_NUM=25;
+    private final int DEFAULT_NUM=29;
 
     @Test
     void postNotice() {
@@ -115,7 +114,8 @@ class NoticeMapperTest {
         assertEquals(DEFAULT_NUM, allRes.size(), "전체 행의 개수가 다름");
 
         /*영향받은 행이 1인지*/
-        DeleteNoticeReq req1 = new DeleteNoticeReq(24);
+        DeleteNoticeReq req1 = new DeleteNoticeReq(42);
+        req1.setTeaId(1);
         req1.setClassId(mapper.teacherHomeroom(req1.getTeaId()));
         int effect = mapper.deleteNotice(req1);
         assertEquals( 1, effect, "영향 받은 행이 다름");
@@ -135,8 +135,8 @@ class NoticeMapperTest {
         int answer1=mapper.teacherHomeroom(1);
         assertEquals(answer1, 101, "다른 학급이 조회됨");
 
-        int answer2=mapper.teacherHomeroom(2);
-        assertEquals(answer2, 102, "다른 학급이 조회됨");
+        int answer2=mapper.teacherHomeroom(12);
+        assertEquals(answer2, 104, "다른 학급이 조회됨");
 
         int answer3=mapper.teacherHomeroom(3);
         assertEquals(answer3, 201, "다른 학급이 조회됨 ");
