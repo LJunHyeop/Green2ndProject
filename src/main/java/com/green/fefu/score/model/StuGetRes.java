@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class StuGetRes {
-    private long studentPk;
+    private int studentPk;
 
     @JsonIgnore
     private int latestGrade;

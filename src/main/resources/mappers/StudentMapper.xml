@@ -167,4 +167,17 @@
         WHERE stu_id = #{studentPk}
     </update>
 
+
+    <insert id="insertClassIfNotExists">
+        INSERT IGNORE INTO class
+        SET class_id = #{classPk},
+        tea_id = #{teacherPk}
+    </insert>
+
+    <insert id="insertClassStudent">
+        INSERT INTO student_classes
+        SET stu_id = #{studentPk},
+        class_id = #{classPk}
+    </insert>
+
 </mapper>

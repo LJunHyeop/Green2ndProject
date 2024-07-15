@@ -67,6 +67,11 @@ spring:
 mybatis:
   mapper-locations: mappers/**/*.xml
 
+server:
+  port: 8080
+  servlet:
+    encoding:
+      force-response: true
 springdoc:
   swagger-ui:
     path: ${SWAGGER_PATH}
@@ -136,9 +141,6 @@ management:
     env:
       enabled: true
 
-server:
-  port: 8080
-
 ---
 
 spring:
@@ -146,7 +148,10 @@ spring:
     activate:
       on-profile: tdd
   datasource:
-    url: ${TDD.DB_URL}
+    url: ${TDD_DB_URL}
+    username: ${TDD_DB_USERNAME}
+    password: ${TDD_DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
   sql:
     init:
       mode: always

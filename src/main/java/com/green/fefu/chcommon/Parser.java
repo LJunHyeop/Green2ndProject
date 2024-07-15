@@ -26,7 +26,7 @@ public class Parser {
         String[] result = classParserArray(data);
 
         if (data.length() == 5) {
-            return String.format("%s %s %s", result[grade], result[uClass], result[cNumber]);
+            return String.format("% %s %s", result[grade], result[uClass], result[cNumber]);
         }
         return String.format("%s %s", result[grade], result[uClass]);
     }

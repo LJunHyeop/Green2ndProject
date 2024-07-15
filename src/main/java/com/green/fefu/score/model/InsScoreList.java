@@ -18,7 +18,7 @@ public class InsScoreList {
 
     private int classRank;
 
-    private double gradeRank;
+    private int gradeRank;
 
     private double gradeStudentCount;
 
