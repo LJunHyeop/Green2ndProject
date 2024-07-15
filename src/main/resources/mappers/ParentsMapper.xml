@@ -156,5 +156,36 @@
         SET parents_id = #{parentsId}
         WHERE stu_id = #{stuId}
     </update>
+    <select id="getStudentParents">
+        SELECT
+        s.stu_id AS studentPk,
+        s.name AS name,
+        s.gender AS gender,
+        s.birth AS birth,
+        s.phone AS phone,
+        p.nm AS parentName,
+        p.phone AS parentPhone,
+        s.parents_id AS parentsPk,
+        MAX(sc.class_id) AS classId
+        FROM student s
+        LEFT JOIN parents p
+        ON s.parents_id = p.parents_id
+        LEFT JOIN (
+        SELECT sc1.class_id AS class_id
+        , sc1.stu_id
+        FROM student_classes sc1
+        INNER JOIN student sc2
+        ON sc1.stu_id = sc2.stu_id
+        ORDER BY sc1.class_id DESC
+        ) sc
+        ON s.stu_id = sc.stu_id
+        LEFT JOIN class c
+        ON sc.class_id = c.class_id
+        LEFT JOIN teacher t
+        ON c.tea_id = t.tea_id
+        WHERE s.parents_id = #{parentsPk}
+        GROUP BY s.stu_id, s.name, s.gender, s.birth, s.phone, p.nm, p.phone, s.parents_id
+        ORDER BY s.name, s.birth, sc.class_id DESC ;
+    </select>
 
 </mapper>

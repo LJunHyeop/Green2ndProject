@@ -5,16 +5,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("tdd")
 class ParentsUserMapperTest {
-    @Autowired ParentsUserMapper mapper;
+    @Autowired ParentsUserMapper mapper ;
 
     @Test @DisplayName("학부모 post") // 회원가입
     void postParentsUser() {
@@ -49,6 +53,7 @@ class ParentsUserMapperTest {
     @Test @DisplayName("post 1") // 회원가입
     void postParentsUser2() {
         PostParentsUserReq p = new PostParentsUserReq();
+        p.setStudentPk(1);
         p.setUid("p1");
         p.setUpw("1212");
         p.setNm("김철수");
@@ -57,12 +62,16 @@ class ParentsUserMapperTest {
         p.setEmail("test@example.com");
         p.setConnet("Y");
         p.setAddr("Seoul");
-        GetParentsUserReq req = new GetParentsUserReq();
-        req.setSignedUserId(p.getParentsId());
+
         // 학부모 정보 저장
         int affectedRow = mapper.postParentsUser(p);
+        long generatedParentsId = p.getParentsId() ;
         System.out.println("Affected Rows (first insert): " + affectedRow);
+        System.out.println("Generated ParentsId (first insert): " + generatedParentsId);
         assertEquals(1, affectedRow, "1. 예상된 행 수");
+
+        GetParentsUserReq req = new GetParentsUserReq();
+        req.setSignedUserId(generatedParentsId);
 
         // 저장된 학부모 정보 가져오기
         System.out.println("Generated ParentsId (first insert): " + p.getParentsId());
@@ -80,12 +89,16 @@ class ParentsUserMapperTest {
         p1.setEmail("test2@example.com");
         p1.setConnet("Y");
         p1.setAddr("Busan");
-        GetParentsUserReq req1 = new GetParentsUserReq();
-        req1.setSignedUserId(p1.getParentsId());
+
+
         // 두 번째 학부모 정보 저장
         int affectedRow1 = mapper.postParentsUser(p1);
+        long generatedParentsId1 = p1.getParentsId();
         System.out.println("Affected Rows (second insert): " + affectedRow1);
         assertEquals(1, affectedRow1, "2. 예상된 행 수");
+
+        GetParentsUserReq req1 = new GetParentsUserReq();
+        req1.setSignedUserId(p1.getParentsId());
 
         // 두 번째로 저장된 학부모 정보 가져오기
         System.out.println("Generated ParentsId (second insert): " + p1.getParentsId());
