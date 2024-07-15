@@ -66,6 +66,8 @@ public class ScoreServiceImpl {
         }else if(res.getExam() == 2){
             List<InsScoreList> list1 = mapper.getScoreFinal(res);
             dto.setList(list1);
+        }else{
+            return null;
         }
 
         //        List <InsScoreReq> list = new ArrayList<>();
