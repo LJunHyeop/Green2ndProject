@@ -336,7 +336,7 @@ public class TeacherServiceImpl implements TeacherService {
 
 //        유저 select
         TeacherEntity teacher = getTEntity(p);
-
+        log.info("teacher : {}", teacher);
 //        타입 체크
         ChangePassWordTypeCheck(p);
 
@@ -349,6 +349,7 @@ public class TeacherServiceImpl implements TeacherService {
         p.setPk(teacher.getPk());
 //        쿼리 실행
         int result = mapper.ChangePassWord(p);
+        log.info("result : {}", result);
         if (result != 1) {
             throw new RuntimeException(QUERY_RESULT_ERROR);
         }
@@ -360,23 +361,19 @@ public class TeacherServiceImpl implements TeacherService {
 
     private TeacherEntity getTEntity(ChangePassWordReq p) throws Exception {
         TeacherEntity teacher;
-        if (authenticationFacade.getLoginUserId() == 0) {
-            validation.nullCheck(p.getTeacherId());
-            teacher = mapper.GetTeacher(
-                    EntityArgument.builder()
-                            .id(p.getTeacherId())
-                            .build()
-            );
-        } else {
-            teacher = mapper.GetTeacher(
-                    EntityArgument.builder()
-                            .pk(authenticationFacade.getLoginUserId())
-                            .build()
-            );
-        }
+        log.info("entity : {}", p);
+        validation.nullCheck(p.getTeacherId());
+        teacher = mapper.GetTeacher(
+                EntityArgument.builder()
+                        .id(p.getTeacherId())
+                        .build()
+        );
+
+        log.info("asdasd");
         if (teacher == null) {
             throw new RuntimeException(ID_NOT_FOUND_ERROR);
         }
+        log.info("qqqqq");
         return teacher;
     }
 
@@ -405,7 +402,6 @@ public class TeacherServiceImpl implements TeacherService {
         map.put(TEACHER_GENDER, teacher.getGender());
         map.put(TEACHER_BIRTH, teacher.getBirth());
         map.put(TEACHER_CLASS, tClass);
-
 
 
 //        주소 자를껀지 물어보고 잘라야 하면 잘라서 보내주기

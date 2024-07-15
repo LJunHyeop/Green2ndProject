@@ -8,16 +8,12 @@ import java.time.LocalDate;
 @Slf4j
 @Component
 public class Validation {
-    private final String DB_MAX_LENGTH_ERROR = "글의 길이가 너무 깁니다.";
-    private final String DB_NULL_ERROR = "필수값이 들어오지 않았습니다.";
-    private final String DB_MORE_TYPE_ERROR = "데이터 타입 형식 추가 바람";
-
 
     //             벨리데이션 체크
 //        1. 데이터 널체크
     public void nullCheck(final String str) throws Exception {
         if (str == null || str.trim().isBlank()) {
-            throw new RuntimeException(DB_NULL_ERROR);
+            throw new RuntimeException("필수값이 들어오지 않았습니다.");
         }
     }
 
@@ -35,7 +31,7 @@ public class Validation {
         else if (clazz == LocalDate.class) {
             isDateTime(str, msg);
         } else {
-            throw new RuntimeException(DB_MORE_TYPE_ERROR);
+            throw new RuntimeException("데이터 타입 형식 추가 바람");
         }
     }
 
@@ -77,7 +73,7 @@ public class Validation {
         }
 
         if (length > maxLength) {
-            throw new RuntimeException(DB_MAX_LENGTH_ERROR);
+            throw new RuntimeException("글의 길이가 너무 깁니다.");
         }
     }
 }
