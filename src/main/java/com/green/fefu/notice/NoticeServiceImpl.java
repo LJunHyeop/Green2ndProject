@@ -25,9 +25,9 @@ public class NoticeServiceImpl implements NoticeService{
         p.setTeaId(authenticationFacade.getLoginUserId());
         MyUser myUser=authenticationFacade.getLoginUser();
         log.info("signedUserId:{}, UserRole:{}", p.getTeaId(), myUser.getRole());
-//if(!myUser.getRole().equals("TEAHCER")){
-// throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
-//}
+    //if(!myUser.getRole().equals("TEAHCER")){
+    // throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
+    //}
         p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
         log.info("{}", p);
 
