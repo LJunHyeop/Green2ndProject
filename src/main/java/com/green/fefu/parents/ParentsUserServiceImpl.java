@@ -10,6 +10,7 @@ import com.green.fefu.common.CookieUtils;
 import com.green.fefu.common.CustomFileUtils;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
+import com.green.fefu.student.service.StudentMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -53,6 +54,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     private final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
     private final SmsService smsService;
+    private final StudentMapper studentMapper;
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
 
     @Override @Transactional // 회원가입
@@ -78,6 +80,10 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         int result = mapper.postParentsUser(p);
         if(result != 1){
             throw new IllegalArgumentException("회원가입에 실패했습니다.");
+        }
+        int stuResult = studentMapper.updStudentParent( p.getStudentPk(),p.getParentsId());
+        if(stuResult != 1){
+            throw new IllegalArgumentException("학생 정보를 등록 해 주세요");
         }
         return result;
     }
