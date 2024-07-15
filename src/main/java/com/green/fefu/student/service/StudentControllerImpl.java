@@ -36,7 +36,7 @@ public class StudentControllerImpl implements StudentController {
     private final StudentServiceImpl service;
 
     //    학생 생성
-    @PostMapping
+    @PostMapping(produces = "text/plain;charset=UTF-8")
     @Operation(summary = "학생 생성 프론트 사용 XXXXX (백에서 데이터 넣을려고 만듦)", description = "리턴 => 학생 PK")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -60,7 +60,7 @@ public class StudentControllerImpl implements StudentController {
     }
 
     //    학생 삭제??? ( 데이터 존재 but, 삭제 X ) -> 전학, 졸업 등등
-    @DeleteMapping
+    @DeleteMapping(produces = "text/plain;charset=UTF-8")
     @Operation(summary = "학생 삭제", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -83,7 +83,7 @@ public class StudentControllerImpl implements StudentController {
     }
 
     //    선생기준 -> 자기 반 학생 리스트 들고오기
-    @GetMapping
+    @GetMapping(produces = "text/plain;charset=UTF-8")
     @Operation(summary = "담당 학급의 학생 List", description = "리턴 => 이름, 성별, 생년월일, 전화번호, 부모 이름, 부모 전화번호")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -123,7 +123,7 @@ public class StudentControllerImpl implements StudentController {
     }
 
     //    선생기준 -> 자기 반 학생 한명 전체 데이터 들고오기
-    @GetMapping("detail")
+    @GetMapping(value = "detail",produces = "text/plain;charset=UTF-8")
     @Operation(summary = "학생 한명의 정보 가져오기", description = "리턴 => 생년월일, 관계, 선생이름," +
             " 생성일, 주소, 우편번호, 사진, 이름, 전화번호, 성별, 학년 학급, 기타사항, pk, 부모 아이디, 부모 이름, 부모 전화번호")
     @ApiResponses(value = {
@@ -178,7 +178,7 @@ public class StudentControllerImpl implements StudentController {
     }
 
     //    선생기준 -> 학생 정보 수정
-    @PutMapping
+    @PutMapping(produces = "text/plain;charset=UTF-8")
     @Operation(summary = "학생 한명의 정보 수정", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -208,7 +208,7 @@ public class StudentControllerImpl implements StudentController {
 
 
     //    부모 회원가입시 -> 이름 기준 검색 -> 학생 LIST 불러오기 ( 이름 + 전화번호 + 사진 + 학년 + 반 )
-    @GetMapping("list")
+    @GetMapping(value = "list",produces = "text/plain;charset=UTF-8")
     @Operation(summary = "부모가 회원가입 하지 않은 학생 List", description = "리턴 => 사진, 학생 pk, 이름, 학년 반 번호, 전화번호 ( 끝 4자리 )")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -237,7 +237,7 @@ public class StudentControllerImpl implements StudentController {
         return new ResponseEntity<>(result, OK);
     }
 
-    @PatchMapping
+    @PatchMapping(produces = "text/plain;charset=UTF-8")
     @Operation(summary = "학생 학년 증가", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
