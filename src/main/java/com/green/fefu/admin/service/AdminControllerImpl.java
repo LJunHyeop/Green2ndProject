@@ -30,7 +30,7 @@ public class AdminControllerImpl implements AdminController {
     private final AdminServiceImpl service;
 
     //    list Get
-    @GetMapping("{p}")
+    @GetMapping(value = "{p}",produces = "text/plain;charset=UTF-8")
 
     @Operation(summary = "승인 필요한 계정List 불러오기", description = "리턴 => 학부모, 승인 대기 학부모 리스트" +
             "승인 신청일, 자녀 학년, 자녀 학급, 부모 pk, 부모 id, 부모 이름")
@@ -76,7 +76,7 @@ public class AdminControllerImpl implements AdminController {
 
 
     //    반려
-    @DeleteMapping
+    @DeleteMapping(produces = "text/plain;charset=UTF-8")
     @Operation(summary = "유저 회원가입 반려", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -106,7 +106,7 @@ public class AdminControllerImpl implements AdminController {
 
 
     //    승인
-    @PutMapping
+    @PutMapping(produces = "text/plain;charset=UTF-8")
     @Operation(summary = "유저 회원가입 승인", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -134,7 +134,7 @@ public class AdminControllerImpl implements AdminController {
         return new ResponseEntity<>(OK);
     }
 
-    @GetMapping("access-token")
+    @GetMapping(value = "access-token",produces = "text/plain;charset=UTF-8")
     @Operation(summary = "엑세스 토큰 재 발행", description = "리턴 => 토큰값")
     public ResponseEntity getRefreshToken(HttpServletRequest req) {
         Map map = new HashMap<>();
