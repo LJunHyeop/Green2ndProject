@@ -9,6 +9,8 @@ public interface NoticeController {
     ResultDto<Integer> postNotice(PostNoticeReq p);
     ResultDto<List<GetNoticeRes>> getNotice(GetNoticeReq p);
 
+    ResultDto<GetNoticeRes> getNoticeLatest(GetNoticeReq p);
+
     ResultDto<Integer> putNotice(PutNoticeReq p);
 
     ResultDto<Integer> deleteNotice(DeleteNoticeReq p);

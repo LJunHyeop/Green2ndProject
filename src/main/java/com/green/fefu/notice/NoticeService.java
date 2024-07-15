@@ -7,6 +7,8 @@ import java.util.List;
 public interface NoticeService {
     int postNotice(PostNoticeReq p);
     List<GetNoticeRes> getNotice(GetNoticeReq p);
+    GetNoticeRes getNoticeLatest(GetNoticeReq p);
+
     int putNotice(PutNoticeReq p);
 
     int deleteNotice(DeleteNoticeReq p);

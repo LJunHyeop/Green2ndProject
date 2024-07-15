@@ -29,38 +29,51 @@ public class NoticeServiceImpl implements NoticeService{
     // throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
     //}
         p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
-        log.info("{}", p);
 
         if(!(p.getState()==1 || p.getState()==2)){
             throw new CustomException(CustomErrorCode.NOTICE_STATE_CHECK);
         }
-        log.info("service : {}",p);
+
         //로그인 안 된 사람 처리
         return mapper.postNotice(p);
     }
 
-    //학부모냐 선생님이냐 따라 갈림
+    //
     public List<GetNoticeRes> getNotice(GetNoticeReq p){
         MyUser user=authenticationFacade.getLoginUser();
         String userRole=user.getRole();
-        if(userRole.equals("TEAHCER")){ //선생님 PK
-            long classId=mapper.teacherHomeroom(authenticationFacade.getLoginUserId());
-            p.setClassId(classId);
-            return mapper.getNotice(p);
-        }else{
-            long classId=mapper.teacherHomeroom(authenticationFacade.getLoginUserId());
+        if(userRole.equals("TEAHCER")){
+            long teaId=authenticationFacade.getLoginUserId();
+            int classId=mapper.teacherHomeroom(teaId);
             p.setClassId(classId);
             return mapper.getNotice(p);
         }
-
+        long parentsId=authenticationFacade.getLoginUserId();
+        int classId=mapper.childClassRoom(parentsId);
+        p.setClassId(classId);
+        return mapper.getNotice(p);
     }
-
+    //최신의 알림장 정보 1개 조회
+    public GetNoticeRes getNoticeLatest(GetNoticeReq p){
+        MyUser user=authenticationFacade.getLoginUser();
+        String userRole=user.getRole();
+        if(userRole.equals("TEAHCER")){
+            long teaId=authenticationFacade.getLoginUserId();
+            int classId=mapper.teacherHomeroom(teaId);
+            p.setClassId(classId);
+            return mapper.getNoticeLatest(p);
+        }
+        long parentsId=authenticationFacade.getLoginUserId();
+        int classId=mapper.childClassRoom(parentsId);
+        p.setClassId(classId);
+        return mapper.getNoticeLatest(p);
+    }
 
     public int putNotice(PutNoticeReq p){ //구현 예정
         p.setTeaId(authenticationFacade.getLoginUserId());
-        p.setTeaId(authenticationFacade.getLoginUserId());
         return mapper.putNotice(p);
     }
+
 
 
 

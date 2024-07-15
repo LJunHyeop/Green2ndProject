@@ -2,10 +2,7 @@ package com.green.fefu.notice;
 
 import com.green.fefu.common.model.ResultDto;
 import com.green.fefu.notice.model.*;
-import com.green.fefu.security.MyUser;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +48,17 @@ public class NoticeControllerImpl implements NoticeController{
                 .result(list)
                 .build();
     }
+    @GetMapping("/main")
+    @Operation(summary = "최신 알림장 조회",
+            description = "<strong> 변수명 : state </strong> <p> 알림장 항목(1 : 알림장 / 2 : 준비물)  ex)1 </p>")
+    public ResultDto<GetNoticeRes> getNoticeLatest(@ModelAttribute @ParameterObject GetNoticeReq p){
+        GetNoticeRes result=service.getNoticeLatest(p);
+        return ResultDto.<GetNoticeRes>builder()
+                .statusCode(HttpStatus.OK)
+                .resultMsg("성공적으로 1개가 조회되었습니다.")
+                .result(result)
+                .build();
+    }
 
     @PutMapping("") //구현 예정
     @Operation(summary = "알림장 수정",
@@ -72,7 +80,6 @@ public class NoticeControllerImpl implements NoticeController{
             description = "<strong> 변수명 : notice_id </strong> <p> 알림장 PK ex)1 </p>" )
     @PreAuthorize("hasRole('TEAHCER')")
     public ResultDto<Integer> deleteNotice(@ModelAttribute @ParameterObject DeleteNoticeReq p){
-        log.info("Con: {}", p);
         int result=service.deleteNotice(p);
         return ResultDto.<Integer>builder()
                 .statusCode(HttpStatus.OK)
