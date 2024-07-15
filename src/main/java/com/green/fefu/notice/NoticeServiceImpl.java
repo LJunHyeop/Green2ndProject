@@ -29,43 +29,44 @@ public class NoticeServiceImpl implements NoticeService{
     // throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
     //}
         p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
-        log.info("{}", p);
 
         if(!(p.getState()==1 || p.getState()==2)){
             throw new CustomException(CustomErrorCode.NOTICE_STATE_CHECK);
         }
-        log.info("service : {}",p);
+
         //로그인 안 된 사람 처리
         return mapper.postNotice(p);
     }
 
     //
     public List<GetNoticeRes> getNotice(GetNoticeReq p){
-        log.info("service NoticeList:{}", p);
-        return mapper.getNotice(distinguishRole(p));
-
-    }
-    //최신의 알림장 정보 1개 조회
-    public GetNoticeRes getNoticeLatest(GetNoticeReq p){
-        log.info("service NoticeOne:{}", p);
-        return mapper.getNoticeLatest(distinguishRole(p));
-    }
-
-    public GetNoticeReq distinguishRole(GetNoticeReq p){
-        log.info("serviceCommon Before Set P1:{}", p);
         MyUser user=authenticationFacade.getLoginUser();
         String userRole=user.getRole();
         if(userRole.equals("TEAHCER")){
-            long classId=mapper.teacherHomeroom(authenticationFacade.getLoginUserId());
+            long teaId=authenticationFacade.getLoginUserId();
+            int classId=mapper.teacherHomeroom(teaId);
             p.setClassId(classId);
-            log.info("classId: {}", classId);
-        }else if(userRole.equals("PARENTS")){
-            long classId=mapper.childClassRoom(authenticationFacade.getLoginUserId());
-            log.info("classId: {}", classId);
-            p.setClassId(classId);
+            return mapper.getNotice(p);
         }
-        log.info("serviceCommon New Set P2:{}", p);
-        return p;
+        long parentsId=authenticationFacade.getLoginUserId();
+        int classId=mapper.childClassRoom(parentsId);
+        p.setClassId(classId);
+        return mapper.getNotice(p);
+    }
+    //최신의 알림장 정보 1개 조회
+    public GetNoticeRes getNoticeLatest(GetNoticeReq p){
+        MyUser user=authenticationFacade.getLoginUser();
+        String userRole=user.getRole();
+        if(userRole.equals("TEAHCER")){
+            long teaId=authenticationFacade.getLoginUserId();
+            int classId=mapper.teacherHomeroom(teaId);
+            p.setClassId(classId);
+            return mapper.getNoticeLatest(p);
+        }
+        long parentsId=authenticationFacade.getLoginUserId();
+        int classId=mapper.childClassRoom(parentsId);
+        p.setClassId(classId);
+        return mapper.getNoticeLatest(p);
     }
 
     public int putNotice(PutNoticeReq p){ //구현 예정

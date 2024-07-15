@@ -41,9 +41,7 @@ public class NoticeControllerImpl implements NoticeController{
     @Operation(summary = "알림장 조회",
             description = "<strong> 변수명 : state </strong> <p> 알림장 항목(1 : 알림장 / 2 : 준비물)  ex)1 </p>")
     public ResultDto<List<GetNoticeRes>> getNotice(@ModelAttribute @ParameterObject GetNoticeReq p){
-        log.info("controllerList P:{}", p);
         List<GetNoticeRes> list=service.getNotice(p);
-        log.info("controllerResult:{}", p);
         return ResultDto.<List<GetNoticeRes>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMsg("성공적으로 조회되었습니다.")
@@ -53,10 +51,8 @@ public class NoticeControllerImpl implements NoticeController{
     @GetMapping("/main")
     @Operation(summary = "최신 알림장 조회",
             description = "<strong> 변수명 : state </strong> <p> 알림장 항목(1 : 알림장 / 2 : 준비물)  ex)1 </p>")
-    public ResultDto<GetNoticeRes> getNoticeLatest(@RequestBody GetNoticeReq p){
-        log.info("controllerOne P:{}", p);
+    public ResultDto<GetNoticeRes> getNoticeLatest(@ModelAttribute @ParameterObject GetNoticeReq p){
         GetNoticeRes result=service.getNoticeLatest(p);
-        log.info("controllerResult:{}", p);
         return ResultDto.<GetNoticeRes>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMsg("성공적으로 1개가 조회되었습니다.")
@@ -84,7 +80,6 @@ public class NoticeControllerImpl implements NoticeController{
             description = "<strong> 변수명 : notice_id </strong> <p> 알림장 PK ex)1 </p>" )
     @PreAuthorize("hasRole('TEAHCER')")
     public ResultDto<Integer> deleteNotice(@ModelAttribute @ParameterObject DeleteNoticeReq p){
-        log.info("Con: {}", p);
         int result=service.deleteNotice(p);
         return ResultDto.<Integer>builder()
                 .statusCode(HttpStatus.OK)
