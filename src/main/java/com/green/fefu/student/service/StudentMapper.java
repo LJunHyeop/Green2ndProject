@@ -31,4 +31,6 @@ public interface StudentMapper {
     void updStudentEtc(long pk, String etc);
 
     List<prevStudentEtc> selPrevEtc(long pk);
+
+    int updStudentParent(long studentPk, long parentPk);
 }
