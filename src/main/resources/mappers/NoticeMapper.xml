@@ -22,9 +22,20 @@
     </select>
 
 
+    <!--알림장 조회 Read-->
+    <select id="getNoticeLatest">
+        SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
+        title, content, created_at AS createdAt, updated_at AS updatedAt, state
+        FROM notice
+        WHERE class_id=#{classId} AND state=#{state}
+        ORDER BY created_at DESC
+    </select>
+
+
+
     <!--로그인 한 선생님에 따른 담당 학반 조회-->
     <select id="teacherHomeroom">
-        SELECT class_id
+        SELECT class_id AS classId
         FROM class
         WHERE tea_id=#{teaId};
     </select>
@@ -32,13 +43,13 @@
 
     <!--로그인 한 학부모에 따른 자녀의 학반 조회-->
     <select id="childClassRoom">
-        SELECT class_id
+        SELECT class_id AS classId
         FROM parents A
         INNER JOIN student B
         ON A.parents_id=B.parents_id
         INNER JOIN student_classes C
         ON C.stu_id=B.stu_id
-        WHERE A.parents_id=#{userId};
+        WHERE A.parents_id=#{parentsId};
     </select>
 
 

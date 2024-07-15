@@ -2,10 +2,7 @@ package com.green.fefu.notice;
 
 import com.green.fefu.common.model.ResultDto;
 import com.green.fefu.notice.model.*;
-import com.green.fefu.security.MyUser;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,11 +41,26 @@ public class NoticeControllerImpl implements NoticeController{
     @Operation(summary = "알림장 조회",
             description = "<strong> 변수명 : state </strong> <p> 알림장 항목(1 : 알림장 / 2 : 준비물)  ex)1 </p>")
     public ResultDto<List<GetNoticeRes>> getNotice(@ModelAttribute @ParameterObject GetNoticeReq p){
+        log.info("controllerList P:{}", p);
         List<GetNoticeRes> list=service.getNotice(p);
+        log.info("controllerResult:{}", p);
         return ResultDto.<List<GetNoticeRes>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMsg("성공적으로 조회되었습니다.")
                 .result(list)
+                .build();
+    }
+    @GetMapping("/main")
+    @Operation(summary = "최신 알림장 조회",
+            description = "<strong> 변수명 : state </strong> <p> 알림장 항목(1 : 알림장 / 2 : 준비물)  ex)1 </p>")
+    public ResultDto<GetNoticeRes> getNoticeLatest(@RequestBody GetNoticeReq p){
+        log.info("controllerOne P:{}", p);
+        GetNoticeRes result=service.getNoticeLatest(p);
+        log.info("controllerResult:{}", p);
+        return ResultDto.<GetNoticeRes>builder()
+                .statusCode(HttpStatus.OK)
+                .resultMsg("성공적으로 1개가 조회되었습니다.")
+                .result(result)
                 .build();
     }
 

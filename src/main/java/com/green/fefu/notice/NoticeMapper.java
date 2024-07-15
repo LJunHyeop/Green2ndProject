@@ -11,10 +11,17 @@ public interface NoticeMapper {
     int postNotice(PostNoticeReq p);
     List<GetNoticeRes> getNotice(GetNoticeReq p);
     //List<GetNoticeRes> getNotice_parent(GetNoticeReq p);
+
+    //반에서 최신 알림장 1개 조회
+    GetNoticeRes getNoticeLatest(GetNoticeReq p);
+
     int putNotice(PutNoticeReq p); //구현 예정
     int deleteNotice(DeleteNoticeReq p);
 
     int teacherHomeroom(long teaId);
+
+    int childClassRoom(long parentsId);
+
 
 
     //TDD를 위한 메소드
