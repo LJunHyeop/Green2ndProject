@@ -1,5 +1,6 @@
 package com.green.fefu.notice.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 public class GetNoticeRes {
+    @JsonProperty("notice_id")
     private long noticeId;
     private long teaId;
     private long classId;
