@@ -52,6 +52,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     private final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
     private final SmsService smsService;
     private final StudentMapper studentMapper;
+    private final HttpServletRequest httpServletRequest;
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
 
     @Override @Transactional // 회원가입
@@ -168,14 +169,23 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     }
     @Override // access token
     public Map<String, Object> getAccessToken(HttpServletRequest req) {
+        log.info("req: {}", req);
         System.out.println("Checking for refresh token cookie");
+
+        if (req == null) {
+            throw new RuntimeException("HttpServletRequest is null");
+        }
 
         // 요청 헤더 출력
         Enumeration<String> headerNames = req.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            String headerValue = req.getHeader(headerName);
-            System.out.println("Header: " + headerName + " = " + headerValue);
+        if (headerNames != null) {
+            while (headerNames.hasMoreElements()) {
+                String headerName = headerNames.nextElement();
+                String headerValue = req.getHeader(headerName);
+                System.out.println("Header: " + headerName + " = " + headerValue);
+            }
+        } else {
+            System.out.println("No headers found in the request");
         }
 
         // 요청에서 모든 쿠키 출력
@@ -192,19 +202,23 @@ public class ParentsUserServiceImpl implements ParentsUserService {
             System.out.println("Refresh token cookie is missing");
             throw new RuntimeException("Refresh token cookie is missing");
         }
+
         String refreshToken = cookie.getValue();
         System.out.println("Refresh token found: " + refreshToken);
         if (!jwtTokenProvider.isValidateToken(refreshToken)) {
             throw new RuntimeException("Refresh token is invalid");
         }
+
         UserDetails auth = jwtTokenProvider.getUserDetailsFromToken(refreshToken);
         if (auth == null) {
             throw new RuntimeException("Failed to get user details from token");
         }
+
         MyUser myUser = ((MyUserDetails) auth).getMyUser();
         if (myUser == null) {
             throw new RuntimeException("Failed to get MyUser from UserDetails");
         }
+
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
 
         Map<String, Object> map = new HashMap<>();
