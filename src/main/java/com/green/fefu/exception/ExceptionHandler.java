@@ -13,7 +13,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.ArrayList;
 import java.util.List;
-
 @Slf4j
 @RestControllerAdvice //Advice라는 단어가 보이면 AOP
 //AOP(Aspect Oriented Programing =관점지향 프로그래밍)
@@ -31,41 +30,39 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(CustomErrorCode.NOTICE_STATE_CHECK, ex);
     }
 
-    //    //이외의 모든 예외 캐치
+//    //이외의 모든 예외 캐치
 //    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
 //    public ResponseEntity<Object> handleException(Exception e){
 //        log.error("Exception - handlerException: {}");
 //        //return handleExceptionInternal(null);
 //        return handleExceptionInternal(CustomErrorCode.NOTICE_STATE_CHECK);
 //    }
-    private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode) {
+    private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode){
         return handleExceptionInternal(errorCode, null);
     }
-
-    private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode, BindException e) {
+    private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode, BindException e){
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(makeErrorResponse(errorCode, e));
     }
 
-    private MyErrorResponse/*DTO상속*/ makeErrorResponse(ErrorCode errorCode, BindException e) {
+    private MyErrorResponse/*DTO상속*/ makeErrorResponse(ErrorCode errorCode, BindException e){
         return MyErrorResponse.builder()
                 .statusCode(errorCode.getHttpStatus())
                 .resultMsg(errorCode.getMessage())
                 .result(errorCode.name())//enum의 이름
-                .valids(e == null ? null : getValidationError(e)/*list*/)//validation 에러 메세지 정리
+                .valids(e==null? null: getValidationError(e)/*list*/)//validation 에러 메세지 정리
                 .build();
     }
+    private List<MyErrorResponse.ValidationError/*static*/> getValidationError(BindException e){
 
-    private List<MyErrorResponse.ValidationError/*static*/> getValidationError(BindException e) {
-
-        List<MyErrorResponse.ValidationError> list = new ArrayList();
+        List<MyErrorResponse.ValidationError> list=new ArrayList();
         //이너클래스를 타입으로 가지는 리스트
 
         //for(FieldError err: e.getBindingResult().getFieldErrors()){
         //}위와 아래는 같음
-        List<FieldError> fieldErrorList = e.getBindingResult()/*BindingResult*/.getFieldErrors();
+        List<FieldError> fieldErrorList= e.getBindingResult()/*BindingResult*/.getFieldErrors();
         //BindException -> BindingResult
-        for (FieldError fieldError : fieldErrorList) {
+        for(FieldError fieldError: fieldErrorList){
             //리스트에 들어가는 타입
             MyErrorResponse.ValidationError validError
                     = MyErrorResponse.ValidationError.of/*자기자신 return*/(fieldError)/*builder*/;
