@@ -13,18 +13,21 @@
             , mark = #{mark}
         </insert>
     <select id="getScoreMidterm">
-    SELECT
-    score_id AS scoreId,
-    stu_id AS studentPk,
-    CONCAT(#{latestGrade}, SUBSTRING(class_id, 2)) AS classId,
-    subject_name AS name,
-    year AS year,
-    exam AS exam,
-    mark AS mark,
-    class_avg AS classAvg,
-    class_rank AS classRank,
-    school_avg AS schoolRank,
-    midterm_avg AS midtermAvg
+        SELECT
+        score_id AS scoreId,
+        stu_id AS studentPk,
+        CONCAT(#{latestGrade}, SUBSTRING(class_id, 2)) AS classId,
+        subject_name AS name,
+        exam AS exam,
+        mark AS mark,
+        class_avg AS classAvg,
+        subject_grade_rank AS subjectGradeRank,
+        grade_avg AS gradeAvg,
+        grade_rank AS gradeSchoolRank,
+        class_student_count AS classStudentCount,
+        grade_student_count AS gradeStudentCount,
+        class_rank AS classRank,
+        grade_rank AS gradeRank
     <if test="latestSemester == 1 and exam == 1" >
         FROM view_score_semester1_midterm
     </if>
@@ -42,13 +45,16 @@
         stu_id AS studentPk,
         CONCAT(#{latestGrade}, SUBSTRING(class_id, 2)) AS classId,
         subject_name AS name,
-        year AS year,
         exam AS exam,
         mark AS mark,
         class_avg AS classAvg,
+        subject_grade_rank AS subjectGradeRank,
+        grade_avg AS gradeAvg,
+        grade_rank AS gradeSchoolRank,
+        class_student_count AS classStudentCount,
+        grade_student_count AS gradeStudentCount,
         class_rank AS classRank,
-        school_avg AS schoolRank,
-        final_avg AS finalAvg
+        grade_rank AS gradeRank
         <if test="latestSemester == 1 and exam == 2" >
             FROM view_score_semester1_final
         </if>
@@ -111,13 +117,16 @@
         stu_id AS studentPk,
         CONCAT(#{latestGrade}, SUBSTRING(class_id, 2)) AS classId,
         subject_name AS name,
-        year AS year,
         exam AS exam,
         mark AS mark,
         class_avg AS classAvg,
+        subject_grade_rank AS subjectGradeRank,
+        grade_avg AS gradeAvg,
+        grade_rank AS gradeSchoolRank,
+        class_student_count AS classStudentCount,
+        grade_student_count AS gradeStudentCount,
         class_rank AS classRank,
-        school_avg AS schoolRank,
-        midterm_avg AS midtermAvg
+        grade_rank AS gradeRank
         <if test="semester == 1 and exam == 1">
             FROM view_score_semester1_midterm
         </if>
@@ -136,18 +145,21 @@
         stu_id AS studentPk,
         CONCAT(#{latestGrade}, SUBSTRING(class_id, 2)) AS classId,
         subject_name AS name,
-        year AS year,
         exam AS exam,
         mark AS mark,
         class_avg AS classAvg,
+        subject_grade_rank AS subjectGradeRank,
+        grade_avg AS gradeAvg,
+        grade_rank AS gradeSchoolRank,
+        class_student_count AS classStudentCount,
+        grade_student_count AS gradeStudentCount,
         class_rank AS classRank,
-        school_avg AS schoolRank,
-        final_avg AS finalAvg
-        <if test="semester == 1 and exam == 1">
-            FROM view_score_semester1_midterm
+        grade_rank AS gradeRank
+        <if test="semester == 1 and exam == 2">
+            FROM view_score_semester1_final
         </if>
-        <if test="semester == 2 and  exam == 1">
-            FROM view_score_semester1_midterm
+        <if test="semester == 2 and  exam == 2">
+            FROM view_score_semester2_final
         </if>
         <where>
             stu_id = #{studentPk}
