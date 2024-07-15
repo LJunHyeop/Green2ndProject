@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles("tdd")
 class ParentsUserMapperTest {
     @Autowired ParentsUserMapper mapper ;
 
