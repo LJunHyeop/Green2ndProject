@@ -30,7 +30,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler{
         return handleExceptionInternal(CustomErrorCode.NOTICE_STATE_CHECK, ex);
     }
 
-//    //이외의 모든 예외 캐치
+    //이외의 모든 예외 캐치
 //    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
 //    public ResponseEntity<Object> handleException(Exception e){
 //        log.error("Exception - handlerException: {}");

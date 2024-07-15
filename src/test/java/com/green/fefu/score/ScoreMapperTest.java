@@ -3,6 +3,7 @@ package com.green.fefu.score;
 
 import com.green.fefu.score.model.InsScoreList;
 import com.green.fefu.score.model.InsScoreReq;
+import com.green.fefu.score.model.StuGetRes;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,22 +78,81 @@ class ScoreMapperTest {
 
     @Test
     void getScoreFinal() {
+
+        List<InsScoreList> list3 = new ArrayList<>();
+
+        InsScoreList list4 = new InsScoreList();
+        list4.setScoreId(1);
+        list4.setStudentPk(1);
+        list4.setMark(95);
+        list4.setExam(2);
+        list4.setName("영어");
+        list4.setClassAvg(95.6);
+        list4.setClassRank(1);
+        list4.setClassStudentCount(10);
+        list4.setSubjectGradeRank(1);
+        list4.setGradeRank(1);
+        list4.setGradeStudentCount(20);
+        list3.add(list4);
+        assertEquals(1,list3.size());
+
     }
 
     @Test
     void getStu() {
+        StuGetRes p = new StuGetRes();
+        p.setLatestGrade(1);
+        p.setLatestSemester(1);
+        p.setLatestYear(2023);
+        p.setStudentPk(1);
+        p.setExam(1);
+        List<StuGetRes> res1 = new ArrayList<>();
+        StuGetRes res = mapper.getStu(p.getStudentPk());
+        res1.add(res);
+        assertEquals(1,res1.size());
     }
 
     @Test
     void getDetailScore() {
+        List<InsScoreList> list3 = new ArrayList<>();
+        InsScoreList list4 = new InsScoreList();
+        list4.setScoreId(1);
+        list4.setStudentPk(1);
+        list4.setMark(95);
+        list4.setExam(2);
+        list4.setName("영어");
+        list4.setClassAvg(95.6);
+        list4.setClassRank(1);
+        list4.setClassStudentCount(10);
+        list4.setSubjectGradeRank(1);
+        list4.setGradeRank(1);
+        list4.setGradeStudentCount(20);
+        list3.add(list4);
+        assertEquals(1,list3.size());
     }
 
     @Test
     void getDetailScoreFinal() {
+        List<InsScoreList> list3 = new ArrayList<>();
+        InsScoreList list4 = new InsScoreList();
+        list4.setScoreId(1);
+        list4.setStudentPk(1);
+        list4.setMark(95);
+        list4.setExam(2);
+        list4.setName("영어");
+        list4.setClassAvg(95.6);
+        list4.setClassRank(1);
+        list4.setClassStudentCount(10);
+        list4.setSubjectGradeRank(1);
+        list4.setGradeRank(1);
+        list4.setGradeStudentCount(20);
+        list3.add(list4);
+        assertEquals(1,list3.size());
     }
 
     @Test
     void delScore() {
+
     }
 
     @Test
