@@ -67,6 +67,11 @@ spring:
 mybatis:
   mapper-locations: mappers/**/*.xml
 
+server:
+  port: 8080
+  servlet:
+    encoding:
+      force-response: true
 springdoc:
   swagger-ui:
     path: ${SWAGGER_PATH}
@@ -135,9 +140,6 @@ management:
       enabled: true
     env:
       enabled: true
-
-server:
-  port: 8080
 
 ---
 
