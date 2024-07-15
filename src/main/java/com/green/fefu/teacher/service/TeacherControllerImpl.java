@@ -32,7 +32,7 @@ public class TeacherControllerImpl implements TeacherController {
     private final TeacherServiceImpl service;
 
     //    선생님 회원가입
-    @PostMapping("/sign-up")
+    @PostMapping(value = "/sign-up",produces = "text/plain;charset=UTF-8")
     @Operation(summary = "선생님 회원가입", description = "리턴 => 선생님 PK값")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -56,7 +56,7 @@ public class TeacherControllerImpl implements TeacherController {
     }
 
     //    선생님 로그인
-    @PostMapping("/sign-in")
+    @PostMapping(value = "/sign-in",produces = "text/plain;charset=UTF-8")
     @Operation(summary = "선생님 로그인", description = "리턴 => 이름, 이메일, 담당학급, 엑세스토큰")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -85,7 +85,7 @@ public class TeacherControllerImpl implements TeacherController {
     }
 
     //    선생님 중복확인 ( 아이디, 이메일 )
-    @GetMapping("duplicate")
+    @GetMapping(value = "duplicate",produces = "text/plain;charset=UTF-8")
     @Operation(summary = "선생님 아이디 or 이메일 중복확인", description = "리턴 => 없음 <br><strong>아이디 이메일 둘중 하나만 넣어주세요</strong>")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -109,7 +109,7 @@ public class TeacherControllerImpl implements TeacherController {
 
 
     //    선생님 아이디 찾기
-    @GetMapping("find_id")
+    @GetMapping(value = "find_id",produces = "text/plain;charset=UTF-8")
     @Operation(summary = "선생님 아이디 찾기", description = "리턴 => 선생님 ID값")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -133,7 +133,7 @@ public class TeacherControllerImpl implements TeacherController {
     }
 
     //    선생님 비밀번호 찾기
-    @GetMapping("find_pwd")
+    @GetMapping(value = "find_pwd",produces = "text/plain;charset=UTF-8")
     @Operation(summary = "선생님 비밀번호 찾기 ( 문자 발송 )", description = "리턴 => 랜덤 코드")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -157,7 +157,7 @@ public class TeacherControllerImpl implements TeacherController {
     }
 
     //    선생님 비밀번호 변경
-    @PutMapping("put_pwd")
+    @PutMapping(value = "put_pwd",produces = "text/plain;charset=UTF-8")
     @Operation(summary = "선생님 비밀번호 변경", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -180,7 +180,7 @@ public class TeacherControllerImpl implements TeacherController {
     }
 
     //    선생님 내정보 불러오기
-    @GetMapping
+    @GetMapping(produces = "text/plain;charset=UTF-8")
     @Operation(summary = "선생님 내정보 불러오기", description = "리턴 => 아이디, 이름, 전화번호, 이메일, 성별, 담당학급, 생년월일")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -216,7 +216,7 @@ public class TeacherControllerImpl implements TeacherController {
     }
 
     //    선생님 정보 변경
-    @PatchMapping
+    @PatchMapping(produces = "text/plain;charset=UTF-8")
     @Operation(summary = "선생님 정보 변경", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -244,7 +244,7 @@ public class TeacherControllerImpl implements TeacherController {
         return new ResponseEntity<>(OK);
     }
 
-    @GetMapping("access-token")
+    @GetMapping(value = "access-token",produces = "text/plain;charset=UTF-8")
     @Operation(summary = "엑세스 토큰 재 발행", description = "리턴 => 토큰값")
     public ResponseEntity getRefreshToken(HttpServletRequest req) {
         Map map = new HashMap<>();
