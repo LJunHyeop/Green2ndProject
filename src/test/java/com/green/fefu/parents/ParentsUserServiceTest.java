@@ -37,9 +37,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -345,7 +343,7 @@ class ParentsUserServiceTest {
         user1.setPhone("010-1234-1234");
         user1.setConnet("부");
         user1.setAuth("ROLE_USER");
-        user1.setAcept(2);
+        user1.setAcept(1);
         user1.setCreatedAt("2024-07-01 15:49:23");
 
         given(mapper.signInPost(req1.getUid())).willReturn(user1);
@@ -380,7 +378,15 @@ class ParentsUserServiceTest {
     void getAccessToken() {
         HttpServletRequest req = mock(HttpServletRequest.class);
 
+        // 헤더 추가
+        Enumeration<String> headers = Collections.enumeration(Arrays.asList("Header1", "Header2"));
+        when(req.getHeaderNames()).thenReturn(headers);
+        when(req.getHeader("Header1")).thenReturn("Value1");
+        when(req.getHeader("Header2")).thenReturn("Value2");
+
+        // 쿠키 추가
         Cookie cookie = new Cookie("refresh-token", "valid-refresh-token");
+        when(req.getCookies()).thenReturn(new Cookie[]{cookie});
         given(cookieUtils.getCookie(req, "refresh-token")).willReturn(cookie);
 
         given(jwtTokenProvider.isValidateToken("valid-refresh-token")).willReturn(true);
@@ -405,7 +411,7 @@ class ParentsUserServiceTest {
     }
     @Test @DisplayName("비밀번호 찾기 문자발송")
     void getFindPassword(){
-        try(MockedStatic<SmsSender> mockedStatic = mockStatic(SmsSender.class)) {
+        try (MockedStatic<SmsSender> mockedStatic = mockStatic(SmsSender.class)) {
             String code = "123456";
             List<ParentsUserEntity> list = List.of(new ParentsUserEntity());
 

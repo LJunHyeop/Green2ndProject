@@ -81,7 +81,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     }
     // 토큰확인
     @Override @GetMapping("/access-token") @Operation(summary = "accessToken - 확인")
-    public ResponseEntity<Map> getAccessToken(@ModelAttribute @ParameterObject HttpServletRequest req) {
+    public ResponseEntity<Map> getAccessToken(@RequestParam HttpServletRequest req) {
         Map<String, Object> res = service.getAccessToken(req) ;
         return ResponseEntity.ok().body(res) ;
     }
