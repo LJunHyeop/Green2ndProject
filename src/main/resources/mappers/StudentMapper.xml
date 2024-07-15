@@ -161,4 +161,10 @@
         ORDER BY uClass
     </select>
 
+    <update id="updStudentParent">
+        UPDATE student
+        SET parents_id = #{parentPk}
+        WHERE stu_id = #{studentPk}
+    </update>
+
 </mapper>
