@@ -161,10 +161,10 @@ public class TeacherServiceImpl implements TeacherService {
 
 //        JWT 토큰 발급
 
-
+        log.info("1");
         String accessToken = createToken(teacher, res);
 
-
+        log.info("2");
 //        담당 학급 받아오기
         String teacherClass = mapper.getCurrentClassesByTeacherId(teacher.getPk());
         String tClass = null;
@@ -172,13 +172,14 @@ public class TeacherServiceImpl implements TeacherService {
         if (teacherClass != null) {
             tClass = Parser.classParser(teacherClass);
         }
+        log.info("3");
 
 //        데이터 삽입
         map.put(TEACHER_NAME, teacher.getName());
         map.put(TEACHER_EMAIL, teacher.getEmail());
         map.put(TEACHER_CLASS, tClass);
         map.put(TEACHER_ACCESS_TOKEN, accessToken);
-
+        log.info("4");
         return map;
     }
 
