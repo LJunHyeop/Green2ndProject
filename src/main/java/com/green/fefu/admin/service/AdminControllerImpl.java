@@ -11,10 +11,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +32,7 @@ public class AdminControllerImpl implements AdminController {
     private final AdminServiceImpl service;
 
     //    list Get
-    @GetMapping(value = "{p}",produces = "text/plain;charset=UTF-8")
+    @GetMapping(value = "{p}",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 
     @Operation(summary = "승인 필요한 계정List 불러오기", description = "리턴 => 학부모, 승인 대기 학부모 리스트" +
             "승인 신청일, 자녀 학년, 자녀 학급, 부모 pk, 부모 id, 부모 이름")
@@ -69,14 +71,14 @@ public class AdminControllerImpl implements AdminController {
         try {
             map = service.findUnAcceptList(p, map);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(map, OK);
     }
 
 
     //    반려
-    @DeleteMapping(produces = "text/plain;charset=UTF-8")
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "유저 회원가입 반려", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -99,14 +101,14 @@ public class AdminControllerImpl implements AdminController {
         try {
             service.deleteUser(p);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(OK);
     }
 
 
     //    승인
-    @PutMapping(produces = "text/plain;charset=UTF-8")
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "유저 회원가입 승인", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -129,19 +131,19 @@ public class AdminControllerImpl implements AdminController {
         try {
             service.acceptUser(p);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(OK);
     }
 
-    @GetMapping(value = "access-token",produces = "text/plain;charset=UTF-8")
+    @GetMapping(value = "access-token",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "엑세스 토큰 재 발행", description = "리턴 => 토큰값")
     public ResponseEntity getRefreshToken(HttpServletRequest req) {
         Map map = new HashMap<>();
         try {
             map = service.getAccessToken(map, req);
         }catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(OK);
     }

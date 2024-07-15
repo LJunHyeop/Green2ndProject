@@ -14,15 +14,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.green.fefu.chcommon.ResponsDataSet.*;
 
@@ -36,7 +34,7 @@ public class StudentControllerImpl implements StudentController {
     private final StudentServiceImpl service;
 
     //    학생 생성
-    @PostMapping(produces = "text/plain;charset=UTF-8")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "학생 생성 프론트 사용 XXXXX (백에서 데이터 넣을려고 만듦)", description = "리턴 => 학생 PK")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -53,14 +51,14 @@ public class StudentControllerImpl implements StudentController {
         try {
             map = service.createStudent(p, pic, map);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
 
         return new ResponseEntity<>(map, OK);
     }
 
     //    학생 삭제??? ( 데이터 존재 but, 삭제 X ) -> 전학, 졸업 등등
-    @DeleteMapping(produces = "text/plain;charset=UTF-8")
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "학생 삭제", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -77,13 +75,13 @@ public class StudentControllerImpl implements StudentController {
         try {
             service.deleteStudent(p);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(OK);
     }
 
     //    선생기준 -> 자기 반 학생 리스트 들고오기
-    @GetMapping(produces = "text/plain;charset=UTF-8")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "담당 학급의 학생 List", description = "리턴 => 이름, 성별, 생년월일, 전화번호, 부모 이름, 부모 전화번호")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -117,13 +115,13 @@ public class StudentControllerImpl implements StudentController {
         try {
             result = service.getStudentList(result);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(result, OK);
     }
 
     //    선생기준 -> 자기 반 학생 한명 전체 데이터 들고오기
-    @GetMapping(value = "detail",produces = "text/plain;charset=UTF-8")
+    @GetMapping(value = "detail",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "학생 한명의 정보 가져오기", description = "리턴 => 생년월일, 관계, 선생이름," +
             " 생성일, 주소, 우편번호, 사진, 이름, 전화번호, 성별, 학년 학급, 기타사항, pk, 부모 아이디, 부모 이름, 부모 전화번호")
     @ApiResponses(value = {
@@ -172,13 +170,13 @@ public class StudentControllerImpl implements StudentController {
         try {
             map = service.getStudentDetail(pk, map);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(map, OK);
     }
 
     //    선생기준 -> 학생 정보 수정
-    @PutMapping(produces = "text/plain;charset=UTF-8")
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "학생 한명의 정보 수정", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -201,14 +199,14 @@ public class StudentControllerImpl implements StudentController {
         try {
             service.updateStudent(p);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(OK);
     }
 
 
     //    부모 회원가입시 -> 이름 기준 검색 -> 학생 LIST 불러오기 ( 이름 + 전화번호 + 사진 + 학년 + 반 )
-    @GetMapping(value = "list",produces = "text/plain;charset=UTF-8")
+    @GetMapping(value = "list",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "부모가 회원가입 하지 않은 학생 List", description = "리턴 => 사진, 학생 pk, 이름, 학년 반 번호, 전화번호 ( 끝 4자리 )")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -232,12 +230,12 @@ public class StudentControllerImpl implements StudentController {
         try {
             result = service.getStudentListForParent(result);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(result, OK);
     }
 
-    @PatchMapping(produces = "text/plain;charset=UTF-8")
+    @PatchMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "학생 학년 증가", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -253,7 +251,7 @@ public class StudentControllerImpl implements StudentController {
         try {
             service.studentAdvanceGrade(p);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(OK);
     }

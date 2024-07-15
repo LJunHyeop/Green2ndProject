@@ -13,10 +13,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +34,7 @@ public class TeacherControllerImpl implements TeacherController {
     private final TeacherServiceImpl service;
 
     //    선생님 회원가입
-    @PostMapping(value = "/sign-up",produces = "text/plain;charset=UTF-8")
+    @PostMapping(value = "/sign-up",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 회원가입", description = "리턴 => 선생님 PK값")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -49,14 +51,14 @@ public class TeacherControllerImpl implements TeacherController {
         try {
             map = service.CreateTeacher(p, map);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
 
         return new ResponseEntity<>(map, OK);
     }
 
     //    선생님 로그인
-    @PostMapping(value = "/sign-in",produces = "text/plain;charset=UTF-8")
+    @PostMapping(value = "/sign-in",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 로그인", description = "리턴 => 이름, 이메일, 담당학급, 엑세스토큰")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -78,14 +80,15 @@ public class TeacherControllerImpl implements TeacherController {
         try {
             map = service.LogInTeacher(p, map, res);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
-
+        log.info("5");
+        log.info("Response map: {}", map);
         return new ResponseEntity<>(map, OK);
     }
 
     //    선생님 중복확인 ( 아이디, 이메일 )
-    @GetMapping(value = "duplicate",produces = "text/plain;charset=UTF-8")
+    @GetMapping(value = "duplicate",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 아이디 or 이메일 중복확인", description = "리턴 => 없음 <br><strong>아이디 이메일 둘중 하나만 넣어주세요</strong>")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -102,14 +105,14 @@ public class TeacherControllerImpl implements TeacherController {
         try {
             service.CheckDuplicate(p);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(OK);
     }
 
 
     //    선생님 아이디 찾기
-    @GetMapping(value = "find_id",produces = "text/plain;charset=UTF-8")
+    @GetMapping(value = "find_id",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 아이디 찾기", description = "리턴 => 선생님 ID값")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -127,13 +130,13 @@ public class TeacherControllerImpl implements TeacherController {
         try {
             service.FindTeacherId(p, map);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(map, OK);
     }
 
     //    선생님 비밀번호 찾기
-    @GetMapping(value = "find_pwd",produces = "text/plain;charset=UTF-8")
+    @GetMapping(value = "find_pwd",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 비밀번호 찾기 ( 문자 발송 )", description = "리턴 => 랜덤 코드")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -151,13 +154,13 @@ public class TeacherControllerImpl implements TeacherController {
         try {
             service.FindTeacherPassword(p, map);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(map, OK);
     }
 
     //    선생님 비밀번호 변경
-    @PutMapping(value = "put_pwd",produces = "text/plain;charset=UTF-8")
+    @PutMapping(value = "put_pwd",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 비밀번호 변경", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -174,13 +177,13 @@ public class TeacherControllerImpl implements TeacherController {
         try {
             service.ChangePassWord(p);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(OK);
     }
 
     //    선생님 내정보 불러오기
-    @GetMapping(produces = "text/plain;charset=UTF-8")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 내정보 불러오기", description = "리턴 => 아이디, 이름, 전화번호, 이메일, 성별, 담당학급, 생년월일")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -210,13 +213,13 @@ public class TeacherControllerImpl implements TeacherController {
         try {
             service.TeacherDetail(map);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(map, OK);
     }
 
     //    선생님 정보 변경
-    @PatchMapping(produces = "text/plain;charset=UTF-8")
+    @PatchMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 정보 변경", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -239,19 +242,19 @@ public class TeacherControllerImpl implements TeacherController {
         try {
             service.ChangeTeacher(p);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(OK);
     }
 
-    @GetMapping(value = "access-token",produces = "text/plain;charset=UTF-8")
+    @GetMapping(value = "access-token",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "엑세스 토큰 재 발행", description = "리턴 => 토큰값")
     public ResponseEntity getRefreshToken(HttpServletRequest req) {
         Map map = new HashMap<>();
         try {
             map = service.getAccessToken(map, req);
         }catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), NOT_FOUND);
+            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
         return new ResponseEntity<>(OK);
     }
