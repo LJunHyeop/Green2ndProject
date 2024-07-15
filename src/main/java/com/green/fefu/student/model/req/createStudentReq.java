@@ -18,18 +18,20 @@ public class createStudentReq {
     private String gender;
     @Schema(example = "1998-01-01", description = "학생 생년월일", required = true)
     private String birth;
-    @Schema(example = "서울 판교로 112", description = "학생 주소", required = true)
+    @Schema(example = "123 # 서울 판교로 112", description = "학생 주소", required = true)
     private String addr;
 
     @Schema(example = "갑각류 알러지 있음", description = "학생 추가정보 기입", required = true)
     private String etc;
-    @Schema(example = "test.jpg", description = "학생 사진", required = true)
-    private String pic;
     @Schema(example = "adela", description = "학생 영어이름", required = true)
     private String engName;
     @Schema(example = "010-0000-0000", description = "학생 전화번호", required = true)
     private String phone;
 
+    @Schema(example = "1", description = "선생 pk (반배정 안된 선생만 넣기!!!!)")
+    private long teacherPk;
     @JsonIgnore
     private long pk;
+    @JsonIgnore
+    private String pic;
 }

@@ -46,6 +46,7 @@
             <if test="phone != null and phone != ''">
                 AND phone = #{phone}
             </if>
+            AND acept = 1
         </where>
     </select>
 
