@@ -375,7 +375,7 @@ public class TeacherServiceImpl implements TeacherService {
             );
         }
         if (teacher == null) {
-            throw new RuntimeException(ID_NOT_FOUND_ERROR);
+            throw new RuntimeException(ID_NOT_FOUND_ERROR) ;
         }
         return teacher;
     }
