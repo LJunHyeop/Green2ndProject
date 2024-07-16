@@ -1,12 +1,16 @@
 package com.green.fefu.score.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
 public class InsScoreList {
+
+
     private String name;
     private int exam;
     private int mark;
+
     private Integer scoreId;
     private int studentPk;
     private double classAvg;

@@ -22,4 +22,7 @@ public interface ScoreMapper {
     int delScore(DelScore stuId);
 
     List<InsScoreList> totalList(DelScore p);
+
+    //Tdd
+    InsScoreList SelScore(long StudentPk);
 }
