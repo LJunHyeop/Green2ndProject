@@ -101,7 +101,6 @@ public class ScoreServiceImpl {
         if(dto.getList() == null || dto.getList().size() == 0){
             throw new RuntimeException("조회된 성적이 없습니다");
         }
-        log.info("dto: {}", dto.getList().toString());
         dto.setStudentPk(p.getStudentPk());
         return dto;
     }
