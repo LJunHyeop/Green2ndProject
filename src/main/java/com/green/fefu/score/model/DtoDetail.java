@@ -1,5 +1,6 @@
 package com.green.fefu.score.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class DtoDetail<T>{
     private List<T> list = new ArrayList<T>();
 

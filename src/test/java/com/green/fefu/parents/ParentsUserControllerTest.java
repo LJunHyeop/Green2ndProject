@@ -1,16 +1,22 @@
 package com.green.fefu.parents;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.green.fefu.CharEncodingConfiguration;
 import com.green.fefu.common.AppProperties;
-import com.green.fefu.parents.model.PostParentsUserReq;
+import com.green.fefu.parents.model.*;
 import com.green.fefu.security.SecurityConfiguration;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
 import com.green.fefu.security.oauth2.OAuth2AuthenticationFailureHandler;
 import com.green.fefu.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import com.green.fefu.sms.SmsService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,7 +24,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -26,11 +34,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest({ParentsUserControllerImpl.class})
 @Import({CharEncodingConfiguration.class})
@@ -42,63 +53,158 @@ class ParentsUserControllerTest {
     @MockBean private ParentsUserServiceImpl service;
     @MockBean private JwtTokenProviderV2 tokenProvider;
     @MockBean private SmsService smsService;
-
+    private PostParentsUserReq req ;
     private final String BASE_URL = "/api/user/parents";
-
-    @Test
-    @DisplayName("회원가입 TDD")
-    void testPostParents() throws Exception {
-        // Given
-        PostParentsUserReq req = new PostParentsUserReq() ;
-        req.setParentsId(1) ;
-        req.setStudentPk(1) ;
-        req.setNm("길동") ;
-        req.setEmail("rffrfr@gmail.com") ;
-        req.setConnet("부") ;
-        req.setPhone("010-1235-4567") ;
-        req.setUid("parent745") ;
+    @BeforeEach
+    void setUp() {
+        req = new PostParentsUserReq();
+        req.setStudentPk(1);
+        req.setNm("길동");
+        req.setEmail("rffrfr@gmail.com");
+        req.setConnet("부");
+        req.setPhone("010-1235-4567");
+        req.setUid("parent745");
         req.setUpw("Test1234!@#$");
-
+    }
+    @Test @DisplayName("회원가입 TDD")
+    void testPostParents() throws Exception {
         // 설정 필요한 필드들 추가
-        given(service.postParentsUser(any(PostParentsUserReq.class))).willReturn(1) ;
-        String json = om.writeValueAsString(req) ;
-
-        Map<String, Object> expectedMap = new HashMap();
-        expectedMap.put("statusCode", HttpStatus.OK);
-        expectedMap.put("resultMsg", HttpStatus.OK.toString());
-        expectedMap.put("resultData", 1);
-        String expectedJson = om.writeValueAsString(expectedMap);
+        given(service.postParentsUser(any(PostParentsUserReq.class))).willReturn(1);
+        String json = om.writeValueAsString(req);
 
         // When & Then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/user/parents/sign-up")
+        mockMvc.perform(post(BASE_URL + "/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(expectedJson)) // JSON 요청 바디
+                        .content(json)) // JSON 요청 바디
                 .andExpect(status().isOk())
                 .andExpect(content().string("1"));
-        verify(service).postParentsUser(req) ;
-    }
 
-    @Test
-    void getParentsUser() {
+        ArgumentCaptor<PostParentsUserReq> captor = ArgumentCaptor.forClass(PostParentsUserReq.class);
+        verify(service).postParentsUser(captor.capture());
     }
+    @Test @DisplayName("아이디 이메일 중복조회")
+    void checkEmailOrUid() throws Exception {
+        CheckEmailOrUidReq chReq = new CheckEmailOrUidReq() ;
+        chReq.setUid("parent745") ;
+        given(service.checkEmailOrUid(chReq)).willReturn("OK") ;
+        String json = om.writeValueAsString(chReq) ;
 
-    @Test
-    void patchParentsUser() {
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/check-duplication")
+                        .param("uid", "parent745"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("OK")) ;
+
+        verify(service).checkEmailOrUid(chReq) ;
+        assertEquals("parent745", chReq.getUid()) ;
     }
+    @Test @DisplayName("정보조회") @WithMockUser(roles = "PARENTS")
+    void getParentsUser() throws Exception {
+        String token = "valid-token" ;
+        ParentsUserEntity entity = new ParentsUserEntity() ;
+        entity.setParentsId(1) ;
+        entity.setNm("길동") ;
 
-    @Test
-    void getFindId() {
+        given(tokenProvider.resolveToken(any(HttpServletRequest.class))).willReturn(token) ;
+        given(service.getParentsUser(token)).willReturn(entity) ;
+
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/parent-info")
+                .header("Authorization", "Bearer" + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.parentsId").value(1))
+                .andExpect(jsonPath("$.nm").value("길동")) ;
+        verify(tokenProvider).resolveToken(any(HttpServletRequest.class)) ;
+        verify(service).getParentsUser(token) ;
     }
+    @Test @DisplayName("정보조회 토큰없음") @WithMockUser(roles = "PARENTS")
+    void getParentsUser2() throws Exception {
+        given(tokenProvider.resolveToken(any(HttpServletRequest.class))).willReturn(null);
 
-    @Test
-    void patchPassword() {
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/parent-info"))
+                .andExpect(status().isUnauthorized());
+
+        verify(tokenProvider).resolveToken(any(HttpServletRequest.class));
+        verify(service, never()).getParentsUser(anyString());
     }
+    @Test @DisplayName("정보수정") @WithMockUser(roles = "PARENTS")
+    void patchParentsUser() throws Exception{
+        PatchParentsUserReq p = new PatchParentsUserReq() ;
+        p.setParentsId(req.getParentsId()) ;
+        p.setNm("홍홍") ;
 
-    @Test
-    void signInPost() {
+        given(service.patchParentsUser(any(PatchParentsUserReq.class))).willReturn(1) ;
+        String json = om.writeValueAsString(p) ;
+
+        mockMvc.perform(put(BASE_URL + "/info-update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isOk())
+                .andExpect(content().string("1"));
+        verify(service).patchParentsUser(any(PatchParentsUserReq.class));
     }
+    @Test @DisplayName("아이디 찾기")
+    void getFindId() throws Exception {
+        GetFindIdReq getIdReq = new GetFindIdReq() ;
+        getIdReq.setNm(req.getNm()) ;
+        getIdReq.setPhone(req.getPhone()) ;
 
-    @Test
-    void getAccessToken() {
+        GetFindIdRes res = new GetFindIdRes() ;
+        res.setUid(req.getUid()) ;
+
+        given(service.getFindId(getIdReq)).willReturn(res) ;
+        String json = om.writeValueAsString(res) ;
+
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/find-id")
+                .param("nm", req.getNm())
+                .param("phone", req.getPhone()))
+                .andExpect(status().isOk())
+                .andExpect(content().string(json)) ;
+
+        verify(service).getFindId(getIdReq) ;
+        assertEquals(req.getUid(), res.getUid()) ;
+    }
+    @Test @DisplayName("비밀번호 수정")
+    void patchPassword() throws Exception {
+        PatchPasswordReq req = new PatchPasswordReq();
+        req.setParentsId(1L);
+        req.setNewUpw("newPassword123");
+
+        given(service.patchPassword(any(PatchPasswordReq.class))).willReturn(1);
+        String json = om.writeValueAsString(req);
+
+        // When & Then
+        mockMvc.perform(put(BASE_URL + "/password-update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk())
+                .andExpect(content().string("1"));
+
+        verify(service).patchPassword(any(PatchPasswordReq.class));
+    }
+    @Test @DisplayName("로그인")
+    void signInPost() throws Exception {
+        // Given
+        SignInPostReq signReq = new SignInPostReq();
+        signReq.setUid(req.getUid());
+        signReq.setUpw(req.getUpw());
+        System.out.println(signReq);
+
+        SignInPostRes res = new SignInPostRes();
+        res.setAccessToken("mockToken");
+        res.setParentsId(req.getParentsId());
+        res.setNm(req.getNm()) ;
+        System.out.println(res);
+
+        given(service.signInPost(any(SignInPostReq.class), any(HttpServletResponse.class))).willReturn(res);
+        String json = om.writeValueAsString(signReq);
+
+        String expectedJson = om.writeValueAsString(res);
+
+        mockMvc.perform(post(BASE_URL + "/sign-in")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+
+        verify(service).signInPost(any(SignInPostReq.class), any(HttpServletResponse.class)) ;
     }
 }

@@ -54,7 +54,7 @@ class ScoreControllerTest {
 
         InsScoreReq p = new InsScoreReq();
         p.setSemester(1);
-        p.setYear(1);
+        p.setYear("1");
         p.setExam(1);
         p.setName("김철수철수");
         p.setMark(1);
