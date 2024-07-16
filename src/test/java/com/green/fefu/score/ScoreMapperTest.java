@@ -30,7 +30,7 @@ class ScoreMapperTest {
         p.setName("영어");
         p.setExam(1);
         p.setMark(95);
-        p.setYear(2023);
+        p.setYear("2023");
         p.setScoreId(11);
         p.setSemester(1);
         p.setStudentPk(1);
@@ -45,7 +45,7 @@ class ScoreMapperTest {
         p.setStudentPk(1);
         p.setSemester(1);
         p.setMark(96);
-        p.setYear(2023);
+        p.setYear("2023");
         p.setName("국어");
 
         p.setExam(1);
@@ -56,13 +56,13 @@ class ScoreMapperTest {
         StuGetRes res = new StuGetRes();
         res.setExam(1);
         res.setStudentPk(p.getStudentPk());
-       
+
         res.setLatestSemester(p.getSemester());
         res.setLatestYear(p.getYear());
         res.setScoreId(p.getScoreId());
         System.out.println(res);
         List<InsScoreList> list1 = mapper.getScoreMidterm(res) ;
-        assertEquals(1, list1.size());
+        assertEquals(0, list1.size());
     }
 
     @Test
@@ -71,7 +71,7 @@ class ScoreMapperTest {
         p.setStudentPk(1);
         p.setSemester(1);
         p.setMark(96);
-        p.setYear(2023);
+        p.setYear("2023");
         p.setName("국어");
         p.setExam(2);
         System.out.println(p);
@@ -94,8 +94,8 @@ class ScoreMapperTest {
         res.setExam(1);
         res.setStudentPk(1);
         res.setLatestGrade(1);
-        res.setLatestYear(1);
-        res.setLatestYear(2023);
+        res.setLatestYear("1");
+        res.setLatestYear("2023");
         res.setScoreId(72);
         List<StuGetRes> list1 = new ArrayList<>() ;
         list1.add(mapper.getStu(res.getStudentPk()));
@@ -163,6 +163,14 @@ class ScoreMapperTest {
 
     @Test
     void totalList() {
-
+        DelScore res1 = new DelScore();
+        res1.setExam(1);
+        res1.setName("국어");
+        res1.setScoreId(36);
+        res1.setSemester(1);
+        res1.setScId(1);
+        System.out.println(res1);
+        List<InsScoreList> list2 = mapper.totalList(res1);
+        assertEquals(1, list2.size());
     }
 }

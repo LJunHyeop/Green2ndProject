@@ -100,7 +100,7 @@ class ParentsUserServiceTest {
         emptyFile = new MockMultipartFile("pic", "a.png", "image/png", new byte[]{});
         signReq = SignatureReq.builder()
                 .stuId(1)
-                .year(2024)
+                .year("2024")
                 .pic(null)
                 .semester(1)
                 .signId(1)

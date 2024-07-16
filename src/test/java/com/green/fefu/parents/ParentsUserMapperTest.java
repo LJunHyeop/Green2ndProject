@@ -221,7 +221,7 @@ class ParentsUserMapperTest {
     void signature(){
         SignatureReq req = SignatureReq.builder()
                 .stuId(1)
-                .year(2024)
+                .year("2024")
                 .semester(1)
                 .pic("test-pic.png")
                 .build();

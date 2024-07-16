@@ -43,8 +43,11 @@ public class ScoreServiceImpl {
 
             log.info("2: {}",res.getExam());
         }
+
         dto.setStudentPk(res.getStudentPk());
+
         dto.setLatestGrade(res.getLatestGrade());
+
         log.info("StuGetRes - latestGrade: {}", res.getLatestGrade());
         dto.setLatestSemester(res.getLatestSemester());
         dto.setLatestYear(res.getLatestYear());
