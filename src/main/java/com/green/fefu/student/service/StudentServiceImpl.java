@@ -198,6 +198,7 @@ public class StudentServiceImpl implements StudentService {
         map.put(STUDENT_CLASS, classData);
         map.put(STUDENT_ZONE_CODE, addr[0]);
         map.put(STUDENT_ADDR, addr[1]);
+        map.put(STUDENT_DETAIL, addr[2]);
 
 //       역대 etc
 //        이건 구현 해야함
