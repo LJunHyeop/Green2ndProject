@@ -2,8 +2,9 @@ package com.green.fefu.teacher.service;
 
 import com.green.fefu.teacher.model.dto.EntityArgument;
 import com.green.fefu.teacher.model.dto.TeacherEntity;
+import com.green.fefu.teacher.model.req.ChangePassWordReq;
+import com.green.fefu.teacher.model.req.ChangeTeacherReq;
 import com.green.fefu.teacher.model.req.CreateTeacherReq;
-import io.swagger.v3.oas.annotations.media.Schema;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +50,24 @@ class TeacherMapperTest {
 
     @Test
     void changePassWord() {
+        ChangePassWordReq req = new ChangePassWordReq();
+        req.setPk(2L);
+        req.setPassWord("newPassword");
+
+        int updatedRows = mapper.ChangePassWord(req);
+        assertEquals(1, updatedRows, "Password should be updated successfully");
     }
 
     @Test
     void changeTeacher() {
+        ChangeTeacherReq req = new ChangeTeacherReq();
+        req.setPk(2L);
+        req.setName("Updated");
+        req.setPhone("010-1239-5678");
+        req.setEmail("updated123@example.com");
+        req.setFullAddr("123 # Address # 123");
+
+        int updatedRows = mapper.ChangeTeacher(req);
+        assertEquals(1, updatedRows, "Teacher details should be updated successfully");
     }
 }
