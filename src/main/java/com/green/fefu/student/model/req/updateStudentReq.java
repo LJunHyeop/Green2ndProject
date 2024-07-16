@@ -18,6 +18,8 @@ public class updateStudentReq {
     private String addr;
     @Schema(example = "1234", description = "우편번호")
     private String zoneCode;
+    @Schema(example = "101동",description = "상세 주소")
+    private String detail;
     @Schema(example = "갑각류 알러지 있음", description = "특이사항 기입")
     private String etc;
     @Schema(example = "1", description = "바꿀 학생의 pk값", required = true)

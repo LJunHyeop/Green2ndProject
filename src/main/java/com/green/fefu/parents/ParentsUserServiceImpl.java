@@ -72,7 +72,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
             }
         }
         if ( p.getAddr() != null && p.getZoneCode() != null ){
-            p.setAddrs(p.getZoneCode(), p.getAddr()) ;
+            p.setAddrs(p.getZoneCode(), p.getAddr(), p.getDetail()) ;
         }
         String password = passwordEncoder.encode(p.getUpw());
         p.setUpw(password);
@@ -115,6 +115,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     @Override @Transactional // 회원정보 수정
     public int patchParentsUser(PatchParentsUserReq p) {
         p.setParentsId(authenticationFacade.getLoginUserId());
+        p.setAddrs(p.getZoneCode(), p.getAddr(), p.getDetail());
         return mapper.patchParentsUser(p);
     }
     @Override // 아이디 찾기

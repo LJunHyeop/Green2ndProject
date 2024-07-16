@@ -71,7 +71,7 @@ public class TeacherServiceImpl implements TeacherService {
             throw new RuntimeException(ADDR_DATA_ERROR);
         } else if (p.getZoneCode() != null
                 && p.getAddr() != null) {
-            String fullAddr = Parser.addressParserMerge(p.getZoneCode(), p.getAddr());
+            String fullAddr = Parser.addressParserMerge(p.getZoneCode(), p.getAddr(), p.getDetail());
             p.setFullAddr(fullAddr);
         }
 //        만들어야 함
