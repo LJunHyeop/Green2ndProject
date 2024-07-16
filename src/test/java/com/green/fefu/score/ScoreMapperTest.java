@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @MybatisTest
-@ActiveProfiles("tdd")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 
 class ScoreMapperTest {
@@ -62,9 +61,7 @@ class ScoreMapperTest {
         res.setLatestYear(1);
         res.setLatestYear(2023);
         res.setScoreId(p.getScoreId());
-
-        List<InsScoreList> list1 = mapper.getScoreMidterm(res);
-
+        List<InsScoreList> list1 = mapper.getScoreMidterm(res) ;
         assertEquals(result, list1.size());
     }
 
@@ -99,7 +96,8 @@ class ScoreMapperTest {
         res.setLatestYear(1);
         res.setLatestYear(2023);
         res.setScoreId(72);
-        List<InsScoreList> list1 = mapper.getScoreMidterm(res);
+        List<StuGetRes> list1 = new ArrayList<>() ;
+        list1.add(mapper.getStu(res.getStudentPk()));
         assertEquals(1, list1.size());
     }
 
