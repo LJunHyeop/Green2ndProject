@@ -1,6 +1,7 @@
 package com.green.fefu.score;
 
 
+import com.green.fefu.score.model.GetDetailScoreReq;
 import com.green.fefu.score.model.InsScoreList;
 import com.green.fefu.score.model.InsScoreReq;
 import com.green.fefu.score.model.StuGetRes;
@@ -44,7 +45,6 @@ class ScoreMapperTest {
     @Test
     void getScoreMidterm() {
         InsScoreReq p = new InsScoreReq();
-        p.setScoreId(1);
         p.setStudentPk(1);
         p.setSemester(1);
         p.setMark(96);
@@ -52,38 +52,43 @@ class ScoreMapperTest {
         p.setName("국어");
         p.setGrade(1);
         p.setExam(1);
-        int result = mapper.postScore(p) ;
+
         System.out.println(p);
+
+
         StuGetRes res = new StuGetRes();
         res.setExam(1);
-        res.setStudentPk(1);
-        res.setLatestGrade(1);
-        res.setLatestYear(1);
-        res.setLatestYear(2023);
+        res.setStudentPk(p.getStudentPk());
+        res.setLatestGrade(p.getGrade());
+        res.setLatestSemester(p.getSemester());
+        res.setLatestYear(p.getYear());
         res.setScoreId(p.getScoreId());
+        System.out.println(res);
         List<InsScoreList> list1 = mapper.getScoreMidterm(res) ;
-        assertEquals(result, list1.size());
+        assertEquals(1, list1.size());
     }
 
     @Test
     void getScoreFinal() {
-
-        List<InsScoreList> list3 = new ArrayList<>();
-
-        InsScoreList list4 = new InsScoreList();
-        list4.setScoreId(1);
-        list4.setStudentPk(1);
-        list4.setMark(95);
-        list4.setExam(2);
-        list4.setName("영어");
-        list4.setClassAvg(95.6);
-        list4.setClassRank(1);
-        list4.setClassStudentCount(10);
-        list4.setSubjectGradeRank(1);
-        list4.setGradeRank(1);
-        list4.setGradeStudentCount(20);
-        list3.add(list4);
-        assertEquals(1,list3.size());
+        InsScoreReq p = new InsScoreReq();
+        p.setStudentPk(1);
+        p.setSemester(1);
+        p.setMark(96);
+        p.setYear(2023);
+        p.setName("국어");
+        p.setGrade(1);
+        p.setExam(2);
+        System.out.println(p);
+        StuGetRes res = new StuGetRes();
+        res.setExam(2);
+        res.setStudentPk(p.getStudentPk());
+        res.setLatestGrade(p.getGrade());
+        res.setLatestSemester(p.getSemester());
+        res.setLatestYear(p.getYear());
+        res.setScoreId(p.getScoreId());
+        System.out.println(res);
+        List<InsScoreList> list1 = mapper.getScoreFinal(res) ;
+        assertEquals(0, list1.size());
 
     }
 
@@ -103,54 +108,51 @@ class ScoreMapperTest {
 
     @Test
     void getDetailScore() {
-        List<InsScoreList> list3 = new ArrayList<>();
-        InsScoreList list4 = new InsScoreList();
-        list4.setScoreId(1);
-        list4.setStudentPk(1);
-        list4.setMark(95);
-        list4.setExam(2);
-        list4.setName("영어");
-        list4.setClassAvg(95.6);
-        list4.setClassRank(1);
-        list4.setClassStudentCount(10);
-        list4.setSubjectGradeRank(1);
-        list4.setGradeRank(1);
-        list4.setGradeStudentCount(20);
-        list3.add(list4);
-        assertEquals(1,list3.size());
+//        InsScoreReq p = new InsScoreReq();
+//        p.setScoreId(1);
+//        p.setStudentPk(1);
+//        p.setSemester(1);
+//        p.setMark(96);
+//        p.setYear(2023);
+//        p.setName("국어");
+//        p.setGrade(2);
+//        p.setExam(1);
+//        System.out.println(p);
+        GetDetailScoreReq res = new GetDetailScoreReq();
+        res.setExam(1);
+        res.setStudentPk(2);
+        res.setScoreId(1);
+        res.setGrade(2);
+        res.setSemester(1);
+        System.out.println(res);
+        List<InsScoreList> list1 = mapper.getDetailScore(res) ;
+        assertEquals(0, list1.size());
     }
 
     @Test
     void getDetailScoreFinal() {
-        List<InsScoreList> list3 = new ArrayList<>();
-        InsScoreList list4 = new InsScoreList();
-        list4.setScoreId(1);
-        list4.setStudentPk(1);
-        list4.setMark(95);
-        list4.setExam(2);
-        list4.setName("영어");
-        list4.setClassAvg(95.6);
-        list4.setClassRank(1);
-        list4.setClassStudentCount(10);
-        list4.setSubjectGradeRank(1);
-        list4.setGradeRank(1);
-        list4.setGradeStudentCount(20);
-        list3.add(list4);
-        assertEquals(1,list3.size());
+        GetDetailScoreReq res = new GetDetailScoreReq();
+        res.setExam(2);
+        res.setStudentPk(2);
+        res.setScoreId(1);
+        res.setGrade(2);
+        res.setSemester(1);
+        System.out.println(res);
+        List<InsScoreList> list1 = mapper.getDetailScoreFinal(res) ;
+        assertEquals(0, list1.size());
     }
 
     @Test
     void delScore() {
-        List<InsScoreList> list3 = new ArrayList<>();
-        InsScoreList list4 = new InsScoreList();
-        list4.setScoreId(1);
-        list4.setStudentPk(3);
-        list4.setMark(95);
-        list4.setExam(2);
-        list4.setName("영어");
-        list3.add(list4);
-        System.out.println(list3);
-        assertEquals(1,list3.size());
+        GetDetailScoreReq res = new GetDetailScoreReq();
+        res.setExam(2);
+        res.setStudentPk(2);
+        res.setScoreId(1);
+        res.setGrade(2);
+        res.setSemester(1);
+        System.out.println(res);
+        List<InsScoreList> list1 = mapper.getDetailScoreFinal(res) ;
+        assertEquals(0, list1.size());
     }
 
     @Test
