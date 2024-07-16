@@ -20,7 +20,7 @@ public class ScoreServiceImpl {
         delScore.setSemester(p.getSemester());
         delScore.setName(p.getName());
         delScore.setScId(p.getStudentPk());
-        List<InsScoreList> list = mapper.totalList(delScore) ;
+        List<InsScoreList> list = mapper.totalList(delScore);
         for(InsScoreList afterList : list){
             if (afterList != null){
                 mapper.delScore(delScore);
@@ -43,8 +43,11 @@ public class ScoreServiceImpl {
 
             log.info("2: {}",res.getExam());
         }
+
         dto.setStudentPk(res.getStudentPk());
+
         dto.setLatestGrade(res.getLatestGrade());
+
         log.info("StuGetRes - latestGrade: {}", res.getLatestGrade());
         dto.setLatestSemester(res.getLatestSemester());
         dto.setLatestYear(res.getLatestYear());
