@@ -131,11 +131,11 @@
             FROM view_score_semester1_midterm
         </if>
         <if test="semester == 2 and  exam == 1">
-            FROM view_score_semester1_midterm
+            FROM view_score_semester2_midterm
         </if>
         <where>
             stu_id = #{studentPk}
-            AND SUBSTRING(class_id, 1, 1) = #{gradle}
+            AND SUBSTRING(class_id, 1, 1) = #{grade}
         </where>
     </select>
 
@@ -143,7 +143,6 @@
         SELECT
         score_id AS scoreId,
         stu_id AS studentPk,
-        CONCAT(#{latestGrade}, SUBSTRING(class_id, 2)) AS classId,
         subject_name AS name,
         exam AS exam,
         mark AS mark,
@@ -163,7 +162,7 @@
         </if>
         <where>
             stu_id = #{studentPk}
-            AND SUBSTRING(class_id, 1, 1) = #{gradle}
+            AND SUBSTRING(class_id, 1, 1) = #{grade}
         </where>
     </select>
     <delete id="delScore">
