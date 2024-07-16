@@ -130,26 +130,27 @@ public class StudentControllerImpl implements StudentController {
                             "  \"studentBirth\": \"2010-05-15\",\n" +
                             "  \"connet\": \"부\",\n" +
                             "  \"teacherName\": \"정선생\",\n" +
-                            "  \"studentAddr\": \"서울시 강남구\",\n" +
+                            "  \"studentAddr\": \"서울 판교로 112\",\n" +
                             "  \"parentId\": \"parent1\",\n" +
                             "  \"parentPhone\": \"010-1234-5678\",\n" +
-                            "  \"studentClass\": \"2학년 1반\",\n" +
-                            "  \"studentEtc\": null,\n" +
+                            "  \"studentClass\": \"2학년 01반\",\n" +
+                            "  \"studentEtc\": \"갑각류 알러지 있음\",\n" +
                             "  \"studentPk\": \"1\",\n" +
-                            "  \"studentZoneCode\": \"123\",\n" +
+                            "  \"studentZoneCode\": \"1234\",\n" +
                             "  \"parentName\": \"김부모\",\n" +
                             "  \"studentGender\": \"남\",\n" +
-                            "  \"studentName\": \"김학생\",\n" +
-                            "  \"studentPic\": null,\n" +
-                            "  \"studentPhone\": \"010-1111-2222\",\n" +
+                            "  \"studentName\": \"홍길동\",\n" +
+                            "  \"studentPic\": \"47872175-b41f-4080-bcf9-dc72604c46d5.png\",\n" +
+                            "  \"studentPhone\": \"010-0000-0000\",\n" +
                             "  \"prevEtcList\": [\n" +
                             "    {\n" +
                             "      \"etc\": null,\n" +
                             "      \"teacherName\": \"홍길동\",\n" +
-                            "      \"uclass\": \"101\"\n" +
+                            "      \"uclass\": \"1학년 01반\"\n" +
                             "    }\n" +
                             "  ],\n" +
-                            "  \"studentCreatedAt\": \"2024-07-04 08:02:22\"\n" +
+                            "  \"studentCreatedAt\": \"2024-07-04 08:02:22\",\n" +
+                            "  \"studentDetail\": \"\"\n" +
                             "}"
             ),
             @ApiResponse(responseCode = "404",

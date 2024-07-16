@@ -7,6 +7,7 @@ public interface StudentMapNamingData {
     String STUDENT_GENDER = "studentGender";
     String STUDENT_PHONE = "studentPhone";
     String STUDENT_ADDR = "studentAddr";
+    String STUDENT_DETAIL = "studentDetail";
     String STUDENT_ZONE_CODE = "studentZoneCode";
     String STUDENT_ETC = "studentEtc";
     String STUDENT_CREATED_AT = "studentCreatedAt";
