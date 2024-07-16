@@ -19,6 +19,8 @@ public interface ParentsUserMapper {
     GetFindIdRes getFindId(GetFindIdReq req);
     // 비밀번호 수정
     int patchPassword(PatchPasswordReq req);
+    // 로그인 전 비밀번호 수정 조회
+    List<ParentsUserEntity> selPasswordBeforeLogin(String uid);
     // 로그인
     ParentsUser signInPost(String uid);
     // 회원 찾기 ( 비밀번호 찾기 )
