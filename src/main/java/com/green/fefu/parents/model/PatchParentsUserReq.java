@@ -27,8 +27,18 @@ public class PatchParentsUserReq {
     private String stuEngNm;
     @Schema(description = "주소")
     private String addr;
-    @Schema(description = "우편번호")
-    private String zoneCode;
+    @Schema(description = "상세 주소")
+    private String detail;
     @Schema(description = "학생 기타사항")
     private String stuEtc;
+    @Schema(description = "우편번호")
+    private String zoneCode;
+
+    public void setAddrs(String zoneCode, String addr, String detail) {
+        if(zoneCode == null && addr == null){
+            this.addr = null;
+        } else {
+            this.addr = zoneCode + "#" + addr + "#" + detail;
+        }
+    }
 }
