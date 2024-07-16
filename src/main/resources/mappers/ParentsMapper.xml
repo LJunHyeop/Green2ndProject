@@ -166,7 +166,8 @@
         p.nm AS parentName,
         p.phone AS parentPhone,
         s.parents_id AS parentsPk,
-        MAX(sc.class_id) AS classId
+        MAX(sc.class_id) AS classId,
+        t.nm AS teacherName
         FROM student s
         LEFT JOIN parents p
         ON s.parents_id = p.parents_id

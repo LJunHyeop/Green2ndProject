@@ -1,5 +1,6 @@
 package com.green.fefu.parents;
 
+import com.green.fefu.chcommon.Parser;
 import com.green.fefu.chcommon.SmsSender;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.parents.model.*;
@@ -271,7 +272,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .pics(req.getPic())
                 .build() ;
     }
-    @Override
+    @Override // 자녀 조회
     public List<GetStudentParentsRes> getStudentParents(String token){
         Authentication auth = jwtTokenProvider.getAuthentication(token) ;
         SecurityContextHolder.getContext().setAuthentication(auth) ;
@@ -280,6 +281,9 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         GetParentsUserReq req = new GetParentsUserReq();
         req.setSignedUserId(parentsId);
         List<GetStudentParentsRes> list = mapper.getStudentParents(req.getSignedUserId());
+        for(GetStudentParentsRes res : list){
+            res.setClassId(Parser.classParser(res.getClassId()));
+        }
         return list ;
     }
 }
