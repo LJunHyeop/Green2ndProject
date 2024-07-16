@@ -95,12 +95,13 @@ public class ScoreServiceImpl {
         }else if((p.getSemester() == 1 || p.getSemester() ==2) && p.getExam() ==2 ) {
             dto.setList(mapper.getDetailScoreFinal(p));
         }
-        if(res.getLatestGrade() < p.getGradle()){
+        if(res.getLatestGrade() < p.getGrade()){
             throw  new RuntimeException("잘못된 학년입니다.");
         }
         if(dto.getList() == null || dto.getList().size() == 0){
             throw new RuntimeException("조회된 성적이 없습니다");
         }
+        log.info("dto: {}", dto.getList().toString());
         dto.setStudentPk(p.getStudentPk());
         return dto;
     }

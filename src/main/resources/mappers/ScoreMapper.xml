@@ -163,7 +163,7 @@
         </if>
         <where>
             stu_id = #{studentPk}
-            AND SUBSTRING(class_id, 1, 1) = #{gradle}
+            AND SUBSTRING(class_id, 1, 1) = #{grade}
         </where>
     </select>
     <delete id="delScore">
