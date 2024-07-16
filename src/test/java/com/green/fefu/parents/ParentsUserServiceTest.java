@@ -68,6 +68,7 @@ class ParentsUserServiceTest {
     @MockBean private AppProperties appProperties;
     @MockBean private SmsService smsService ;
     @MockBean private StudentMapper studentMapper;
+    @MockBean private HttpServletRequest httpServletRequest;
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
 
     private Cookie refreshTokenCookie ;
