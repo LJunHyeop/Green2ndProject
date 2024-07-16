@@ -92,7 +92,8 @@ public class SecurityConfiguration {
                                         "/api/user/parents/find-password",
                                         "/api/user/parents/find-id",
                                         "/api/user/parents/signature",
-                                        "/api/user/parents/check-duplication"
+                                        "/api/user/parents/check-duplication",
+                                        "api/user/parents/password-update"
                                         //swagger 사용할 수 있게 세팅
                                         , "/swagger"
                                         , "/swagger-ui/**"

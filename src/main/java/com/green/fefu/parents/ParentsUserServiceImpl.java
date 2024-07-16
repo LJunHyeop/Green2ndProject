@@ -1,5 +1,6 @@
 package com.green.fefu.parents;
 
+import com.green.fefu.chcommon.Parser;
 import com.green.fefu.chcommon.SmsSender;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.parents.model.*;
@@ -71,7 +72,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
             }
         }
         if ( p.getAddr() != null && p.getZoneCode() != null ){
-            p.setAddrs(p.getZoneCode(), p.getAddr()) ;
+            p.setAddrs(p.getZoneCode(), p.getAddr(), p.getDetail()) ;
         }
         String password = passwordEncoder.encode(p.getUpw());
         p.setUpw(password);
@@ -114,6 +115,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     @Override @Transactional // 회원정보 수정
     public int patchParentsUser(PatchParentsUserReq p) {
         p.setParentsId(authenticationFacade.getLoginUserId());
+        p.setAddrs(p.getZoneCode(), p.getAddr(), p.getDetail());
         return mapper.patchParentsUser(p);
     }
     @Override // 아이디 찾기
@@ -126,14 +128,17 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     }
     @Override @Transactional // 비밀번호 수정
     public int patchPassword(PatchPasswordReq p) {
+        log.info("p: {}", p);
         GetParentsUserReq req = new GetParentsUserReq();
-        req.setSignedUserId(authenticationFacade.getLoginUserId());
-        ParentsUserEntity entity = mapper.getParentsUser(req);
+        req.setSignedUserId(p.getParentsId());
+        log.info("parentId: {}", p.getParentsId());
+        List<ParentsUserEntity> entity = mapper.selPasswordBeforeLogin(p.getUid()) ;
+
         if(Objects.isNull(entity)){
             throw new IllegalArgumentException("아이디를 확인해 주세요");
         }
         String password = passwordEncoder.encode(p.getNewUpw());
-        p.setParentsId(entity.getParentsId());
+        p.setParentsId(entity.get(0).getParentsId());
         p.setNewUpw(password);
         return mapper.patchPassword(p);
     }
@@ -271,7 +276,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .pics(req.getPic())
                 .build() ;
     }
-    @Override
+    @Override // 자녀 조회
     public List<GetStudentParentsRes> getStudentParents(String token){
         Authentication auth = jwtTokenProvider.getAuthentication(token) ;
         SecurityContextHolder.getContext().setAuthentication(auth) ;
@@ -280,6 +285,9 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         GetParentsUserReq req = new GetParentsUserReq();
         req.setSignedUserId(parentsId);
         List<GetStudentParentsRes> list = mapper.getStudentParents(req.getSignedUserId());
+        for(GetStudentParentsRes res : list){
+            res.setClassId(Parser.classParser(res.getClassId()));
+        }
         return list ;
     }
 }

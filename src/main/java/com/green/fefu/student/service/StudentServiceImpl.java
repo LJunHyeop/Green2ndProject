@@ -229,7 +229,7 @@ public class StudentServiceImpl implements StudentService {
 
     private void updateStudentDataCheck(updateStudentReq p) throws Exception {
         if (p.getAddr() != null && p.getZoneCode() != null) {
-            p.setFullAddr(Parser.addressParserMerge(p.getZoneCode(), p.getAddr()));
+            p.setFullAddr(Parser.addressParserMerge(p.getZoneCode(), p.getAddr(), p.getDetail()));
         }
         if (p.getPk() < 1) {
             throw new RuntimeException(REQUIRED_DATA_ERROR);

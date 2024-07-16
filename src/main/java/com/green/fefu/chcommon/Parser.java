@@ -14,15 +14,43 @@ public class Parser {
 
     public static String[] addressParser(String address) {
         log.info("Parsing address: " + address);
-            String[] result = address.split("#", 2);
-            result[zoneCode] = result[zoneCode].trim();
-            result[addr] = result[addr].trim();
-            return result;
+
+        if (address == null || address.trim().isEmpty()) {
+            log.info("값이 없습니다");
+            return new String[]{"값이 없습니다", "값이 없습니다", "값이 없습니다"};
+        }
+
+        String[] result = address.split("#", 3);
+
+        // 배열의 길이가 3이 되도록 값이 없으면 빈 문자열로 초기화
+        for (int i = 0; i < result.length; i++) {
+            result[i] = result[i].trim();
+        }
+        if (result.length < 3) {
+            String[] temp = new String[3];
+            System.arraycopy(result, 0, temp, 0, result.length);
+            for (int i = result.length; i < 3; i++) {
+                temp[i] = "";
+            }
+            result = temp;
+        }
+
+        return result;
     }
 
-    public static String addressParserMerge(String zoneCode, String addr) {
-        log.info("zoneCode = {}, addr = {}", zoneCode, addr);
-        return String.format("%s # %s", zoneCode, addr);
+    public static String addressParserMerge(String zoneCode, String addr, String detail) {
+        log.info("zoneCode = {}, addr = {}, detail = {}", zoneCode, addr, detail);
+
+        if ((zoneCode == null || zoneCode.trim().isEmpty()) &&
+                (addr == null || addr.trim().isEmpty()) &&
+                (detail == null || detail.trim().isEmpty())) {
+            return "값이 없습니다";
+        }
+
+        return String.format("%s # %s # %s",
+                zoneCode != null ? zoneCode.trim() : "",
+                addr != null ? addr.trim() : "",
+                detail != null ? detail.trim() : "");
     }
 
     //    학년 반 합친거
@@ -34,7 +62,7 @@ public class Parser {
 
         String[] result = classParserArray(data);
 
-        if (!result[2].isBlank()) {
+        if (!(result[2]==null)) {
             return String.format("%s %s %s", result[grade], result[uClass], result[cNumber]);
         }
         return String.format("%s %s", result[grade], result[uClass]);
