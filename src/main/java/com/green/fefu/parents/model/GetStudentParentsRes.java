@@ -12,5 +12,7 @@ public class GetStudentParentsRes {
     private String parentName ;
     private String parentPhone ;
     private String parentsPK ;
-    private int classId;
+    private String classId;
+    private int age ;
+    private String teacherName ;
 }

@@ -34,7 +34,7 @@ public class Parser {
 
         String[] result = classParserArray(data);
 
-        if (!result[2].isBlank()) {
+        if (!(result[2]==null)) {
             return String.format("%s %s %s", result[grade], result[uClass], result[cNumber]);
         }
         return String.format("%s %s", result[grade], result[uClass]);
