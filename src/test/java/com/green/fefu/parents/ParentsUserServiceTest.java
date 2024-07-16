@@ -27,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -66,26 +68,21 @@ class ParentsUserServiceTest {
     @MockBean private AppProperties appProperties;
     @MockBean private SmsService smsService ;
     @MockBean private StudentMapper studentMapper;
-    private final String ID_PATTERN = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{6,12}$";
-    private final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d|.*[!@#$%^&*()\\-_=+\\\\|\\[{\\]};:'\",<.>/?]).{8,20}$";
-    private final Pattern idPattern = Pattern.compile(ID_PATTERN);
-    private final Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
-    private final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-    private final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
-    @Mock private HttpServletRequest req ;
+
     private Cookie refreshTokenCookie ;
+    private MockHttpServletRequest req;
+    private MockHttpServletResponse res;
+    private Map<String, Object> map;
     private PatchPasswordReq patchPasswordReq;
-    private GetParentsUserReq getParentsUserReq;
     private ParentsUserEntity parentsUserEntity;
     private GetFindPasswordReq getReq;
-    private Map<String, Object> map;
     private MultipartFile validFile;
     private MultipartFile emptyFile;
     private SignatureReq signReq;
-
     @BeforeEach
     void setUp() {
+
         MockitoAnnotations.openMocks(this);
 
         Authentication authentication = mock(Authentication.class);
@@ -114,7 +111,11 @@ class ParentsUserServiceTest {
         patchPasswordReq = new PatchPasswordReq();
         patchPasswordReq.setNewUpw("newPassword");
 
-        getParentsUserReq = new GetParentsUserReq();
+        req = new MockHttpServletRequest();
+        res = new MockHttpServletResponse();
+        map = new HashMap<>();
+        getReq = new GetFindPasswordReq();
+        getReq.setPhone("010-1234-5678");
 
         parentsUserEntity = new ParentsUserEntity();
         parentsUserEntity.setParentsId(1L);
