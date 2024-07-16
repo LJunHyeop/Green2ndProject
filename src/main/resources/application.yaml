@@ -170,6 +170,3 @@ spring:
 
 file:
   directory: ${PROD.FILE_DIRECTORY}
-
-
-

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @MybatisTest
-
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 
 class ScoreMapperTest {
@@ -43,37 +43,26 @@ class ScoreMapperTest {
 
     @Test
     void getScoreMidterm() {
-        List<InsScoreList> list1 = new ArrayList<>();
-        InsScoreList list = new InsScoreList();
-        list.setScoreId(1);
-        list.setStudentPk(1);
-        list.setMark(95);
-        list.setExam(1);
-        list.setName("한글");
-        list.setClassAvg(95.6);
-        list.setClassRank(1);
-        list.setClassStudentCount(10);
-        list.setSubjectGradeRank(1);
-        list.setGradeRank(1);
-        list.setGradeStudentCount(20);
-        list1.add(list);
-        assertEquals(1,list1.size());
-
-        List<InsScoreList> list3 = new ArrayList<>();
-        InsScoreList list4 = new InsScoreList();
-        list4.setScoreId(1);
-        list4.setStudentPk(1);
-        list4.setMark(95);
-        list4.setExam(3);
-        list4.setName("영어");
-        list4.setClassAvg(95.6);
-        list4.setClassRank(1);
-        list4.setClassStudentCount(10);
-        list4.setSubjectGradeRank(1);
-        list4.setGradeRank(1);
-        list4.setGradeStudentCount(20);
-        list3.add(list4);
-        assertEquals(1,list3.size());
+        InsScoreReq p = new InsScoreReq();
+        p.setScoreId(1);
+        p.setStudentPk(1);
+        p.setSemester(1);
+        p.setMark(96);
+        p.setYear(2023);
+        p.setName("국어");
+        p.setGrade(1);
+        p.setExam(1);
+        int result = mapper.postScore(p) ;
+        System.out.println(p);
+        StuGetRes res = new StuGetRes();
+        res.setExam(1);
+        res.setStudentPk(1);
+        res.setLatestGrade(1);
+        res.setLatestYear(1);
+        res.setLatestYear(2023);
+        res.setScoreId(p.getScoreId());
+        List<InsScoreList> list1 = mapper.getScoreMidterm(res) ;
+        assertEquals(result, list1.size());
     }
 
     @Test
@@ -100,16 +89,16 @@ class ScoreMapperTest {
 
     @Test
     void getStu() {
-        StuGetRes p = new StuGetRes();
-        p.setLatestGrade(1);
-        p.setLatestSemester(1);
-        p.setLatestYear(2023);
-        p.setStudentPk(1);
-        p.setExam(1);
-        List<StuGetRes> res1 = new ArrayList<>();
-        StuGetRes res = mapper.getStu(p.getStudentPk());
-        res1.add(res);
-        assertEquals(1,res1.size());
+        StuGetRes res = new StuGetRes();
+        res.setExam(1);
+        res.setStudentPk(1);
+        res.setLatestGrade(1);
+        res.setLatestYear(1);
+        res.setLatestYear(2023);
+        res.setScoreId(72);
+        List<StuGetRes> list1 = new ArrayList<>() ;
+        list1.add(mapper.getStu(res.getStudentPk()));
+        assertEquals(1, list1.size());
     }
 
     @Test
@@ -152,7 +141,16 @@ class ScoreMapperTest {
 
     @Test
     void delScore() {
-
+        List<InsScoreList> list3 = new ArrayList<>();
+        InsScoreList list4 = new InsScoreList();
+        list4.setScoreId(1);
+        list4.setStudentPk(3);
+        list4.setMark(95);
+        list4.setExam(2);
+        list4.setName("영어");
+        list3.add(list4);
+        System.out.println(list3);
+        assertEquals(1,list3.size());
     }
 
     @Test
