@@ -73,13 +73,12 @@ class ScoreMapperTest {
         p.setMark(96);
         p.setYear(2023);
         p.setName("국어");
-        p.setGrade(1);
         p.setExam(2);
         System.out.println(p);
         StuGetRes res = new StuGetRes();
         res.setExam(2);
         res.setStudentPk(p.getStudentPk());
-        res.setLatestGrade(p.getGrade());
+
         res.setLatestSemester(p.getSemester());
         res.setLatestYear(p.getYear());
         res.setScoreId(p.getScoreId());
