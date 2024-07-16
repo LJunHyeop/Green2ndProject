@@ -221,10 +221,30 @@ class StudentMapperTest {
     @Test
     @DisplayName("학생 학년 변경")
     void updStudentGrade() {
+
     }
 
     @Test
     @DisplayName("새 학급에 학생 추가")
     void insNewClass() {
     }
+
+    @Test
+    @DisplayName("현재 etc 값 가져오기")
+    void getStudentEtc(){}
+    @Test
+    @DisplayName("etc 값 업데이트")
+    void updStudentEtc(){}
+    @Test
+    @DisplayName("역대 etc 값 받아오기")
+    void selPrevEtc(){}
+    @Test
+    @DisplayName("부모 회원가입 시 학생 에 fk 업데이트")
+    void updStudentParent(){}
+    @Test
+    @DisplayName("학년/학급 없으면 생성")
+    void insertClassIfNotExists(){}
+    @Test
+    @DisplayName("학생 생성시 반에 소속시키기")
+    void insertClassStudent(){}
 }
