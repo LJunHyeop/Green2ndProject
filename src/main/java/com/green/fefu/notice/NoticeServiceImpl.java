@@ -41,8 +41,9 @@ public class NoticeServiceImpl implements NoticeService{
     //
     public List<GetNoticeRes> getNotice(GetNoticeReq p){
         MyUser user=authenticationFacade.getLoginUser();
+        log.info("pk : {}", authenticationFacade.getLoginUser().getRole());
         String userRole=user.getRole();
-        if(userRole.equals("TEAHCER")){
+        if(userRole.equals("ROLE_TEAHCER")){
             long teaId=authenticationFacade.getLoginUserId();
             int classId=mapper.teacherHomeroom(teaId);
             p.setClassId(classId);
@@ -57,7 +58,7 @@ public class NoticeServiceImpl implements NoticeService{
     public GetNoticeRes getNoticeLatest(GetNoticeReq p){
         MyUser user=authenticationFacade.getLoginUser();
         String userRole=user.getRole();
-        if(userRole.equals("TEAHCER")){
+        if(userRole.equals("ROLE_TEAHCER")){
             long teaId=authenticationFacade.getLoginUserId();
             int classId=mapper.teacherHomeroom(teaId);
             p.setClassId(classId);
