@@ -15,8 +15,6 @@ public class InsScoreReq {
     private int scoreId;
     @Schema(example = "1", description = "학생Pk")
     private int studentPk;
-    @Schema(example = "1", description = "학년")
-    private int grade;
     @Schema(example = "2023", description = "년도")
     private int year;
     @Schema(example = "1", description = "학기")

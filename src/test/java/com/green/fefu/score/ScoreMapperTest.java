@@ -164,5 +164,6 @@ class ScoreMapperTest {
 
     @Test
     void totalList() {
+
     }
 }

@@ -20,7 +20,7 @@ public class ScoreServiceImpl {
         delScore.setSemester(p.getSemester());
         delScore.setName(p.getName());
         delScore.setScId(p.getStudentPk());
-        List<InsScoreList> list = mapper.totalList(delScore) ;
+        List<InsScoreList> list = mapper.totalList(delScore);
         for(InsScoreList afterList : list){
             if (afterList != null){
                 mapper.delScore(delScore);
