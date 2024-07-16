@@ -1,10 +1,7 @@
 package com.green.fefu.score;
 
 
-import com.green.fefu.score.model.GetDetailScoreReq;
-import com.green.fefu.score.model.InsScoreList;
-import com.green.fefu.score.model.InsScoreReq;
-import com.green.fefu.score.model.StuGetRes;
+import com.green.fefu.score.model.*;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,15 +141,25 @@ class ScoreMapperTest {
 
     @Test
     void delScore() {
-        GetDetailScoreReq res = new GetDetailScoreReq();
-        res.setExam(2);
-        res.setStudentPk(2);
-        res.setScoreId(1);
-        res.setGrade(2);
-        res.setSemester(1);
-        System.out.println(res);
-        List<InsScoreList> list1 = mapper.getDetailScoreFinal(res) ;
-        assertEquals(0, list1.size());
+//        DelScore res = new DelScore();
+//        res.setExam(2);
+//        res.setName("국어");
+//        res.setScoreId(1);
+//        res.setSemester(2);
+//        res.setScId(1);
+//        System.out.println(res);
+//        int list1 = mapper.delScore(res) ;
+//        assertEquals(0, list1);
+
+        DelScore res1 = new DelScore();
+        res1.setExam(1);
+        res1.setName("국어");
+        res1.setScoreId(36);
+        res1.setSemester(1);
+        res1.setScId(1);
+        System.out.println(res1);
+        int list2 = mapper.delScore(res1) ;
+        assertEquals(1, list2);
     }
 
     @Test
