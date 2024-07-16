@@ -2,10 +2,12 @@ package com.green.fefu.score.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode
 public class StuGetRes {
 
     @JsonIgnore
@@ -19,7 +21,7 @@ public class StuGetRes {
     @JsonIgnore
     private int latestSemester;
     @JsonIgnore
-    private long latestYear;
+    private String latestYear;
 
     private int exam;
 }

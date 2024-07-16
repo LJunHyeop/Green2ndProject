@@ -15,7 +15,7 @@ public class SignatureReq {
     private long stuId ;
 
     @Schema(description = "년도")
-    private int year ;
+    private String year ;
 
     @Schema(description = "학기")
     private int semester ;
