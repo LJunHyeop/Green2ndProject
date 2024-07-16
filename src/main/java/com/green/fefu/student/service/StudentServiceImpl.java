@@ -245,12 +245,14 @@ public class StudentServiceImpl implements StudentService {
     //=====================================================================================================================
 //    부모 없는 학생 List 출력
     @Override
-    public List getStudentListForParent(List<getListForNoParent> list) throws Exception {
+    public List<getListForNoParent> getStudentListForParent(List<getListForNoParent> list) throws Exception {
         list = mapper.getStudentListForParent();
+        log.info("data : {}", list);
         for (getListForNoParent p : list) {
             p.setGrade(Parser.classParser(p.getGrade()));
             p.setPhone(Parser.phoneParser(p.getPhone()));
         }
+        log.info("data2 : {}", list);
         return list;
     }
 
