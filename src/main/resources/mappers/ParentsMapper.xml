@@ -167,7 +167,8 @@
         p.phone AS parentPhone,
         s.parents_id AS parentsPk,
         MAX(sc.class_id) AS classId,
-        t.nm AS teacherName
+        t.nm AS teacherName,
+        s.pic AS pic
         FROM student s
         LEFT JOIN parents p
         ON s.parents_id = p.parents_id
@@ -187,6 +188,19 @@
         WHERE s.parents_id = #{parentsPk}
         GROUP BY s.stu_id, s.name, s.gender, s.birth, s.phone, p.nm, p.phone, s.parents_id
         ORDER BY s.name, s.birth, sc.class_id DESC ;
+    </select>
+    <select id="selPasswordBeforeLogin">
+        SELECT parents_id AS parentsId
+        , uid
+        , upw
+        , nm
+        , phone
+        , sub_phone AS subPhone
+        , email
+        , connet
+        , addr
+        FROM parents
+        WHERE uid = #{uid}
     </select>
 
 </mapper>

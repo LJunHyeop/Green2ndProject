@@ -68,7 +68,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         return ResponseEntity.ok().body(res) ;
     }
     // 비밀번호 수정
-    @Override @PutMapping("/password-update") @Operation(summary = "비밀번호 수정") @PreAuthorize("hasRole('PARENTS')")
+    @Override @PutMapping("/password-update") @Operation(summary = "비밀번호 수정")
     public ResponseEntity<Integer> patchPassword(@RequestBody PatchPasswordReq p) {
         int result = service.patchPassword(p) ;
         return ResponseEntity.ok().body(result) ;
@@ -81,7 +81,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     }
     // 토큰확인
     @Override @GetMapping("/access-token") @Operation(summary = "accessToken - 확인")
-    public ResponseEntity<Map> getAccessToken(@RequestParam HttpServletRequest req) {
+    public ResponseEntity<Map> getAccessToken(HttpServletRequest req) {
         Map<String, Object> res = service.getAccessToken(req) ;
         return ResponseEntity.ok().body(res) ;
     }
