@@ -24,5 +24,5 @@ public interface ScoreMapper {
     List<InsScoreList> totalList(DelScore p);
 
     //Tdd
-    InsScoreList SelScore(long StudentPk);
+    InsScoreList selScore(long StudentPk);
 }

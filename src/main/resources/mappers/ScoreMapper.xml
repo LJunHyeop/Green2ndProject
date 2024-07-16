@@ -177,4 +177,27 @@
         AND semester = #{semester} AND name = #{name}
         AND exam = #{exam}
     </select>
+    <select id="selScore">
+    SELECT
+    score_id AS scoreId,
+    stu_id AS studentPk,
+    CONCAT(#{latestGrade}, SUBSTRING(class_id, 2)) AS classId,
+    subject_name AS name,
+    exam AS exam,
+    mark AS mark,
+    class_avg AS classAvg,
+    subject_grade_rank AS subjectGradeRank,
+    grade_avg AS gradeAvg,
+    grade_rank AS gradeSchoolRank,
+    class_student_count AS classStudentCount,
+    grade_student_count AS gradeStudentCount,
+    class_rank AS classRank,
+    grade_rank AS gradeRank
+    <if test="latestSemester == 1 and exam == 1" >
+        FROM view_score_semester1_midterm
+    </if>
+    <if test="latestSemester == 2 and exam == 1">
+        FROM view_score_semester2_midterm
+    </if>
+    </select>
 </mapper>
