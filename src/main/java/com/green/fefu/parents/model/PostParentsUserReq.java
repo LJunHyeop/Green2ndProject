@@ -37,17 +37,20 @@ public class PostParentsUserReq {
     @Schema(description = "주소")
     private String addr;
 
+    @Schema(description = "상세 주소")
+    private String detail;
+
     @Schema(description = "학생PK값")
     private long studentPk;
 
     @JsonIgnore
     private String addrs ;
 
-    public void setAddrs(String zoneCode, String addr) {
+    public void setAddrs(String zoneCode, String addr, String detail) {
         if(zoneCode == null && addr == null){
             this.addrs = null;
         } else {
-            this.addrs = zoneCode + "#" + addr;
+            this.addrs = zoneCode + "#" + addr + "#" + detail;
         }
     }
 }
