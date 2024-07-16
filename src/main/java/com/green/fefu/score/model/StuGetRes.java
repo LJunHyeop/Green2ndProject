@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class StuGetRes {
+
+    @JsonIgnore
+    private int scoreId;
+
+
     private int studentPk;
 
     @JsonIgnore
