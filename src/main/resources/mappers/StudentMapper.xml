@@ -100,9 +100,14 @@
     </update>
 
     <select id="getStudentListForParent">
-        SELECT pic, name, grade, phone, stu_id AS pk
+        SELECT name, grade, stu_id AS pk
         FROM student
-        WHERE state = 1 AND parents_id IS NULL
+        <where>
+            state = 1 AND parents_id IS NULL
+            <if test="searchWord != null and searchWord != ''">
+                AND name LIKE '%${searchWord}%'
+            </if>
+        </where>
         ORDER BY name, grade
     </select>
 

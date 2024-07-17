@@ -15,5 +15,7 @@ public class DtoDetail<T>{
 
     private  T studentPk;
 
+    private T classRank;
+
 
 }

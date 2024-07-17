@@ -20,6 +20,8 @@ public class ChangeTeacherReq {
     private String zoneCode;
     @Schema(example = "서울 판교 1234", description = "선생님 주소")
     private String addr;
+    @Schema(example = "101동", description = "선생님 상세주소")
+    private String detail;
 
     @JsonIgnore
     private long pk;
