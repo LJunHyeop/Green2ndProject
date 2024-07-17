@@ -226,10 +226,10 @@ public class StudentControllerImpl implements StudentController {
             )
     })
     @Override
-    public ResponseEntity getStudentListForParent() {
+    public ResponseEntity getStudentListForParent(@RequestParam(required = false) String searchWord) {
         List<getListForNoParent> result = new ArrayList<>();
         try {
-            result = service.getStudentListForParent(result);
+            result = service.getStudentListForParent(result, searchWord);
         } catch (Exception e) {
             return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }
