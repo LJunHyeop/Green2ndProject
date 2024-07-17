@@ -194,21 +194,17 @@ class StudentMapperTest {
     void getStudentListForParent() {
         getListForNoParent p1 = new getListForNoParent();
         p1.setPk(24);
-        p1.setPic("47872175-b41f-4080-bcf9-dc72604c46d5.png");
         p1.setName("홍길동");
         p1.setGrade("10101");
-        p1.setPhone("010-0000-0000");
         List<getListForNoParent> list = new ArrayList<>();
         list.add(p1);
 
-        List<getListForNoParent> result = mapper.getStudentListForParent();
+        List<getListForNoParent> result = mapper.getStudentListForParent(p1.getName());
         assertEquals(list.size(), result.size(), resultMsg);
         for (int i = 0; i < list.size(); i++) {
             assertEquals(result.get(i).getName(), list.get(i).getName(), msg);
             assertEquals(result.get(i).getGrade(), list.get(i).getGrade(), msg);
-            assertEquals(result.get(i).getPhone(), list.get(i).getPhone(), msg);
             assertEquals(result.get(i).getPk(), list.get(i).getPk(), msg);
-            assertEquals(result.get(i).getPic(), list.get(i).getPic(), msg);
         }
     }
 
