@@ -18,7 +18,7 @@ public interface StudentMapper {
 
     int updateStudent(updateStudentReq p);
 
-    List<getListForNoParent> getStudentListForParent();
+    List<getListForNoParent> getStudentListForParent(String searchWord);
 
     int updStudentGrade(studentAdvanceGradeReq p);
 

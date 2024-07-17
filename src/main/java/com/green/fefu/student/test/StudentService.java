@@ -16,5 +16,5 @@ public interface StudentService {
     List getStudentList(List<getStudent> list) throws Exception;
     Map getStudentDetail(long pk, Map map) throws Exception;
     void updateStudent(updateStudentReq p) throws Exception;
-    List getStudentListForParent(List<getListForNoParent> list) throws Exception;
+    List getStudentListForParent(List<getListForNoParent> list, String searchWord) throws Exception;
 }

@@ -5,10 +5,7 @@ import com.green.fefu.student.model.req.deleteStudentReq;
 import com.green.fefu.student.model.req.updateStudentReq;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface StudentController {
@@ -23,5 +20,5 @@ public interface StudentController {
 //    학생 업데이트
     ResponseEntity updateStudent(@RequestBody updateStudentReq p);
 //    부모가 없는 학생들 리스트
-    ResponseEntity getStudentListForParent();
+    ResponseEntity getStudentListForParent(@RequestParam(required = false) String searchWord);
 }

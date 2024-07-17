@@ -424,7 +424,7 @@ public class TeacherServiceImpl implements TeacherService {
         ChangeTeacherErrorCheck(p);
 
 //        주소값 합성
-//        만들어야함
+        p.setFullAddr(Parser.addressParserMerge(p.getZoneCode(),p.getAddr(),p.getDetail()));
 
 //        쿼리 실행
         int result = mapper.ChangeTeacher(p);
