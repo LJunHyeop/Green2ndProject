@@ -1,6 +1,11 @@
 package com.green.fefu.score;
 
 import com.green.fefu.score.model.*;
+import com.green.fefu.security.AuthenticationFacade;
+import com.green.fefu.security.MyUser;
+import com.green.fefu.student.model.dto.getDetail;
+import com.green.fefu.student.model.dto.getStudent;
+import com.green.fefu.student.service.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,13 +19,32 @@ import java.util.List;
 @Slf4j
 public class ScoreServiceImpl {
     private final ScoreMapper mapper;
+    private final AuthenticationFacade authenticationFacade;
+    private final StudentMapper studentMapper;
+
+
     //점수 넣기
     public long postScore(InsScoreReq p){
+        MyUser user = authenticationFacade.getLoginUser();
+        String userRole = user.getRole();
         DelScore delScore = new DelScore();
         delScore.setExam(p.getExam());
         delScore.setSemester(p.getSemester());
         delScore.setName(p.getName());
         delScore.setScId(p.getStudentPk());
+        if(!userRole.equals("ROLE_TEAHCER")){
+            throw new RuntimeException("권한이 없습니다");
+        }
+        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk()) ;
+
+        GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
+
+        if(!list3.getUClass().equals(res.getClassId())){
+            throw new RuntimeException("담당 학생이 아닙니다");
+        }
+
+
+
         List<InsScoreList> list = mapper.totalList(delScore);
         for(InsScoreList afterList : list){
             if (afterList != null){

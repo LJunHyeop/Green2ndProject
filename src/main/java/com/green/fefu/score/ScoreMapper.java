@@ -27,6 +27,8 @@ public interface ScoreMapper {
 
    RankRes rankListMid(RankReq p);
 
+   GetClassIdRes getClassId(long teaId, long stuId);
+
     //Tdd
     InsScoreList selScore(long StudentPk);
 
