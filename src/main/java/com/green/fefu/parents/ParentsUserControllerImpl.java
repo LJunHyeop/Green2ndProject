@@ -88,10 +88,10 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     }
     // 학부모 비밀번호 찾기
     @Override @GetMapping("/find-password") @Operation(summary = "비밀번호 찾기", description = "문자발송")
-    public ResponseEntity<GetFindPasswordRes> getFindPassword(@ModelAttribute @ParameterObject GetFindPasswordReq req) {
+    public ResponseEntity getFindPassword(@ModelAttribute @ParameterObject GetFindPasswordReq req) {
         Map map = new HashMap<>() ;
         service.getFindPassword(req, map);
-        return new ResponseEntity<>(OK) ;
+        return new ResponseEntity<>(map, OK) ;
     }
     // 전자서명
     @Override @PostMapping("/signature") @Operation(summary = "전자서명") @PreAuthorize("hasRole('PARENTS')")
