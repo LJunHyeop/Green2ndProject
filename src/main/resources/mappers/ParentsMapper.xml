@@ -158,27 +158,27 @@
     </update>
     <select id="getStudentParents">
         SELECT
-        s.stu_id AS studentPk,
-        s.name AS name,
-        s.gender AS gender,
-        s.birth AS birth,
-        s.phone AS phone,
-        p.nm AS parentName,
-        p.phone AS parentPhone,
-        s.parents_id AS parentsPk,
-        MAX(sc.class_id) AS classId,
-        t.nm AS teacherName,
-        s.pic AS pic
+                s.stu_id AS studentPk,
+                s.name AS name,
+                s.gender AS gender,
+                s.birth AS birth,
+                s.phone AS phone,
+                p.nm AS parentName,
+                p.phone AS parentPhone,
+                s.parents_id AS parentsPk,
+                MAX(sc.class_id) AS classId,
+                t.nm AS teacherName,
+                s.pic AS pic
         FROM student s
         LEFT JOIN parents p
         ON s.parents_id = p.parents_id
         LEFT JOIN (
-        SELECT sc1.class_id AS class_id
-        , sc1.stu_id
-        FROM student_classes sc1
-        INNER JOIN student sc2
-        ON sc1.stu_id = sc2.stu_id
-        ORDER BY sc1.class_id DESC
+                SELECT sc1.class_id AS class_id
+                , sc1.stu_id
+                FROM student_classes sc1
+                INNER JOIN student sc2
+                ON sc1.stu_id = sc2.stu_id
+                ORDER BY sc1.class_id DESC
         ) sc
         ON s.stu_id = sc.stu_id
         LEFT JOIN class c
