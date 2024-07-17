@@ -15,20 +15,12 @@ public class InsScoreList {
 
     private int subjectClassRank;
 
+    private int subjectGradeRank;
+
     private int studentPk;
 
     private double classAvg;
 
     private double gradeAvg;
-
-    private int subjectGradeRank;
-
-    private double classStudentCount;
-
-    private int classRank;
-
-    private int gradeRank;
-
-    private double gradeStudentCount;
 
 }

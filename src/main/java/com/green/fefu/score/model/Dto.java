@@ -20,6 +20,16 @@ public class Dto <T>{
     private int latestGrade;
     private int latestSemester;
     private String latestYear;
-    private int exam;
+
+
+
+    private T classRank;
+
+//    private T gradeRank;
+//
+//    private T classStudentCount;
+//
+//    private T gradeStudentCount;
+
 
 }

@@ -40,6 +40,7 @@ public class NoticeServiceImpl implements NoticeService{
 
     //
     public List<GetNoticeRes> getNotice(GetNoticeReq p){
+
         MyUser user=authenticationFacade.getLoginUser();
         log.info("pk : {}", authenticationFacade.getLoginUser().getRole());
         String userRole=user.getRole();
@@ -49,6 +50,7 @@ public class NoticeServiceImpl implements NoticeService{
             p.setClassId(classId);
             return mapper.getNotice(p);
         }
+
         long parentsId=authenticationFacade.getLoginUserId();
         int classId=mapper.childClassRoom(parentsId);
         p.setClassId(classId);
