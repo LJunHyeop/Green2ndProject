@@ -223,4 +223,11 @@
         FROM view_score_semester2_midterm
     </if>
     </select>
+    <select id="getClassId">
+        SELECT A.class_id AS classId
+        FROM student_classes A
+        INNER JOIN class B
+        ON A.class_id = B.class_id
+        WHERE tea_id = #{teaId} AND stu_id = #{stuId}
+    </select>
 </mapper>
