@@ -8,9 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class getListForNoParent {
-    private String pic;
     private long pk;
     private String name;
     private String grade;
-    private String phone;
 }

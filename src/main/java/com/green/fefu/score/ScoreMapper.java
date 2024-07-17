@@ -23,6 +23,14 @@ public interface ScoreMapper {
 
     List<InsScoreList> totalList(DelScore p);
 
+    RankRes rankListFinal(RankReq p);
+
+   RankRes rankListMid(RankReq p);
+
+   GetClassIdRes getClassId(long teaId, long stuId);
+
     //Tdd
     InsScoreList selScore(long StudentPk);
+
+
 }

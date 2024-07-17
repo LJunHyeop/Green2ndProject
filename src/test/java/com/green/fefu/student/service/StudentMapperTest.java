@@ -1,9 +1,6 @@
 package com.green.fefu.student.service;
 
-import com.green.fefu.student.model.dto.getDetail;
-import com.green.fefu.student.model.dto.getListForNoParent;
-import com.green.fefu.student.model.dto.getStudent;
-import com.green.fefu.student.model.dto.getUserTest;
+import com.green.fefu.student.model.dto.*;
 import com.green.fefu.student.model.req.createStudentReq;
 import com.green.fefu.student.model.req.deleteStudentReq;
 import com.green.fefu.student.model.req.updateStudentReq;
@@ -130,7 +127,7 @@ class StudentMapperTest {
         p.setPic("47872175-b41f-4080-bcf9-dc72604c46d5.png");
         p.setTeacherName("정선생");
         getDetail result = mapper.getStudentDetail(1L);
-        assertEquals(p,result);
+        assertEquals(p, result);
         assertNotNull(result);
 
     }
@@ -145,9 +142,6 @@ class StudentMapperTest {
         assertEquals(1, result, resultMsg);
         getUserTest entity = mapper.selOneTest(p.getPk());
         assertEquals(p.getName(), entity.getName(), msg);
-
-
-
     }
 
     @Test
@@ -200,51 +194,63 @@ class StudentMapperTest {
     void getStudentListForParent() {
         getListForNoParent p1 = new getListForNoParent();
         p1.setPk(24);
-        p1.setPic("47872175-b41f-4080-bcf9-dc72604c46d5.png");
         p1.setName("홍길동");
         p1.setGrade("10101");
-        p1.setPhone("010-0000-0000");
         List<getListForNoParent> list = new ArrayList<>();
         list.add(p1);
 
-        List<getListForNoParent> result = mapper.getStudentListForParent();
+        List<getListForNoParent> result = mapper.getStudentListForParent(p1.getName());
         assertEquals(list.size(), result.size(), resultMsg);
         for (int i = 0; i < list.size(); i++) {
             assertEquals(result.get(i).getName(), list.get(i).getName(), msg);
             assertEquals(result.get(i).getGrade(), list.get(i).getGrade(), msg);
-            assertEquals(result.get(i).getPhone(), list.get(i).getPhone(), msg);
             assertEquals(result.get(i).getPk(), list.get(i).getPk(), msg);
-            assertEquals(result.get(i).getPic(), list.get(i).getPic(), msg);
         }
     }
 
     @Test
-    @DisplayName("학생 학년 변경")
-    void updStudentGrade() {
-
-    }
-
-    @Test
-    @DisplayName("새 학급에 학생 추가")
-    void insNewClass() {
-    }
-
-    @Test
     @DisplayName("현재 etc 값 가져오기")
-    void getStudentEtc(){}
+    void getStudentEtc() {
+        getUserTest entity = mapper.selOneTest(1);
+        String a = mapper.getStudentEtc(1);
+        assertEquals(entity.getEtc(), a);
+    }
+
     @Test
     @DisplayName("etc 값 업데이트")
-    void updStudentEtc(){}
+    void updStudentEtc() {
+        getUserTest entity = mapper.selOneTest(1);
+        assertEquals("갑각류 알러지 있음", entity.getEtc());
+        mapper.updStudentEtc(1, "바꿈");
+
+    }
+
     @Test
     @DisplayName("역대 etc 값 받아오기")
-    void selPrevEtc(){}
+    void selPrevEtc() {
+        prevStudentEtc p = new prevStudentEtc();
+        prevStudentEtc p1 = new prevStudentEtc();
+        List<prevStudentEtc> list = new ArrayList<>();
+        List<prevStudentEtc> result = mapper.selPrevEtc(1);
+        p.setUClass("101");
+        p.setEtc(null);
+        p.setTeacherName("홍길동");
+        list.add(p);
+        p1.setUClass("201");
+        p1.setEtc("새우 알러지");
+        p1.setTeacherName("정선생");
+        list.add(p1);
+        assertEquals(2, result.size(), resultMsg);
+        assertEquals(list, result);
+    }
+
     @Test
     @DisplayName("부모 회원가입 시 학생 에 fk 업데이트")
-    void updStudentParent(){}
-    @Test
-    @DisplayName("학년/학급 없으면 생성")
-    void insertClassIfNotExists(){}
-    @Test
-    @DisplayName("학생 생성시 반에 소속시키기")
-    void insertClassStudent(){}
+    void updStudentParent() {
+        getUserTest entity = mapper.selOneTest(2);
+        assertNull(entity.getParentId(), "널이 아닙니다.");
+        mapper.updStudentParent(2, 1);
+        entity = mapper.selOneTest(2);
+        assertEquals("1", entity.getParentId(), "값이 들어가지 않았습니다");
+    }
 }

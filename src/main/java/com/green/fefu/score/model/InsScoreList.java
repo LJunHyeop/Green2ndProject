@@ -5,25 +5,22 @@ import lombok.Data;
 
 @Data
 public class InsScoreList {
-
-
     private String name;
+
     private int exam;
+
     private int mark;
 
     private Integer scoreId;
-    private int studentPk;
-    private double classAvg;
-    private double gradeAvg;
+
+    private int subjectClassRank;
 
     private int subjectGradeRank;
 
-    private double classStudentCount;
+    private int studentPk;
 
-    private int classRank;
+    private double classAvg;
 
-    private int gradeRank;
-
-    private double gradeStudentCount;
+    private double gradeAvg;
 
 }

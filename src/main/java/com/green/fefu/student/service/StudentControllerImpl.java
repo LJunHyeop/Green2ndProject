@@ -163,7 +163,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
-    @PreAuthorize("hasRole('TEAHCER')")
+    @PreAuthorize("hasRole('PARENTS') or hasRole('TEAHCER')")
     @Override
     public ResponseEntity getStudentDetail(@RequestParam long pk) {
         log.info("getStudentDetail req : {}", pk);
@@ -193,7 +193,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
-    @PreAuthorize("hasRole('TEAHCER')")
+    @PreAuthorize("hasRole('PARENTS') or hasRole('TEAHCER')")
     @Override
     public ResponseEntity updateStudent(@RequestBody updateStudentReq p) {
         log.info("updateStudent req : {}", p);
@@ -226,10 +226,10 @@ public class StudentControllerImpl implements StudentController {
             )
     })
     @Override
-    public ResponseEntity getStudentListForParent() {
+    public ResponseEntity getStudentListForParent(@RequestParam(required = false) String searchWord) {
         List<getListForNoParent> result = new ArrayList<>();
         try {
-            result = service.getStudentListForParent(result);
+            result = service.getStudentListForParent(result, searchWord);
         } catch (Exception e) {
             return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
         }

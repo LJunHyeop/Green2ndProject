@@ -21,13 +21,10 @@
         exam AS exam,
         mark AS mark,
         class_avg AS classAvg,
+        subject_class_rank AS subjectClassRank,
         subject_grade_rank AS subjectGradeRank,
         grade_avg AS gradeAvg,
-        grade_rank AS gradeSchoolRank,
-        class_student_count AS classStudentCount,
-        grade_student_count AS gradeStudentCount,
-        class_rank AS classRank,
-        grade_rank AS gradeRank
+        grade_rank AS gradeSchoolRank
     <if test="latestSemester == 1 and exam == 1" >
         FROM view_score_semester1_midterm
     </if>
@@ -48,13 +45,11 @@
         exam AS exam,
         mark AS mark,
         class_avg AS classAvg,
+        subject_class_rank AS subjectClassRank,
         subject_grade_rank AS subjectGradeRank,
         grade_avg AS gradeAvg,
-        grade_rank AS gradeSchoolRank,
-        class_student_count AS classStudentCount,
-        grade_student_count AS gradeStudentCount,
-        class_rank AS classRank,
-        grade_rank AS gradeRank
+        grade_rank AS gradeSchoolRank
+
         <if test="latestSemester == 1 and exam == 2" >
             FROM view_score_semester1_final
         </if>
@@ -120,17 +115,14 @@
         exam AS exam,
         mark AS mark,
         class_avg AS classAvg,
+        subject_class_rank AS subjectClassRank,
         subject_grade_rank AS subjectGradeRank,
         grade_avg AS gradeAvg,
-        grade_rank AS gradeSchoolRank,
-        class_student_count AS classStudentCount,
-        grade_student_count AS gradeStudentCount,
-        class_rank AS classRank,
-        grade_rank AS gradeRank
+        grade_rank AS gradeSchoolRank
         <if test="semester == 1 and exam == 1">
             FROM view_score_semester1_midterm
         </if>
-        <if test="semester == 2 and  exam == 1">
+        <if test="semester == 2 and exam == 1">
             FROM view_score_semester2_midterm
         </if>
         <where>
@@ -147,13 +139,10 @@
         exam AS exam,
         mark AS mark,
         class_avg AS classAvg,
+        subject_class_rank AS subjectClassRank,
         subject_grade_rank AS subjectGradeRank,
         grade_avg AS gradeAvg,
-        grade_rank AS gradeSchoolRank,
-        class_student_count AS classStudentCount,
-        grade_student_count AS gradeStudentCount,
-        class_rank AS classRank,
-        grade_rank AS gradeRank
+        grade_rank AS gradeSchoolRank
         <if test="semester == 1 and exam == 2">
             FROM view_score_semester1_final
         </if>
@@ -177,6 +166,39 @@
         AND semester = #{semester} AND name = #{name}
         AND exam = #{exam}
     </select>
+
+    <select id="rankListFinal">
+        SELECT  class_student_count AS classStudentCount,
+        grade_student_count AS gradeStudentCount,
+        class_rank AS classRank,
+        grade_rank AS gradeRank
+        <if test="semester == 1 and exam == 2">
+            FROM view_score_semester1_final
+        </if>
+        <if test="semester == 2 and exam == 2">
+            FROM view_score_semester2_final
+        </if>
+        WHERE stu_id = #{studentPk}
+        AND SUBSTRING(class_id, 1, 1) = #{grade}
+        LIMIT 1
+    </select>
+    <select id="rankListMid">
+        SELECT  class_student_count AS classStudentCount,
+        grade_student_count AS gradeStudentCount,
+        class_rank AS classRank,
+        grade_rank AS gradeRank
+        <if test="semester == 1 and exam == 1">
+            FROM view_score_semester1_midterm
+        </if>
+        <if test="semester == 2 and exam == 1">
+            FROM view_score_semester2_midterm
+        </if>
+        WHERE stu_id = #{studentPk}
+        AND SUBSTRING(class_id, 1, 1) = #{grade}
+        LIMIT 1
+    </select>
+
+
     <select id="selScore">
     SELECT
     score_id AS scoreId,
@@ -186,6 +208,7 @@
     exam AS exam,
     mark AS mark,
     class_avg AS classAvg,
+        class_subject_rank,
     subject_grade_rank AS subjectGradeRank,
     grade_avg AS gradeAvg,
     grade_rank AS gradeSchoolRank,
@@ -199,5 +222,12 @@
     <if test="latestSemester == 2 and exam == 1">
         FROM view_score_semester2_midterm
     </if>
+    </select>
+    <select id="getClassId">
+        SELECT A.class_id AS classId
+        FROM student_classes A
+        INNER JOIN class B
+        ON A.class_id = B.class_id
+        WHERE tea_id = #{teaId} AND stu_id = #{stuId}
     </select>
 </mapper>
