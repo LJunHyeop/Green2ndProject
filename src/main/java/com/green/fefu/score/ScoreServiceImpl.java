@@ -93,8 +93,6 @@ public class ScoreServiceImpl {
 
         res.setExam(p.getExam());
 
-        log.info("resFinal: {}",mapper.rankListFinal(rank));
-
         if((res.getLatestSemester() == 1 || res.getLatestSemester() == 2)&& res.getExam() == 1){
             List<InsScoreList> list = mapper.getScoreMidterm(res);
             RankRes resMid = mapper.rankListMid(rank);
