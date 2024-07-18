@@ -33,7 +33,15 @@
     </select>
 
     <select id="">
-        SELECT *
-        FROM student
+        SELECT CONCAT(X.name, -, L.nm
+        FROM parents_id L
+        INNER JOIN (SELECT A.stu_id, A.name, A.parent_id
+                    FROM student A
+                    WHERE A.stu_id in(SELECT C.stu_id
+                                    FROM student_class C
+                                    WHERE C.class_id=(SELECT class_id
+                                                        FROM class
+                                                        WHERE tea_id=#{teaId}) D)) X
+        ON X.stu_id=L.stu_id
     </select>
 </mapper>
