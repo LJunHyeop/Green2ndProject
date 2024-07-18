@@ -16,7 +16,6 @@ import com.green.fefu.student.service.StudentMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,18 +32,15 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -99,7 +95,7 @@ class ParentsUserServiceTest {
         validFile = new MockMultipartFile("pic", "a.png", "image/png", new byte[]{1, 2, 3, 4});
         emptyFile = new MockMultipartFile("pic", "a.png", "image/png", new byte[]{});
         signReq = SignatureReq.builder()
-                .stuId(1)
+                .studentPk(1)
                 .year("2024")
                 .pic(null)
                 .semester(1)
