@@ -253,15 +253,12 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         if (pic == null || pic.isEmpty()) {
             throw new RuntimeException("서명 파일이 없습니다.");
         }
+        String path = String.format("sign/%d", req.getSignId()) ;
+        String fullPath = customFileUtils.makeFolders(path) ;
+        String saveFileName = customFileUtils.makeRandomFileName(pic) ;
+        String target = String.format("%s/%s", path, saveFileName) ;
         try{
-            String path = String.format("sign/%d", req.getSignId()) ;
-            String fullPath = customFileUtils.makeFolders(path) ;
-            String saveFileName = customFileUtils.makeRandomFileName(pic) ;
-            String target = String.format("%s/%s", path, saveFileName) ;
-
-            customFileUtils.transferTo(pic, target);
-            req.setPic(saveFileName) ;
-
+            customFileUtils.transferTo(pic, target) ;
             int result = mapper.signature(req) ;
             if(result != 1){
                 throw new RuntimeException("서명 등록 오류가 발생했습니다: 저장에 실패했습니다.");
@@ -273,7 +270,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         return SignatureRes
                 .builder()
                 .signId(req.getSignId())
-                .pics(req.getPic())
+                .pics(saveFileName)
                 .build() ;
     }
     @Override // 자녀 조회
