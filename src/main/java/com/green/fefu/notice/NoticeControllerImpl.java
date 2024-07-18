@@ -12,6 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @RestController
 @CrossOrigin(origins = "*")
@@ -42,9 +44,9 @@ public class NoticeControllerImpl implements NoticeController{
     @Operation(summary = "알림장 조회",
             description = "<strong> 변수명 : state </strong> <p> 알림장 항목(1 : 알림장 / 2 : 준비물)  ex)1 </p>")
     @PreAuthorize("hasRole('PARENTS') or hasRole('TEAHCER')")
-    public ResultDto<List<GetNoticeRes>> getNotice(@ModelAttribute @ParameterObject GetNoticeReq p){
-        List<GetNoticeRes> list=service.getNotice(p);
-        return ResultDto.<List<GetNoticeRes>>builder()
+    public ResultDto<Map<String, List<GetNoticeRes>>> getNotice(@ModelAttribute @ParameterObject GetNoticeReq p){
+        Map<String, List<GetNoticeRes>> list=service.getNotice(p);
+        return ResultDto.<Map<String, List<GetNoticeRes>>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMsg("성공적으로 조회되었습니다.")
                 .result(list)
@@ -54,12 +56,12 @@ public class NoticeControllerImpl implements NoticeController{
     @Operation(summary = "최신 알림장 조회",
             description = "<strong> 변수명 : state </strong> <p> 알림장 항목(1 : 알림장 / 2 : 준비물)  ex)1 </p>")
     @PreAuthorize("hasRole('PARENTS') or hasRole('TEAHCER')")
-    public ResultDto<GetNoticeRes> getNoticeLatest(@ModelAttribute @ParameterObject GetNoticeReq p){
-        GetNoticeRes result=service.getNoticeLatest(p);
-        return ResultDto.<GetNoticeRes>builder()
+    public ResultDto<Map<String, GetNoticeRes>> getNoticeLatest(@ModelAttribute @ParameterObject GetNoticeReq p){
+        Map<String, GetNoticeRes> twoThing =service.getNoticeLatest(p);
+        return ResultDto.<Map<String, GetNoticeRes>>builder()
                 .statusCode(HttpStatus.OK)
                 .resultMsg("성공적으로 1개가 조회되었습니다.")
-                .result(result)
+                .result(twoThing)
                 .build();
     }
 

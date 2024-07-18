@@ -18,7 +18,15 @@
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
                title, content, created_at AS createdAt, updated_at AS updatedAt, state
         FROM notice
-        WHERE class_id=#{classId} AND state=#{state}
+        WHERE class_id=#{classId}
+        ORDER BY created_at DESC
+    </select>
+
+    <select id="getNoticeParent">
+        SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
+        title, content, created_at AS createdAt, updated_at AS updatedAt, state
+        FROM notice
+        WHERE class_id=#{classId} AND stu_id = #{studentPk}
         ORDER BY created_at DESC
     </select>
 
@@ -28,31 +36,20 @@
         SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
         title, content, created_at AS createdAt, updated_at AS updatedAt, state
         FROM notice
-        WHERE class_id=#{classId} AND state=#{state}
+        WHERE class_id=#{classId}
         ORDER BY created_at DESC
         LIMIT 1
     </select>
 
-
-
-    <!--로그인 한 선생님에 따른 담당 학반 조회-->
-    <select id="teacherHomeroom">
-        SELECT class_id
-        FROM class
-        WHERE tea_id=#{teaId}
+    <select id="getNoticeLatestParent">
+        SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
+        title, content, created_at AS createdAt, updated_at AS updatedAt, state
+        FROM notice
+        WHERE class_id=#{classId} AND stu_id = #{studentPk}
+        ORDER BY created_at DESC
+        LIMIT 1
     </select>
 
-
-    <!--로그인 한 학부모에 따른 자녀의 학반 조회-->
-    <select id="childClassRoom">
-        SELECT class_id
-        FROM parents A
-        INNER JOIN student B
-        ON A.parents_id=B.parents_id
-        INNER JOIN student_classes C
-        ON C.stu_id=B.stu_id
-        WHERE A.parents_id=#{parentsId}
-    </select>
 
 
     <!--알림장 수정(구현 예정) Update-->
@@ -82,7 +79,30 @@
     </delete>
 
 
+    <!--어떤 유저가 로그인 했냐에 따라 관계된 학반 조회-->
+    <!--로그인 한 선생님에 따른 담당 학반 조회-->
+    <select id="teacherHomeroom">
+        SELECT class_id
+        FROM class
+        WHERE tea_id=#{teaId}
+    </select>
 
+
+    <!--로그인 한 학부모에 따른 자녀의 학반 조회-->
+    <select id="childClassRoomList">
+        SELECT S.class_id
+        FROM parents A
+        INNER JOIN (
+                SELECT A.stu_id, A.`name`, max(B.class_id) AS class_id, A.parents_id
+                FROM student A
+                INNER JOIN student_classes B
+                ON A.stu_id=B.stu_id
+                GROUP BY A.stu_id
+            ) S
+        ON A.parents_id=S.parents_id
+        WHERE A.parents_id=#{parentsId} AND S.stu_id=#{studentPk}
+        LIMIT 1
+    </select>
 
 
 
@@ -106,4 +126,8 @@
         FROM notice
         WHERE title=#{title} AND content=#{content}
     </select>
+
+
+
+
 </mapper>

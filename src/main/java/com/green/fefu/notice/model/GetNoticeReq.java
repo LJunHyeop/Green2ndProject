@@ -15,7 +15,9 @@ public class GetNoticeReq {
     //@Schema(name="class_id")
     @JsonIgnore
     private long classId;
-
+    @JsonIgnore
     private int state;
 
+    @Schema(example = "학생 pk", description = "학부모는 무조건 보내야함")
+    private long studentPk;
 }

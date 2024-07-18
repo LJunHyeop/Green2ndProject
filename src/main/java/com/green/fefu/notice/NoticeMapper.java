@@ -1,26 +1,36 @@
 package com.green.fefu.notice;
 
 import com.green.fefu.notice.model.*;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface NoticeMapper {
     int postNotice(PostNoticeReq p);
     List<GetNoticeRes> getNotice(GetNoticeReq p);
-    //List<GetNoticeRes> getNotice_parent(GetNoticeReq p);
 
     //반에서 최신 알림장 1개 조회
-    GetNoticeRes getNoticeLatest(GetNoticeReq p);
+    List<GetNoticeRes> getNoticeLatest(GetNoticeReq p);
 
     int putNotice(PutNoticeReq p); //구현 예정
     int deleteNotice(DeleteNoticeReq p);
 
+
+    //학부모의 특정 자녀 학반 알림장 조회
+    List<GetNoticeRes> getNoticeParent(GetNoticeReqParent p);
+
+    //학부모의 자녀 알림장 메인 조회(1개)
+    List<GetNoticeRes> getNoticeLatestParent(GetNoticeReqParent p);
+
+
+
+    //학부모와 교사의 관계된 학반 조회
     int teacherHomeroom(long teaId);
 
-    int childClassRoom(long parentsId);
+    int childClassRoomList(long parentsId, long studentPk);
+
 
 
 
