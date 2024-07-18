@@ -5,11 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -220,7 +217,7 @@ class ParentsUserMapperTest {
     @Test @DisplayName("전자서명") // 전자서명
     void signature(){
         SignatureReq req = SignatureReq.builder()
-                .stuId(1)
+                .studentPk(1)
                 .year("2024")
                 .semester(1)
                 .pic("test-pic.png")

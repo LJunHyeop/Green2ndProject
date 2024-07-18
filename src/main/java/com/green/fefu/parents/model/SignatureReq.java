@@ -12,7 +12,7 @@ public class SignatureReq {
     private long signId ;
 
     @Schema(description = "학생 pk")
-    private long stuId ;
+    private long studentPk;
 
     @Schema(description = "년도")
     private String year ;
