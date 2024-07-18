@@ -222,24 +222,26 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public void updateStudent(updateStudentReq p) throws Exception {
         updateStudentDataCheck(p);
+        p.setFullAddr(Parser.addressParserMerge(p.getStudentZoneCode(), p.getStudentAddr(), p.getStudentDetail()));
+        log.info("updateStudentDataCheck = " + p);
         int result = mapper.updateStudent(p);
         if (result != 1) {
-            throw new RuntimeException();
+            throw new RuntimeException("updateStudentDataCheck error");
         }
     }
 
     private void updateStudentDataCheck(updateStudentReq p) throws Exception {
-        if (p.getAddr() != null && p.getZoneCode() != null) {
-            p.setFullAddr(Parser.addressParserMerge(p.getZoneCode(), p.getAddr(), p.getDetail()));
+        if (p.getStudentAddr() != null && p.getStudentZoneCode() != null) {
+            p.setFullAddr(Parser.addressParserMerge(p.getStudentZoneCode(), p.getStudentAddr(), p.getStudentDetail()));
         }
-        if (p.getPk() < 1) {
+        if (p.getStudentPk() < 1) {
             throw new RuntimeException(REQUIRED_DATA_ERROR);
         }
-        if (p.getPhone() != null) {
-            patternCheck.phoneCheck(p.getPhone());
+        if (p.getStudentPhone() != null) {
+            patternCheck.phoneCheck(p.getStudentPhone());
         }
-        if (p.getName() != null) {
-            patternCheck.nameCheck(p.getName());
+        if (p.getStudentName() != null) {
+            patternCheck.nameCheck(p.getStudentName());
         }
     }
 
