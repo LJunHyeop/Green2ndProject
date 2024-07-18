@@ -19,7 +19,4 @@ public class SignatureReq {
 
     @Schema(description = "학기")
     private int semester ;
-
-    @Schema(description = "사인여부")
-    private String pic ;
 }
