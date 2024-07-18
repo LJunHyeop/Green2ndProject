@@ -29,6 +29,11 @@ public interface ParentsUserMapper {
     int signature(SignatureReq req) ;
     // 자기 자녀 정보조회
     List<GetStudentParentsRes> getStudentParents(long parentsPk) ;
+    // 전자서명 조회
+    GetSignatureRes getSignature(GetSignatureReq req) ;
+    // 전자서명 삭제
+    int delSignature(GetSignatureReq req) ;
+
 
     // TDD select
     List<ParentsUser> selTest(long signedId);
