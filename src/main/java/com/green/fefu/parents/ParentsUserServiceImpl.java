@@ -257,6 +257,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         req1.setSemester(req.getSemester()) ;
         req1.setYear(req.getYear()) ;
         req1.setStuId(req.getStudentPk()) ;
+        req1.setExamSign(req.getExamSign());
 
         getSignature(req1) ; // 사인 조회 및 삭제
         try{

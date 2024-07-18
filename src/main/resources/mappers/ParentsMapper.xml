@@ -125,12 +125,14 @@
         WHERE stu_id = #{stuId}
         AND year = #{year}
         AND semester = #{semester}
+        AND exam_sign = #{examSign}
     </select>
     <delete id="delSignature">
         DELETE FROM score_sign
         WHERE stu_id = #{stuId}
         AND year = #{year}
         AND semester = #{semester}
+        AND exam_sign = #{examSign}
     </delete>
     <select id="selTest">
         SELECT parents_id AS parentId
