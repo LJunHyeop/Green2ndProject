@@ -111,7 +111,7 @@
     </select>
     <insert id="signature" keyProperty="signId" useGeneratedKeys="true">
         INSERT INTO score_sign
-        SET stu_id = #{stuId}
+        SET stu_id = #{studentPk}
             , year = #{year}
             , semester = #{semester}
             , pic = #{pic}
