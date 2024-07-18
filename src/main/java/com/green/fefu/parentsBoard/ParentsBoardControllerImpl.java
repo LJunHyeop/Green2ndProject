@@ -6,6 +6,7 @@ import com.green.fefu.parentsBoard.model.GetBoardReq;
 import com.green.fefu.parentsBoard.model.GetBoardReqTea;
 import com.green.fefu.parentsBoard.model.GetBoardRes;
 import com.green.fefu.parentsBoard.model.PostBoardReq;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ParentsBoardControllerImpl {
     private final ParentsBoardServiceImpl service;
     @PostMapping
+    @Operation(summary = "학부모 게시판 작성 - 제작중")
     @PreAuthorize("hasRole('PARENTS') or hasRole('TEAHCER')")
     public ResultDto<Integer> postBoard(PostBoardReq p){
         int result=service.postBoard(p);
@@ -33,6 +35,7 @@ public class ParentsBoardControllerImpl {
     }
     /*선생님이 확인*/
     @GetMapping
+    @Operation(summary = "학부모 게시판 조회(선생님) - 제작중")
     @PreAuthorize("hasRole('TEAHCER')")
     public ResultDto<List<GetBoardRes>> getBoard(GetBoardReqTea p){
         List<GetBoardRes> result=service.getBoard(p);
@@ -45,6 +48,7 @@ public class ParentsBoardControllerImpl {
 
     /*자신이 작성한 것 확인*/
     @GetMapping("tmtmp")
+    @Operation(summary = "학부모 게시판 조회(학부모) - 제작중")
     @PreAuthorize("hasRole('PARENTS')")
     public ResultDto<List<GetBoardRes>> getBoardParent(GetBoardReq p){
         List<GetBoardRes> result=service.getBoardParent(p);

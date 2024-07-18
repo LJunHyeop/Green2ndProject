@@ -136,12 +136,12 @@ class StudentMapperTest {
     @DisplayName("학생 정보 변경")
     void updateStudent() {
         updateStudentReq p = new updateStudentReq();
-        p.setPk(1);
-        p.setName("강길동");
+        p.setStudentPk(1);
+        p.setStudentName("강길동");
         int result = mapper.updateStudent(p);
         assertEquals(1, result, resultMsg);
-        getUserTest entity = mapper.selOneTest(p.getPk());
-        assertEquals(p.getName(), entity.getName(), msg);
+        getUserTest entity = mapper.selOneTest(p.getStudentPk());
+        assertEquals(p.getStudentName(), entity.getName(), msg);
     }
 
     @Test
@@ -149,10 +149,10 @@ class StudentMapperTest {
     public void testUpdateStudent_OptionalFieldsMissing() {
         // Given
         updateStudentReq p = new updateStudentReq();
-        p.setPk(1);
-        p.setName("강길동");
-        p.setAddr("서울 판교로 112");
-        p.setZoneCode("1234");
+        p.setStudentPk(1);
+        p.setStudentName("강길동");
+        p.setStudentAddr("서울 판교로 112");
+        p.setStudentZoneCode("1234");
         p.setFullAddr(); // fullAddr 설정
 
         // When
@@ -162,10 +162,10 @@ class StudentMapperTest {
         assertEquals(1, result, "Update result should be 1");
 
         // Fetch updated entity
-        getUserTest entity = mapper.selOneTest(p.getPk());
+        getUserTest entity = mapper.selOneTest(p.getStudentPk());
 
         // Verify updated fields
-        assertEquals(p.getName(), entity.getName(), "Name should be updated");
+        assertEquals(p.getStudentName(), entity.getName(), "Name should be updated");
         assertEquals(p.getFullAddr(), entity.getAddr(), "Full address should be updated");
     }
 
@@ -174,12 +174,12 @@ class StudentMapperTest {
     public void testUpdateStudent_NonExistentPk() {
         // Given
         updateStudentReq p = new updateStudentReq();
-        p.setPk(999); // Non-existent pk
-        p.setName("강길동");
-        p.setAddr("서울 판교로 112");
-        p.setZoneCode("1234");
-        p.setPhone("010-0000-0000");
-        p.setEtc("갑각류 알러지 있음");
+        p.setStudentPk(999); // Non-existent pk
+        p.setStudentName("강길동");
+        p.setStudentAddr("서울 판교로 112");
+        p.setStudentZoneCode("1234");
+        p.setStudentPhone("010-0000-0000");
+        p.setStudentEtc("갑각류 알러지 있음");
         p.setFullAddr(); // fullAddr 설정
 
         // When
