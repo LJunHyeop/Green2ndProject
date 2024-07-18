@@ -229,4 +229,10 @@
         ON A.class_id = B.class_id
         WHERE tea_id = #{teaId} AND stu_id = #{stuId}
     </select>
+    <select id="signResult">
+        SELECT pic,exam_sign AS examSign
+        FROM score_sign
+        WHERE stu_id = #{studentPk} AND semester = #{semester} AND exam_sign = #{examSign}
+    </select>
+
 </mapper>

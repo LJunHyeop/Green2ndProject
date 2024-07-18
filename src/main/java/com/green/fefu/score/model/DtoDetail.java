@@ -17,5 +17,6 @@ public class DtoDetail<T>{
 
     private T classRank;
 
+    private T signResult;
 
 }

@@ -21,7 +21,7 @@ public class Dto <T>{
     private int latestSemester;
     private String latestYear;
 
-
+    private T signResult;
 
     private T classRank;
 

@@ -4,13 +4,11 @@ import com.green.fefu.score.model.*;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.student.model.dto.getDetail;
-import com.green.fefu.student.model.dto.getStudent;
 import com.green.fefu.student.service.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -66,6 +64,9 @@ public class ScoreServiceImpl {
             }
         }
 
+
+
+
         RankReq rank = new RankReq();
 
         rank.setStudentPk(res.getStudentPk());
@@ -93,16 +94,25 @@ public class ScoreServiceImpl {
 
         res.setExam(p.getExam());
 
+        SignResult sign = new SignResult();
+        sign.setStudentPk(res.getStudentPk());
+        sign.setExamSign(p.getExam());
+        sign.setSemester(res.getLatestSemester());
+
+
+
         if((res.getLatestSemester() == 1 || res.getLatestSemester() == 2)&& res.getExam() == 1){
             List<InsScoreList> list = mapper.getScoreMidterm(res);
             RankRes resMid = mapper.rankListMid(rank);
             dto.setClassRank(resMid);
+            dto.setSignResult(mapper.signResult(sign));
             dto.setList(list);
 //
         }else if((res.getLatestSemester() == 1 || res.getLatestSemester() == 2)&&res.getExam() == 2){
             List<InsScoreList> list1 = mapper.getScoreFinal(res);
             RankRes resFinal = mapper.rankListFinal(rank);
             dto.setClassRank(resFinal);
+            dto.setSignResult(mapper.signResult(sign));
             dto.setList(list1);
 
         }else{
@@ -118,6 +128,11 @@ public class ScoreServiceImpl {
 
         DtoDetail dto = new DtoDetail();
 
+
+        SignResult sign = new SignResult();
+        sign.setStudentPk(p.getStudentPk());
+        sign.setExamSign(p.getExam());
+        sign.setSemester(p.getSemester());
 
         rank.setStudentPk(p.getStudentPk());
         rank.setGrade(p.getGrade());
@@ -135,12 +150,12 @@ public class ScoreServiceImpl {
 //            dto.setClassRank(mapper.rankListMid(rank.getGrade()));
 
             dto.setList(mapper.getDetailScore(p));
-
+            dto.setSignResult(mapper.signResult(sign));
             dto.setClassRank(mapper.rankListMid(rank));
 
         }else if((p.getSemester() == 1 || p.getSemester() ==2) && p.getExam() ==2 ) {
             dto.setClassRank(mapper.rankListFinal(rank));
-
+            dto.setSignResult(mapper.signResult(sign));
             dto.setList(mapper.getDetailScoreFinal(p));
         }
         if(res.getLatestGrade() < p.getGrade()){
