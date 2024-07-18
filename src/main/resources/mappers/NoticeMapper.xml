@@ -38,7 +38,6 @@
         FROM notice
         WHERE class_id=#{classId}
         ORDER BY created_at DESC
-        LIMIT 1
     </select>
 
     <select id="getNoticeLatestParent">
@@ -47,7 +46,6 @@
         FROM notice
         WHERE class_id=#{classId} AND stu_id = #{studentPk}
         ORDER BY created_at DESC
-        LIMIT 1
     </select>
 
 

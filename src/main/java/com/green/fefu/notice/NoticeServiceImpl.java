@@ -84,8 +84,8 @@ public class NoticeServiceImpl implements NoticeService{
             }
         }
         Map<String, List<GetNoticeRes>> map=new LinkedHashMap();
-        map.put("알림장", state1);
-        map.put("준비물", state2);
+        map.put("notice", state1);
+        map.put("item", state2);
         return map;
     }
 
@@ -93,16 +93,22 @@ public class NoticeServiceImpl implements NoticeService{
         GetNoticeRes state1=null;
         GetNoticeRes state2=null;
         for(GetNoticeRes res:allList) {
+            log.info("state 값 조회 for문 시작 : {}", res.getState());
             if (state1 == null && res.getState() == 1) {
                 state1 = res;
+                log.info("state1 : {}", state1);
             }
+            log.info("state2-1 : {}", state2);
+            log.info("state 값 조회 : {}", res.getState());
             if(state2 == null && res.getState() == 2){
                 state2 = res;
-            }//준비물을 못 담아오는데 이유를 모르겠다!!~!!!!!@!!!!!!
+                log.info("state2-2 : {}", state2);
+            }
+            log.info("state2-3 : {}", state2);
         }
         Map<String, GetNoticeRes> map=new LinkedHashMap();
-        map.put("알림장", state1);
-        map.put("준비물", state2);
+        map.put("notice", state1);
+        map.put("item", state2);
         return map;
     }
 

@@ -4,7 +4,6 @@ import com.green.fefu.notice.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface NoticeMapper {
@@ -16,13 +15,6 @@ public interface NoticeMapper {
 
     int putNotice(PutNoticeReq p); //구현 예정
     int deleteNotice(DeleteNoticeReq p);
-
-
-    //학부모의 특정 자녀 학반 알림장 조회
-    List<GetNoticeRes> getNoticeParent(GetNoticeReqParent p);
-
-    //학부모의 자녀 알림장 메인 조회(1개)
-    List<GetNoticeRes> getNoticeLatestParent(GetNoticeReqParent p);
 
 
 
