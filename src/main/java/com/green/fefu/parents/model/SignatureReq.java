@@ -19,4 +19,6 @@ public class SignatureReq {
 
     @Schema(description = "학기")
     private int semester ;
+    @JsonIgnore
+    private String pic ;
 }
