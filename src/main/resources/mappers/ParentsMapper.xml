@@ -115,6 +115,7 @@
             , year = #{year}
             , semester = #{semester}
             , pic = #{pic}
+            , exam_sign = #{examSign}
     </insert>
     
     <select id="selTest">
