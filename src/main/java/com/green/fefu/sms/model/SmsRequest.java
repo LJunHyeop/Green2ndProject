@@ -1,10 +1,12 @@
 package com.green.fefu.sms.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Setter;
 
 @Data
 public class SmsRequest {
+    @JsonIgnore
     private String from;
     @Setter
     private String to;

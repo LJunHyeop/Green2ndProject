@@ -21,4 +21,6 @@ public class SignatureReq {
     private int semester ;
     @JsonIgnore
     private String pic ;
+    @Schema(description = "시험 사인")
+    private int examSign ;
 }
