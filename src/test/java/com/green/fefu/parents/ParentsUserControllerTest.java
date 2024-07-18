@@ -17,6 +17,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,13 +26,19 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,8 +46,8 @@ import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest({ParentsUserControllerImpl.class})
@@ -55,6 +62,7 @@ class ParentsUserControllerTest {
     @MockBean private SmsService smsService;
     private PostParentsUserReq req ;
     private final String BASE_URL = "/api/user/parents";
+    @Autowired private ParentsUserControllerImpl controller;
     @BeforeEach
     void setUp() {
         req = new PostParentsUserReq();
@@ -65,6 +73,8 @@ class ParentsUserControllerTest {
         req.setPhone("010-1235-4567");
         req.setUid("parent745");
         req.setUpw("Test1234!@#$");
+        MockitoAnnotations.openMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
     @Test @DisplayName("회원가입 TDD")
     void testPostParents() throws Exception {
@@ -89,7 +99,7 @@ class ParentsUserControllerTest {
         given(service.checkEmailOrUid(chReq)).willReturn("OK") ;
         String json = om.writeValueAsString(chReq) ;
 
-        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/check-duplication")
+        mockMvc.perform(get(BASE_URL + "/check-duplication")
                         .param("uid", "parent745"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("OK")) ;
@@ -107,7 +117,7 @@ class ParentsUserControllerTest {
         given(tokenProvider.resolveToken(any(HttpServletRequest.class))).willReturn(token) ;
         given(service.getParentsUser(token)).willReturn(entity) ;
 
-        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/parent-info")
+        mockMvc.perform(get(BASE_URL + "/parent-info")
                 .header("Authorization", "Bearer" + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.parentsId").value(1))
@@ -119,7 +129,7 @@ class ParentsUserControllerTest {
     void getParentsUser2() throws Exception {
         given(tokenProvider.resolveToken(any(HttpServletRequest.class))).willReturn(null);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/parent-info"))
+        mockMvc.perform(get(BASE_URL + "/parent-info"))
                 .andExpect(status().isUnauthorized());
 
         verify(tokenProvider).resolveToken(any(HttpServletRequest.class));
@@ -153,7 +163,7 @@ class ParentsUserControllerTest {
         given(service.getFindId(getIdReq)).willReturn(res) ;
         String json = om.writeValueAsString(res) ;
 
-        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/find-id")
+        mockMvc.perform(get(BASE_URL + "/find-id")
                 .param("nm", req.getNm())
                 .param("phone", req.getPhone()))
                 .andExpect(status().isOk())
@@ -206,5 +216,44 @@ class ParentsUserControllerTest {
                 .andExpect(content().json(expectedJson));
 
         verify(service).signInPost(any(SignInPostReq.class), any(HttpServletResponse.class)) ;
+    }
+    @Test @DisplayName("access-token 재발급") @WithMockUser(roles = "PARENTS")
+    void testGetAccessToken() throws Exception {
+        Map<String, Object> res = new HashMap<>();
+        when(service.getAccessToken(any(HttpServletRequest.class))).thenReturn(res);
+
+        mockMvc.perform(get(BASE_URL+ "/access-token"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isMap());
+    }
+    @Test @DisplayName("비밀번호 찾기")
+    void testGetFindPassword() throws Exception {
+        GetFindPasswordReq req = new GetFindPasswordReq();
+        Map<String, Object> res = new HashMap<>();
+
+        doAnswer(invocation -> {
+            ((Map) invocation.getArguments()[1]).putAll(res);
+            return null;
+        }).when(service).getFindPassword(any(GetFindPasswordReq.class), any(Map.class));
+
+        mockMvc.perform(get(BASE_URL + "/find-password")
+                        .param("stuId", "1")
+                        .param("year", "2024")
+                        .param("semester", "1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isMap());
+    }
+    @Test @DisplayName("자녀정보조회") @WithMockUser(roles = "PARENTS")
+    void testGetStudentParents() throws Exception {
+        String token = "valid-token" ;
+        given(tokenProvider.resolveToken(any(HttpServletRequest.class))).willReturn(token) ;
+
+        List<GetStudentParentsRes> resList = new ArrayList<>();
+        when(service.getStudentParents(any(String.class))).thenReturn(resList);
+
+        mockMvc.perform(get(BASE_URL + "/get-student-parent")
+                        .header("Authorization", "Bearer" + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
     }
 }

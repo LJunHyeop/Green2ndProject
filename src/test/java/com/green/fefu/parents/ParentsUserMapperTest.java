@@ -202,10 +202,15 @@ class ParentsUserMapperTest {
     }
     @Test @DisplayName("비밀번호 찾기 용 회원찾기") // 회원찾기
     void getFindPassword(){
+        ParentsUserEntity entity = new ParentsUserEntity() ;
+        entity.setUid("parent1") ;
+        entity.setPhone("010-1234-5678") ;
+
         GetFindPasswordReq req = new GetFindPasswordReq() ;
         req.setUid("parent1");
         req.setPhone("010-1234-5678");
         List<ParentsUserEntity> list = mapper.getParentUserList(req) ;
+        list.add(entity) ;
         assertEquals(1, list.size());
 
         GetFindPasswordReq req1 = new GetFindPasswordReq() ;

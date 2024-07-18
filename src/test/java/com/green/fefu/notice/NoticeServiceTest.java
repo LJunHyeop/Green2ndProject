@@ -83,7 +83,7 @@ class NoticeServiceTest {
         mockRes2.setContent(res2.getContent()); mockRes2.setClassId(res2.getClassId());
         mockList1.add(mockRes1); mockList1.add(mockRes2);
 
-        List<GetNoticeRes> real=service.getNotice(req1);
+        List<GetNoticeRes> real= (List<GetNoticeRes>) service.getNotice(req1);
         verify(mapper).getNotice(req1);
 
         assertEquals(2, real.size(),"리턴 값 크기가 다름");
