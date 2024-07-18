@@ -29,6 +29,8 @@ public interface ScoreMapper {
 
    GetClassIdRes getClassId(long teaId, long stuId);
 
+   SignResult signResult(SignResult p );
+
     //Tdd
     InsScoreList selScore(long StudentPk);
 
