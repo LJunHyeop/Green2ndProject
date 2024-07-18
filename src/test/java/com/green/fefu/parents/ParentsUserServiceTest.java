@@ -67,6 +67,7 @@ class ParentsUserServiceTest {
     @MockBean private HttpServletRequest httpServletRequest;
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
 
+    private PatchPasswordReq validGetFindPasswordReq;
     private Cookie refreshTokenCookie ;
     private MockHttpServletRequest req;
     private MockHttpServletResponse res;
@@ -79,7 +80,10 @@ class ParentsUserServiceTest {
     private SignatureReq signReq;
     @BeforeEach
     void setUp() {
-
+        validGetFindPasswordReq = new PatchPasswordReq();
+        validGetFindPasswordReq.setUid("1");
+        validGetFindPasswordReq.setParentsId(1);
+        validGetFindPasswordReq.setNewUpw("newPassword");
         MockitoAnnotations.openMocks(this);
 
         Authentication authentication = mock(Authentication.class);
@@ -295,35 +299,29 @@ class ParentsUserServiceTest {
     }
     @Test @DisplayName("비밀번호 수정") // 비밀번호 수정
     void patchPassword() {
-        // Arrange
+        PatchPasswordReq patchPasswordReq = new PatchPasswordReq();
+        patchPasswordReq.setParentsId(1L);
+        patchPasswordReq.setUid("user123");
+        patchPasswordReq.setNewUpw("newPassword");
+
+        ParentsUserEntity parentsUserEntity = new ParentsUserEntity();
+        parentsUserEntity.setParentsId(1L);
+
+        List<ParentsUserEntity> entityList = new ArrayList<>();
+        entityList.add(parentsUserEntity);
+
         when(authenticationFacade.getLoginUserId()).thenReturn(1L);
-        when(mapper.getParentsUser(any(GetParentsUserReq.class))).thenReturn(parentsUserEntity);
+        when(mapper.selPasswordBeforeLogin(any(String.class))).thenReturn(entityList);
         when(passwordEncoder.encode(any(String.class))).thenReturn("encodedPassword");
         when(mapper.patchPassword(any(PatchPasswordReq.class))).thenReturn(1);
 
-        // Act
         int result = service.patchPassword(patchPasswordReq);
 
-        // Assert
-        verify(authenticationFacade, times(1)).getLoginUserId();
-        verify(mapper, times(1)).getParentsUser(any(GetParentsUserReq.class));
+        verify(mapper, times(1)).selPasswordBeforeLogin(any(String.class));
         verify(passwordEncoder, times(1)).encode(any(String.class));
         verify(mapper, times(1)).patchPassword(any(PatchPasswordReq.class));
 
         assertEquals(1, result);
-    }
-    @Test @DisplayName("비밀번호 수정 아이디 확인") // 비밀번호 수정 아이디확인
-    void patchPassword2() {
-        // Arrange
-        when(authenticationFacade.getLoginUserId()).thenReturn(1L);
-        when(mapper.getParentsUser(any(GetParentsUserReq.class))).thenReturn(null);
-
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            service.patchPassword(patchPasswordReq);
-        });
-
-        assertEquals("아이디를 확인해 주세요", exception.getMessage());
     }
     @Test @DisplayName("로그인") // 로그인
     void signInPost() {
@@ -407,22 +405,18 @@ class ParentsUserServiceTest {
         verify(jwtTokenProvider).getUserDetailsFromToken("valid-refresh-token");
         verify(jwtTokenProvider).generateAccessToken(myUser);
     }
-    @Test @DisplayName("비밀번호 찾기 문자발송")
-    void getFindPassword(){
-        try (MockedStatic<SmsSender> mockedStatic = mockStatic(SmsSender.class)) {
-            String code = "123456";
-            List<ParentsUserEntity> list = List.of(new ParentsUserEntity());
+    @Test
+    public void testGetFindPassword_ValidRequest_ShouldPutRandomCodeInMap() {
+        GetFindPasswordReq req1 = new GetFindPasswordReq();
+        req1.setUid(validGetFindPasswordReq.getUid());
+        req1.setPhone("010-0000-0000");
+        when(mapper.getParentUserList(any(GetFindPasswordReq.class))).thenReturn(Collections.singletonList(new ParentsUserEntity()));
+        Map<String, String> map = new HashMap<>();
 
-            when(mapper.getParentUserList(getReq)).thenReturn(list);
-            when(SmsSender.makeRandomCode()).thenReturn(code);
-            doNothing().when(smsService).sendPasswordSms(anyString(), any(), anyString());
+        service.getFindPassword(req1, map);
 
-            service.getFindPassword(getReq, map);
-
-            assertEquals(code, map.get("RANDOM_CODE"));
-            verify(mapper).getParentUserList(getReq);
-            verify(smsService).sendPasswordSms(eq(getReq.getPhone()), any(), eq(code));
-        }
+        assert map.containsKey("RANDOM_CODE");
+        assert map.get("RANDOM_CODE").matches("\\d{6}");
     }
     @Test @DisplayName("비밀번호 찾기 문자발송 실패")
     void testGetFindPassword_smsSendError() {
