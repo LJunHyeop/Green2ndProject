@@ -93,6 +93,8 @@ public class ScoreServiceImpl {
 
         res.setExam(p.getExam());
 
+        log.info("resFinal: {}",mapper.rankListFinal(rank));
+
         if((res.getLatestSemester() == 1 || res.getLatestSemester() == 2)&& res.getExam() == 1){
             List<InsScoreList> list = mapper.getScoreMidterm(res);
             RankRes resMid = mapper.rankListMid(rank);
@@ -100,7 +102,6 @@ public class ScoreServiceImpl {
             dto.setList(list);
 //
         }else if((res.getLatestSemester() == 1 || res.getLatestSemester() == 2)&&res.getExam() == 2){
-            log.info("ranksemester: {}",mapper.rankListMid(rank));
             List<InsScoreList> list1 = mapper.getScoreFinal(res);
             RankRes resFinal = mapper.rankListFinal(rank);
             dto.setClassRank(resFinal);
@@ -109,21 +110,6 @@ public class ScoreServiceImpl {
         }else{
             return null;
         }
-//        if ((rank.getSemester() ==1 || rank.getSemester() == 2)&& rank.getExam() ==1 ) {
-//
-//            return  resMid;
-//        }
-
-
-
-        ;
-        //        List <InsScoreReq> list = new ArrayList<>();
-        //       if(list.size() == 0){
-        //            List list1 = new ArrayList();
-        //            dto.setList(list1);
-        //            log.info("에러");
-        //            return dto;
-        //        }
         return dto;
     }
 

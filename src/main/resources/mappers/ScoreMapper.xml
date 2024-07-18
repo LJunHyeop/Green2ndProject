@@ -168,7 +168,7 @@
     </select>
 
     <select id="rankListFinal">
-        SELECT  class_student_count AS classStudentCount,
+        SELECT class_student_count AS classStudentCount,
         grade_student_count AS gradeStudentCount,
         class_rank AS classRank,
         grade_rank AS gradeRank
@@ -197,7 +197,6 @@
         AND SUBSTRING(class_id, 1, 1) = #{grade}
         LIMIT 1
     </select>
-
 
     <select id="selScore">
     SELECT
