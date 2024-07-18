@@ -52,9 +52,6 @@
         LEFT JOIN student B
         ON A.parents_id = B.parents_id
         <set>
-            <if test="stuNm != null">
-                B.name = #{stuNm},
-            </if>
             <if test="nm != null">
                 A.nm = #{nm},
             </if>
@@ -67,20 +64,11 @@
             <if test="subPhone != null">
                 A.sub_phone = #{subPhone},
             </if>
-            <if test="stuPhone != null">
-                B.phone = #{stuPhone},
-            </if>
             <if test="email != null">
                 A.email = #{email},
             </if>
-            <if test="stuEngNm != null">
-                B.eng_name = #{stuEngNm},
-            </if>
             <if test="addr != null">
                 A.addr = #{addr},
-            </if>
-            <if test="stuEtc != null">
-                B.etc = #{stuEtc},
             </if>
         </set>
         WHERE A.parents_id = #{parentsId}
