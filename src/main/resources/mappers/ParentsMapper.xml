@@ -111,12 +111,29 @@
     </select>
     <insert id="signature" keyProperty="signId" useGeneratedKeys="true">
         INSERT INTO score_sign
-        SET stu_id = #{stuId}
+        SET stu_id = #{studentPk}
             , year = #{year}
             , semester = #{semester}
             , pic = #{pic}
+            , exam_sign = #{examSign}
     </insert>
-    
+    <select id="getSignature">
+        SELECT stu_id AS stuId
+                , year
+                , semester
+        FROM score_sign
+        WHERE stu_id = #{stuId}
+        AND year = #{year}
+        AND semester = #{semester}
+        AND exam_sign = #{examSign}
+    </select>
+    <delete id="delSignature">
+        DELETE FROM score_sign
+        WHERE stu_id = #{stuId}
+        AND year = #{year}
+        AND semester = #{semester}
+        AND exam_sign = #{examSign}
+    </delete>
     <select id="selTest">
         SELECT parents_id AS parentId
         , uid

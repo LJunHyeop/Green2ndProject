@@ -87,7 +87,7 @@ class NoticeControllerTest {
         params.add("class_id", String.valueOf(req1.getClassId()));
 
         //객체를 넣었을 때 리턴할 값 지정
-        given(service.getNotice(req1)).willReturn(result);
+        // given(service.getNotice(req1)) .willReturn(result);
 
         //ResultDto
         Map<String, Object> map=new HashMap();

@@ -12,13 +12,15 @@ public class SignatureReq {
     private long signId ;
 
     @Schema(description = "학생 pk")
-    private long stuId ;
+    private long studentPk;
 
     @Schema(description = "년도")
-    private String year ;
+    private int year ;
 
     @Schema(description = "학기")
     private int semester ;
     @JsonIgnore
     private String pic ;
+    @Schema(description = "시험 사인")
+    private int examSign ;
 }

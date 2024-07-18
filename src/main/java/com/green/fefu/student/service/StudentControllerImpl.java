@@ -193,7 +193,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
-    @PreAuthorize("hasRole('PARENTS') or hasRole('TEAHCER')")
+    @PreAuthorize("hasRole('TEAHCER') or hasRole('PARENTS')")
     @Override
     public ResponseEntity updateStudent(@RequestBody updateStudentReq p) {
         log.info("updateStudent req : {}", p);

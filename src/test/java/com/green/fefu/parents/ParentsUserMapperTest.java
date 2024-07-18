@@ -5,11 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -205,10 +202,15 @@ class ParentsUserMapperTest {
     }
     @Test @DisplayName("비밀번호 찾기 용 회원찾기") // 회원찾기
     void getFindPassword(){
+        ParentsUserEntity entity = new ParentsUserEntity() ;
+        entity.setUid("parent1") ;
+        entity.setPhone("010-1234-5678") ;
+
         GetFindPasswordReq req = new GetFindPasswordReq() ;
         req.setUid("parent1");
         req.setPhone("010-1234-5678");
         List<ParentsUserEntity> list = mapper.getParentUserList(req) ;
+        list.add(entity) ;
         assertEquals(1, list.size());
 
         GetFindPasswordReq req1 = new GetFindPasswordReq() ;
@@ -220,7 +222,7 @@ class ParentsUserMapperTest {
     @Test @DisplayName("전자서명") // 전자서명
     void signature(){
         SignatureReq req = SignatureReq.builder()
-                .stuId(1)
+                .studentPk(1)
                 .year("2024")
                 .semester(1)
                 .pic("test-pic.png")

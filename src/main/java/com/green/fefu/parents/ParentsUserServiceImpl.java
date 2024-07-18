@@ -253,6 +253,13 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         if (pic == null || pic.isEmpty()) {
             throw new RuntimeException("서명 파일이 없습니다.");
         }
+        GetSignatureReq req1 = new GetSignatureReq();
+        req1.setSemester(req.getSemester()) ;
+        req1.setYear(req.getYear()) ;
+        req1.setStuId(req.getStudentPk()) ;
+        req1.setExamSign(req.getExamSign());
+
+        getSignature(req1) ; // 사인 조회 및 삭제
         try{
             String path = String.format("sign/%d", req.getSignId()) ;
             String fullPath = customFileUtils.makeFolders(path) ;
@@ -276,6 +283,14 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .pics(req.getPic())
                 .build() ;
     }
+    // 사인 조회 및 중복 삭제
+    public void getSignature(GetSignatureReq req){
+        GetSignatureRes res = mapper.getSignature(req) ;
+        if (res != null){
+            mapper.delSignature(req) ;
+        }
+    }
+
     @Override // 자녀 조회
     public List<GetStudentParentsRes> getStudentParents(String token){
         Authentication auth = jwtTokenProvider.getAuthentication(token) ;

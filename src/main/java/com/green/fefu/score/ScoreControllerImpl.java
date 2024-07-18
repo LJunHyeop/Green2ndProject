@@ -59,6 +59,7 @@ public class ScoreControllerImpl implements ScoreController {
             }
             return ResultDto.resultDto(SUCCESS_CODE,"성적조회성공",res);
         }catch (RuntimeException e){
+            e.printStackTrace();
             return ResultDto.resultDto(ERROR_CODE,"성적조회실패",null);
         }
     }

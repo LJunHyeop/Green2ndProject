@@ -83,20 +83,23 @@
     <update id="updateStudent">
         UPDATE student
         <set>
-            <if test="name != null and name != ''">
-                name = #{name}
+            <if test="studentName != null and studentName != ''">
+                name = #{studentName}
             </if>
-            <if test="phone != null and phone != ''">
-                , phone = #{phone}
+            <if test="studentPhone != null and studentPhone != ''">
+                , phone = #{studentPhone}
             </if>
             <if test="fullAddr != null and fullAddr != ''">
                 , addr = #{fullAddr}
             </if>
-            <if test="etc != null and etc != ''">
-                , etc = #{etc}
+            <if test="studentEtc != null and studentEtc != ''">
+                , etc = #{studentEtc}
+            </if>
+            <if test="studentBirth != null and studentBirth != ''">
+                , birth = #{studentBirth}
             </if>
         </set>
-        WHERE stu_id = #{pk}
+        WHERE stu_id = #{studentPk}
     </update>
 
     <select id="getStudentListForParent">
