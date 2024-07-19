@@ -27,7 +27,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableWebMvc
 @EnableMethodSecurity
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -60,85 +59,37 @@ public class SecurityConfiguration {
                 // 하기 위해서 사용하는 개념
                 // 정리하면, 시큐리티에서 제공해주는 로그인 화면 사용하지 않겠다.
                 .formLogin(form -> form.disable()) //form 로그인 방식을 사용하지 않음을 세팅
-                .csrf(csrf -> csrf.disable()) //CSRF (CORS랑 많이갈려 함)
-                //requestMatcher 헷
+                .csrf(csrf -> csrf.disable()) //CSRF (CORS랑 많이 헷갈려 함)
+                //requestMatchers
                 .authorizeHttpRequests(auth ->
                         auth.
-                                requestMatchers(
+                                requestMatchers("/api/feed").authenticated()
+                                .requestMatchers(
                                         "/api/feed"
                                         , "/api/feed/*"
                                         , "/api/user/pic"
-                                        , "/api/user/follow"
-
-                                            // 알림장
-                                        ,"/api/notice"
-                                        ,"/api/notice/**"
-                                            // 점수 입력 및 불러오기
-                                        ,  "/api/Score/**"
-                                        , "/api/Score/getScoreDetail"
-                                        //회원가입, 로그인 인증이 안 되어 있더라도 사용 가능하게 세팅
-                                        ,"/api/teacher/sign-up"
-                                        , "/api/teacher/sign-in"
-                                        , "/api/teacher/duplicate"
-                                        , "/api/teacher/find_id"
-                                        , "/api/teacher/find_pwd"
-                                        , "/api/teacher/put_pwd"
-                                        , "/api/student/list"
-                                        , "/api/student"
-                                        ,"/api/student/detail",
-                                        "/api/user/parents/sign-up",
-                                        "/api/user/parents/sign-in",
-                                        "/api/user/access-token",
-                                        "/api/user/parents/find-password",
-                                        "/api/user/parents/find-id",
-                                        "/api/user/parents/signature",
-                                        "/api/user/parents/check-duplication",
-                                        "api/user/parents/password-update"
-                                        //swagger 사용할 수 있게 세팅
-                                        , "/swagger"
-                                        , "/swagger-ui/**"
-                                        , "/v3/api-docs/**"
-
-                                        //사진
-                                        , "/pic/**"
-                                        , "/fimg/**"
-
-                                        //프론트 화면 보일수 있게 세팅
-                                        , "/"
-                                        , "/index.html"
-                                        , "/css/**"
-                                        , "/js/**"
-                                        , "/static/**"
-
-                                        //프론트에서 사용하는 라우터 주소
-                                        , "/sign-in"
-                                        , "/sign-up"
-                                        , "/profile/*"
-                                        , "/feed"
-
-                                        //actuator
-                                        , "/actuator"
-                                        , "/actuator/*"
-
-                                ).permitAll()
-
-                                .anyRequest().authenticated() //로그인이 되어 있어야만 허용
+                                )
+                                .authenticated()
+                                .requestMatchers("/api/admin/",
+                                        "/api/admin/**"
+                                ).hasAnyRole("ADMIN,ADMINISTRATION")
+                                .anyRequest()
+                                .permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                         .accessDeniedHandler(new JwtAuthenticationAccessDeniedHandler())
                 )
-                .oauth2Login(oauth2 -> oauth2.authorizationEndpoint(
+                .oauth2Login( oauth2 -> oauth2.authorizationEndpoint(
                                         auth -> auth.baseUri("/oauth2/authorization")
                                                 .authorizationRequestRepository(repository)
 
                                 )
-                                .redirectionEndpoint(redirection -> redirection.baseUri("/*/oauth2/code/*"))
+                                .redirectionEndpoint( redirection -> redirection.baseUri("/*/oauth2/code/*"))
                                 .userInfoEndpoint(userInfo -> userInfo.userService(myOAuth2UserService))
                                 .successHandler(oAuth2AuthenticationSuccessHandler)
                                 .failureHandler(oAuth2AuthenticationFailureHandler)
                 )
-
                 /*
                 //만약, permitAll메소드가 void였다면 아래와 같이 작성을 해야함
                 .authorizeHttpRequests(auth -> {

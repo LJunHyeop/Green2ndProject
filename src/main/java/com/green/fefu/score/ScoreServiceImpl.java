@@ -41,8 +41,6 @@ public class ScoreServiceImpl {
             throw new RuntimeException("담당 학생이 아닙니다");
         }
 
-
-
         List<InsScoreList> list = mapper.totalList(delScore);
         for(InsScoreList afterList : list){
             if (afterList != null){
@@ -148,11 +146,9 @@ public class ScoreServiceImpl {
 //            dto.setClassRank(mapper.rankListMid(rank.getSemester()));
 //            dto.setClassRank(mapper.rankListMid(rank.getExam()));
 //            dto.setClassRank(mapper.rankListMid(rank.getGrade()));
-
             dto.setList(mapper.getDetailScore(p));
             dto.setSignResult(mapper.signResult(sign));
             dto.setClassRank(mapper.rankListMid(rank));
-
         }else if((p.getSemester() == 1 || p.getSemester() ==2) && p.getExam() ==2 ) {
             dto.setClassRank(mapper.rankListFinal(rank));
             dto.setSignResult(mapper.signResult(sign));
