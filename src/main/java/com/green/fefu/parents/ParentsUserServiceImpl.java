@@ -153,10 +153,11 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         if(user.getAcept() != 1){
             throw new IllegalArgumentException("아직 승인되지않은 아이디 입니다.");
         }
+        String role = "ROLE_PARENTS";
 
         MyUser myUser = MyUser.builder().
                 userId(user.getParentsId()).
-                role("ROLE_PARENTS").
+                role(role.trim()).
                 build();
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
@@ -290,7 +291,6 @@ public class ParentsUserServiceImpl implements ParentsUserService {
             mapper.delSignature(req) ;
         }
     }
-
     @Override // 자녀 조회
     public List<GetStudentParentsRes> getStudentParents(String token){
         Authentication auth = jwtTokenProvider.getAuthentication(token) ;
