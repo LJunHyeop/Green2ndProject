@@ -313,7 +313,7 @@ public class TeacherServiceImpl implements TeacherService {
         }
 
 
-        map.put(TEACHER_RANDOM_CODE, code);
+        map.put("RANDOM_CODE", code);
     }
 
     private void FindTeacherPasswordNullCheck(FindTeacherPasswordReq p) throws Exception {
