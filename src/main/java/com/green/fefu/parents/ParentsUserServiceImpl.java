@@ -254,35 +254,55 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         if (pic == null || pic.isEmpty()) {
             throw new RuntimeException("서명 파일이 없습니다.");
         }
+
         GetSignatureReq req1 = new GetSignatureReq();
-        req1.setSemester(req.getSemester()) ;
-        req1.setYear(req.getYear()) ;
-        req1.setStuId(req.getStudentPk()) ;
-        req1.setExamSign(req.getExamSign()) ;
+        req1.setSemester(req.getSemester());
+        req1.setYear(req.getYear());
+        req1.setStuId(req.getStudentPk());
+        req1.setExamSign(req.getExamSign());
 
-        getSignature(req1) ; // 사인 조회 및 삭제
-        try{
-            String path = String.format("sign/%d", req.getSignId()) ;
-            String fullPath = customFileUtils.makeFolders(path) ;
-            String saveFileName = customFileUtils.makeRandomFileName(pic) ;
-            String target = String.format("%s/%s", path, saveFileName) ;
-
-            customFileUtils.transferTo(pic, target);
-            req.setPic(saveFileName) ;
-
-            int result = mapper.signature(req) ;
-            if(result != 1){
+        GetSignatureRes res = mapper.getSignature(req1);
+        if (res != null) {
+            mapper.delSignature(req1);
+            String path = String.format("sign/%d", req.getSignId());
+            String delAbsoluteFolderPath = String.format("%s%s", customFileUtils.uploadPath, path);
+            customFileUtils.deleteFolder(delAbsoluteFolderPath);
+        }
+        try {
+            int result = mapper.signature(req);
+            if (result != 1) {
                 throw new RuntimeException("서명 등록 오류가 발생했습니다: 저장에 실패했습니다.");
             }
+            // 파일 저장 경로 설정 및 폴더 생성
+            String path = String.format("sign/%d", req.getSignId());
+            log.info("path: {}", path);
+            customFileUtils.makeFolders(path);
+
+            // 랜덤 파일 이름 생성 및 파일 저장
+            String saveFileName = customFileUtils.makeRandomFileName(pic);
+            String target = String.format("%s/%s", path, saveFileName);
+
+            // 파일 이름 설정 및 로그 출력
+            req.setPic(saveFileName);
+            log.info("Saving file: {}", saveFileName); // 로그 추가
+            log.info("Request object pic field: {}", req.getPic()); // 로그 추가
+
+            // 파일 저장
+            customFileUtils.transferTo(pic, target);
         } catch (Exception e) {
             log.error("File upload error", e);
             throw new RuntimeException("서명 등록 오류가 발생했습니다: " + e.getMessage());
         }
-        return SignatureRes
-                .builder()
+        log.info("req.getPic file: {}", req.getPic());
+        String picName = req.getPic() ;
+        int affectedRow = mapper.postSignaturePic(picName, req.getSignId()) ;
+        return SignatureRes.builder()
                 .signId(req.getSignId())
-                .pics(req.getPic())
-                .build() ;
+                .pics(picName)
+                .build();
+    }
+    public String signatureNm(Long signPk){
+        return mapper.getSignaturePk(signPk) ;
     }
     // 사인 조회 및 중복 삭제
     public void getSignature(GetSignatureReq req){

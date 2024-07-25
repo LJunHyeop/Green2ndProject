@@ -33,8 +33,8 @@ public interface ParentsUserMapper {
     GetSignatureRes getSignature(GetSignatureReq req) ;
     // 전자서명 삭제
     int delSignature(GetSignatureReq req) ;
-
-
+    String getSignaturePk(Long signPk) ;
+    int postSignaturePic(String pic, Long signId) ;
     // TDD select
     List<ParentsUser> selTest(long signedId);
     // 학생정보 수정 ( 학부모 pk )
