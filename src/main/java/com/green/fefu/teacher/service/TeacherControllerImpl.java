@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -34,7 +35,7 @@ public class TeacherControllerImpl implements TeacherController {
     private final TeacherServiceImpl service;
 
     //    선생님 회원가입
-    @PostMapping(value = "/sign-up",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @PostMapping(value = "/sign-up", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 회원가입", description = "리턴 => 선생님 PK값")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -45,20 +46,15 @@ public class TeacherControllerImpl implements TeacherController {
             ),
     })
     @Override
-    public ResponseEntity CreateTeacher(@RequestBody CreateTeacherReq p) {
+    public ResponseEntity CreateTeacher(@RequestBody @Valid CreateTeacherReq p) {
         log.info("CreateTeacher req: {}", p);
         Map map = new HashMap();
-        try {
-            map = service.CreateTeacher(p, map);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
-
+        map = service.CreateTeacher(p, map);
         return new ResponseEntity<>(map, OK);
     }
 
     //    선생님 로그인
-    @PostMapping(value = "/sign-in",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @PostMapping(value = "/sign-in", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 로그인", description = "리턴 => 이름, 이메일, 담당학급, 엑세스토큰")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -73,22 +69,19 @@ public class TeacherControllerImpl implements TeacherController {
             )
     })
     @Override
-    public ResponseEntity LogInTeacher(@RequestBody LogInTeacherReq p, HttpServletResponse res) {
+    public ResponseEntity LogInTeacher(@RequestBody @Valid LogInTeacherReq p, HttpServletResponse res) {
         log.info("LogInTeacher req: {}", p);
         Map map = new HashMap();
 
-        try {
-            map = service.LogInTeacher(p, map, res);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        map = service.LogInTeacher(p, map, res);
+
         log.info("5");
         log.info("Response map: {}", map);
         return new ResponseEntity<>(map, OK);
     }
 
     //    선생님 중복확인 ( 아이디, 이메일 )
-    @GetMapping(value = "duplicate",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @GetMapping(value = "duplicate", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 아이디 or 이메일 중복확인", description = "리턴 => 없음 <br><strong>아이디 이메일 둘중 하나만 넣어주세요</strong>")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -100,7 +93,7 @@ public class TeacherControllerImpl implements TeacherController {
             )
     })
     @Override
-    public ResponseEntity CheckDuplicate(@ParameterObject @ModelAttribute CheckDuplicateReq p) {
+    public ResponseEntity CheckDuplicate(@ParameterObject @ModelAttribute @Valid CheckDuplicateReq p) {
         log.info("CheckDuplicate req: {}", p);
         try {
             service.CheckDuplicate(p);
@@ -112,7 +105,7 @@ public class TeacherControllerImpl implements TeacherController {
 
 
     //    선생님 아이디 찾기
-    @GetMapping(value = "find_id",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @GetMapping(value = "find_id", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 아이디 찾기", description = "리턴 => 선생님 ID값")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -124,7 +117,7 @@ public class TeacherControllerImpl implements TeacherController {
             )
     })
     @Override
-    public ResponseEntity FindTeacherId(@ParameterObject @ModelAttribute FindTeacherIdReq p) {
+    public ResponseEntity FindTeacherId(@ParameterObject @ModelAttribute @Valid FindTeacherIdReq p) {
         log.info("FindTeacherId req: {}", p);
         Map map = new HashMap();
         try {
@@ -136,7 +129,7 @@ public class TeacherControllerImpl implements TeacherController {
     }
 
     //    선생님 비밀번호 찾기
-    @GetMapping(value = "find_pwd",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @GetMapping(value = "find_pwd", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 비밀번호 찾기 ( 문자 발송 )", description = "리턴 => 랜덤 코드")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -148,7 +141,7 @@ public class TeacherControllerImpl implements TeacherController {
             )
     })
     @Override
-    public ResponseEntity FindTeacherPassword(@ParameterObject @ModelAttribute FindTeacherPasswordReq p) {
+    public ResponseEntity FindTeacherPassword(@ParameterObject @ModelAttribute @Valid FindTeacherPasswordReq p) {
         log.info("FindTeacherPassword req: {}", p);
         Map map = new HashMap();
         try {
@@ -160,7 +153,7 @@ public class TeacherControllerImpl implements TeacherController {
     }
 
     //    선생님 비밀번호 변경
-    @PutMapping(value = "put_pwd",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @PutMapping(value = "put_pwd", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "선생님 비밀번호 변경", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -172,7 +165,7 @@ public class TeacherControllerImpl implements TeacherController {
             )
     })
     @Override
-    public ResponseEntity ChangePassWord(@RequestBody ChangePassWordReq p) {
+    public ResponseEntity ChangePassWord(@RequestBody @Valid ChangePassWordReq p) {
         log.info("ChangePassWord req: {}", p);
         try {
             service.ChangePassWord(p);
@@ -240,7 +233,7 @@ public class TeacherControllerImpl implements TeacherController {
     })
     @PreAuthorize("hasRole('TEAHCER')")
     @Override
-    public ResponseEntity ChangeTeacher(@RequestBody ChangeTeacherReq p) {
+    public ResponseEntity ChangeTeacher(@RequestBody @Valid ChangeTeacherReq p) {
         log.info("ChangeTeacher req: {}", p);
         try {
             service.ChangeTeacher(p);
@@ -250,15 +243,4 @@ public class TeacherControllerImpl implements TeacherController {
         return new ResponseEntity<>(OK);
     }
 
-    @GetMapping(value = "access-token",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @Operation(summary = "엑세스 토큰 재 발행", description = "리턴 => 토큰값")
-    public ResponseEntity getRefreshToken(HttpServletRequest req) {
-        Map map = new HashMap<>();
-        try {
-            map = service.getAccessToken(map, req);
-        }catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
-        return new ResponseEntity<>(OK);
-    }
 }

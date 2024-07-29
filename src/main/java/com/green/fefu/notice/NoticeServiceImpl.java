@@ -1,5 +1,7 @@
 package com.green.fefu.notice;
 
+import com.green.fefu.entity.Notice;
+import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.exception.CustomErrorCode;
 import com.green.fefu.notice.model.*;
@@ -11,21 +13,37 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static java.time.LocalDateTime.now;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService{
     private final NoticeMapper mapper;
     private final AuthenticationFacade authenticationFacade; //PK값을 제공(getLoginUserId();
+    private final NoticeRepository repository;
+    //private final TeacherReposotory teacherReposotory;
 
     /*알림장 등록 : 권한있는 사람만 등록 가능*/
     public int postNotice(PostNoticeReq p){
+        //Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
+        Notice notice=new Notice();
+        //notice.setTeacher(teacher);
+        notice.setTitle(p.getTitle());
+        notice.setContent(p.getContent());
+        //notice.setClassId(p.getClassId());
+        notice.setState(p.getState());
+        notice.setCreatedAt(now());
+
+        Notice notice2=repository.save(notice);
+
+
         p.setTeaId(authenticationFacade.getLoginUserId());
         MyUser myUser=authenticationFacade.getLoginUser();
-        log.info("signedUserId:{}, UserRole:{}", p.getTeaId(), myUser.getRole());
-    //if(!myUser.getRole().equals("TEAHCER")){
-    // throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
-    //}
+
+        //if(!myUser.getRole().equals("TEAHCER")){
+        // throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
+        //}
         p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
 
         if(!(p.getState()==1 || p.getState()==2)){

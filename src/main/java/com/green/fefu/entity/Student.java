@@ -7,18 +7,25 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Student {
+public class Student extends UserST {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long stuId;
 
-//    부모 추가 해야함
-//    @ManyToOne
-//    @JoinColumn(name = "parents_id")
-//    private Parent
+    @Column(nullable = false)
     private Integer grade;
-    private String name;
-    private String gender;
 
-    private String phone;
+    @Column(length = 255)
+    private String pic;
+
+    @Column(length = 1000)
+    private String etc;
+
+    @Column(length = 30)
+    private String engName;
+
+//    부모 pk 넣어야 함
+//    @ManyToOne
+//    @JoinColumn(name = "parent_id")
+//    private Parent parent;
 }
