@@ -70,9 +70,6 @@ public class SecurityConfiguration {
                                         , "/api/user/pic"
                                 )
                                 .authenticated()
-                                .requestMatchers("/api/admin/",
-                                        "/api/admin/**"
-                                ).hasRole("ADMIN")
                                 .anyRequest()
                                 .permitAll()
                 )
