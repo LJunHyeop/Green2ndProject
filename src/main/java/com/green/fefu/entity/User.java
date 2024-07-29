@@ -1,14 +1,18 @@
 package com.green.fefu.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Setter
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public class User extends UpdatedAt{
     @Column(nullable = false, length = 20)
     private String name;
@@ -32,6 +36,7 @@ public class User extends UpdatedAt{
     private String addr;
 
     @Column(nullable = false)
-    @ColumnDefault("2")
-    private Integer accept;
+    private Integer accept = 2;
+
+
 }
