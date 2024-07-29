@@ -1,24 +1,27 @@
 package com.green.fefu.security.oauth2;
 
-import com.green.fefu.security.SignInProviderType;
+import com.green.fefu.parents.ParentsUserMapper;
+import com.green.fefu.parents.model.*;
 import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.MyUserOAuth2Vo;
-
+import com.green.fefu.security.SignInProviderType;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfoFactory;
-//import com.green.fefu.user.UserMapper;
-//import com.green.fefu.user.model.SignInPostReq;
-//import com.green.fefu.user.model.SignUpPostReq;
-//import com.green.fefu.user.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.List;
 
 /*
     MyOAuth2UserService:
@@ -40,8 +43,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MyOAuth2UserService extends DefaultOAuth2UserService {
-//    private final UserMapper mapper;
-    private final OAuth2UserInfoFactory oAuth2UserInfoFactory;
+    private final ParentsUserMapper mapper ;
+    private final OAuth2UserInfoFactory oAuth2UserInfoFactory ;
+    private ClientRegistrationRepository clientRegistrationRepository ;
+    private final OAuth2UserInfoFactory factory ;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -66,34 +71,85 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         // oAuth2User.getAttributes() > Data가 HashMap 객체로 변환
         OAuth2UserInfo oAuth2UserInfo = oAuth2UserInfoFactory.getOAuth2UserInfo(signInProviderType, oAuth2User.getAttributes());
 
-//        //기존에 회원가입이 되어있는가 체크
-//        SignInPostReq signInParam = new SignInPostReq();
-//        signInParam.setUid(oAuth2UserInfo.getId()); //플랫폼에서 넘어오는 유니크값(항상 같은 값이며 다른 사용자와 구별되는 유니크 값)
-//        signInParam.setProviderType(signInProviderType.name());
-//        User user = mapper.signInPost(signInParam);
-//
-//        if(user == null) { //회원가입 처리
-//            SignUpPostReq signUpParam = new SignUpPostReq();
-//            signUpParam.setProviderType(signInProviderType);
-//            signUpParam.setUid(oAuth2UserInfo.getId());
-//            signUpParam.setNm(oAuth2UserInfo.getName());
-//            signUpParam.setPic(oAuth2UserInfo.getProfilePicUrl());
-//            int result = mapper.signUpPostReq(signUpParam);
-//            user = new User( signUpParam.getUserId()
-//                           , signInParam.getUid()
-//                           , null
-//                           , signUpParam.getNm()
-//                           , signUpParam.getPic()
-//                           , null
-//                           , null );
-//        }
-//
-//        MyUserOAuth2Vo myUserOAuth2Vo
-//                = new MyUserOAuth2Vo(user.getUserId(), "ROLE_USER", user.getNm(), user.getPic());
-//
-//        MyUserDetails signInUser = new MyUserDetails();
-//        signInUser.setMyUser(myUserOAuth2Vo);
-//        return signInUser;
-         return null;
+        //기존에 회원가입이 되어있는가 체크
+        SignInPostReq signInParam = new SignInPostReq();
+        signInParam.setUid(oAuth2UserInfo.getId()); //플랫폼에서 넘어오는 유니크값(항상 같은 값이며 다른 사용자와 구별되는 유니크 값)
+        signInParam.setProviderType(signInProviderType.name());
+        List<ParentsUser> list = mapper.getParentUser(signInParam.getUid()) ;
+
+        // 연동된 아이디가 없을 시
+        if(list == null) {
+            throw new IllegalArgumentException("연동된 아이디가 없습니다.") ;
+        }
+
+        // 로컬 사용자 정보를 가져오는 로직
+        SocialUserEntity localUser = getLocalUser(list.get(0).getParentsId()) ;
+        if(localUser == null) {
+            throw new IllegalArgumentException("로컬 사용자가 존재하지 않습니다.") ;
+        }
+
+        SocialLoginRequest socialLoginRequest = new SocialLoginRequest() ;
+        socialLoginRequest.setProviderType(signInProviderType) ;
+        socialLoginRequest.setToken(oAuth2UserInfo.getId()) ;
+
+        SocialUserInfo socialUserInfo = verifyAndGetUserInfo(socialLoginRequest) ;
+
+        // 로컬 사용자와 소셜 사용자를 연동
+        linkSocialAccountToLocalUser(localUser.getUserId(), socialUserInfo, signInProviderType.name()) ;
+
+        MyUserOAuth2Vo myUserOAuth2Vo
+                = new MyUserOAuth2Vo(list.get(0).getParentsId(), list.get(0).getAuth(), list.get(0).getNm(), null) ;
+
+        MyUserDetails signInUser = new MyUserDetails();
+        signInUser.setMyUser(myUserOAuth2Vo);
+        return signInUser ;
+    }
+     // 사용자정보 검증 후 가져옴
+    public SocialUserInfo verifyAndGetUserInfo(SocialLoginRequest socialToken) {
+        SignInProviderType providerType = socialToken.getProviderType() ;
+        ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId(providerType.name().toLowerCase()) ;
+
+        OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(
+                clientRegistration,
+                new OAuth2AccessToken(
+                        OAuth2AccessToken.TokenType.BEARER,
+                        socialToken.getToken(),
+                        Instant.now(),
+                        Instant.now().plusSeconds(3600)
+                )
+        ) ;
+
+        // 소셜로그인 API 호출
+        OAuth2User oAuth2User = loadUser(oAuth2UserRequest) ;
+
+        // 사용자 정보 변환
+        OAuth2UserInfo oAuth2UserInfo = factory.getOAuth2UserInfo(providerType, oAuth2User.getAttributes()) ;
+        SocialUserInfo userInfo = new SocialUserInfo() ;
+        userInfo.setId(oAuth2UserInfo.getId()) ;
+        userInfo.setEmail(oAuth2UserInfo.getEmail()) ;
+        userInfo.setName(oAuth2UserInfo.getName()) ;
+        return userInfo ;
+    }
+     // 연동
+    public void linkSocialAccountToLocalUser(long localUserId, SocialUserInfo socialUserInfo, String provider){
+        SocialUserEntity entity = new SocialUserEntity() ;
+        entity.setUserId(localUserId) ;
+        entity.setProvider(provider) ;
+        entity.setSocialId(socialUserInfo.getId()) ;
+        entity.setSocialEmail(socialUserInfo.getEmail()) ;
+        entity.setSocialName(socialUserInfo.getName()) ;
+
+        SocialUserEntity existingSocialUser = mapper.findUser(localUserId, provider) ;
+        if(existingSocialUser == null){
+            mapper.insUserEntity(socialUserInfo) ;
+        }
+    }
+
+    public SocialUserEntity getLocalUser(long userId){
+        List<SocialUserEntity> users = mapper.findAllGet(userId);
+        if (users.isEmpty()) {
+            return null;
+        }
+        return users.get(0);
     }
 }

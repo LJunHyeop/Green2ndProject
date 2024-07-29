@@ -2,7 +2,6 @@ package com.green.fefu.security.jwt;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.green.fefu.common.AppProperties;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.security.MyUserDetails;
@@ -16,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -142,5 +142,11 @@ public class JwtTokenProviderV2 {
         //return jwt.substring(appProperties.getJwt().getTokenType().length()).trim();
         return jwt.substring(appProperties.getJwt().getTokenType().length() + 1);
     }
-
+    public static String extractTokenFromRequest(HttpServletRequest req){
+        String bearerToken = req.getHeader("Authorization") ;
+        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7) ;
+        }
+        return null ;
+    }
 }

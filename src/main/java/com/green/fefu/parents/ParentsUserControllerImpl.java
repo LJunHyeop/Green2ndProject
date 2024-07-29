@@ -1,13 +1,10 @@
 package com.green.fefu.parents;
 
 import com.green.fefu.parents.model.*;
+import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
-import com.green.fefu.sms.SmsService;
+import com.green.fefu.security.oauth2.MyOAuth2UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,7 +37,7 @@ import static com.green.fefu.chcommon.ResponsDataSet.OK;
 public class ParentsUserControllerImpl implements ParentsUserController {
     private final ParentsUserServiceImpl service;
     private final JwtTokenProviderV2 tokenProvider;
-    private final SmsService smsService;
+    private final MyOAuth2UserService myOAuth2UserService ;
     private final String FILE_BASE_PATH = "/home/download/sign/";
 
     // 학부모 회원가입
@@ -143,5 +141,28 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         } catch (Exception e) {
             throw new RuntimeException("파일 다운로드에 실패했습니다.", e);
         }
+    }
+    @PostMapping("/social-login-peristalsis")
+    public ResponseEntity socialLoginPeristalsis(@RequestBody SocialLoginRequest socialLoginRequest, HttpServletRequest req) {
+        String localToken = JwtTokenProviderV2.extractTokenFromRequest(req) ;
+        if(localToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로컬 정보가 존재하지않습니다.") ;
+        }
+        UserDetails localUser = tokenProvider.getUserDetailsFromToken(localToken) ;
+        if(!(localUser instanceof MyUserDetails localUserOrigin)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로컬 정보가 존재하지않습니다.") ;
+        }
+
+        // 소셜 정보 검증 후 사용자 정보 가져옴.
+        SocialUserInfo socialUserInfo = myOAuth2UserService.verifyAndGetUserInfo(socialLoginRequest) ;
+
+        // 로컬 사용자와 소셜 사용자를 연동
+        SocialUserEntity localUserEntity = myOAuth2UserService.getLocalUser(localUserOrigin.getUserId()) ;
+        if (localUserEntity == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Local user not found");
+        }
+        myOAuth2UserService.linkSocialAccountToLocalUser(((MyUserDetails) localUser).getMyUser().getUserId(), socialUserInfo, socialLoginRequest.getProviderType().name());
+
+        return ResponseEntity.ok("소셜 연동에 성공하였습니다.") ;
     }
 }

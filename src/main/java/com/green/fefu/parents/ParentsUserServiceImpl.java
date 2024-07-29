@@ -2,15 +2,17 @@ package com.green.fefu.parents;
 
 import com.green.fefu.chcommon.Parser;
 import com.green.fefu.chcommon.SmsSender;
-import com.green.fefu.security.MyUser;
-import com.green.fefu.parents.model.*;
-import com.green.fefu.security.MyUserDetails;
-import com.green.fefu.sms.SmsService;
 import com.green.fefu.common.AppProperties;
 import com.green.fefu.common.CookieUtils;
 import com.green.fefu.common.CustomFileUtils;
+import com.green.fefu.parents.model.*;
 import com.green.fefu.security.AuthenticationFacade;
+import com.green.fefu.security.MyUser;
+import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
+import com.green.fefu.security.oauth2.MyOAuth2UserService;
+import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
+import com.green.fefu.sms.SmsService;
 import com.green.fefu.student.service.StudentMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,7 +55,8 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     private final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
     private final SmsService smsService;
     private final StudentMapper studentMapper;
-    private final HttpServletRequest httpServletRequest;
+    private final MyOAuth2UserService oAuth2Service ;
+    private OAuth2UserInfo info ;
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
 
     @Override @Transactional // 회원가입
@@ -325,4 +328,5 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         }
         return list ;
     }
+
 }
