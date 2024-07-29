@@ -94,6 +94,6 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
 //        MyUserDetails signInUser = new MyUserDetails();
 //        signInUser.setMyUser(myUserOAuth2Vo);
 //        return signInUser;
-        return null;
+         return null;
     }
 }
