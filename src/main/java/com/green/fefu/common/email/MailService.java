@@ -20,6 +20,7 @@ public class MailService {
     }
 
     public MimeMessage CreateMail(String mail) {
+        createNumber() ;
         MimeMessage mimeMessage = mailSender.createMimeMessage() ;
 
         try{
