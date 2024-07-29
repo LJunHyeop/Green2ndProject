@@ -1,26 +1,28 @@
 package com.green.fefu.parents;
 
 import com.green.fefu.parents.model.*;
+import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
-import com.green.fefu.sms.SmsService;
+import com.green.fefu.security.oauth2.MyOAuth2UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,9 @@ import static com.green.fefu.chcommon.ResponsDataSet.OK;
 public class ParentsUserControllerImpl implements ParentsUserController {
     private final ParentsUserServiceImpl service;
     private final JwtTokenProviderV2 tokenProvider;
-    private final SmsService smsService;
+    private final MyOAuth2UserService myOAuth2UserService ;
+    private final String FILE_BASE_PATH = "/home/download/sign/";
+
     // 학부모 회원가입
     @Override @PostMapping("/sign-up") @Operation(summary = "회원가입")
     public ResponseEntity<Integer> postParents(@RequestBody PostParentsUserReq p) {
@@ -99,9 +103,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     }
     // 전자서명
     @Override @PostMapping(value = "/signature") @Operation(summary = "전자서명") @PreAuthorize("hasRole('PARENTS')")
-    public ResponseEntity<SignatureRes> signature(
-            @RequestPart MultipartFile pic
-            , @RequestPart SignatureReq req){
+    public ResponseEntity<SignatureRes> signature( @RequestPart MultipartFile pic, @RequestPart SignatureReq req){
         SignatureRes result = service.signature(pic, req);
         return ResponseEntity.ok().body(result) ;
     }
@@ -114,5 +116,53 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         }
         List<GetStudentParentsRes> list = service.getStudentParents(token) ;
         return ResponseEntity.ok().body(list) ;
+    }
+    @GetMapping("/download/{signPk}") @Operation(summary = "전자서명 다운로드")
+    public ResponseEntity<UrlResource> downloadFile(@PathVariable Long signPk) {
+        try {
+            String fileName = service.signatureNm(signPk);
+            if (fileName == null || fileName.isEmpty()) {
+                throw new RuntimeException("파일을 찾을 수 없습니다.");
+            }
+
+            String filePath = FILE_BASE_PATH + signPk + "\\" + fileName;
+            Path path = Paths.get(filePath);
+
+            UrlResource resource = new UrlResource(path.toUri());
+
+            if (!resource.exists() || !resource.isReadable()) {
+                throw new RuntimeException("파일을 찾을 수 없거나 읽을 수 없습니다.");
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (Exception e) {
+            throw new RuntimeException("파일 다운로드에 실패했습니다.", e);
+        }
+    }
+    @PostMapping("/social-login-peristalsis")
+    public ResponseEntity socialLoginPeristalsis(@RequestBody SocialLoginRequest socialLoginRequest, HttpServletRequest req) {
+        String localToken = JwtTokenProviderV2.extractTokenFromRequest(req) ;
+        if(localToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로컬 정보가 존재하지않습니다.") ;
+        }
+        UserDetails localUser = tokenProvider.getUserDetailsFromToken(localToken) ;
+        if(!(localUser instanceof MyUserDetails localUserOrigin)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로컬 정보가 존재하지않습니다.") ;
+        }
+
+        // 소셜 정보 검증 후 사용자 정보 가져옴.
+        SocialUserInfo socialUserInfo = myOAuth2UserService.verifyAndGetUserInfo(socialLoginRequest) ;
+
+        // 로컬 사용자와 소셜 사용자를 연동
+        SocialUserEntity localUserEntity = myOAuth2UserService.getLocalUser(localUserOrigin.getUserId()) ;
+        if (localUserEntity == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Local user not found");
+        }
+        myOAuth2UserService.linkSocialAccountToLocalUser(((MyUserDetails) localUser).getMyUser().getUserId(), socialUserInfo, socialLoginRequest.getProviderType().name());
+
+        return ResponseEntity.ok("소셜 연동에 성공하였습니다.") ;
     }
 }

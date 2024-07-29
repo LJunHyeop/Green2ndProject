@@ -109,14 +109,19 @@
         WHERE uid = #{uid}
         AND phone = #{phone}
     </select>
-    <insert id="signature" keyProperty="signId" useGeneratedKeys="true">
+    <insert id="signature" useGeneratedKeys="true" keyProperty="signId">
         INSERT INTO score_sign
         SET stu_id = #{studentPk}
-            , year = #{year}
-            , semester = #{semester}
-            , pic = #{pic}
-            , exam_sign = #{examSign}
+        , year = #{year}
+        , semester = #{semester}
+        , pic = #{pic}
+        , exam_sign = #{examSign}
     </insert>
+    <update id = "postSignaturePic">
+        UPDATE score_sign
+        SET pic = #{pic}
+        WHERE sign_id = #{signId}
+    </update>
     <select id="getSignature">
         SELECT stu_id AS stuId
                 , year

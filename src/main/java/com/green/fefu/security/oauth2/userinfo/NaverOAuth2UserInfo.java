@@ -28,7 +28,6 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getProfilePicUrl() {
-        Map<String, Object> response = (Map<String, Object>)attributes.get("response");
-        return response == null ? null : response.get("profile_image").toString();
+        return null ;
     }
 }

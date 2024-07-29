@@ -20,7 +20,12 @@ import java.util.Map;
 public class MyUserDetails implements UserDetails, OAuth2User {
 
     private MyUser myUser;
-
+    public MyUser getMyUser(){
+        return myUser ;
+    }
+    public Long getUserId() {
+        return myUser.getUserId() ;
+    }
     @Override
     public Map<String, Object> getAttributes() {
         return null;

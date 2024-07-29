@@ -26,7 +26,6 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getProfilePicUrl() {
-        Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
-        return properties == null ? null : properties.get("thumbnail_image").toString();
+        return null ;
     }
 }

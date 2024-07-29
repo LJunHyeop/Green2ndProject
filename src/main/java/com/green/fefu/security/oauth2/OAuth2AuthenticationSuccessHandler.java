@@ -1,8 +1,7 @@
 package com.green.fefu.security.oauth2;
 
-import com.green.fefu.common.*;
-
-
+import com.green.fefu.common.AppProperties;
+import com.green.fefu.common.CookieUtils;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.MyUserOAuth2Vo;
