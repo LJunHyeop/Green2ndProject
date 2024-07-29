@@ -12,6 +12,11 @@
             , exam = #{exam}
             , mark = #{mark}
         </insert>
+
+    <delete id="scoreSing">
+        DELETE FROM score_sign
+        WHERE stu_id = #{studentPk}
+    </delete>
     <select id="getScoreMidterm">
         SELECT
         score_id AS scoreId,
