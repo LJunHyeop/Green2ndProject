@@ -1,5 +1,6 @@
 package com.green.fefu.score;
 
+import com.green.fefu.exception.CustomException;
 import com.green.fefu.score.model.*;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
@@ -10,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.green.fefu.exception.LJH.LjhErrorCode.*;
 
 
 @Service
@@ -31,16 +34,14 @@ public class ScoreServiceImpl {
         delScore.setName(p.getName());
         delScore.setScId(p.getStudentPk());
         if(!userRole.equals("ROLE_TEAHCER")){
-            throw new RuntimeException("권한이 없습니다");
+            throw new CustomException(SCORE_INSERT_POST);
         }
         getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk()) ;
-
         GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
-
+        // 담당 학급이 아닐때
         if(!list3.getUClass().equals(res.getClassId())){
-            throw new RuntimeException("담당 학생이 아닙니다");
+            throw new CustomException(SCORE_INSERT_STU_POST);
         }
-
         List<InsScoreList> list = mapper.totalList(delScore);
         for(InsScoreList afterList : list){
             if (afterList != null){
@@ -61,9 +62,6 @@ public class ScoreServiceImpl {
                 p.setLatestSemester(1);
             }
         }
-
-
-
 
         RankReq rank = new RankReq();
 
@@ -155,10 +153,10 @@ public class ScoreServiceImpl {
             dto.setList(mapper.getDetailScoreFinal(p));
         }
         if(res.getLatestGrade() < p.getGrade()){
-            throw  new RuntimeException("잘못된 학년입니다.");
+            throw  new CustomException(SCORE_GET_VIEW);
         }
         if(dto.getList() == null || dto.getList().size() == 0){
-            throw new RuntimeException("조회된 성적이 없습니다");
+            throw new CustomException(SCORE_GET_LIST_VIEW);
         }
         dto.setStudentPk(p.getStudentPk());
         return dto;
