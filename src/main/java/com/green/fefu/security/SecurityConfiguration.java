@@ -72,7 +72,7 @@ public class SecurityConfiguration {
                                 .authenticated()
                                 .requestMatchers("/api/admin/",
                                         "/api/admin/**"
-                                ).hasAnyRole("ADMIN,ADMINISTRATION")
+                                ).hasRole("ADMIN")
                                 .anyRequest()
                                 .permitAll()
                 )
