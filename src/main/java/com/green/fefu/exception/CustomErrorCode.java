@@ -11,7 +11,9 @@ public enum CustomErrorCode implements ErrorCode{
 
     CLASS_CHECK_PLEASE(HttpStatus.NOT_FOUND, "호출한 학급이 존재하지 않습니다."),
 
-    YOU_ARE_NOT_TEACHER(HttpStatus.FORBIDDEN, "선생님만 접근할 수 있습니다.");
+    YOU_ARE_NOT_TEACHER(HttpStatus.FORBIDDEN, "선생님만 접근할 수 있습니다."),
+
+    VALIDATION_ERROR(HttpStatus.BAD_REQUEST,"데이터 형식을 맞춰주세요");
 
     //권한 없음, 토큰 만료, 뭐가 또 있지........?!
     //2학기 아직 시작 안 했는데 2학기 조회라던가 "해당학기의 정보를 조회할 수 없습니다."

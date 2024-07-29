@@ -2,67 +2,64 @@ package com.green.fefu.teacher.service;
 
 
 import com.green.fefu.chcommon.Parser;
-import com.green.fefu.chcommon.PatternCheck;
 import com.green.fefu.chcommon.SmsSender;
 import com.green.fefu.common.AppProperties;
 import com.green.fefu.common.CookieUtils;
+import com.green.fefu.entity.Teacher;
+import com.green.fefu.exception.CustomException;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
-import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
 import com.green.fefu.sms.SmsService;
-import com.green.fefu.teacher.model.dto.EntityArgument;
-import com.green.fefu.teacher.model.dto.TeacherEntity;
 import com.green.fefu.teacher.model.req.*;
-import com.green.fefu.chcommon.Validation;
+import com.green.fefu.teacher.repository.TeacherRepository;
 import com.green.fefu.teacher.test.TeacherService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.green.fefu.exception.CustomErrorCode.YOU_ARE_NOT_TEACHER;
+import static com.green.fefu.exception.bch.BchErrorCode.*;
 import static com.green.fefu.teacher.model.dataset.TeacherMapNamingData.*;
-import static com.green.fefu.teacher.model.dataset.TeacherDBMaxLength.*;
-import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.*;
+import static java.time.LocalDateTime.now;
 
 
-import java.time.LocalDate;
-import java.util.HashMap;
+import java.sql.Date;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class TeacherServiceImpl implements TeacherService {
     private final TeacherMapper mapper;
-    private final Validation validation;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationFacade authenticationFacade;
     private final JwtTokenProviderV2 jwtTokenProvider;
     private final AppProperties appProperties;
     private final CookieUtils cookieUtils;
-    private final PatternCheck patternCheck;
     private final SmsService smsService;
-    @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
+    @Value("${coolsms.api.caller}")
+    private String coolsmsApiCaller;
 
+    //    JPA
+    private final TeacherRepository teacherRepository;
 
 //=====================================================================================================================
 
     //    회원가입
     @Transactional
     @Override
-    public Map CreateTeacher(CreateTeacherReq p, Map map) throws Exception {
+    public Map CreateTeacher(CreateTeacherReq p, Map map){
 //         벨리데이션 체크
 //        1. 데이터 널체크
-        createTeacherNullCheck(p);
+//        createTeacherNullCheck(p);
 //        2. 데이터 타입 체크
-        createTeacherTypeCheck(p);
+//        createTeacherTypeCheck(p);
 //        3. 비밀번호 암호화
         String hashpw = passwordEncoder.encode(p.getPassword());
         p.setPassword(hashpw);
@@ -72,7 +69,7 @@ public class TeacherServiceImpl implements TeacherService {
                 || (p.getAddr() != null
                 && p.getZoneCode() == null)
         ) {
-            throw new RuntimeException(ADDR_DATA_ERROR);
+            throw new CustomException(ADDR_DATA_ERROR);
         } else if (p.getZoneCode() != null
                 && p.getAddr() != null) {
             String fullAddr = Parser.addressParserMerge(p.getZoneCode(), p.getAddr(), p.getDetail());
@@ -80,30 +77,49 @@ public class TeacherServiceImpl implements TeacherService {
         }
 //        만들어야 함
 //        5. 데이터 길이 체크
-        createTeacherLengthCheck(p);
+//        createTeacherLengthCheck(p);
 
-        TeacherEntity teacher = mapper.GetTeacher(
-                EntityArgument.builder()
-                        .id(p.getTeacherId())
-                        .build()
-        );
+        Teacher teacher = teacherRepository.findByUid(p.getTeacherId());
+
+
+//        TeacherEntity teacher = mapper.GetTeacher(
+//                EntityArgument.builder()
+//                        .id(p.getTeacherId())
+//                        .build()
+//        );
 
         if (teacher != null) {
-            throw new RuntimeException(DUPLICATE_DATA_ERROR);
+            throw new CustomException(DUPLICATE_DATA_ERROR);
         }
 
 
 //        5. 쿼리 실행
-        int result = mapper.CreateTeacher(p);
+//        int result = mapper.CreateTeacher(p);
+        teacher = new Teacher();
+        teacher.setUid(p.getTeacherId());
+        teacher.setUpw(p.getPassword());
+        teacher.setName(p.getName());
+        teacher.setPhone(p.getPhone());
+        teacher.setEmail(p.getEmail());
+        teacher.setGender(p.getGender());
+        if (p.getBirth() != null) {
+            Date date = Date.valueOf(p.getBirth());
+            teacher.setBirth(date);
+        }
+        teacher.setAddr(p.getFullAddr());
+        teacher.setAuth("ROLE_TEACHER");
+//        teacher.setAccept(2);
+//        teacher.setState(1);
+        teacherRepository.save(teacher);
 //        6. 쿼리 결과 체크
-        if (result == 0) {
-            throw new RuntimeException(QUERY_RESULT_ERROR);
+        if (teacher.getTeaId() == 0) {
+            throw new CustomException(QUERY_RESULT_ERROR);
         }
 //        정상 결과 시
-        map.put(TEACHER_PK, p.getTeacherPk());
+        map.put(TEACHER_PK, teacher.getTeaId());
         return map;
     }
-
+    /*
     private void createTeacherNullCheck(CreateTeacherReq p) throws Exception {
         validation.nullCheck(p.getTeacherId());
         validation.nullCheck(p.getPassword());
@@ -135,58 +151,60 @@ public class TeacherServiceImpl implements TeacherService {
             validation.lengthCheck(p.getFullAddr(), TEACHER_ADDRESS_MAX_LENGTH);
         }
     }
+    */
 
 //=====================================================================================================================
 
     //    로그인
     @Override
-    public Map LogInTeacher(LogInTeacherReq p, Map map, HttpServletResponse res) throws Exception {
-
+    public Map LogInTeacher(LogInTeacherReq p, Map map, HttpServletResponse res){
 //        데이터 널 체크
-        logInTeacherNullCheck(p);
+//        logInTeacherNullCheck(p);
 //        데이터 타입 체크
-        logInTeacherTypeCheck(p);
+//        logInTeacherTypeCheck(p);
 //        유저 select
-        TeacherEntity teacher = mapper.GetTeacher(
-                EntityArgument.builder()
-                        .id(p.getTeacherId())
-                        .build()
-        );
+
+        Teacher teacher = teacherRepository.findByUid(p.getTeacherId());
+
+//        TeacherEntity teacher = mapper.GetTeacher(
+//                EntityArgument.builder()
+//                        .id(p.getTeacherId())
+//                        .build()
+//        );
 
 //        아이디로 확인 안됐을때
         if (teacher == null) {
-            throw new RuntimeException(ID_NOT_FOUND_ERROR);
+            throw new CustomException(ID_NOT_FOUND_ERROR);
+        }
+        if(teacher.getAccept() == 2){
+            throw new CustomException(NOT_YET_ACCEPT);
         }
 //        비밀번호 매치 체크
 //        암호화된 비밀번호가 다를때
-        else if (!passwordEncoder.matches(p.getPassword(), teacher.getPassword())) {
-            throw new RuntimeException(PASSWORD_NO_MATCH_ERROR);
+        else if (!passwordEncoder.matches(p.getPassword(), teacher.getUpw())) {
+            throw new CustomException(PASSWORD_NO_MATCH_ERROR);
         }
 
 //        JWT 토큰 발급
-
-        log.info("1");
         String accessToken = createToken(teacher, res);
 
-        log.info("2");
 //        담당 학급 받아오기
-        String teacherClass = mapper.getCurrentClassesByTeacherId(teacher.getPk());
+        String teacherClass = mapper.getCurrentClassesByTeacherId(teacher.getTeaId());
         String tClass = null;
 //        담당 학급이 있을 때 ( 방금 회원가입하면 담당학급이 없음 )
         if (teacherClass != null) {
             tClass = Parser.classParser(teacherClass);
         }
-        log.info("3");
 
 //        데이터 삽입
         map.put(TEACHER_NAME, teacher.getName());
         map.put(TEACHER_EMAIL, teacher.getEmail());
         map.put(TEACHER_CLASS, tClass);
         map.put(TEACHER_ACCESS_TOKEN, accessToken);
-        log.info("4");
         return map;
     }
 
+    /*
     private void logInTeacherNullCheck(LogInTeacherReq p) throws Exception {
         validation.nullCheck(p.getTeacherId());
         validation.nullCheck(p.getPassword());
@@ -196,10 +214,10 @@ public class TeacherServiceImpl implements TeacherService {
         patternCheck.idCheck(p.getTeacherId());
         patternCheck.passwordCheck(p.getPassword());
     }
-
-    private String createToken(TeacherEntity teacher, HttpServletResponse res) throws Exception {
+    */
+    private String createToken(Teacher teacher, HttpServletResponse res){
         MyUser myUser = MyUser.builder()
-                .userId(teacher.getPk())
+                .userId(teacher.getTeaId())
                 .role(teacher.getAuth().trim())
                 .build();
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
@@ -219,23 +237,29 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void CheckDuplicate(CheckDuplicateReq p) throws Exception {
 
-        dataCheck(p);
+//        dataCheck(p);
 
 //        유저 select (아이디, email)
-        TeacherEntity teacher = mapper.GetTeacher(
-                EntityArgument.builder()
-                        .id(p.getId())
-                        .email(p.getEmail())
-                        .build()
-        );
-        if (teacher != null) {
-            throw new RuntimeException(DUPLICATE_DATA_ERROR);
+//        TeacherEntity teacher = mapper.GetTeacher(
+//                EntityArgument.builder()
+//                        .id(p.getId())
+//                        .email(p.getEmail())
+//                        .build()
+//        );
+        Teacher teacher;
+        if (p.getId() != null) {
+            teacher = teacherRepository.findByUid(p.getId());
+        } else if (p.getEmail() != null) {
+            teacher = teacherRepository.findByEmail(p.getEmail());
+        } else {
+            throw new CustomException(MULTIPLE_DATA_ERROR);
         }
     }
 
+    /*
     private void dataCheck(CheckDuplicateReq p) {
         if (p.getId() != null && p.getEmail() != null) {
-            throw new RuntimeException(MULTIPLE_DATA_ERROR);
+            throw new CustomException(MULTIPLE_DATA_ERROR);
         }
 
 //        아이디 형식 확인
@@ -246,9 +270,10 @@ public class TeacherServiceImpl implements TeacherService {
         else if (p.getEmail() != null) {
             patternCheck.emailCheck(p.getEmail());
         } else {
-            throw new RuntimeException(ESSENTIAL_DATA_NOT_FOUND_ERROR);
+            throw new CustomException(ESSENTIAL_DATA_NOT_FOUND_ERROR);
         }
     }
+     */
 
 //=====================================================================================================================
 
@@ -256,23 +281,24 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Map FindTeacherId(FindTeacherIdReq p, Map map) throws Exception {
 //        널 체크
-        FindTeacherIdNullCheck(p);
+//        FindTeacherIdNullCheck(p);
 //        타입 체크
-        FindTeacherIdTypeCheck(p);
+//        FindTeacherIdTypeCheck(p);
 
-        TeacherEntity teacher = mapper.GetTeacher(
-                EntityArgument.builder()
-                        .name(p.getName())
-                        .phone(p.getPhone())
-                        .build()
-        );
+//        TeacherEntity teacher = mapper.GetTeacher(
+//                EntityArgument.builder()
+//                        .name(p.getName())
+//                        .phone(p.getPhone())
+//                        .build()
+//        );
+        Teacher teacher = teacherRepository.findByNameAndPhone(p.getName(), p.getPhone());
         if (teacher == null) {
-            throw new RuntimeException(NOT_FOUND_USER_ERROR);
+            throw new CustomException(NOT_FOUND_USER_ERROR);
         }
-        map.put(TEACHER_ID, teacher.getId());
+        map.put(TEACHER_ID, teacher.getTeaId());
         return map;
     }
-
+/*
     private void FindTeacherIdNullCheck(FindTeacherIdReq p) throws Exception {
         validation.nullCheck(p.getName());
         validation.nullCheck(p.getPhone());
@@ -283,23 +309,25 @@ public class TeacherServiceImpl implements TeacherService {
         patternCheck.phoneCheck(p.getPhone());
     }
 
+ */
 //=====================================================================================================================
 
     //    선생님 비밀번호 찾기
     @Override
     public void FindTeacherPassword(FindTeacherPasswordReq p, Map map) throws Exception {
 //        널 체크
-        FindTeacherPasswordNullCheck(p);
+//        FindTeacherPasswordNullCheck(p);
 //        타입 체크
-        FindTeacherPasswordTypeCheck(p);
-        TeacherEntity teacher = mapper.GetTeacher(
-                EntityArgument.builder()
-                        .id(p.getId())
-                        .phone(p.getPhone())
-                        .build()
-        );
+//        FindTeacherPasswordTypeCheck(p);
+//        TeacherEntity teacher = mapper.GetTeacher(
+//                EntityArgument.builder()
+//                        .id(p.getId())
+//                        .phone(p.getPhone())
+//                        .build()
+//        );
+        Teacher teacher = teacherRepository.findByUid(p.getId());
         if (teacher == null) {
-            throw new RuntimeException(NOT_FOUND_USER_ERROR);
+            throw new CustomException(NOT_FOUND_USER_ERROR);
         }
 
 //        랜덤 코드 6자리 생성
@@ -309,13 +337,13 @@ public class TeacherServiceImpl implements TeacherService {
         try {
             smsService.sendPasswordSms(p.getPhone(), coolsmsApiCaller, code);
         } catch (Exception e) {
-            throw new RuntimeException(SMS_SEND_ERROR);
+            throw new CustomException(SMS_SEND_ERROR);
         }
 
 
         map.put("RANDOM_CODE", code);
     }
-
+/*
     private void FindTeacherPasswordNullCheck(FindTeacherPasswordReq p) throws Exception {
         validation.nullCheck(p.getId());
         validation.nullCheck(p.getPhone());
@@ -326,6 +354,8 @@ public class TeacherServiceImpl implements TeacherService {
         patternCheck.phoneCheck(p.getPhone());
     }
 
+
+ */
 //=====================================================================================================================
 
     //    선생님 비밀번호 변경 ( 로그인 전 )
@@ -334,16 +364,16 @@ public class TeacherServiceImpl implements TeacherService {
     public void ChangePassWord(ChangePassWordReq p) throws Exception {
 
 //        널체크
-        ChangePassWordNullCheck(p);
+//        ChangePassWordNullCheck(p);
 
 //        로그인 햇을때는 TeacherId 값이 null 일 수 있기 때문이다.
 //        validation.nullCheck(p.getTeacherId());
 
 //        유저 select
-        TeacherEntity teacher = getTEntity(p);
-        log.info("teacher : {}", teacher);
+//        TeacherEntity teacher = getTEntity(p);
+        Teacher teacher = teacherRepository.findByUid(p.getTeacherId());
 //        타입 체크
-        ChangePassWordTypeCheck(p);
+//        ChangePassWordTypeCheck(p);
 
 
 //        비밀번호 암호화
@@ -351,15 +381,11 @@ public class TeacherServiceImpl implements TeacherService {
         p.setPassWord(hashpw);
 
 
-        p.setPk(teacher.getPk());
+        teacher.setUpw(p.getPassWord());
+        teacherRepository.save(teacher);
 //        쿼리 실행
-        int result = mapper.ChangePassWord(p);
-        log.info("result : {}", result);
-        if (result != 1) {
-            throw new RuntimeException(QUERY_RESULT_ERROR);
-        }
     }
-
+/*
     private void ChangePassWordNullCheck(ChangePassWordReq p) throws Exception {
         validation.nullCheck(p.getPassWord());
     }
@@ -376,7 +402,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         log.info("asdasd");
         if (teacher == null) {
-            throw new RuntimeException(ID_NOT_FOUND_ERROR) ;
+            throw new CustomException(ID_NOT_FOUND_ERROR);
         }
         log.info("qqqqq");
         return teacher;
@@ -386,21 +412,24 @@ public class TeacherServiceImpl implements TeacherService {
         patternCheck.passwordCheck(p.getPassWord());
     }
 
+
+ */
 //=====================================================================================================================
 
     //    선생님 내정보 불러오기
     @Override
     public Map TeacherDetail(Map map) throws Exception {
-        TeacherEntity teacher = mapper.GetTeacher(
-                EntityArgument.builder()
-                        .pk(authenticationFacade.getLoginUserId())
-                        .build()
-        );
+//        TeacherEntity teacher = mapper.GetTeacher(
+//                EntityArgument.builder()
+//                        .pk(authenticationFacade.getLoginUserId())
+//                        .build()
+//        );
+        Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
 
-        String teacherClass = mapper.getCurrentClassesByTeacherId(teacher.getPk());
+        String teacherClass = mapper.getCurrentClassesByTeacherId(teacher.getTeaId());
         String tClass = Parser.classParser(teacherClass);
 
-        map.put(TEACHER_ID, teacher.getId());
+        map.put(TEACHER_ID, teacher.getTeaId());
         map.put(TEACHER_NAME, teacher.getName());
         map.put(TEACHER_PHONE, teacher.getPhone());
         map.put(TEACHER_EMAIL, teacher.getEmail());
@@ -422,21 +451,35 @@ public class TeacherServiceImpl implements TeacherService {
     @Transactional
     @Override
     public void ChangeTeacher(ChangeTeacherReq p) throws Exception {
-        p.setPk(authenticationFacade.getLoginUserId());
+//        p.setPk(authenticationFacade.getLoginUserId());
 
 //        타입 체크 and 데이터 길이 체크
-        ChangeTeacherErrorCheck(p);
+//        ChangeTeacherErrorCheck(p);
 
 //        주소값 합성
-        p.setFullAddr(Parser.addressParserMerge(p.getZoneCode(),p.getAddr(),p.getDetail()));
+        p.setFullAddr(Parser.addressParserMerge(p.getZoneCode(), p.getAddr(), p.getDetail()));
 
 //        쿼리 실행
-        int result = mapper.ChangeTeacher(p);
-        if (result != 1) {
-            throw new RuntimeException(QUERY_RESULT_ERROR);
+//        int result = mapper.ChangeTeacher(p);
+        Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
+        if(!Objects.equals(p.getPhone(), teacher.getPhone())){
+            teacher.setPhone(p.getPhone());
         }
+        if(!Objects.equals(p.getName(), teacher.getName())){
+            teacher.setName(p.getName());
+        }
+        if(!Objects.equals(p.getEmail(), teacher.getEmail())){
+            teacher.setEmail(p.getEmail());
+        }
+        if(!Objects.equals(p.getFullAddr(), teacher.getAddr())){
+            teacher.setAddr(p.getFullAddr());
+        }
+        teacherRepository.save(teacher);
+//        if (result != 1) {
+//            throw new CustomException(QUERY_RESULT_ERROR);
+//        }
     }
-
+/*
     private void ChangeTeacherErrorCheck(ChangeTeacherReq p) throws Exception {
         if (p.getName() != null) {
             patternCheck.nameCheck(p.getName());
@@ -452,23 +495,5 @@ public class TeacherServiceImpl implements TeacherService {
         }
     }
 
-    public Map getAccessToken(Map map, HttpServletRequest req) throws Exception {
-        Cookie cookie = cookieUtils.getCookie(req, appProperties.getJwt().getRefreshTokenCookieName());
-        // refreshToken 값이 있는 쿠키의 존재 유무
-        if (cookie == null) {
-            throw new RuntimeException(COOKIE_NOT_FOUND_ERROR);
-        }
-        String refreshToken = cookie.getValue();
-        // refreshToken 만료시간 체크
-        if (!jwtTokenProvider.isValidateToken(refreshToken)) {
-            throw new RuntimeException(RE_FRESH_TOKEN_TIME_OUT_ERROR);
-        }
-
-        Authentication auth = jwtTokenProvider.getAuthentication(refreshToken);
-        MyUser myUser = ((MyUserDetails) auth).getMyUser();
-        String accessToken = jwtTokenProvider.generateAccessToken(myUser);
-
-        map.put(TEACHER_ACCESS_TOKEN, accessToken);
-        return map;
-    }
+ */
 }

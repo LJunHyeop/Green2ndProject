@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 
 import java.util.List;
 
+@Getter
 @SuperBuilder
 public class MyErrorResponse extends ResultDto<String> {
     private final List<ValidationError> valids;
