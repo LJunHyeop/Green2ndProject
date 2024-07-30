@@ -44,7 +44,7 @@ public class Parser {
         if ((zoneCode == null || zoneCode.trim().isEmpty()) &&
                 (addr == null || addr.trim().isEmpty()) &&
                 (detail == null || detail.trim().isEmpty())) {
-            return "값이 없습니다";
+            return null;
         }
 
         return String.format("%s # %s # %s",

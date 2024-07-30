@@ -7,7 +7,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -16,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,15 +64,10 @@ public class AdminControllerImpl implements AdminController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity findUnAcceptList(@PathVariable @Schema(example = "1", description = "1-> 부모List, 2-> 선생List") int p) {
+    public ResponseEntity findUnAcceptList(@PathVariable @Schema(example = "1", description = "1-> 부모List, 2-> 선생List") @NotBlank int p) {
         log.info("parameter p: {}", p);
         Map map = new HashMap();
-        log.info("{}", p);
-        try {
-            map = service.findUnAcceptList(p, map);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        map = service.findUnAcceptList(p, map);
         return new ResponseEntity<>(map, OK);
     }
 
@@ -96,13 +91,9 @@ public class AdminControllerImpl implements AdminController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity deleteUser(@ParameterObject @ModelAttribute adminUserReq p) {
+    public ResponseEntity deleteUser(@ParameterObject @ModelAttribute @Valid adminUserReq p) {
         log.info("deleteUser req : {}", p);
-        try {
-            service.deleteUser(p);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        service.deleteUser(p);
         return new ResponseEntity<>(OK);
     }
 
@@ -126,27 +117,13 @@ public class AdminControllerImpl implements AdminController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity acceptUser(@ParameterObject @ModelAttribute adminUserReq p) {
+    public ResponseEntity acceptUser(@ParameterObject @ModelAttribute @Valid adminUserReq p) {
         log.info("acceptUser req : {}", p);
-        try {
-            service.acceptUser(p);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        service.acceptUser(p);
         return new ResponseEntity<>(OK);
     }
 
-    @GetMapping(value = "access-token",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @Operation(summary = "엑세스 토큰 재 발행", description = "리턴 => 토큰값")
-    public ResponseEntity getRefreshToken(HttpServletRequest req) {
-        Map map = new HashMap<>();
-        try {
-            map = service.getAccessToken(map, req);
-        }catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
-        return new ResponseEntity<>(OK);
-    }
-
-
+//    검색 기능 ( 학부모, 교직원 )
+//    자퇴 확인 처리
+//
 }
