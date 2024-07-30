@@ -235,7 +235,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     //    아이디, 이메일 중복 확인
     @Override
-    public void CheckDuplicate(CheckDuplicateReq p) throws Exception {
+    public void CheckDuplicate(CheckDuplicateReq p){
 
 //        dataCheck(p);
 
@@ -279,7 +279,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     //    선생님 아이디 찾기
     @Override
-    public Map FindTeacherId(FindTeacherIdReq p, Map map) throws Exception {
+    public Map FindTeacherId(FindTeacherIdReq p, Map map){
 //        널 체크
 //        FindTeacherIdNullCheck(p);
 //        타입 체크
@@ -314,7 +314,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     //    선생님 비밀번호 찾기
     @Override
-    public void FindTeacherPassword(FindTeacherPasswordReq p, Map map) throws Exception {
+    public void FindTeacherPassword(FindTeacherPasswordReq p, Map map){
 //        널 체크
 //        FindTeacherPasswordNullCheck(p);
 //        타입 체크
@@ -361,7 +361,7 @@ public class TeacherServiceImpl implements TeacherService {
     //    선생님 비밀번호 변경 ( 로그인 전 )
     @Transactional
     @Override
-    public void ChangePassWord(ChangePassWordReq p) throws Exception {
+    public void ChangePassWord(ChangePassWordReq p){
 
 //        널체크
 //        ChangePassWordNullCheck(p);
@@ -418,7 +418,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     //    선생님 내정보 불러오기
     @Override
-    public Map TeacherDetail(Map map) throws Exception {
+    public Map TeacherDetail(Map map){
 //        TeacherEntity teacher = mapper.GetTeacher(
 //                EntityArgument.builder()
 //                        .pk(authenticationFacade.getLoginUserId())
@@ -450,7 +450,7 @@ public class TeacherServiceImpl implements TeacherService {
     //    선생님 정보 변경
     @Transactional
     @Override
-    public void ChangeTeacher(ChangeTeacherReq p) throws Exception {
+    public void ChangeTeacher(ChangeTeacherReq p){
 //        p.setPk(authenticationFacade.getLoginUserId());
 
 //        타입 체크 and 데이터 길이 체크

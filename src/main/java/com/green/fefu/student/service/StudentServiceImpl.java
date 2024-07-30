@@ -4,24 +4,26 @@ import com.green.fefu.chcommon.Parser;
 import com.green.fefu.chcommon.PatternCheck;
 import com.green.fefu.chcommon.Validation;
 import com.green.fefu.common.CustomFileUtils;
+import com.green.fefu.entity.Student;
+import com.green.fefu.exception.CustomException;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.student.model.dto.*;
 import com.green.fefu.student.model.req.*;
+import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.test.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.BIRTH_TYPE_ERROR;
-import static com.green.fefu.student.model.dataset.StudentDBMaxLength.*;
-import static com.green.fefu.student.model.dataset.ExceptionMsgDataSet.*;
+import static com.green.fefu.exception.bch.BchErrorCode.*;
 import static com.green.fefu.student.model.dataset.StudentMapNamingData.*;
 
 @Service
@@ -29,81 +31,104 @@ import static com.green.fefu.student.model.dataset.StudentMapNamingData.*;
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
     private final StudentMapper mapper;
-    private final Validation validation;
-    private final PatternCheck patternCheck;
+//    private final Validation validation;
+//    private final PatternCheck patternCheck;
     private final CustomFileUtils customFileUtils;
     private final AuthenticationFacade authenticationFacade;
+    private final StudentRepository studentRepository;
+    private final PasswordEncoder passwordEncoder;
 
     //    학생 데이터 넣기
     @Transactional
     @Override
-    public Map createStudent(createStudentReq p, MultipartFile pic, Map map) throws Exception {
+    public Map createStudent(createStudentReq p, MultipartFile pic, Map map) {
 //        널 체크
-        createStudentNullCheck(p);
+//        createStudentNullCheck(p);
 //        타입 체크
-        createStudentTypeCheck(p);
+//        createStudentTypeCheck(p);
 //        길이 체크
-        createStudentLengthCheck(p);
+//        createStudentLengthCheck(p);
 
         fileNameChange(p, pic);
 
-        int result = mapper.createStudent(p);
+//        int result = mapper.createStudent(p);
+        Student student = new Student();
+        student.setPic(p.getPic());
+        student.setName(p.getName());
+        student.setGender(p.getGender());
+        student.setGrade(Integer.parseInt(p.getGrade()));
+        Date date = Date.valueOf(p.getBirth());
+        student.setBirth(date);
+        student.setAddr(p.getAddr());
+        student.setEtc(p.getEtc());
+        student.setEngName(p.getEngName());
+        student.setPhone(p.getPhone());
+        student.setUid(p.getStudentId());
+        student.setEmail(p.getEmail());
+        student.setAuth("ROLE_STUDENT");
+        String hashpw = passwordEncoder.encode(p.getStudentPw());
+        p.setStudentPw(hashpw);
+        student.setUpw(p.getStudentPw());
+        studentRepository.save(student);
 //        파일 관련 프로세스
         fileProcess(p, pic);
 
-        if (result != 1) {
-            throw new RuntimeException(QUERY_RESULT_ERROR);
+        if (student.getStuId() == null || student.getStuId() == 0) {
+            throw new CustomException(QUERY_RESULT_ERROR);
         }
 
-//        grade에서 반 정보 뽑아내기 ( 지금은 10101 << 이 폼임 )
-        String classData = p.getGrade().substring(0, 3);
-        ClassInsert classInsert = new ClassInsert();
-        classInsert.setClassPk(Integer.parseInt(classData));
-        classInsert.setTeacherPk(p.getTeacherPk());
-        classInsert.setStudentPk(p.getPk());
-//        반이 없으면 반 생성
-        mapper.insertClassIfNotExists(classInsert);
-//        반에 학생 추가
-        mapper.insertClassStudent(classInsert);
+////        grade에서 반 정보 뽑아내기 ( 지금은 10101 << 이 폼임 )
+//        String classData = p.getGrade().substring(0, 3);
+//        ClassInsert classInsert = new ClassInsert();
+//        classInsert.setClassPk(Integer.parseInt(classData));
+//        classInsert.setTeacherPk(p.getTeacherPk());
+//        classInsert.setStudentPk(p.getPk());
+////        반이 없으면 반 생성
+//        mapper.insertClassIfNotExists(classInsert);
+////        반에 학생 추가
+//        mapper.insertClassStudent(classInsert);
 
 
-        map.put(STUDENT_PK, p.getPk());
+        map.put(STUDENT_PK, student.getStuId());
 
         return map;
     }
 
-    private void createStudentNullCheck(createStudentReq p) throws Exception {
-        validation.nullCheck(p.getGrade());
-        validation.nullCheck(p.getName());
-        validation.nullCheck(p.getGender());
-        validation.nullCheck(p.getBirth());
-        validation.nullCheck(p.getAddr());
-        validation.nullCheck(p.getEtc());
-        validation.nullCheck(p.getEngName());
-        validation.nullCheck(p.getPhone());
-    }
-
-    private void createStudentTypeCheck(createStudentReq p) throws Exception {
-        patternCheck.nameCheck(p.getName());
-        patternCheck.phoneCheck(p.getPhone());
-        validation.typeCheck(p.getBirth(), LocalDate.class, BIRTH_TYPE_ERROR);
-        patternCheck.gradeCheck(p.getGrade());
-
-    }
-
-    private void createStudentLengthCheck(createStudentReq p) throws Exception {
-        validation.lengthCheck(p.getName(), STUDENT_MAX_NAME);
-        validation.lengthCheck(p.getGender(), STUDENT_MAX_GENDER);
-        if (p.getPic() != null) {
-            validation.lengthCheck(p.getPic(), STUDENT_MAX_PIC);
+    /*
+        private void createStudentNullCheck(createStudentReq p){
+            validation.nullCheck(p.getGrade());
+            validation.nullCheck(p.getName());
+            validation.nullCheck(p.getGender());
+            validation.nullCheck(p.getBirth());
+            validation.nullCheck(p.getAddr());
+            validation.nullCheck(p.getEtc());
+            validation.nullCheck(p.getEngName());
+            validation.nullCheck(p.getPhone());
         }
-        validation.lengthCheck(p.getAddr(), STUDENT_MAX_ADDR);
-        validation.lengthCheck(p.getEtc(), STUDENT_MAX_ETC);
-        validation.lengthCheck(p.getPhone(), STUDENT_MAX_PHONE);
-        validation.lengthCheck(p.getEngName(), STUDENT_MAX_ENG_NAME);
-    }
 
-    private void fileProcess(createStudentReq p, MultipartFile pic) throws Exception {
+        private void createStudentTypeCheck(createStudentReq p){
+            patternCheck.nameCheck(p.getName());
+            patternCheck.phoneCheck(p.getPhone());
+            validation.typeCheck(p.getBirth(), LocalDate.class, BIRTH_TYPE_ERROR);
+            patternCheck.gradeCheck(p.getGrade());
+
+        }
+
+        private void createStudentLengthCheck(createStudentReq p){
+            validation.lengthCheck(p.getName(), STUDENT_MAX_NAME);
+            validation.lengthCheck(p.getGender(), STUDENT_MAX_GENDER);
+            if (p.getPic() != null) {
+                validation.lengthCheck(p.getPic(), STUDENT_MAX_PIC);
+            }
+            validation.lengthCheck(p.getAddr(), STUDENT_MAX_ADDR);
+            validation.lengthCheck(p.getEtc(), STUDENT_MAX_ETC);
+            validation.lengthCheck(p.getPhone(), STUDENT_MAX_PHONE);
+            validation.lengthCheck(p.getEngName(), STUDENT_MAX_ENG_NAME);
+        }
+
+
+     */
+    private void fileProcess(createStudentReq p, MultipartFile pic) {
         if (pic != null) {
             try {
                 String path = String.format("student/%s", p.getPk());
@@ -111,12 +136,12 @@ public class StudentServiceImpl implements StudentService {
                 String target = String.format("%s/%s", path, p.getPic());
                 customFileUtils.transferTo(pic, target);
             } catch (Exception e) {
-                throw new RuntimeException(FILE_ERROR);
+                throw new CustomException(FILE_ERROR);
             }
         }
     }
 
-    private void fileNameChange(createStudentReq p, MultipartFile pic) throws Exception {
+    private void fileNameChange(createStudentReq p, MultipartFile pic) {
         if (pic != null) {
             String uuidFileName = customFileUtils.makeRandomFileName(pic);
             p.setPic(uuidFileName);
@@ -127,38 +152,41 @@ public class StudentServiceImpl implements StudentService {
 //   학생 삭제
     @Override
     @Transactional
-    public void deleteStudent(deleteStudentReq p) throws Exception {
+    public void deleteStudent(deleteStudentReq p) {
 //        널체크
-        deleteStudentNullCheck(p);
+//        deleteStudentNullCheck(p);
 //        타입체크
-        deleteStudentTypeCheck(p);
+//        deleteStudentTypeCheck(p);
 
-        int result = mapper.deleteStudent(p);
-        if (result != 1) {
-            throw new RuntimeException(QUERY_RESULT_ERROR);
+//        int result = mapper.deleteStudent(p);
+        Student student = studentRepository.getReferenceById(p.getPk());
+        studentRepository.delete(student);
+//        if (student == null) {
+//            throw new CustomException(QUERY_RESULT_ERROR);
+//        }
+    }
+
+    /*
+        private void deleteStudentNullCheck(deleteStudentReq p){
+            validation.nullCheck(p.getPk().toString());
+            validation.nullCheck(p.getState().toString());
         }
-    }
 
-    private void deleteStudentNullCheck(deleteStudentReq p) throws Exception {
-        validation.nullCheck(p.getPk().toString());
-        validation.nullCheck(p.getState().toString());
-    }
-
-    private void deleteStudentTypeCheck(deleteStudentReq p) throws Exception {
-        validation.typeCheck(p.getPk().toString(), Long.class, TYPE_ERROR);
-        validation.typeCheck(p.getState().toString(), Integer.class, TYPE_ERROR);
-        if (p.getState() < 1 || p.getState() > 3) {
-            throw new RuntimeException(STATE_VARIATION_ERROR);
+        private void deleteStudentTypeCheck(deleteStudentReq p){
+            validation.typeCheck(p.getPk().toString(), Long.class, TYPE_ERROR);
+            validation.typeCheck(p.getState().toString(), Integer.class, TYPE_ERROR);
+            if (p.getState() < 1 || p.getState() > 3) {
+                throw new CustomException(STATE_VARIATION_ERROR);
+            }
         }
-    }
-
+    */
     //=====================================================================================================================
 //    선생의 담당 학급 학생리스트 불러오기
     @Override
-    public List getStudentList(List<getStudent> list) throws Exception {
+    public List getStudentList(List<getStudent> list) {
         list = mapper.getStudentList(authenticationFacade.getLoginUserId());
-        if (list.size() == 0) {
-            throw new RuntimeException(QUERY_RESULT_ERROR);
+        if (list.isEmpty()) {
+            throw new CustomException(QUERY_RESULT_ERROR);
         }
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setNum(i + 1);
@@ -168,10 +196,10 @@ public class StudentServiceImpl implements StudentService {
 
     //=====================================================================================================================
     @Override
-    public Map getStudentDetail(long pk, Map map) throws Exception {
+    public Map getStudentDetail(long pk, Map map) {
         getDetail result = mapper.getStudentDetail(pk);
         if (result == null) {
-            throw new RuntimeException(QUERY_RESULT_ERROR);
+            throw new CustomException(QUERY_RESULT_ERROR);
         }
         map.put(STUDENT_PK, result.getPk());
         map.put(STUDENT_NAME, result.getName());
@@ -220,22 +248,39 @@ public class StudentServiceImpl implements StudentService {
 //    학생 정보 수정
     @Override
     @Transactional
-    public void updateStudent(updateStudentReq p) throws Exception {
-        updateStudentDataCheck(p);
+    public void updateStudent(updateStudentReq p) {
+//        updateStudentDataCheck(p);
         p.setFullAddr(Parser.addressParserMerge(p.getStudentZoneCode(), p.getStudentAddr(), p.getStudentDetail()));
         log.info("updateStudentDataCheck = " + p);
-        int result = mapper.updateStudent(p);
-        if (result != 1) {
-            throw new RuntimeException("updateStudentDataCheck error");
+//        int result = mapper.updateStudent(p);
+        Student student = studentRepository.getReferenceById(p.getStudentPk());
+        if (!student.getName().equals(p.getStudentName())) {
+            student.setName(p.getStudentName());
         }
+        if (!student.getPhone().equals(p.getStudentPhone())) {
+            student.setPhone(p.getStudentPhone());
+        }
+        if (!student.getAddr().equals(p.getFullAddr())) {
+            student.setAddr(p.getFullAddr());
+        }
+        if (!student.getEtc().equals(p.getStudentEtc())) {
+            student.setEtc(p.getStudentEtc());
+        }
+        if (p.getStudentBirth() != null) {
+            Date date = Date.valueOf(p.getStudentBirth());
+            if (!student.getBirth().equals(date)) {
+                student.setBirth(date);
+            }
+        }
+        studentRepository.save(student);
     }
-
-    private void updateStudentDataCheck(updateStudentReq p) throws Exception {
+/*
+    private void updateStudentDataCheck(updateStudentReq p) {
         if (p.getStudentAddr() != null && p.getStudentZoneCode() != null) {
             p.setFullAddr(Parser.addressParserMerge(p.getStudentZoneCode(), p.getStudentAddr(), p.getStudentDetail()));
         }
         if (p.getStudentPk() < 1) {
-            throw new RuntimeException(REQUIRED_DATA_ERROR);
+            throw new CustomException(REQUIRED_DATA_ERROR);
         }
         if (p.getStudentPhone() != null) {
             patternCheck.phoneCheck(p.getStudentPhone());
@@ -244,31 +289,28 @@ public class StudentServiceImpl implements StudentService {
             patternCheck.nameCheck(p.getStudentName());
         }
     }
-
+*/
     //=====================================================================================================================
 //    부모 없는 학생 List 출력
     @Override
-    public List<getListForNoParent> getStudentListForParent(List<getListForNoParent> list, String searchWord) throws Exception {
-        list = mapper.getStudentListForParent(searchWord);
-        log.info("data : {}", list);
-        for (getListForNoParent p : list) {
-            p.setGrade(Parser.classParser(p.getGrade()));
+    public void getStudentListForParent(String searchWord) {
+        Student student = studentRepository.findByRandCode(searchWord);
+        if(student == null) {
+            throw new CustomException(NOT_FOUND_USER_ERROR);
         }
-        log.info("data2 : {}", list);
-        return list;
     }
 
 
     @Transactional
-    public void studentAdvanceGrade(List<studentAdvanceGradeReq> p) throws Exception {
+    public void studentAdvanceGrade(List<studentAdvanceGradeReq> p) {
 //        널체크
         if (p == null || p.isEmpty()) {
-            throw new RuntimeException(REQUIRED_DATA_ERROR);
+            throw new CustomException(ESSENTIAL_DATA_NOT_FOUND_ERROR);
         }
         for (studentAdvanceGradeReq item : p) {
-            studentAdvanceGradeNullCheck(item);
+//            studentAdvanceGradeNullCheck(item);
 //        타입 체크
-            studentAdvanceGradeTypeCheck(item);
+//            studentAdvanceGradeTypeCheck(item);
 //        데이터 파싱
             studentAdvanceGradeParse(item);
         }
@@ -282,29 +324,30 @@ public class StudentServiceImpl implements StudentService {
             int result2 = mapper.insNewClass(item);
 //        쿼리 에러
             if (result1 != 1) {
-                throw new RuntimeException(QUERY_RESULT_ERROR);
+                throw new CustomException(QUERY_RESULT_ERROR);
             }
             if (result2 != 1) {
-                throw new RuntimeException(QUERY_RESULT_ERROR);
+                throw new CustomException(QUERY_RESULT_ERROR);
             }
         }
     }
 
-    private void studentAdvanceGradeNullCheck(studentAdvanceGradeReq p) throws Exception {
+    /*
+    private void studentAdvanceGradeNullCheck(studentAdvanceGradeReq p) {
         if (p.getStudentPk() != null && p.getGrade() != null) {
             return;
         } else {
-            throw new RuntimeException(REQUIRED_DATA_ERROR);
+            throw new CustomException(REQUIRED_DATA_ERROR);
         }
     }
 
-    private void studentAdvanceGradeTypeCheck(studentAdvanceGradeReq p) throws Exception {
+    private void studentAdvanceGradeTypeCheck(studentAdvanceGradeReq p) {
         validation.typeCheck(p.getStudentPk(), Long.class, TYPE_ERROR);
         validation.typeCheck(p.getGrade(), Integer.class, TYPE_ERROR);
         patternCheck.gradeNumberCheck(p.getGrade());
     }
-
-    private void studentAdvanceGradeParse(studentAdvanceGradeReq p) throws Exception {
+*/
+    private void studentAdvanceGradeParse(studentAdvanceGradeReq p) {
 //        20101 -> 201
         p.setSubNumber(p.getGrade().substring(0, 3));
     }

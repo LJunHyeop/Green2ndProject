@@ -5,11 +5,14 @@ import com.green.fefu.chcommon.SmsSender;
 import com.green.fefu.common.AppProperties;
 import com.green.fefu.common.CookieUtils;
 import com.green.fefu.common.CustomFileUtils;
+import com.green.fefu.entity.ParentOAuth2;
+import com.green.fefu.entity.Parents;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.model.*;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.security.MyUserDetails;
+import com.green.fefu.security.SignInProviderType;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
 import com.green.fefu.security.oauth2.MyOAuth2UserService;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
@@ -24,6 +27,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,23 +46,24 @@ import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.SMS_SEND_
 @Slf4j
 @RequiredArgsConstructor
 public class ParentsUserServiceImpl implements ParentsUserService {
-    private final ParentsUserMapper mapper;
-    private final CustomFileUtils customFileUtils;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProviderV2 jwtTokenProvider;
-    private final CookieUtils cookieUtils;
-    private final AuthenticationFacade authenticationFacade;
-    private final AppProperties appProperties;
-    private final String ID_PATTERN = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{6,12}$";
-    private final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d|.*[!@#$%^&*()\\-_=+\\\\|\\[{\\]};:'\",<.>/?]).{8,20}$";
-    private final Pattern idPattern = Pattern.compile(ID_PATTERN);
-    private final Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
-    private final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-    private final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
-    private final SmsService smsService;
-    private final StudentMapper studentMapper;
-    private final MyOAuth2UserService oAuth2Service ;
-    private OAuth2UserInfo info ;
+    private final ParentsUserMapper mapper ;
+    private final CustomFileUtils customFileUtils ;
+    private final PasswordEncoder passwordEncoder ;
+    private final JwtTokenProviderV2 jwtTokenProvider ;
+    private final CookieUtils cookieUtils ;
+    private final AuthenticationFacade authenticationFacade ;
+    private final AppProperties appProperties ;
+    private final String ID_PATTERN = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{6,12}$" ;
+    private final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d|.*[!@#$%^&*()\\-_=+\\\\|\\[{\\]};:'\",<.>/?]).{8,20}$" ;
+    private final Pattern idPattern = Pattern.compile(ID_PATTERN) ;
+    private final Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN) ;
+    private final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$" ;
+    private final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN) ;
+    private final SmsService smsService ;
+    private final StudentMapper studentMapper ;
+    private final ParentRepository repository ;
+    private final ParentOAuth2Repository oAuth2Repository ;
+    private final ParentOAuth2Repository parentOAuth2Repository;
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
 
     @Override @Transactional // 회원가입
@@ -72,24 +77,32 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         } else if (p.getEmail() != null && !p.getEmail().isEmpty()) {
             if(!emailPattern.matcher(p.getEmail()).matches()) {
                 throw new CustomException(EMAIL_PATTERN_ERROR);
-            } else {
-                p.setEmail(null);
             }
         }
         if ( p.getAddr() != null && p.getZoneCode() != null ){
             p.setAddrs(p.getZoneCode(), p.getAddr(), p.getDetail()) ;
         }
         String password = passwordEncoder.encode(p.getUpw());
-        p.setUpw(password);
-        int result = mapper.postParentsUser(p);
-        if(result != 1){
-            throw new CustomException(SIGN_UP_FAIL);
-        }
-        int stuResult = studentMapper.updStudentParent( p.getStudentPk(),p.getParentsId());
+
+        Parents parents = new Parents() ;
+        parents.setUid(p.getUid()) ;
+        parents.setUpw(password) ;
+        parents.setName(p.getNm()) ;
+        parents.setPhone(p.getPhone()) ;
+        parents.setSubPhone(p.getSubPhone()) ;
+        System.out.println(p.getEmail());
+        parents.setEmail(p.getEmail()) ;
+        parents.setConnect(p.getConnect()) ;
+        parents.setAddr(p.getAddrs()) ;
+        parents.setAuth("ROLE_PARENTS") ;
+
+        repository.save(parents) ;
+
+        int stuResult = studentMapper.updStudentParent( p.getStudentPk(),parents.getParentsId());
         if(stuResult != 1){
             throw new CustomException(STUDENT_INFORMATION_INPUT);
         }
-        return result;
+        return 1 ;
     }
     @Override // 아이디, 이메일 중복조회
     public String checkEmailOrUid(CheckEmailOrUidReq req) {
@@ -304,6 +317,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .pics(picName)
                 .build();
     }
+    // sign pk 값으로 조회
     public String signatureNm(Long signPk){
         return mapper.getSignaturePk(signPk) ;
     }
@@ -328,5 +342,53 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         }
         return list ;
     }
+    // 로그인 후 소셜 연동
+    public ParentOAuth2 signUpSocialLogin(SocialLoginReq req, String token){
+        Authentication auth = jwtTokenProvider.getAuthentication(token) ;
+        SecurityContextHolder.getContext().setAuthentication(auth) ;
+        MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
+        long parentsId = userDetails.getMyUser().getUserId() ;
 
+        Parents parents = new Parents() ;
+        parents.setParentsId(parentsId) ;
+
+        ParentOAuth2 oAuth2 = new ParentOAuth2() ;
+        oAuth2.setId(req.getSocialId()) ;
+        oAuth2.setName(req.getSocialName()) ;
+        oAuth2.setProviderType(req.getProviderType()) ;
+        oAuth2.setEmail(req.getSocialEmail()) ;
+        oAuth2.setParentsId(parents) ;
+
+        return oAuth2Repository.save(oAuth2) ;
+    }
+    // 소셜 로그인
+    public SignInPostRes socialSignIn(SocialSignInReq req, HttpServletResponse res){
+        ParentOAuth2 parentsOAuth2 = oAuth2Repository.getParentsByProviderTypeAndId(req.getProviderType(), req.getId()) ;
+        Parents parents = repository.findAllByProviderTypeAndId(parentsOAuth2.getProviderType(), parentsOAuth2.getId()) ;
+
+        if(parentsOAuth2 == null ){
+            throw new CustomException(NOT_EXISTENCE_USER) ;
+        } else if (Objects.equals(parents.getAuth(), "ROLE_PARENTS")) {
+            throw new CustomException(NOT_ACCESS_AUTHORITY) ;
+        }
+
+        MyUser myUser = MyUser.builder()
+                .userId(parents.getParentsId())
+                .role(parents.getAuth())
+                .build() ;
+
+        String accessToken = jwtTokenProvider.generateAccessToken(myUser) ;
+        String refreshToken = jwtTokenProvider.generateRefreshToken(myUser) ;
+
+        int refreshTokenMaxAge = appProperties.getJwt().getRefreshTokenCookieMaxAge() ;
+        cookieUtils.deleteCookie(res, appProperties.getJwt().getRefreshTokenCookieName()) ;
+        cookieUtils.setCookie(res, appProperties.getJwt().getRefreshTokenCookieName(), refreshToken, refreshTokenMaxAge) ;
+
+
+        return SignInPostRes.builder()
+                .parentsId(parents.getParentsId())
+                .nm(parents.getName())
+                .accessToken(accessToken)
+                .build() ;
+    }
 }
