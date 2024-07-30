@@ -130,7 +130,7 @@ class ParentsUserServiceTest {
         p1.setNm("홍길동");
         p1.setEmail("12345@naver.com");
         p1.setPhone("010-1234-1234");
-        p1.setConnet("부");
+        p1.setConnect("부");
         p1.setStudentPk(1);
 
         PostParentsUserReq p2 = new PostParentsUserReq();
@@ -139,7 +139,7 @@ class ParentsUserServiceTest {
         p2.setNm("김길동");
         p1.setEmail("12345678@naver.com");
         p2.setPhone("010-2345-2345");
-        p2.setConnet("모");
+        p2.setConnect("모");
         p2.setStudentPk(2);
 
         given(studentMapper.updStudentParent(p1.getStudentPk(), p1.getParentsId())).willReturn(1) ;
@@ -164,7 +164,7 @@ class ParentsUserServiceTest {
         p1.setNm("홍길동");
         p1.setEmail("12345@naver.com");
         p1.setPhone("010-1234-1234");
-        p1.setConnet("부");
+        p1.setConnect("부");
         p1.setParentsId(parentsId) ;
 
         String token = "accessToken" ;
@@ -186,7 +186,7 @@ class ParentsUserServiceTest {
         entity.setNm(p1.getNm());
         entity.setEmail(p1.getEmail());
         entity.setPhone(p1.getPhone());
-        entity.setConnet(p1.getConnet());
+        entity.setConnet(p1.getConnect());
 
         System.out.println("Request: " + req) ;
         System.out.println("Entity: " + entity);
@@ -210,7 +210,7 @@ class ParentsUserServiceTest {
         p2.setNm("김길동");
         p2.setEmail("12345678@naver.com");
         p2.setPhone("010-2345-2345");
-        p2.setConnet("모");
+        p2.setConnect("모");
         p2.setParentsId(parentsId2);
 
         Authentication auth2 = mock(Authentication.class);
@@ -240,7 +240,7 @@ class ParentsUserServiceTest {
         p1.setUid("p1");
         p1.setNm("홍길동");
         p1.setPhone("010-1234-1234");
-        p1.setConnet("부");
+        p1.setConnect("부");
         p1.setParentsId(1L);
         ParentsUserEntity entity = new ParentsUserEntity();
         entity.setParentsId(p1.getParentsId());
@@ -278,7 +278,7 @@ class ParentsUserServiceTest {
         p1.setUid("p1");
         p1.setNm("홍길동");
         p1.setPhone("010-1234-1234");
-        p1.setConnet("부");
+        p1.setConnect("부");
         p1.setParentsId(1L);
 
         ParentsUserEntity entity = new ParentsUserEntity();

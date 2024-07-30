@@ -23,7 +23,7 @@ class ParentsUserMapperTest {
         p.setUpw("1212");
         p.setNm("홍길동");
         p.setPhone("010-1234-1234");
-        p.setConnet("부");
+        p.setConnect("부");
         int affectedRow = mapper.postParentsUser(p);
         assertEquals(1, affectedRow);
         GetParentsUserReq req1 = new GetParentsUserReq();
@@ -37,7 +37,7 @@ class ParentsUserMapperTest {
         p1.setUpw("1212");
         p1.setNm("김길동");
         p1.setPhone("010-5678-5678");
-        p1.setConnet("모");
+        p1.setConnect("모");
         int affectedRow1 = mapper.postParentsUser(p1);
         assertEquals(1, affectedRow1);
         GetParentsUserReq req2 = new GetParentsUserReq();
@@ -56,7 +56,7 @@ class ParentsUserMapperTest {
         p.setPhone("010-1234-1234");
         p.setSubPhone("010-1111-1111");
         p.setEmail("test@example.com");
-        p.setConnet("Y");
+        p.setConnect("Y");
         p.setAddr("Seoul");
 
         // 학부모 정보 저장
@@ -83,7 +83,7 @@ class ParentsUserMapperTest {
         p1.setPhone("010-5678-5678");
         p1.setSubPhone("010-2222-2222");
         p1.setEmail("test2@example.com");
-        p1.setConnet("Y");
+        p1.setConnect("Y");
         p1.setAddr("Busan");
 
 
@@ -110,7 +110,7 @@ class ParentsUserMapperTest {
         p.setUpw("1212");
         p.setNm("홍길동");
         p.setPhone("010-1234-1234");
-        p.setConnet("부");
+        p.setConnect("부");
         int affectedRow = mapper.postParentsUser(p);
         assertEquals(1, affectedRow);
 
@@ -129,7 +129,7 @@ class ParentsUserMapperTest {
         p.setUpw("1212");
         p.setNm("홍길동");
         p.setPhone("010-1234-1234");
-        p.setConnet("부");
+        p.setConnect("부");
         int affectedRow = mapper.postParentsUser(p);
         assertEquals(1, affectedRow);
 
@@ -146,7 +146,7 @@ class ParentsUserMapperTest {
         p.setUpw("1212");
         p.setNm("홍길동");
         p.setPhone("010-1234-1234");
-        p.setConnet("부");
+        p.setConnect("부");
         GetParentsUserReq req = new GetParentsUserReq();
         req.setSignedUserId(p.getParentsId());
         int affectedRow = mapper.postParentsUser(p);
@@ -167,7 +167,7 @@ class ParentsUserMapperTest {
         user.setUpw("1212");
         user.setNm("홍길동");
         user.setPhone("010-1234-1234");
-        user.setConnet("부");
+        user.setConnect("부");
         mapper.postParentsUser(user);
 
         ParentsUser user1 = mapper.signInPost(user.getUid());

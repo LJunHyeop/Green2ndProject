@@ -6,19 +6,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 public interface TeacherService {
-    Map CreateTeacher(CreateTeacherReq p, Map map) throws Exception;
+    Map CreateTeacher(CreateTeacherReq p, Map map);
 
-    Map LogInTeacher(LogInTeacherReq p, Map map, HttpServletResponse res) throws Exception;
+    Map LogInTeacher(LogInTeacherReq p, Map map, HttpServletResponse res);
 
-    void CheckDuplicate(CheckDuplicateReq p) throws Exception;
+    void CheckDuplicate(CheckDuplicateReq p);
 
-    Map FindTeacherId(FindTeacherIdReq p, Map map) throws Exception;
+    Map FindTeacherId(FindTeacherIdReq p, Map map);
 
-    void FindTeacherPassword(FindTeacherPasswordReq p, Map map) throws Exception;
+    void FindTeacherPassword(FindTeacherPasswordReq p, Map map);
 
-    void ChangePassWord(ChangePassWordReq p) throws Exception;
+    void ChangePassWord(ChangePassWordReq p);
 
-    Map TeacherDetail(Map map) throws Exception;
+    Map TeacherDetail(Map map);
 
-    void ChangeTeacher(ChangeTeacherReq p) throws Exception;
+    void ChangeTeacher(ChangeTeacherReq p);
 }

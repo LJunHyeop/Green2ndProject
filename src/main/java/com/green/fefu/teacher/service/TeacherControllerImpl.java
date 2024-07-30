@@ -72,11 +72,7 @@ public class TeacherControllerImpl implements TeacherController {
     public ResponseEntity LogInTeacher(@RequestBody @Valid LogInTeacherReq p, HttpServletResponse res) {
         log.info("LogInTeacher req: {}", p);
         Map map = new HashMap();
-
         map = service.LogInTeacher(p, map, res);
-
-        log.info("5");
-        log.info("Response map: {}", map);
         return new ResponseEntity<>(map, OK);
     }
 
@@ -95,11 +91,9 @@ public class TeacherControllerImpl implements TeacherController {
     @Override
     public ResponseEntity CheckDuplicate(@ParameterObject @ModelAttribute @Valid CheckDuplicateReq p) {
         log.info("CheckDuplicate req: {}", p);
-        try {
-            service.CheckDuplicate(p);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+
+        service.CheckDuplicate(p);
+
         return new ResponseEntity<>(OK);
     }
 
@@ -120,11 +114,7 @@ public class TeacherControllerImpl implements TeacherController {
     public ResponseEntity FindTeacherId(@ParameterObject @ModelAttribute @Valid FindTeacherIdReq p) {
         log.info("FindTeacherId req: {}", p);
         Map map = new HashMap();
-        try {
-            service.FindTeacherId(p, map);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        service.FindTeacherId(p, map);
         return new ResponseEntity<>(map, OK);
     }
 
@@ -144,11 +134,7 @@ public class TeacherControllerImpl implements TeacherController {
     public ResponseEntity FindTeacherPassword(@ParameterObject @ModelAttribute @Valid FindTeacherPasswordReq p) {
         log.info("FindTeacherPassword req: {}", p);
         Map map = new HashMap();
-        try {
-            service.FindTeacherPassword(p, map);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        service.FindTeacherPassword(p, map);
         return new ResponseEntity<>(map, OK);
     }
 
@@ -167,11 +153,7 @@ public class TeacherControllerImpl implements TeacherController {
     @Override
     public ResponseEntity ChangePassWord(@RequestBody @Valid ChangePassWordReq p) {
         log.info("ChangePassWord req: {}", p);
-        try {
-            service.ChangePassWord(p);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        service.ChangePassWord(p);
         return new ResponseEntity<>(OK);
     }
 
@@ -206,11 +188,7 @@ public class TeacherControllerImpl implements TeacherController {
     @Override
     public ResponseEntity TeacherDetail() {
         Map map = new HashMap();
-        try {
-            service.TeacherDetail(map);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        service.TeacherDetail(map);
         return new ResponseEntity<>(map, OK);
     }
 
@@ -235,12 +213,13 @@ public class TeacherControllerImpl implements TeacherController {
     @Override
     public ResponseEntity ChangeTeacher(@RequestBody @Valid ChangeTeacherReq p) {
         log.info("ChangeTeacher req: {}", p);
-        try {
-            service.ChangeTeacher(p);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        service.ChangeTeacher(p);
         return new ResponseEntity<>(OK);
     }
 
+
+
+//    학생 사진 수정
+//    학생 자퇴 처리
+//    학생 로그인
 }

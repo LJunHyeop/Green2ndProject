@@ -28,7 +28,10 @@ public enum BchErrorCode implements ErrorCode {
     STUDENT_GRADE_DATA_ERROR(HttpStatus.BAD_REQUEST,"학생의 학년/반 입력을 확인 해주세요."),
     COOKIE_NOT_FOUND_ERROR(HttpStatus.BAD_REQUEST,"쿠키에 저장된 데이터가 없습니다."),
     RE_FRESH_TOKEN_TIME_OUT_ERROR(HttpStatus.BAD_REQUEST,"리프레쉬 토큰의 만료시간이 초과하였습니다."),
+    DIVISION_ERROR(HttpStatus.BAD_REQUEST, "분류 코드가 잘못되었습니다."),
+    FILE_ERROR(HttpStatus.BAD_REQUEST, "파일 저장에 실패하였습니다."),
     NOT_YET_ACCEPT(HttpStatus.BAD_REQUEST, "아직 승인되지 않은 계정입니다.");
+
     private final HttpStatus httpStatus;
     private final String message;
 }
