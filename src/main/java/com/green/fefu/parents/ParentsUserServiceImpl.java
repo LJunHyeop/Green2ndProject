@@ -5,6 +5,7 @@ import com.green.fefu.chcommon.SmsSender;
 import com.green.fefu.common.AppProperties;
 import com.green.fefu.common.CookieUtils;
 import com.green.fefu.common.CustomFileUtils;
+import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.model.*;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
@@ -32,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static com.green.fefu.exception.ljm.LjmErrorCode.*;
 import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.DUPLICATE_DATA_ERROR;
 import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.SMS_SEND_ERROR;
 
@@ -62,14 +64,14 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     @Override @Transactional // 회원가입
     public int postParentsUser(PostParentsUserReq p) {
         if(p.getUid() == null || p.getUpw() == null){
-            throw new IllegalArgumentException("아이디와 비밀번호는 필수 입력사항입니다.");
+            throw new CustomException(ESSENTIAL_INPUT_MATTERS) ;
         } else if (!idPattern.matcher(p.getUid()).matches()) {
-            throw new IllegalArgumentException("아이디 형식이 잘못되었습니다.");
+            throw new CustomException(ID_PATTERN_ERROR) ;
         } else if (!passwordPattern.matcher(p.getUpw()).matches()) {
-            throw new IllegalArgumentException("비밀번호 형식이 잘못되었습니다.");
+            throw new CustomException(PASSWORD_PATTERN_ERROR) ;
         } else if (p.getEmail() != null && !p.getEmail().isEmpty()) {
             if(!emailPattern.matcher(p.getEmail()).matches()) {
-                throw new IllegalArgumentException("이메일 형식이 잘못되었습니다.");
+                throw new CustomException(EMAIL_PATTERN_ERROR);
             } else {
                 p.setEmail(null);
             }
@@ -81,11 +83,11 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         p.setUpw(password);
         int result = mapper.postParentsUser(p);
         if(result != 1){
-            throw new IllegalArgumentException("회원가입에 실패했습니다.");
+            throw new CustomException(SIGN_UP_FAIL);
         }
         int stuResult = studentMapper.updStudentParent( p.getStudentPk(),p.getParentsId());
         if(stuResult != 1){
-            throw new IllegalArgumentException("학생 정보를 등록 해 주세요");
+            throw new CustomException(STUDENT_INFORMATION_INPUT);
         }
         return result;
     }
@@ -125,7 +127,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     public GetFindIdRes getFindId(GetFindIdReq req) {
         GetFindIdRes result = mapper.getFindId(req);
         if (result == null) {
-            throw new RuntimeException("해당 요청에 대한 정보가 존재하지 않습니다.");
+            throw new CustomException(NOT_EXISTENCE_REQUEST);
         }
         return result;
     }
@@ -138,7 +140,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         List<ParentsUserEntity> entity = mapper.selPasswordBeforeLogin(p.getUid()) ;
 
         if(Objects.isNull(entity)){
-            throw new IllegalArgumentException("아이디를 확인해 주세요");
+            throw new IllegalArgumentException();
         }
         String password = passwordEncoder.encode(p.getNewUpw());
         p.setParentsId(entity.get(0).getParentsId());
@@ -148,13 +150,11 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     @Override // 로그인
     public SignInPostRes signInPost(SignInPostReq p, HttpServletResponse res) {
         ParentsUser user = mapper.signInPost(p.getUid());
-        if(Objects.isNull(user)){
-            throw new IllegalArgumentException("아이디를 확인해 주세요");
-        } else if (!BCrypt.checkpw(p.getUpw(), user.getUpw())) {
-            throw new IllegalArgumentException("비밀번호를 확인해 주세요");
+        if(Objects.isNull(user) || !BCrypt.checkpw(p.getUpw(), user.getUpw())){
+            throw new CustomException(CHECK_ID_AND_PASSWORD) ;
         }
         if(user.getAcept() != 1){
-            throw new IllegalArgumentException("아직 승인되지않은 아이디 입니다.");
+            throw new CustomException(YET_OK_USER) ;
         }
         String role = "ROLE_PARENTS";
 
@@ -182,7 +182,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         System.out.println("Checking for refresh token cookie");
 
         if (req == null) {
-            throw new RuntimeException("HttpServletRequest is null");
+            throw new CustomException(NULL_HTTP_SERVLET_REQUEST);
         }
 
         // 요청 헤더 출력
@@ -209,23 +209,23 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         Cookie cookie = cookieUtils.getCookie(req, "refresh-token");
         if (cookie == null) {
             System.out.println("Refresh token cookie is missing");
-            throw new RuntimeException("Refresh token cookie is missing");
+            throw new CustomException(NOT_EQUAL_REFRESH_TOKEN);
         }
 
         String refreshToken = cookie.getValue();
         System.out.println("Refresh token found: " + refreshToken);
         if (!jwtTokenProvider.isValidateToken(refreshToken)) {
-            throw new RuntimeException("Refresh token is invalid");
+            throw new CustomException(NOT_INVALID_REFRESH_TOKEN) ;
         }
 
         UserDetails auth = jwtTokenProvider.getUserDetailsFromToken(refreshToken);
         if (auth == null) {
-            throw new RuntimeException("Failed to get user details from token");
+            throw new CustomException(FAIL_USER_FROM_TOKEN);
         }
 
         MyUser myUser = ((MyUserDetails) auth).getMyUser();
         if (myUser == null) {
-            throw new RuntimeException("Failed to get MyUser from UserDetails");
+            throw new CustomException(NOT_EXISTENCE_USER);
         }
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
@@ -241,7 +241,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         List<ParentsUserEntity> list = mapper.getParentUserList(req);
         // 회원정보 확인
         if(list == null || list.isEmpty()){
-            throw new IllegalArgumentException("회원정보가 존재하지 않습니다.");
+            throw new CustomException(NOT_EXISTENCE_USER);
         }
         try{
             // 문자보내기
@@ -255,7 +255,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     @Override @Transactional // 전자서명
     public SignatureRes signature(MultipartFile pic, SignatureReq req){
         if (pic == null || pic.isEmpty()) {
-            throw new RuntimeException("서명 파일이 없습니다.");
+            throw new CustomException(NOT_EXISTENCE_SIGNATURE_FILE);
         }
 
         GetSignatureReq req1 = new GetSignatureReq();
@@ -294,7 +294,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
             customFileUtils.transferTo(pic, target);
         } catch (Exception e) {
             log.error("File upload error", e);
-            throw new RuntimeException("서명 등록 오류가 발생했습니다: " + e.getMessage());
+            throw new CustomException(ERROR_SIGNATURE);
         }
         log.info("req.getPic file: {}", req.getPic());
         String picName = req.getPic() ;
