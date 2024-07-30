@@ -11,7 +11,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Teacher extends UserST {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long teaId;

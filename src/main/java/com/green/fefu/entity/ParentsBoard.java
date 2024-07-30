@@ -18,6 +18,10 @@ public class ParentsBoard extends UpdatedAt{
     @Column(length=1000)
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name = "parents_id", nullable = false)
+    private Parents parentsId;
+
     //학부모도 없음!
     //@ManyToOne
     //@JoinColumn(name="parents_id", nullable=false)
