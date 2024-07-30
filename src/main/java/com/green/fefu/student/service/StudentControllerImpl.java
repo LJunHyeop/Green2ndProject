@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -45,15 +47,10 @@ public class StudentControllerImpl implements StudentController {
             ),
     })
     @Override
-    public ResponseEntity createStudent(@RequestPart createStudentReq p, @RequestPart MultipartFile pic) {
+    public ResponseEntity createStudent(@RequestPart @Valid createStudentReq p, @RequestPart(required = false) MultipartFile pic) {
         log.info("createStudent req : {}", p);
         Map map = new HashMap();
-        try {
-            map = service.createStudent(p, pic, map);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
-
+        map = service.createStudent(p, pic, map);
         return new ResponseEntity<>(map, OK);
     }
 
@@ -70,13 +67,9 @@ public class StudentControllerImpl implements StudentController {
     })
     @PreAuthorize("hasRole('ADMIN') or hasRole('TEAHCER')")
     @Override
-    public ResponseEntity deleteStudent(@ParameterObject @ModelAttribute deleteStudentReq p) {
+    public ResponseEntity deleteStudent(@ParameterObject @ModelAttribute @Valid deleteStudentReq p) {
         log.info("deleteStudent req : {}", p);
-        try {
-            service.deleteStudent(p);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        service.deleteStudent(p);
         return new ResponseEntity<>(OK);
     }
 
@@ -112,11 +105,7 @@ public class StudentControllerImpl implements StudentController {
     @Override
     public ResponseEntity getStudentList() {
         List<getStudent> result = new ArrayList<>();
-        try {
-            result = service.getStudentList(result);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        result = service.getStudentList(result);
         return new ResponseEntity<>(result, OK);
     }
 
@@ -168,11 +157,7 @@ public class StudentControllerImpl implements StudentController {
     public ResponseEntity getStudentDetail(@RequestParam long pk) {
         log.info("getStudentDetail req : {}", pk);
         Map map = new HashMap();
-        try {
-            map = service.getStudentDetail(pk, map);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        map = service.getStudentDetail(pk, map);
         return new ResponseEntity<>(map, OK);
     }
 
@@ -195,13 +180,9 @@ public class StudentControllerImpl implements StudentController {
     })
     @PreAuthorize("hasRole('TEAHCER') or hasRole('PARENTS')")
     @Override
-    public ResponseEntity updateStudent(@RequestBody updateStudentReq p) {
+    public ResponseEntity updateStudent(@RequestBody @Valid updateStudentReq p) {
         log.info("updateStudent req : {}", p);
-        try {
-            service.updateStudent(p);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        service.updateStudent(p);
         return new ResponseEntity<>(OK);
     }
 
@@ -226,14 +207,10 @@ public class StudentControllerImpl implements StudentController {
             )
     })
     @Override
-    public ResponseEntity getStudentListForParent(@RequestParam(required = false) String searchWord) {
-        List<getListForNoParent> result = new ArrayList<>();
-        try {
-            result = service.getStudentListForParent(result, searchWord);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
-        return new ResponseEntity<>(result, OK);
+    public ResponseEntity getStudentListForParent(@RequestParam @NotBlank(message = "학생 코드는 필수입력입니다.") String searchWord) {
+
+        service.getStudentListForParent(searchWord);
+        return new ResponseEntity<>(OK);
     }
 
     @PatchMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
@@ -247,13 +224,9 @@ public class StudentControllerImpl implements StudentController {
             )
     })
     @PreAuthorize("hasRole('ADMIN') or hasRole('TEAHCER')")
-    public ResponseEntity studentAdvanceGrade(@RequestBody List<studentAdvanceGradeReq> p){
+    public ResponseEntity studentAdvanceGrade(@RequestBody @Valid List<studentAdvanceGradeReq> p){
         log.info("studentAdvanceGrade req : {}", p);
-        try {
-            service.studentAdvanceGrade(p);
-        } catch (Exception e) {
-            return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), NOT_FOUND);
-        }
+        service.studentAdvanceGrade(p);
         return new ResponseEntity<>(OK);
     }
 

@@ -5,9 +5,9 @@ import com.green.fefu.admin.model.req.adminUserReq;
 import java.util.Map;
 
 public interface AdminService {
-    Map findUnAcceptList(int p, Map map)throws Exception;
-    void deleteUser(adminUserReq p) throws Exception;
-    void acceptUser(adminUserReq p) throws Exception;
+    Map findUnAcceptList(int p, Map map);
+    void deleteUser(adminUserReq p) ;
+    void acceptUser(adminUserReq p) ;
 
 
 }
