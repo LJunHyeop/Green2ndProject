@@ -1,5 +1,6 @@
 package com.green.fefu.parents;
 
+import com.green.fefu.entity.ParentOAuth2;
 import com.green.fefu.parents.model.*;
 import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -37,7 +39,6 @@ import static com.green.fefu.chcommon.ResponsDataSet.OK;
 public class ParentsUserControllerImpl implements ParentsUserController {
     private final ParentsUserServiceImpl service;
     private final JwtTokenProviderV2 tokenProvider;
-    private final MyOAuth2UserService myOAuth2UserService ;
     private final String FILE_BASE_PATH = "/home/download/sign/";
 
     // 학부모 회원가입
@@ -142,5 +143,23 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         } catch (Exception e) {
             throw new RuntimeException("파일 다운로드에 실패했습니다.", e);
         }
+    }
+    // 소셜로그인 회원가입
+    @PostMapping("/sign-up/social-login") @Operation(summary = "소셜로그인 연동", description = "로그인 이후 소셜 회원가입") @PreAuthorize("hasRole('PARENTS')")
+    public ResponseEntity socialPeristalsis(@RequestBody SocialLoginReq req, HttpServletRequest httpServletRequest){
+        String token = tokenProvider.resolveToken(httpServletRequest) ;
+
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build() ;
+        }
+        ParentOAuth2 result = service.signUpSocialLogin(req, token) ;
+
+        return ResponseEntity.ok().body(result) ;
+    }
+    // 소셜로그인
+    @PostMapping("/sign-in/social-login") @Operation(summary = "소셜로그인", description = "회원가입된 회원이 소셜로그인 연동한 경우에만 로그인 가능")
+    public ResponseEntity socialLogin(@Valid @RequestBody SocialSignInReq req, HttpServletResponse res){
+        SignInPostRes result = service.socialSignIn(req, res) ;
+        return ResponseEntity.ok().body(result) ;
     }
 }
