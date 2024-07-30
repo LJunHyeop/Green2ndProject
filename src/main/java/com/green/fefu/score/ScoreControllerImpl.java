@@ -3,6 +3,8 @@ package com.green.fefu.score;
 import com.green.fefu.common.ResultDto;
 import com.green.fefu.score.model.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -26,6 +28,18 @@ public class ScoreControllerImpl implements ScoreController {
     @PostMapping
     @Operation(summary = "점수 입력 칸 ")
     @PreAuthorize("hasRole('TEAHCER')")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description =
+                            "<p> name : \"홍길동\"</p>" +
+                                    "<p> email : \"test1234@naver.com\"</p>" +
+                                    "<p> class : \"1학년 1반\"</p>" +
+                                    "<p> accessToken : \"asdasdqwdzxc\"</p>"
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명"
+            )
+    })
     public ResultDto<Long> postScore(@RequestBody  InsScoreReq p){
         long res = service.postScore(p);
         try {
@@ -37,6 +51,18 @@ public class ScoreControllerImpl implements ScoreController {
     @GetMapping("/getScore")
     @Operation(summary = "학생성적조회 최초 성적조회 화면 이동시 ")
     @PreAuthorize("hasRole('ROLE_TEAHCER') or hasRole('PARENTS')")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description =
+                            "<p> name : \"홍길동\"</p>" +
+                                    "<p> email : \"test1234@naver.com\"</p>" +
+                                    "<p> class : \"1학년 1반\"</p>" +
+                                    "<p> accessToken : \"asdasdqwdzxc\"</p>"
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명"
+            )
+    })
     public ResultDto<Dto> getScore(@ParameterObject StuGetRes p){
         try {
             Dto res = service.getScore(p);
@@ -51,6 +77,18 @@ public class ScoreControllerImpl implements ScoreController {
     @GetMapping("/getScoreDetail")
     @Operation(summary = "학생성적조회 학년과 학기 조회시")
     @PreAuthorize("hasRole('ROLE_TEAHCER') or hasRole('PARENTS')")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description =
+                            "<p> name : \"홍길동\"</p>" +
+                                    "<p> email : \"test1234@naver.com\"</p>" +
+                                    "<p> class : \"1학년 1반\"</p>" +
+                                    "<p> accessToken : \"asdasdqwdzxc\"</p>"
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명"
+            )
+    })
     public ResultDto<DtoDetail> getDetailScore(@ParameterObject @ModelAttribute GetDetailScoreReq p){
         try {
             DtoDetail res = service.getDetailScore(p);

@@ -26,6 +26,9 @@ public class ScoreServiceImpl {
 
     //점수 넣기
     public long postScore(InsScoreReq p){
+
+
+
         MyUser user = authenticationFacade.getLoginUser();
         String userRole = user.getRole();
         DelScore delScore = new DelScore();
