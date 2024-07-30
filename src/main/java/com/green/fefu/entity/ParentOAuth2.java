@@ -21,7 +21,7 @@ import org.hibernate.annotations.ColumnDefault;
 )
 public class ParentOAuth2 extends UpdatedAt {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long oath2Id ;
+    private Long oath2Id ;
     private String id ;
     private String name ;
     private String email ;

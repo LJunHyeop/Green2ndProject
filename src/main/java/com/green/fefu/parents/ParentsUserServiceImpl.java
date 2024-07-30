@@ -77,24 +77,32 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         } else if (p.getEmail() != null && !p.getEmail().isEmpty()) {
             if(!emailPattern.matcher(p.getEmail()).matches()) {
                 throw new CustomException(EMAIL_PATTERN_ERROR);
-            } else {
-                p.setEmail(null);
             }
         }
         if ( p.getAddr() != null && p.getZoneCode() != null ){
             p.setAddrs(p.getZoneCode(), p.getAddr(), p.getDetail()) ;
         }
         String password = passwordEncoder.encode(p.getUpw());
-        p.setUpw(password);
-        int result = mapper.postParentsUser(p);
-        if(result != 1){
-            throw new CustomException(SIGN_UP_FAIL);
-        }
-        int stuResult = studentMapper.updStudentParent( p.getStudentPk(),p.getParentsId());
+
+        Parents parents = new Parents() ;
+        parents.setUid(p.getUid()) ;
+        parents.setUpw(password) ;
+        parents.setName(p.getNm()) ;
+        parents.setPhone(p.getPhone()) ;
+        parents.setSubPhone(p.getSubPhone()) ;
+        System.out.println(p.getEmail());
+        parents.setEmail(p.getEmail()) ;
+        parents.setConnect(p.getConnect()) ;
+        parents.setAddr(p.getAddrs()) ;
+        parents.setAuth("ROLE_PARENTS") ;
+
+        repository.save(parents) ;
+
+        int stuResult = studentMapper.updStudentParent( p.getStudentPk(),parents.getParentsId());
         if(stuResult != 1){
             throw new CustomException(STUDENT_INFORMATION_INPUT);
         }
-        return result;
+        return 1 ;
     }
     @Override // 아이디, 이메일 중복조회
     public String checkEmailOrUid(CheckEmailOrUidReq req) {
@@ -360,13 +368,13 @@ public class ParentsUserServiceImpl implements ParentsUserService {
 
         if(parentsOAuth2 == null ){
             throw new CustomException(NOT_EXISTENCE_USER) ;
-        } else if (Objects.equals(parentsOAuth2.getAuth(), "ROLE_PARENTS")) {
+        } else if (Objects.equals(parents.getAuth(), "ROLE_PARENTS")) {
             throw new CustomException(NOT_ACCESS_AUTHORITY) ;
         }
 
         MyUser myUser = MyUser.builder()
-                .userId(parentsOAuth2.getParentsId())
-                .role(parentsOAuth2.getAuth())
+                .userId(parents.getParentsId())
+                .role(parents.getAuth())
                 .build() ;
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser) ;
@@ -378,8 +386,8 @@ public class ParentsUserServiceImpl implements ParentsUserService {
 
 
         return SignInPostRes.builder()
-                .parentsId(parentsOAuth2.getParentsId())
-                .nm(parentsOAuth2.getName())
+                .parentsId(parents.getParentsId())
+                .nm(parents.getName())
                 .accessToken(accessToken)
                 .build() ;
     }
