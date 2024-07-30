@@ -41,7 +41,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     private final String FILE_BASE_PATH = "/home/download/sign/";
 
     // 학부모 회원가입
-    @Override @PostMapping("/sign-up") @Operation(summary = "회원가입")
+    @Override @PostMapping("/sign-up") @Operation(summary = "회원가입", description = "")
     public ResponseEntity<Integer> postParents(@RequestBody PostParentsUserReq p) {
         int result = service.postParentsUser(p) ;
         return ResponseEntity.ok().body(result) ;
@@ -141,28 +141,5 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         } catch (Exception e) {
             throw new RuntimeException("파일 다운로드에 실패했습니다.", e);
         }
-    }
-    @PostMapping("/social-login-peristalsis")
-    public ResponseEntity socialLoginPeristalsis(@RequestBody SocialLoginRequest socialLoginRequest, HttpServletRequest req) {
-        String localToken = JwtTokenProviderV2.extractTokenFromRequest(req) ;
-        if(localToken == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로컬 정보가 존재하지않습니다.") ;
-        }
-        UserDetails localUser = tokenProvider.getUserDetailsFromToken(localToken) ;
-        if(!(localUser instanceof MyUserDetails localUserOrigin)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로컬 정보가 존재하지않습니다.") ;
-        }
-
-        // 소셜 정보 검증 후 사용자 정보 가져옴.
-        SocialUserInfo socialUserInfo = myOAuth2UserService.verifyAndGetUserInfo(socialLoginRequest) ;
-
-        // 로컬 사용자와 소셜 사용자를 연동
-        SocialUserEntity localUserEntity = myOAuth2UserService.getLocalUser(localUserOrigin.getUserId()) ;
-        if (localUserEntity == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Local user not found");
-        }
-        myOAuth2UserService.linkSocialAccountToLocalUser(((MyUserDetails) localUser).getMyUser().getUserId(), socialUserInfo, socialLoginRequest.getProviderType().name());
-
-        return ResponseEntity.ok("소셜 연동에 성공하였습니다.") ;
     }
 }
