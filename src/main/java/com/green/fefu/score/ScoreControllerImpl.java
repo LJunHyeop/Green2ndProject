@@ -31,10 +31,13 @@ public class ScoreControllerImpl implements ScoreController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description =
-                            "<p> name : \"홍길동\"</p>" +
-                                    "<p> email : \"test1234@naver.com\"</p>" +
-                                    "<p> class : \"1학년 1반\"</p>" +
-                                    "<p> accessToken : \"asdasdqwdzxc\"</p>"
+                           "statusCode\": null,\n" +
+                                   "  \"resultMsg\": null,\n" +
+                                   "  \"resultData\": null,\n" +
+                                   "  \"code\": 1,\n" +
+                                   "  \"msg\": \"점수 입력 성공\",\n" +
+                                   "  \"data\": 1\n" +
+                                   "}"
             ),
             @ApiResponse(responseCode = "404",
                     description = "에러 난 이유 설명"
@@ -54,10 +57,38 @@ public class ScoreControllerImpl implements ScoreController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description =
-                            "<p> name : \"홍길동\"</p>" +
-                                    "<p> email : \"test1234@naver.com\"</p>" +
-                                    "<p> class : \"1학년 1반\"</p>" +
-                                    "<p> accessToken : \"asdasdqwdzxc\"</p>"
+                           "\"statusCode\": null,\n" +
+                                   "  \"resultMsg\": null,\n" +
+                                   "  \"resultData\": null,\n" +
+                                   "  \"code\": 1,\n" +
+                                   "  \"msg\": \"성적조회성공\",\n" +
+                                   "  \"data\": {\n" +
+                                   "    \"list\": [\n" +
+                                   "      {\n" +
+                                   "        \"name\": \"국어\",\n" +
+                                   "        \"exam\": 2,\n" +
+                                   "        \"mark\": 50,\n" +
+                                   "        \"scoreId\": 400,\n" +
+                                   "        \"subjectClassRank\": 1,\n" +
+                                   "        \"subjectGradeRank\": 1,\n" +
+                                   "        \"studentPk\": 2,\n" +
+                                   "        \"classAvg\": 34.6,\n" +
+                                   "        \"gradeAvg\": 34.6\n" +
+                                   "      }\n" +
+                                   "    ],\n" +
+                                   "    \"studentPk\": 2,\n" +
+                                   "    \"latestGrade\": 1,\n" +
+                                   "    \"latestSemester\": 1,\n" +
+                                   "    \"latestYear\": \"2023\",\n" +
+                                   "    \"signResult\": null,\n" +
+                                   "    \"classRank\": {\n" +
+                                   "      \"classRank\": 5,\n" +
+                                   "      \"gradeRank\": 5,\n" +
+                                   "      \"classStudentCount\": 7,\n" +
+                                   "      \"gradeStudentCount\": 7\n" +
+                                   "    }\n" +
+                                   "  }\n" +
+                                   "}"
             ),
             @ApiResponse(responseCode = "404",
                     description = "에러 난 이유 설명"
@@ -80,10 +111,26 @@ public class ScoreControllerImpl implements ScoreController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description =
-                            "<p> name : \"홍길동\"</p>" +
-                                    "<p> email : \"test1234@naver.com\"</p>" +
-                                    "<p> class : \"1학년 1반\"</p>" +
-                                    "<p> accessToken : \"asdasdqwdzxc\"</p>"
+                           "\"name\": \"체육\",\n" +
+                                   "        \"exam\": 1,\n" +
+                                   "        \"mark\": 95,\n" +
+                                   "        \"scoreId\": 324,\n" +
+                                   "        \"subjectClassRank\": 2,\n" +
+                                   "        \"subjectGradeRank\": 2,\n" +
+                                   "        \"studentPk\": 2,\n" +
+                                   "        \"classAvg\": 76.25,\n" +
+                                   "        \"gradeAvg\": 76.25\n" +
+                                   "      }\n" +
+                                   "    ],\n" +
+                                   "    \"studentPk\": 2,\n" +
+                                   "    \"classRank\": {\n" +
+                                   "      \"classRank\": 3,\n" +
+                                   "      \"gradeRank\": 3,\n" +
+                                   "      \"classStudentCount\": 8,\n" +
+                                   "      \"gradeStudentCount\": 8\n" +
+                                   "    },\n" +
+                                   "    \"signResult\": null\n" +
+                                   "  }"
             ),
             @ApiResponse(responseCode = "404",
                     description = "에러 난 이유 설명"
