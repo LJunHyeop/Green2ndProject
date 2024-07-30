@@ -35,16 +35,13 @@ public interface ParentsUserMapper {
     GetSignatureRes getSignature(GetSignatureReq req) ;
     // 전자서명 삭제
     int delSignature(GetSignatureReq req) ;
+    // sign pk 값으로 조회
     String getSignaturePk(Long signPk) ;
+    // 서명 업데이트
     int postSignaturePic(String pic, Long signId) ;
     // TDD select
     List<ParentsUser> selTest(long signedId);
     // 학생정보 수정 ( 학부모 pk )
     int updStudent(UpdateStudentParentsIdReq p);
 
-    void insUserEntity(SocialUserInfo entity) ;
-
-    SocialUserEntity findUser(long user, String provider) ;
-
-    List<SocialUserEntity> findAllGet(long userId) ;
 }

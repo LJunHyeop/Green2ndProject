@@ -1,6 +1,7 @@
 package com.green.fefu.parents.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.green.fefu.security.SignInProviderType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,7 +30,7 @@ public class PostParentsUserReq {
     private String email;
 
     @Schema(description = "관계", required = true)
-    private String connet;
+    private String connect;
 
     @Schema(description = "우편번호")
     private String zoneCode ;
