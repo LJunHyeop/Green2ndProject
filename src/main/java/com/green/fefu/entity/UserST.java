@@ -24,7 +24,4 @@ public class UserST extends User{
     @Column(nullable = false)
     private Date birth;
 
-    @Column(nullable = false)
-    private Integer state = 1;
-
 }

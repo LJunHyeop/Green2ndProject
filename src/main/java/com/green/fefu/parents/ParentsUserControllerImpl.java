@@ -1,26 +1,28 @@
 package com.green.fefu.parents;
 
 import com.green.fefu.parents.model.*;
+import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
-import com.green.fefu.sms.SmsService;
+import com.green.fefu.security.oauth2.MyOAuth2UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,9 +37,11 @@ import static com.green.fefu.chcommon.ResponsDataSet.OK;
 public class ParentsUserControllerImpl implements ParentsUserController {
     private final ParentsUserServiceImpl service;
     private final JwtTokenProviderV2 tokenProvider;
-    private final SmsService smsService;
+    private final MyOAuth2UserService myOAuth2UserService ;
+    private final String FILE_BASE_PATH = "/home/download/sign/";
+
     // 학부모 회원가입
-    @Override @PostMapping("/sign-up") @Operation(summary = "회원가입")
+    @Override @PostMapping("/sign-up") @Operation(summary = "회원가입", description = "")
     public ResponseEntity<Integer> postParents(@RequestBody PostParentsUserReq p) {
         int result = service.postParentsUser(p) ;
         return ResponseEntity.ok().body(result) ;
@@ -99,9 +103,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     }
     // 전자서명
     @Override @PostMapping(value = "/signature") @Operation(summary = "전자서명") @PreAuthorize("hasRole('PARENTS')")
-    public ResponseEntity<SignatureRes> signature(
-            @RequestPart MultipartFile pic
-            , @RequestPart SignatureReq req){
+    public ResponseEntity<SignatureRes> signature( @RequestPart MultipartFile pic, @RequestPart SignatureReq req){
         SignatureRes result = service.signature(pic, req);
         return ResponseEntity.ok().body(result) ;
     }
@@ -114,5 +116,31 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         }
         List<GetStudentParentsRes> list = service.getStudentParents(token) ;
         return ResponseEntity.ok().body(list) ;
+    }
+    // 전자서명 다운로드
+    @GetMapping("/download/{signPk}") @Operation(summary = "전자서명 다운로드")
+    public ResponseEntity<UrlResource> downloadFile(@PathVariable Long signPk) {
+        try {
+            String fileName = service.signatureNm(signPk);
+            if (fileName == null || fileName.isEmpty()) {
+                throw new RuntimeException("파일을 찾을 수 없습니다.");
+            }
+
+            String filePath = FILE_BASE_PATH + signPk + "\\" + fileName;
+            Path path = Paths.get(filePath);
+
+            UrlResource resource = new UrlResource(path.toUri());
+
+            if (!resource.exists() || !resource.isReadable()) {
+                throw new RuntimeException("파일을 찾을 수 없거나 읽을 수 없습니다.");
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (Exception e) {
+            throw new RuntimeException("파일 다운로드에 실패했습니다.", e);
+        }
     }
 }

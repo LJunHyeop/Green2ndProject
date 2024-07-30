@@ -38,5 +38,6 @@ public class User extends UpdatedAt{
     @Column(nullable = false)
     private Integer accept = 2;
 
-
+    @Column(nullable = false)
+    private Integer state = 1;
 }

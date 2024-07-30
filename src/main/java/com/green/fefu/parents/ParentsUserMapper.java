@@ -22,7 +22,9 @@ public interface ParentsUserMapper {
     // 로그인 전 비밀번호 수정 조회
     List<ParentsUserEntity> selPasswordBeforeLogin(String uid);
     // 로그인
-    ParentsUser signInPost(String uid);
+    ParentsUser signInPost(String uid) ;
+    // 전체 회원 조회
+    List<ParentsUser> getParentUser(String uid) ;
     // 회원 찾기 ( 비밀번호 찾기 )
     List<ParentsUserEntity> getParentUserList(GetFindPasswordReq req);
     // 전자서명
@@ -33,10 +35,16 @@ public interface ParentsUserMapper {
     GetSignatureRes getSignature(GetSignatureReq req) ;
     // 전자서명 삭제
     int delSignature(GetSignatureReq req) ;
-
-
+    String getSignaturePk(Long signPk) ;
+    int postSignaturePic(String pic, Long signId) ;
     // TDD select
     List<ParentsUser> selTest(long signedId);
     // 학생정보 수정 ( 학부모 pk )
     int updStudent(UpdateStudentParentsIdReq p);
+
+    void insUserEntity(SocialUserInfo entity) ;
+
+    SocialUserEntity findUser(long user, String provider) ;
+
+    List<SocialUserEntity> findAllGet(long userId) ;
 }
