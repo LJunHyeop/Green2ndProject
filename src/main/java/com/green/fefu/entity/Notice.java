@@ -27,5 +27,5 @@ public class Notice extends UpdatedAt{
     @Column(length=1000)
     private String content;
 
-    private int state;
+    private Integer state;
 }

@@ -21,3 +21,17 @@ public class WebSecurityConfig  {
 //                ).build();
 //    }
 }
+//@Configuration
+//@EnableWebSecurity
+//public class WebSecurityConfig  {
+//
+//    @Bean
+//    public SecurityFilterChain securityFilterChain1(HttpSecurity http) throws Exception {
+//        return http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .httpBasic(https -> https.disable())
+//                .csrf(csrf -> csrf.disable())
+//                .authorizeHttpRequests(auth -> auth.requestMatchers("/ws/**").
+//                        permitAll().anyRequest().permitAll()
+//                ).build();
+//    }
+//}
