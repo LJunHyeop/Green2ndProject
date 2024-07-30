@@ -117,6 +117,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         List<GetStudentParentsRes> list = service.getStudentParents(token) ;
         return ResponseEntity.ok().body(list) ;
     }
+    // 전자서명 다운로드
     @GetMapping("/download/{signPk}") @Operation(summary = "전자서명 다운로드")
     public ResponseEntity<UrlResource> downloadFile(@PathVariable Long signPk) {
         try {
