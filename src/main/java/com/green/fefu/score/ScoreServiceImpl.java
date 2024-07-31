@@ -27,8 +27,6 @@ public class ScoreServiceImpl {
     //점수 넣기
     public long postScore(InsScoreReq p){
 
-
-
         MyUser user = authenticationFacade.getLoginUser();
         String userRole = user.getRole();
         DelScore delScore = new DelScore();
@@ -36,6 +34,10 @@ public class ScoreServiceImpl {
         delScore.setSemester(p.getSemester());
         delScore.setName(p.getName());
         delScore.setScId(p.getStudentPk());
+
+        ScoreList scoreList = new ScoreList();
+
+        // 선생이 아닐때
         if(!userRole.equals("ROLE_TEAHCER")){
             throw new CustomException(SCORE_INSERT_POST);
         }
@@ -49,8 +51,14 @@ public class ScoreServiceImpl {
         for(InsScoreList afterList : list){
             if (afterList != null){
                 mapper.delScore(delScore);
+
             }
         }
+        List<ScoreList> scoreLists = mapper.postSCoreList(scoreList);
+        for ( ScoreList scoreList1 : scoreLists){
+            mapper.postSCoreList(scoreList1);
+        }
+
         return mapper.postScore(p);
     }
     //점수 받아오기

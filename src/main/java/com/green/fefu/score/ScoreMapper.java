@@ -31,6 +31,8 @@ public interface ScoreMapper {
 
    SignResult signResult(SignResult p );
 
+   List<ScoreList> postSCoreList(ScoreList p);
+
     //Tdd
     InsScoreList selScore(long StudentPk);
 

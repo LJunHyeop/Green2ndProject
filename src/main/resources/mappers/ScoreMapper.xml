@@ -8,10 +8,15 @@
             SET sc_id = #{studentPk}
             , year = #{year}
             , semester = #{semester}
-            , name = #{name}
-            , exam = #{exam}
-            , mark = #{mark}
         </insert>
+
+    <insert id="ScoreList" keyProperty="scoreId" useGeneratedKeys="true">
+        INSERT INTO score
+        SET sc_id = #{studentPk}
+        , name = #{name}
+        , exam = #{exam}
+        , mark = #{mark}
+    </insert>
 
     <delete id="scoreSing">
         DELETE FROM score_sign
