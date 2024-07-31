@@ -41,7 +41,7 @@ public class NoticeServiceImpl implements NoticeService{
         p.setTeaId(authenticationFacade.getLoginUserId());
         MyUser myUser=authenticationFacade.getLoginUser();
 
-        //if(!myUser.getRole().equals("TEAHCER")){
+        //if(!myUser.getRole().equals("TEACHER")){
         // throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
         //}
         p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
@@ -59,7 +59,7 @@ public class NoticeServiceImpl implements NoticeService{
         MyUser user=authenticationFacade.getLoginUser();
         log.info("pk : {}", authenticationFacade.getLoginUser().getRole());
         String userRole=user.getRole();
-        if(userRole.equals("ROLE_TEAHCER")){
+        if(userRole.equals("ROLE_TEACHER")){
             long teaId=authenticationFacade.getLoginUserId();
             int classId=mapper.teacherHomeroom(teaId);
             p.setClassId(classId);
@@ -76,7 +76,7 @@ public class NoticeServiceImpl implements NoticeService{
     public Map<String, GetNoticeRes> getNoticeLatest(GetNoticeReq p){
         MyUser user=authenticationFacade.getLoginUser();
         String userRole=user.getRole();
-        if(userRole.equals("ROLE_TEAHCER")){
+        if(userRole.equals("ROLE_TEACHER")){
             long teaId=authenticationFacade.getLoginUserId();
             int classId=mapper.teacherHomeroom(teaId);
             p.setClassId(classId);

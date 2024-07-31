@@ -36,7 +36,7 @@ public class ScoreServiceImpl {
         delScore.setSemester(p.getSemester());
         delScore.setName(p.getName());
         delScore.setScId(p.getStudentPk());
-        if(!userRole.equals("ROLE_TEAHCER")){
+        if(!userRole.equals("ROLE_TEACHER")){
             throw new CustomException(SCORE_INSERT_POST);
         }
         getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk()) ;

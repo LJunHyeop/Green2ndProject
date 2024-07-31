@@ -184,7 +184,7 @@ public class TeacherControllerImpl implements TeacherController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
-    @PreAuthorize("hasRole('TEAHCER')")
+    @PreAuthorize("hasRole('TEACHER')")
     @Override
     public ResponseEntity TeacherDetail() {
         Map map = new HashMap();
@@ -209,7 +209,7 @@ public class TeacherControllerImpl implements TeacherController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
-    @PreAuthorize("hasRole('TEAHCER')")
+    @PreAuthorize("hasRole('TEACHER')")
     @Override
     public ResponseEntity ChangeTeacher(@RequestBody @Valid ChangeTeacherReq p) {
         log.info("ChangeTeacher req: {}", p);

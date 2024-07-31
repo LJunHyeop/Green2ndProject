@@ -24,7 +24,7 @@ public class ParentsBoardControllerImpl {
     private final ParentsBoardServiceImpl service;
     @PostMapping
     @Operation(summary = "학부모 게시판 작성 - 제작중")
-    @PreAuthorize("hasRole('PARENTS') or hasRole('TEAHCER')")
+    @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER')")
     public ResultDto<Integer> postBoard(PostBoardReq p){
         int result=service.postBoard(p);
         return ResultDto.<Integer>builder()
@@ -36,7 +36,7 @@ public class ParentsBoardControllerImpl {
     /*선생님이 확인*/
     @GetMapping
     @Operation(summary = "학부모 게시판 조회(선생님) - 제작중")
-    @PreAuthorize("hasRole('TEAHCER')")
+    @PreAuthorize("hasRole('TEACHER')")
     public ResultDto<List<GetBoardRes>> getBoard(GetBoardReqTea p){
         List<GetBoardRes> result=service.getBoard(p);
         return ResultDto.<List<GetBoardRes>>builder()

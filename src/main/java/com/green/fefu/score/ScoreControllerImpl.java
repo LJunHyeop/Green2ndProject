@@ -27,7 +27,7 @@ public class ScoreControllerImpl implements ScoreController {
 
     @PostMapping
     @Operation(summary = "점수 입력 칸 ")
-    @PreAuthorize("hasRole('TEAHCER')")
+    @PreAuthorize("hasRole('TEACHER')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description =
@@ -53,7 +53,7 @@ public class ScoreControllerImpl implements ScoreController {
     }
     @GetMapping("/getScore")
     @Operation(summary = "학생성적조회 최초 성적조회 화면 이동시 ")
-    @PreAuthorize("hasRole('ROLE_TEAHCER') or hasRole('PARENTS')")
+    @PreAuthorize("hasRole('ROLE_TEACHER') or hasRole('PARENTS')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description =
@@ -107,7 +107,7 @@ public class ScoreControllerImpl implements ScoreController {
     }
     @GetMapping("/getScoreDetail")
     @Operation(summary = "학생성적조회 학년과 학기 조회시")
-    @PreAuthorize("hasRole('ROLE_TEAHCER') or hasRole('PARENTS')")
+    @PreAuthorize("hasRole('ROLE_TEACHER') or hasRole('PARENTS')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description =
