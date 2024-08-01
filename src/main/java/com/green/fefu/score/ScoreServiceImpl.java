@@ -36,8 +36,6 @@ public class ScoreServiceImpl {
         delScore.setName(p.getScoreList().get(0).getName());
         delScore.setSemester(p.getSemester());
         delScore.setScId(p.getStudentPk());
-
-        // 선생이 아닐때
         if(!userRole.equals("ROLE_TEACHER")){
             throw new CustomException(SCORE_INSERT_POST);
         }

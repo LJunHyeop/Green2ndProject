@@ -14,7 +14,7 @@ public class OnlineMathPics extends CreatedAt{
 
     @ManyToOne
     @JoinColumn(name="que_id", nullable=false)
-    private OnlineKorean onlineKorean;
+    private OnlineMath onlineMath;
 
     @Column(length=70)
     private String pic;
