@@ -7,6 +7,7 @@ import com.green.fefu.common.CookieUtils;
 import com.green.fefu.common.CustomFileUtils;
 import com.green.fefu.entity.ParentOAuth2;
 import com.green.fefu.entity.Parents;
+import com.green.fefu.entity.Student;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.model.*;
 import com.green.fefu.security.AuthenticationFacade;
@@ -17,12 +18,14 @@ import com.green.fefu.security.jwt.JwtTokenProviderV2;
 import com.green.fefu.security.oauth2.MyOAuth2UserService;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
 import com.green.fefu.sms.SmsService;
+import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.service.StudentMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -62,6 +65,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     private final SmsService smsService ;
     private final StudentMapper studentMapper ;
     private final ParentRepository repository ;
+    private final StudentRepository studentRepository ;
     private final ParentOAuth2Repository oAuth2Repository ;
     private final ParentOAuth2Repository parentOAuth2Repository;
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
@@ -166,7 +170,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         if(Objects.isNull(user) || !BCrypt.checkpw(p.getUpw(), user.getUpw())){
             throw new CustomException(CHECK_ID_AND_PASSWORD) ;
         }
-        if(user.getAcept() != 1){
+        if(user.getAccept() != 1){
             throw new CustomException(YET_OK_USER) ;
         }
         String role = "ROLE_PARENTS";
@@ -175,6 +179,13 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 userId(user.getParentsId()).
                 role(role.trim()).
                 build();
+
+        Parents parents = repository.getReferenceById(user.getParentsId()) ;
+        List<Student> student = studentRepository.findByParent(parents) ;
+
+        for (Student students : student) {
+            Hibernate.initialize(students.getParent());
+        }
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
         String refreshToken = jwtTokenProvider.generateRefreshToken(myUser);
@@ -187,6 +198,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 parentsId(user.getParentsId()).
                 nm(user.getNm()).
                 accessToken(accessToken).
+                studentList(student).
                 build();
     }
     @Override // access token
