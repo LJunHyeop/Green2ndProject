@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 public class StudentClass  extends  UpdatedAt{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer scId;
 
     @ManyToOne

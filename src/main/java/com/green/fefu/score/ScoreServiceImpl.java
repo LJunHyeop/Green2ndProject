@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.green.fefu.exception.LJH.LjhErrorCode.*;
@@ -25,46 +26,44 @@ public class ScoreServiceImpl {
     private final StudentMapper studentMapper;
 
     //점수 넣기
-    public int postScore(InsScoreReq p){
-
+    public int postScore(InsScoreReq p) {
         Dto dto = new Dto();
         MyUser user = authenticationFacade.getLoginUser();
         String userRole = user.getRole();
         DelScore delScore = new DelScore();
 
+        delScore.setSemester(p.getSemester());
         delScore.setExam(p.getScoreList().get(0).getExam());
         delScore.setName(p.getScoreList().get(0).getName());
-        delScore.setSemester(p.getSemester());
         delScore.setScId(p.getStudentPk());
 
         // 선생이 아닐때
-        if(!userRole.equals("ROLE_TEACHER")){
+        if (!userRole.equals("ROLE_TEACHER")) {
             throw new CustomException(SCORE_INSERT_POST);
         }
-        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk()) ;
+        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk());
         GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
         // 담당 학급이 아닐때
-        if(!list3.getUClass().equals(res.getClassId())){
+        if (!list3.getUClass().equals(res.getClassId())) {
             throw new CustomException(SCORE_INSERT_STU_POST);
         }
         //성적 있을시 성적 지우고 새로입력
         try {
-           int res3 =  mapper.delScore(delScore);
-        }catch (RuntimeException e){
+            int res3 = mapper.delScore(delScore);
+
+            // 기본 정보 삽입
+            mapper.postScore(p);
+
+            // scoreList 삽입
+            if (p.getScoreList() != null && !p.getScoreList().isEmpty()) {
+                return mapper.postScoreList(p);
+            }
+
+            return 1; // 기본 정보만 삽입된 경우
+        } catch (Exception e) {
             e.printStackTrace();
+            throw new CustomException(SCORE_INSERT_POST);
         }
-        // 성적리턴
-        return  mapper.postScore(p);
-// 성적 한꺼번에 리스트화 주는작업
-//        List<ScoreList> scoreLists = mapper.postScoreList(scoreList);
-//        for ( ScoreList scoreList1 : scoreLists){
-//            mapper.postScoreList(scoreList1);
-//
-//        }
-//        성적 입력
-//
-
-
     }
     //점수 받아오기
     public Dto getScore(StuGetRes p){
