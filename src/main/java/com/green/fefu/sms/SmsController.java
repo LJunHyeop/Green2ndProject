@@ -19,7 +19,7 @@ public class SmsController {
         this.smsService = smsService;
     }
 
-    @PostMapping("/send") @PreAuthorize("hasRole('TEAHCER')")
+    @PostMapping("/send") @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<String> sendSms(@RequestBody SmsRequest request) {
 
         smsService.sendSms(request.getTo(), caller, request.getMessage());

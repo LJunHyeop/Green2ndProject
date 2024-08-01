@@ -65,7 +65,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "에러 난 이유 설명"
             ),
     })
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TEAHCER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
     @Override
     public ResponseEntity deleteStudent(@ParameterObject @ModelAttribute @Valid deleteStudentReq p) {
         log.info("deleteStudent req : {}", p);
@@ -101,7 +101,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
-    @PreAuthorize("hasRole('TEAHCER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('TEACHER') or hasRole('ADMIN')")
     @Override
     public ResponseEntity getStudentList() {
         List<getStudent> result = new ArrayList<>();
@@ -152,7 +152,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
-    @PreAuthorize("hasRole('PARENTS') or hasRole('TEAHCER')")
+    @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER')")
     @Override
     public ResponseEntity getStudentDetail(@RequestParam long pk) {
         log.info("getStudentDetail req : {}", pk);
@@ -178,7 +178,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
-    @PreAuthorize("hasRole('TEAHCER') or hasRole('PARENTS')")
+    @PreAuthorize("hasRole('TEACHER') or hasRole('PARENTS')")
     @Override
     public ResponseEntity updateStudent(@RequestBody @Valid updateStudentReq p) {
         log.info("updateStudent req : {}", p);
@@ -223,7 +223,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "에러 난 이유 설명"
             )
     })
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TEAHCER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
     public ResponseEntity studentAdvanceGrade(@RequestBody @Valid List<studentAdvanceGradeReq> p){
         log.info("studentAdvanceGrade req : {}", p);
         service.studentAdvanceGrade(p);

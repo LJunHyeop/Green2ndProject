@@ -10,7 +10,11 @@ import lombok.Setter;
 public class OnlineMathMultiple {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long queId;
+    private Long AnswerId;
+
+    @ManyToOne
+    @JoinColumn(name="que_id", nullable = false)
+    private OnlineMath onlineMath;
 
     private Integer num;
 
