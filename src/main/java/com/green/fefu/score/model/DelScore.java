@@ -9,6 +9,7 @@ public class DelScore {
     private long scoreId;
 
     private long scId;
+
     private int semester;
     private int exam;
 

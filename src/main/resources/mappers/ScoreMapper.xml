@@ -3,22 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.fefu.score.ScoreMapper">
-        <insert id="postScore" keyProperty="scoreId" useGeneratedKeys="true">
-            INSERT INTO score
-            <set>
-                year = #{year}
-                , semester = #{semester}
-                , name = #{name}
-                , exam = #{exam}
-                , mark = #{mark}
-            </set>
-        </insert>
+    <insert id="postScore">
+        INSERT INTO score
+        (sc_id, year, semester)
+        VALUES (#{studentPk}, #{year}, #{semester})
+    </insert>
+
     <insert id="postScoreList">
         INSERT INTO score
-       (name , exam , mark)
+        (sc_id, year, semester, name, exam, mark)
         VALUES
-        <foreach item="for" collection="ScoreList" separator=",">
-            (#{for.name}, #{for.exam}, #{for.mark})
+        <foreach item="item" collection="scoreList" separator=",">
+            (#{studentPk}, #{year}, #{semester}, #{item.name}, #{item.exam}, #{item.mark})
         </foreach>
     </insert>
 
@@ -169,9 +165,8 @@
         </where>
     </select>
     <delete id="delScore">
-        DELETE  FROM score
+        DELETE FROM score
         WHERE sc_id = #{scId}
-
     </delete>
     <select id="totalList">
         SELECT *  FROM  score

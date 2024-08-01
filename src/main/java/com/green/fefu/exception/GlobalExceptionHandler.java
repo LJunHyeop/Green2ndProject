@@ -86,8 +86,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleExceptions(Exception e) {
         log.error("Exception - handlerException : {}", e.getMessage());
         return handleExceptionInternal(
-//                CommonErrorCode.INTERNAL_SERVER_ERROR
-                null
+               CustomErrorCode.VALIDATION_ERROR
+
 
         );
     }
