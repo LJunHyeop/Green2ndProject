@@ -38,7 +38,7 @@
         LEFT JOIN
         parents p ON s.parents_id = p.parents_id
         LEFT JOIN
-        student_classes sc ON s.stu_id = sc.stu_id
+        student_class sc ON s.stu_id = sc.stu_id
         LEFT JOIN
         class c ON sc.class_id = c.class_id
         LEFT JOIN
@@ -60,17 +60,17 @@
         s.created_at AS createdAt,
         sc.class_id AS uClass,
         p.uid AS parentId,
-        p.nm AS parentName,
-        p.connet AS connet,
+        p.name AS parentName,
+        p.connect AS connect,
         p.phone AS parentPhone,
         s.pic AS pic,
-        t.nm AS teacherName
+        t.name AS teacherName
         FROM
         student s
         LEFT JOIN
-        parents p ON s.parents_id = p.parents_id
+        parents p ON s.parent_id = p.parents_id
         LEFT JOIN
-        student_classes sc ON s.stu_id = sc.stu_id
+        student_class sc ON s.stu_id = sc.stu_id
         LEFT JOIN
         class c ON sc.class_id = c.class_id
         LEFT JOIN
@@ -121,7 +121,7 @@
     </update>
 
     <insert id="insNewClass">
-        INSERT INTO student_classes
+        INSERT INTO student_class
         SET stu_id = #{studentPk},
         class_id = #{subNumber},
         etc = #{etc}
@@ -143,11 +143,11 @@
     </select>
 
     <update id="updStudentEtc">
-        UPDATE student_classes
+        UPDATE student_class
         SET etc = #{etc}
         WHERE sc_id = (
         SELECT MAX(sc_id)
-        FROM student_classes
+        FROM student_class
         WHERE stu_id = #{pk}
         )
     </update>
@@ -158,7 +158,7 @@
         sc.etc AS etc,
         t.nm AS teacherName
         FROM
-        student_classes sc
+        student_class sc
         JOIN
         CLASS c
         ON sc.class_id = c.class_id
@@ -183,7 +183,7 @@
     </insert>
 
     <insert id="insertClassStudent">
-        INSERT INTO student_classes
+        INSERT INTO student_class
         SET stu_id = #{studentPk},
         class_id = #{classPk}
     </insert>

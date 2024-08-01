@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.naming.ldap.PagedResultsControl;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,10 @@ public class Dto <T>{
     private T signResult;
 
     private T classRank;
+
+    private T score;
+
+    private List<ScoreList> scoreList;
 
 //    private T gradeRank;
 //
