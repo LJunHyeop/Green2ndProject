@@ -14,3 +14,5 @@ INSERT INTO `class` (`class_id`, `created_at`, `updated_at`, `tea_id`) VALUES (1
 INSERT INTO `student` (`accept`, `birth`, `grade`, `state`, `gender`, `created_at`, `parent_id`, `stu_id`, `updated_at`, `name`, `phone`, `auth`, `eng_name`, `uid`, `upw`, `addr`, `etc`, `email`, `pic`, `rand_code`) VALUES (2, '2024-08-01', 10101, 1, '남', '2024-08-01 09:37:33.000000', NULL, 1, '2024-08-01 09:37:39.000000', '홍길동', '010-3453-4345', 'ROLE_STUDENT', NULL, 'ghdrlfehd111', NULL, NULL, NULL, 'rlfehd@naver.com', NULL, '123412');
 
 INSERT INTO `student_class` (`sc_id`, `created_at`, `updated_at`, `class_id`, `stu_id`) VALUES (1, '2024-08-01 09:38:54.000000', '2024-08-01 09:38:55.000000', 101, 1);
+
+INSERT INTO `parents` (`accept`, `state`, `created_at`, `parents_id`, `updated_at`, `connect`, `name`, `phone`, `sub_phone`, `auth`, `uid`, `upw`, `addr`, `email`) VALUES (1, 1, '2024-08-01 15:44:59.162901', 1, '2024-08-01 15:44:59.162901', '부', '홍길동', '010-4353-1256', NULL, 'ROLE_PARENTS', 'parent1', '$2a$10$bVBBIiXewDQOCGLu/CavBuC21HgAsf5a28sf5P1e1wYjIvk0wjfga', NULL, 'string@gmailc.com');

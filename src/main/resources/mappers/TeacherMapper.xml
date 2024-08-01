@@ -10,7 +10,7 @@
         <set>
             uid = #{teacherId},
             upw = #{password},
-            nm = #{name},
+            name = #{name},
             phone = #{phone},
             email = #{email},
             gender = #{gender},
@@ -26,7 +26,7 @@
 <!--   Teacher Entity에 값 넣기 위한 쿼리   -->
     <select id="GetTeacher">
         SELECT tea_id AS pk, uid AS id, upw AS password,
-                nm AS name, phone, email, gender, auth,
+                name AS name, phone, email, gender, auth,
                 birth, addr, acept,
                 created_at AS createdAt, updated_at AS updatedAt
         FROM teacher
@@ -41,7 +41,7 @@
                 AND email = #{email}
             </if>
             <if test="name != null and name != ''">
-                AND nm = #{name}
+                AND name = #{name}
             </if>
             <if test="phone != null and phone != ''">
                 AND phone = #{phone}
@@ -74,7 +74,7 @@
         UPDATE teacher
         <set>
             <if test="name != null and name != ''">
-                nm = #{name}
+                name = #{name}
             </if>
             <if test="phone != null and name != ''">
                 , phone = #{phone}

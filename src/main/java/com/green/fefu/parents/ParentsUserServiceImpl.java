@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -169,7 +170,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         if(Objects.isNull(user) || !BCrypt.checkpw(p.getUpw(), user.getUpw())){
             throw new CustomException(CHECK_ID_AND_PASSWORD) ;
         }
-        if(user.getAcept() != 1){
+        if(user.getAccept() != 1){
             throw new CustomException(YET_OK_USER) ;
         }
         String role = "ROLE_PARENTS";
@@ -180,11 +181,10 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 build();
 
         Parents parents = repository.getReferenceById(user.getParentsId()) ;
-        Student student = studentRepository.getReferenceById(parents.getParentsId()) ;
-        List<Student> list = new ArrayList<>() ;
+        List<Student> student = studentRepository.findByParent(parents) ;
 
-        for(Student afterList : list){
-
+        for (Student students : student) {
+            Hibernate.initialize(students.getParent());
         }
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
@@ -198,7 +198,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 parentsId(user.getParentsId()).
                 nm(user.getNm()).
                 accessToken(accessToken).
-                studentList(list).
+                studentList(student).
                 build();
     }
     @Override // access token

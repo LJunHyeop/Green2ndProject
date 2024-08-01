@@ -11,7 +11,7 @@ public class Class extends UpdatedAt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long classId;
+    private String classId;
 
     @OneToOne
     @JoinColumn(name = "tea_id",nullable = false)

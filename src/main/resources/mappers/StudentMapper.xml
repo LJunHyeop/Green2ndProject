@@ -31,12 +31,12 @@
         s.gender AS gender,
         s.birth AS birth,
         s.phone AS phone,
-        p.nm AS parentName,
+        p.name AS parentName,
         p.phone AS parentPhone
         FROM
         student s
         LEFT JOIN
-        parents p ON s.parents_id = p.parents_id
+        parents p ON s.parent_id = p.parents_id
         LEFT JOIN
         student_class sc ON s.stu_id = sc.stu_id
         LEFT JOIN
@@ -156,7 +156,7 @@
         SELECT
         sc.class_id AS uClass,
         sc.etc AS etc,
-        t.nm AS teacherName
+        t.name AS teacherName
         FROM
         student_class sc
         JOIN

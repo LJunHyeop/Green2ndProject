@@ -87,8 +87,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("Exception - handlerException : {}", e.getMessage());
         return handleExceptionInternal(
                CustomErrorCode.VALIDATION_ERROR
-
-
         );
     }
 }

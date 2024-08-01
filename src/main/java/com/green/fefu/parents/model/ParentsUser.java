@@ -22,13 +22,13 @@ public class ParentsUser {
 
     private String email;
 
-    private String connet;
+    private String connect;
 
     private String auth;
 
     private String addr;
 
-    private int acept;
+    private int accept;
 
     private String createdAt;
 
