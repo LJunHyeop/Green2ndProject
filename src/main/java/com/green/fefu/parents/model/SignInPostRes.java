@@ -1,10 +1,13 @@
 package com.green.fefu.parents.model;
 
+import com.green.fefu.entity.Student;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -15,6 +18,9 @@ public class SignInPostRes {
     private long parentsId;
     @Schema(example = "홍길동", description = "이름")
     private String nm;
+
+    @Schema(description = "자녀 List")
+    private List<Student> studentList ;
 
     private String accessToken;
 }
