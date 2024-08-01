@@ -7,6 +7,7 @@ import com.green.fefu.common.CookieUtils;
 import com.green.fefu.common.CustomFileUtils;
 import com.green.fefu.entity.ParentOAuth2;
 import com.green.fefu.entity.Parents;
+import com.green.fefu.entity.Student;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.model.*;
 import com.green.fefu.security.AuthenticationFacade;
@@ -17,6 +18,7 @@ import com.green.fefu.security.jwt.JwtTokenProviderV2;
 import com.green.fefu.security.oauth2.MyOAuth2UserService;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
 import com.green.fefu.sms.SmsService;
+import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.service.StudentMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,6 +64,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     private final SmsService smsService ;
     private final StudentMapper studentMapper ;
     private final ParentRepository repository ;
+    private final StudentRepository studentRepository ;
     private final ParentOAuth2Repository oAuth2Repository ;
     private final ParentOAuth2Repository parentOAuth2Repository;
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
@@ -176,6 +179,14 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 role(role.trim()).
                 build();
 
+        Parents parents = repository.getReferenceById(user.getParentsId()) ;
+        Student student = studentRepository.getReferenceById(parents.getParentsId()) ;
+        List<Student> list = new ArrayList<>() ;
+
+        for(Student afterList : list){
+
+        }
+
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
         String refreshToken = jwtTokenProvider.generateRefreshToken(myUser);
 
@@ -187,6 +198,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 parentsId(user.getParentsId()).
                 nm(user.getNm()).
                 accessToken(accessToken).
+                studentList(list).
                 build();
     }
     @Override // access token

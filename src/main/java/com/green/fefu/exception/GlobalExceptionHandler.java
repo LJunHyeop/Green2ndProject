@@ -2,6 +2,7 @@ package com.green.fefu.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -42,6 +43,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode) {
+        if (errorCode == null) {
+            log.error("ErrorCode is null - handlerException");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unknown error occurred");
+        }
+
         log.error("ErrorCode - handlerException : {}", errorCode);
         return handleExceptionInternal(errorCode, null);
     }

@@ -1,11 +1,14 @@
 package com.green.fefu.score;
 
+import com.green.fefu.entity.Class;
+import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.score.model.*;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.student.model.dto.getDetail;
 import com.green.fefu.student.service.StudentMapper;
+import com.green.fefu.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -41,17 +44,18 @@ public class ScoreServiceImpl {
         }
         getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk()) ;
         GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
+
         // 담당 학급이 아닐때
         if(!list3.getUClass().equals(res.getClassId())){
             throw new CustomException(SCORE_INSERT_STU_POST);
         }
         //성적 있을시 성적 지우고 새로입력
         try {
-           int res3 =  mapper.delScore(delScore);
-        }catch (RuntimeException e){
+            int res3 = mapper.delScore(delScore);
+        } catch (RuntimeException e) {
             e.printStackTrace();
         }
-        // 성적리턴
+//     성적리턴
         return  mapper.postScore(p);
 // 성적 한꺼번에 리스트화 주는작업
 //        List<ScoreList> scoreLists = mapper.postScoreList(scoreList);
