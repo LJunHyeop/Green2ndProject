@@ -5,17 +5,21 @@
 <mapper namespace="com.green.fefu.score.ScoreMapper">
         <insert id="postScore" keyProperty="scoreId" useGeneratedKeys="true">
             INSERT INTO score
-            SET sc_id = #{studentPk}
-            , year = #{year}
-            , semester = #{semester}
+            <set>
+                year = #{year}
+                , semester = #{semester}
+                , name = #{name}
+                , exam = #{exam}
+                , mark = #{mark}
+            </set>
         </insert>
-
-    <insert id="ScoreList" keyProperty="scoreId" useGeneratedKeys="true">
+    <insert id="postScoreList">
         INSERT INTO score
-        SET sc_id = #{studentPk}
-        , name = #{name}
-        , exam = #{exam}
-        , mark = #{mark}
+       (name , exam , mark)
+        VALUES
+        <foreach item="for" collection="ScoreList" separator=",">
+            (#{for.name}, #{for.exam}, #{for.mark})
+        </foreach>
     </insert>
 
     <delete id="scoreSing">
@@ -81,7 +85,7 @@
         FROM
         student s
         LEFT JOIN
-        student_classes sc ON s.stu_id = sc.stu_id
+        student_class sc ON s.stu_id = sc.stu_id
         LEFT JOIN
         score scr ON sc.sc_id = scr.sc_id
         JOIN (
@@ -167,13 +171,12 @@
     <delete id="delScore">
         DELETE  FROM score
         WHERE sc_id = #{scId}
-        AND semester = #{semester} AND name = #{name}
-        AND exam = #{exam}
+
     </delete>
     <select id="totalList">
         SELECT *  FROM  score
         WHERE sc_id = #{scId}
-        AND semester = #{semester} AND name = #{name}
+        AND semester = #{semester}
         AND exam = #{exam}
     </select>
 
@@ -234,7 +237,7 @@
     </select>
     <select id="getClassId">
         SELECT A.class_id AS classId
-        FROM student_classes A
+        FROM student_class A
         INNER JOIN class B
         ON A.class_id = B.class_id
         WHERE tea_id = #{teaId} AND stu_id = #{stuId}

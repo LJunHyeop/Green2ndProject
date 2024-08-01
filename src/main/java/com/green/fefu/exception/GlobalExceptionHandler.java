@@ -14,6 +14,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.green.fefu.exception.LJH.LjhErrorCode.SCORE_OVER_POST;
+
 @Slf4j
 @RestControllerAdvice //Advice라는 단어가 보이면 AOP
 //AOP(Aspect Oriented Programing =관점지향 프로그래밍)
@@ -78,6 +81,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(
 //                CommonErrorCode.INTERNAL_SERVER_ERROR
                 null
+
         );
     }
 }
