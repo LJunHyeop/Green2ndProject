@@ -1,5 +1,9 @@
 package com.green.fefu.admin.service;
 
+import com.green.fefu.admin.model.dto.FindUserListDto;
+import com.green.fefu.admin.model.dto.GetUserListDto;
+import com.green.fefu.admin.model.req.FindUserListReq;
+import com.green.fefu.admin.model.req.UpdateUserReq;
 import com.green.fefu.admin.model.req.adminUserReq;
 import com.green.fefu.admin.test.AdminController;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.green.fefu.chcommon.ResponsDataSet.*;
@@ -124,6 +130,33 @@ public class AdminControllerImpl implements AdminController {
     }
 
 //    검색 기능 ( 학부모, 교직원 )
+    @GetMapping(value = "list",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @Operation(summary = "교직원 학부모 검색 리스트", description = "교직원, 학부모 등의 상태 리스트 불러오는 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = ""
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명"
+            ),
+            @ApiResponse(responseCode = "401",
+                    description = "JWT ACCESSTOKEN 에러 ( 토큰을 헤더에 추가해 주세요 )"
+            ),
+            @ApiResponse(responseCode = "403",
+                    description = "해당 유저는 사용 권한이 없음"
+            )
+    })
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity findUserList(@ParameterObject @ModelAttribute @Valid FindUserListReq p) {
+        List<FindUserListDto> list = new ArrayList();
+        list = service.findUserList(p, list);
+        return new ResponseEntity<>(list, OK);
+    }
 //    자퇴 확인 처리
-//
+    @PatchMapping
+    public ResponseEntity updateUser(@RequestBody @Valid UpdateUserReq p) {
+        service.updateUser(p);
+        return new ResponseEntity<>(OK);
+    }
+
 }
