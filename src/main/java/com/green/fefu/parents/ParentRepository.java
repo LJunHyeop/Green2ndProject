@@ -10,6 +10,22 @@ public interface ParentRepository extends JpaRepository<Parents, Long> {
             "inner join ParentOAuth2 po2 " +
             "on ff.parentsId = po2.parentsId.parentsId " +
             "where po2.providerType = :providerType" +
-            " and po2.id = :id")
-    Parents findAllByProviderTypeAndId(SignInProviderType providerType, String id) ;
+            " and po2.parentsId.parentsId = :parentsId")
+    Parents getParentsByProviderTypeAndUidAndParentsId(SignInProviderType providerType, long parentsId) ;
+
+    @Query(value = "select ff.parentsId from Parents ff where ff.parentsId = :parentsId")
+    long getParentsByParentsId(long parentsId) ;
+
+    @Query(value = "select ff from Parents ff " +
+            "inner join ParentOAuth2 po2 " +
+            "on ff.parentsId = po2.parentsId.parentsId " +
+            "where po2.providerType = :providerType" +
+            " and po2.id = :id " +
+            " and po2.parentsId.parentsId = :parentsId")
+    Parents getParentsByProviderTypeAndUidAndParentsPk(SignInProviderType providerType, String id, long parentsId) ;
+
+
+    @Query("SELECT p FROM Parents p WHERE p.uid = :uid")
+    Parents findParentByUid(String uid);
+
 }

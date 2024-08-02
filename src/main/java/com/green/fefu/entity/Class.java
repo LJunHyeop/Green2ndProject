@@ -8,15 +8,10 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Class extends UpdatedAt {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long classId;
+    private long classId ;
 
     @OneToOne
     @JoinColumn(name = "tea_id",nullable = false)
-    private Teacher teaId;
-
-
-
+    private Teacher teaId ;
 }
