@@ -100,7 +100,7 @@ public class ScoreControllerImpl implements ScoreController {
             if(res.getList().size() == 0){
                 return null;
             }
-            return ResultDto.resultDto(SUCCESS_CODE,"성적조회성공",res);
+            return ResultDto.resultDto(SUCCESS_CODE,"성적조회 성공",res);
         }catch (RuntimeException e){
             return ResultDto.resultDto1(ERROR_CODE,"성적조회 실패");
         }

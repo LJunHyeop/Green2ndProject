@@ -6,6 +6,8 @@ import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
 import com.green.fefu.security.oauth2.MyOAuth2UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,7 +45,18 @@ public class ParentsUserControllerImpl implements ParentsUserController {
 
     // 학부모 회원가입
     @Override @PostMapping("/sign-up") @Operation(summary = "회원가입", description = "")
-    public ResponseEntity<Integer> postParents(@RequestBody PostParentsUserReq p) {
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+            description = "uid: string1234, \n" +
+                    " upw: String1234!@#$, \n" +
+                    " nm: 강길동, \n" +
+                    " phone: 010-6136-4623, \n" +
+                    "email: string@naver.com, \n" +
+                    " connect: 부, \n" +
+                    " studentPk: 2 ")
+        }
+    )
+    public ResponseEntity postParents(@RequestBody PostParentsUserReq p) {
         int result = service.postParentsUser(p) ;
         return ResponseEntity.ok().body(result) ;
     }

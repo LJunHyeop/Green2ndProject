@@ -134,7 +134,7 @@
     </select>
     <delete id="delSignature">
         DELETE FROM score_sign
-        WHERE stu_id = #{stuId}
+        WHERE stu_id = #{studentPk}
         AND year = #{year}
         AND semester = #{semester}
         AND exam_sign = #{examSign}

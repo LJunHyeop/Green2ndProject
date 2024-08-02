@@ -15,8 +15,6 @@ import com.green.fefu.security.MyUser;
 import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.SignInProviderType;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
-import com.green.fefu.security.oauth2.MyOAuth2UserService;
-import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
 import com.green.fefu.sms.SmsService;
 import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.service.StudentMapper;
@@ -30,7 +28,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -102,7 +99,15 @@ public class ParentsUserServiceImpl implements ParentsUserService {
 
         repository.save(parents) ;
 
-        int stuResult = studentMapper.updStudentParent( p.getStudentPk(),parents.getParentsId());
+        ParentOAuth2 parentOAuth2 = new ParentOAuth2() ;
+        parentOAuth2.setName(p.getNm());
+        parentOAuth2.setEmail(p.getEmail()) ;
+        parentOAuth2.setParentsId(parents) ;
+        parentOAuth2.setProviderType(SignInProviderType.LOCAL);
+
+        parentOAuth2Repository.save(parentOAuth2) ;
+
+        int stuResult = studentMapper.updStudentParent( p.getStudentRandomCode(), parents.getParentsId());
         if(stuResult != 1){
             throw new CustomException(STUDENT_INFORMATION_INPUT);
         }
@@ -166,22 +171,41 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     }
     @Override // 로그인
     public SignInPostRes signInPost(SignInPostReq p, HttpServletResponse res) {
-        ParentsUser user = mapper.signInPost(p.getUid());
-        if(Objects.isNull(user) || !BCrypt.checkpw(p.getUpw(), user.getUpw())){
+        log.info("providerType: {}", p.getProviderType());
+        log.info("p: {}", p);
+        if(p.getProviderType() == null){
+            p.setProviderType(SignInProviderType.LOCAL);
+        }
+
+        Parents parentsUser = repository.findParentByUid(p.getUid()) ;
+        log.info("parentsUser: {}", parentsUser);
+        String role = "ROLE_PARENTS";
+        ParentOAuth2 parentOAuth2 = new ParentOAuth2() ;
+        parentOAuth2.setParentsId(parentsUser) ;
+        parentOAuth2.setProviderType(SignInProviderType.LOCAL) ;
+        log.info("parentOAuth2: {}", parentOAuth2);
+
+        long parent = repository.getParentsByParentsId(parentsUser.getParentsId()) ;
+        log.info("parentsId: {}", parent);
+
+        Parents parents = repository.getParentsByProviderTypeAndUidAndParentsId(parentOAuth2.getProviderType(), parent) ;
+        log.info("parents: {}", parents);
+
+        if(parentsUser == null || !BCrypt.checkpw(p.getUpw(), parentsUser.getUpw())){
             throw new CustomException(CHECK_ID_AND_PASSWORD) ;
         }
-        if(user.getAccept() != 1){
+
+        if(parentsUser.getAccept() != 1){
             throw new CustomException(YET_OK_USER) ;
         }
-        String role = "ROLE_PARENTS";
 
         MyUser myUser = MyUser.builder().
-                userId(user.getParentsId()).
+                userId(parentsUser.getParentsId()).
                 role(role.trim()).
                 build();
 
-        Parents parents = repository.getReferenceById(user.getParentsId()) ;
-        List<Student> student = studentRepository.findByParent(parents) ;
+        List<Student> student = studentRepository.findByParent(parents.getParentsId()) ;
+        log.info("student: {}", student);
 
         for (Student students : student) {
             Hibernate.initialize(students.getParent());
@@ -195,8 +219,8 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         cookieUtils.setCookie(res,"refresh-token", refreshToken, refreshTokenMaxAge);
 
         return SignInPostRes.builder().
-                parentsId(user.getParentsId()).
-                nm(user.getNm()).
+                parentsId(parentsUser.getParentsId()).
+                nm(parentsUser.getName()).
                 accessToken(accessToken).
                 studentList(student).
                 build();
@@ -286,7 +310,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         GetSignatureReq req1 = new GetSignatureReq();
         req1.setSemester(req.getSemester());
         req1.setYear(req.getYear());
-        req1.setStuId(req.getStudentPk());
+        req1.setStudentPk(req.getStudentPk());
         req1.setExamSign(req.getExamSign());
 
         GetSignatureRes res = mapper.getSignature(req1);
@@ -376,7 +400,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     // 소셜 로그인
     public SignInPostRes socialSignIn(SocialSignInReq req, HttpServletResponse res){
         ParentOAuth2 parentsOAuth2 = oAuth2Repository.getParentsByProviderTypeAndId(req.getProviderType(), req.getId()) ;
-        Parents parents = repository.findAllByProviderTypeAndId(parentsOAuth2.getProviderType(), parentsOAuth2.getId()) ;
+        Parents parents = repository.getParentsByProviderTypeAndUidAndParentsPk(parentsOAuth2.getProviderType(), req.getId(), parentsOAuth2.getParentsId().getParentsId()) ;
 
         if(parentsOAuth2 == null ){
             throw new CustomException(NOT_EXISTENCE_USER) ;

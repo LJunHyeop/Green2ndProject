@@ -32,7 +32,7 @@ public interface StudentMapper {
 
     List<prevStudentEtc> selPrevEtc(long pk);
 
-    int updStudentParent(long studentPk, long parentPk);
+    int updStudentParent(long studentRandCode, long parentPk);
 
     void insertClassIfNotExists(ClassInsert p);
 

@@ -73,7 +73,7 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         //기존에 회원가입이 되어있는가 체크
         SignInPostReq signInParam = new SignInPostReq();
         signInParam.setUid(oAuth2UserInfo.getId()); //플랫폼에서 넘어오는 유니크값(항상 같은 값이며 다른 사용자와 구별되는 유니크 값)
-        signInParam.setProviderType(signInProviderType.name());
+        signInParam.setProviderType(signInProviderType);
         List<ParentsUser> list = mapper.getParentUser(signInParam.getUid()) ;
 
         Parents parents = ParentUtils.convertToUserInfo(list) ;

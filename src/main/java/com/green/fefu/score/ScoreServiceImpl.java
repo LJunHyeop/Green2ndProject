@@ -1,17 +1,21 @@
 package com.green.fefu.score;
 
 import com.green.fefu.exception.CustomException;
+import com.green.fefu.parents.ParentsUserMapper;
+import com.green.fefu.parents.model.GetSignatureReq;
 import com.green.fefu.score.model.*;
+
+import com.green.fefu.score.module.RoleCheckerImpl;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.student.model.dto.getDetail;
 import com.green.fefu.student.service.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.maven.model.Parent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.green.fefu.exception.LJH.LjhErrorCode.*;
@@ -24,41 +28,43 @@ public class ScoreServiceImpl {
     private final ScoreMapper mapper;
     private final AuthenticationFacade authenticationFacade;
     private final StudentMapper studentMapper;
+    private final RoleCheckerImpl roleChecker;
+    private final ParentsUserMapper parentsUserMapper;
+
+
 
     //점수 넣기
     public int postScore(InsScoreReq p) {
-        Dto dto = new Dto();
         MyUser user = authenticationFacade.getLoginUser();
-        String userRole = user.getRole();
         DelScore delScore = new DelScore();
-
-        delScore.setSemester(p.getSemester());
-        delScore.setExam(p.getScoreList().get(0).getExam());
-        delScore.setName(p.getScoreList().get(0).getName());
-        delScore.setScId(p.getStudentPk());
-
         // 선생이 아닐때
-        if (!userRole.equals("ROLE_TEACHER")) {
-            throw new CustomException(SCORE_INSERT_POST);
-        }
-        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk());
-        GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
-        // 담당 학급이 아닐때
-        if (!list3.getUClass().equals(res.getClassId())) {
-            throw new CustomException(SCORE_INSERT_STU_POST);
-        }
+        GetSignatureReq req = new GetSignatureReq();
+        req.setStudentPk(p.getStudentPk());
+        req.setSemester(p.getSemester());
+        req.setYear(p.getYear());
+
+        delScore.setExam(p.getScoreList().get(0).getExam());
+        delScore.setStudentPk(p.getStudentPk());
+        delScore.setYear(p.getYear());
+
+
+        roleChecker.checkTeacherRole();
+
+//        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk());
+//        GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
+//        // 담당 학급이 아닐때
+//        if (!list3.getUClass().equals(res.getClassId())) {
+//            throw new CustomException(SCORE_INSERT_STU_POST);
+//        }
         //성적 있을시 성적 지우고 새로입력
         try {
             int res3 = mapper.delScore(delScore);
-
             // 기본 정보 삽입
-            mapper.postScore(p);
-
             // scoreList 삽입
             if (p.getScoreList() != null && !p.getScoreList().isEmpty()) {
+                parentsUserMapper.delSignature(req);
                 return mapper.postScoreList(p);
             }
-
             return 1; // 기본 정보만 삽입된 경우
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,7 +83,6 @@ public class ScoreServiceImpl {
                 p.setLatestSemester(1);
             }
         }
-
         RankReq rank = new RankReq();
 
         rank.setStudentPk(res.getStudentPk());
@@ -89,6 +94,7 @@ public class ScoreServiceImpl {
         rank.setSemester(res.getLatestSemester());
 
         log.info("resExam : {}", p.getExam());
+
         log.info("resSemester : {}", res.getLatestSemester());
 
         dto.setStudentPk(res.getStudentPk());
@@ -104,6 +110,8 @@ public class ScoreServiceImpl {
         p.setLatestGrade(res.getLatestGrade());
 
         res.setExam(p.getExam());
+
+        //싸인 조회
 
         SignResult sign = new SignResult();
         sign.setStudentPk(res.getStudentPk());

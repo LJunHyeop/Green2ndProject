@@ -1,6 +1,7 @@
 package com.green.fefu.parents.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.green.fefu.security.SignInProviderType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -12,5 +13,5 @@ public class SignInPostReq {
     private String upw;
 
     @JsonIgnore
-    private String providerType ;
+    private SignInProviderType providerType ;
 }

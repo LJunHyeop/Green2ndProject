@@ -166,13 +166,15 @@
     </select>
     <delete id="delScore">
         DELETE FROM score
-        WHERE sc_id = #{scId}
+        WHERE sc_id = #{studentPk}
+        AND exam = #{exam}
     </delete>
     <select id="totalList">
         SELECT *  FROM  score
         WHERE sc_id = #{scId}
         AND semester = #{semester}
         AND exam = #{exam}
+        AND year = #{year}
     </select>
 
     <select id="rankListFinal">
@@ -242,5 +244,6 @@
         FROM score_sign
         WHERE stu_id = #{studentPk} AND semester = #{semester} AND exam_sign = #{examSign}
     </select>
+
 
 </mapper>
