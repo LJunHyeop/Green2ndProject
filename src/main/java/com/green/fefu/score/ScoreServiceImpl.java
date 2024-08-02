@@ -2,16 +2,17 @@ package com.green.fefu.score;
 
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.score.model.*;
+
+import com.green.fefu.score.module.RoleCheckerImpl;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.student.model.dto.getDetail;
 import com.green.fefu.student.service.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.green.fefu.exception.LJH.LjhErrorCode.*;
@@ -24,12 +25,15 @@ public class ScoreServiceImpl {
     private final ScoreMapper mapper;
     private final AuthenticationFacade authenticationFacade;
     private final StudentMapper studentMapper;
+    private final RoleCheckerImpl roleChecker;
+
+
+
 
     //점수 넣기
     public int postScore(InsScoreReq p) {
-        Dto dto = new Dto();
+
         MyUser user = authenticationFacade.getLoginUser();
-        String userRole = user.getRole();
         DelScore delScore = new DelScore();
 
         delScore.setSemester(p.getSemester());
@@ -38,15 +42,19 @@ public class ScoreServiceImpl {
         delScore.setScId(p.getStudentPk());
 
         // 선생이 아닐때
-        if (!userRole.equals("ROLE_TEACHER")) {
-            throw new CustomException(SCORE_INSERT_POST);
-        }
-        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk());
-        GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
-        // 담당 학급이 아닐때
-        if (!list3.getUClass().equals(res.getClassId())) {
-            throw new CustomException(SCORE_INSERT_STU_POST);
-        }
+
+        roleChecker.checkTeacherRole();
+
+//        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk());
+//        GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
+//        // 담당 학급이 아닐때
+//        if (!list3.getUClass().equals(res.getClassId())) {
+//            throw new CustomException(SCORE_INSERT_STU_POST);
+//        }
+
+
+
+
         //성적 있을시 성적 지우고 새로입력
         try {
             int res3 = mapper.delScore(delScore);
@@ -58,7 +66,6 @@ public class ScoreServiceImpl {
             if (p.getScoreList() != null && !p.getScoreList().isEmpty()) {
                 return mapper.postScoreList(p);
             }
-
             return 1; // 기본 정보만 삽입된 경우
         } catch (Exception e) {
             e.printStackTrace();
