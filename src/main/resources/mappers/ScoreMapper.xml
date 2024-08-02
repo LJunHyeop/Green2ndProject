@@ -166,7 +166,7 @@
     </select>
     <delete id="delScore">
         DELETE FROM score
-        WHERE sc_id = #{scId}
+        WHERE sc_id = #{studentPk}
     </delete>
     <select id="totalList">
         SELECT *  FROM  score

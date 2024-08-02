@@ -43,6 +43,8 @@ public class ScoreServiceImpl {
         req.setSemester(p.getSemester());
         req.setYear(p.getYear());
 
+
+
         roleChecker.checkTeacherRole();
 
 //        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk());
@@ -53,7 +55,7 @@ public class ScoreServiceImpl {
 //        }
         //성적 있을시 성적 지우고 새로입력
         try {
-            int res3 = mapper.delScore(delScore);
+            int res3 = mapper.delScore(p.getStudentPk());
             // 기본 정보 삽입
             // scoreList 삽입
             if (p.getScoreList() != null && !p.getScoreList().isEmpty()) {
@@ -78,7 +80,6 @@ public class ScoreServiceImpl {
                 p.setLatestSemester(1);
             }
         }
-
         RankReq rank = new RankReq();
 
         rank.setStudentPk(res.getStudentPk());
@@ -90,6 +91,7 @@ public class ScoreServiceImpl {
         rank.setSemester(res.getLatestSemester());
 
         log.info("resExam : {}", p.getExam());
+
         log.info("resSemester : {}", res.getLatestSemester());
 
         dto.setStudentPk(res.getStudentPk());
