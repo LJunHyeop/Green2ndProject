@@ -45,6 +45,7 @@ public class ScoreServiceImpl {
 
         delScore.setExam(p.getScoreList().get(0).getExam());
         delScore.setStudentPk(p.getStudentPk());
+        delScore.setYear(p.getYear());
 
 
         roleChecker.checkTeacherRole();

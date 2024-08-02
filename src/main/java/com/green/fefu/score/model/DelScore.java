@@ -11,9 +11,12 @@ public class DelScore {
     private long studentPk;
 
     private int semester;
+
     private int exam;
 
     private String name;
+
+    private int year;
 
 
 }
