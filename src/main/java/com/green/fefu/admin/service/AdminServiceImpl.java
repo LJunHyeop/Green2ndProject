@@ -8,6 +8,7 @@ import com.green.fefu.chcommon.Parser;
 import com.green.fefu.entity.Parents;
 import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
+import com.green.fefu.parents.ParentRepository;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import static com.green.fefu.admin.model.dataset.AdminMapNamingData.*;
 import static com.green.fefu.exception.bch.BchErrorCode.*;
 
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,13 +31,15 @@ import java.util.Map;
 public class AdminServiceImpl implements AdminService {
     private final AdminMapper mapper;
     private final TeacherRepository teacherRepository;
+    private final ParentRepository parentRepository;
+    private final int PrarentCode = 1;
+    private final int TeacherCode = 2;
 
 
     //    유저 리스트 가져오기
-    public Map findUnAcceptList(int p, Map map){
+    public Map findUnAcceptList(int p, Map map) {
         List<GetUserListDto> list;
         List<Map> result = new ArrayList<>();
-        List<Teacher> teacherList;
 //        부모 리스트 가져오기
         if (p == 1) {
             list = mapper.getParentList();
@@ -57,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
             dto.put(NAME, getUserListDto.getName());
 
             String grade = getUserListDto.getGrade();
-            if(grade != null && !grade.isEmpty()) {
+            if (grade != null && !grade.isEmpty()) {
                 String[] tClass = Parser.classParserArray(getUserListDto.getGrade());
                 dto.put(GRADE, tClass[0]); // 학년
                 dto.put(CLASS, tClass[1]); // 반
@@ -76,7 +80,7 @@ public class AdminServiceImpl implements AdminService {
     //=====================================================================================================================
 //    유저 삭제
     @Transactional
-    public void deleteUser(adminUserReq p){
+    public void deleteUser(adminUserReq p) {
 //        int result;
 //        널체크
 //        deleteUserNullCheck(p);
@@ -85,7 +89,8 @@ public class AdminServiceImpl implements AdminService {
         //        부모 리스트 가져오기
         if (p.getP() == 1) {
 //            result = mapper.delParent(p.getPk());
-//            parentList =
+            Parents parent = parentRepository.getReferenceById(p.getPk());
+            parentRepository.delete(parent);
         }
 //        교직원 리스트 가져오기
         else if (p.getP() == 2) {
@@ -105,7 +110,7 @@ public class AdminServiceImpl implements AdminService {
     //=====================================================================================================================
 //    유저 승인
     @Transactional
-    public void acceptUser(adminUserReq p){
+    public void acceptUser(adminUserReq p) {
 //        int result;
 //        널체크
 //        acceptUserNullCheck(p);
@@ -116,7 +121,9 @@ public class AdminServiceImpl implements AdminService {
 //            if (result != 1) {
 //                throw new CustomException(QUERY_RESULT_ERROR);
 //            }
-
+            Parents parent = parentRepository.getReferenceById(p.getPk());
+            parent.setAccept(1);
+            parentRepository.save(parent);
         }
 //        교직원 리스트 가져오기
         else if (p.getP() == 2) {
@@ -138,4 +145,65 @@ public class AdminServiceImpl implements AdminService {
 //        validation.nullCheck(p.getP().toString());
 //        validation.nullCheck(p.getPk().toString());
 //    }
+
+    public List<FindUserListDto> findUserList(FindUserListReq p, List list) {
+
+//        부모
+        if (p.getP() == PrarentCode) {
+            List<Parents> parentList = parentRepository.findAllByStateIs(p.getCheck());
+            if(parentList == null || parentList.isEmpty()) {
+                return new ArrayList<>();
+            }
+            for (Parents parent : parentList) {
+                FindUserListDto data = new FindUserListDto();
+                data.setState(parent.getState() == 1 ? "활성화" : "비활성화");
+                data.setUid(parent.getUid());
+                data.setName(parent.getName());
+//                자녀 여러명 보여줘야 하는지 프론트 한테 물어봐야함
+//                data.setGrade();
+//                data.setUclass();
+//                data.setDate();
+                list.add(data);
+            }
+        }
+//        교직원
+        else if (p.getP() == TeacherCode) {
+            List<Teacher> teacherList = teacherRepository.findAllByStateIs(p.getCheck());
+            if(teacherList == null || teacherList.isEmpty()) {
+                return new ArrayList<>();
+            }
+            for (Teacher teacher : teacherList) {
+                FindUserListDto data = new FindUserListDto();
+                data.setState(teacher.getState() == 1 ? "활성화" : "비활성화");
+                data.setUid(teacher.getUid());
+                data.setName(teacher.getName());
+//                담당 학급 받아오는거 아직 class 엔티티 없어서 못만듦
+//                data.setGrade(teacher.get);
+//                data.setUclass();
+                data.setDate(Date.valueOf(teacher.getCreatedAt().toLocalDate()));
+                list.add(data);
+            }
+        } else {
+            throw new CustomException(DIVISION_ERROR);
+        }
+        return list;
+    }
+
+    @Transactional
+    public void updateUser(UpdateUserReq p) {
+//        부모
+        if(p.getP() == PrarentCode){
+            Parents parent = parentRepository.getReferenceById(p.getPk());
+            parent.setState(2);
+            parentRepository.save(parent);
+        }
+//        교직원
+        else if (p.getP() == TeacherCode) {
+            Teacher teacher = teacherRepository.getReferenceById(p.getPk());
+            teacher.setState(2);
+            teacherRepository.save(teacher);
+        } else {
+            throw new CustomException(DIVISION_ERROR);
+        }
+    }
 }
