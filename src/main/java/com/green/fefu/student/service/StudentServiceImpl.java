@@ -237,6 +237,9 @@ public class StudentServiceImpl implements StudentService {
         log.info("removePrevEtc.size() = " + prevEtc.size());
         for (int i = 0; i < prevEtc.size(); i++) {
             String etcClass = Parser.classParser(prevEtc.get(i).getUClass());
+            if(etcClass == null){
+                break ;
+            }
             prevEtc.get(i).setUClass(etcClass);
         }
         map.put(PREV_ETC_LIST, prevEtc);
