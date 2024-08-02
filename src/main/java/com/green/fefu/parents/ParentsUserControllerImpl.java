@@ -47,16 +47,16 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     @Override @PostMapping("/sign-up") @Operation(summary = "회원가입", description = "")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-            description = "uid: string1234," +
-                    " upw: String1234!@#$," +
-                    " nm: 강길동," +
-                    " phone: 010-6136-4623," +
-                    "email: string@naver.com," +
-                    " connect: 부," +
+            description = "uid: string1234, \n" +
+                    " upw: String1234!@#$, \n" +
+                    " nm: 강길동, \n" +
+                    " phone: 010-6136-4623, \n" +
+                    "email: string@naver.com, \n" +
+                    " connect: 부, \n" +
                     " studentPk: 2 ")
         }
     )
-    public ResponseEntity<Integer> postParents(@RequestBody PostParentsUserReq p) {
+    public ResponseEntity postParents(@RequestBody PostParentsUserReq p) {
         int result = service.postParentsUser(p) ;
         return ResponseEntity.ok().body(result) ;
     }

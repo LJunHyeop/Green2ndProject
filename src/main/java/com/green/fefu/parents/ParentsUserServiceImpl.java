@@ -107,7 +107,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
 
         parentOAuth2Repository.save(parentOAuth2) ;
 
-        int stuResult = studentMapper.updStudentParent( p.getStudentPk(),parents.getParentsId());
+        int stuResult = studentMapper.updStudentParent( p.getStudentRandomCode(), parents.getParentsId());
         if(stuResult != 1){
             throw new CustomException(STUDENT_INFORMATION_INPUT);
         }
