@@ -36,11 +36,6 @@ public class ScoreServiceImpl {
         MyUser user = authenticationFacade.getLoginUser();
         DelScore delScore = new DelScore();
 
-        delScore.setSemester(p.getSemester());
-        delScore.setExam(p.getScoreList().get(0).getExam());
-        delScore.setName(p.getScoreList().get(0).getName());
-        delScore.setScId(p.getStudentPk());
-
         // 선생이 아닐때
 
         roleChecker.checkTeacherRole();
@@ -51,16 +46,12 @@ public class ScoreServiceImpl {
 //        if (!list3.getUClass().equals(res.getClassId())) {
 //            throw new CustomException(SCORE_INSERT_STU_POST);
 //        }
-
-
-
-
         //성적 있을시 성적 지우고 새로입력
         try {
             int res3 = mapper.delScore(delScore);
 
             // 기본 정보 삽입
-            mapper.postScore(p);
+
 
             // scoreList 삽입
             if (p.getScoreList() != null && !p.getScoreList().isEmpty()) {
