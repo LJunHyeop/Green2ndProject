@@ -167,6 +167,7 @@
     <delete id="delScore">
         DELETE FROM score
         WHERE sc_id = #{studentPk}
+        AND exam = #{exam}
     </delete>
     <select id="totalList">
         SELECT *  FROM  score

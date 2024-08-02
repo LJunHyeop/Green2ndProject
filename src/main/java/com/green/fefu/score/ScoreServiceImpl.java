@@ -43,6 +43,8 @@ public class ScoreServiceImpl {
         req.setSemester(p.getSemester());
         req.setYear(p.getYear());
 
+        delScore.setExam(p.getScoreList().get(0).getExam());
+        delScore.setStudentPk(p.getStudentPk());
 
 
         roleChecker.checkTeacherRole();
@@ -55,7 +57,7 @@ public class ScoreServiceImpl {
 //        }
         //성적 있을시 성적 지우고 새로입력
         try {
-            int res3 = mapper.delScore(p.getStudentPk());
+            int res3 = mapper.delScore(delScore);
             // 기본 정보 삽입
             // scoreList 삽입
             if (p.getScoreList() != null && !p.getScoreList().isEmpty()) {
