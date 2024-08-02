@@ -18,7 +18,7 @@ public class InsScoreReq {
     @Schema(example = "1", description = "학생Pk")
     private int studentPk;
     @Schema(example = "2023", description = "년도")
-    private String year;
+    private int year;
     @Schema(example = "1", description = "학기")
     private int semester;
 

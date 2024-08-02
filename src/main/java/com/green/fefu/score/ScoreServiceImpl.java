@@ -1,6 +1,8 @@
 package com.green.fefu.score;
 
 import com.green.fefu.exception.CustomException;
+import com.green.fefu.parents.ParentsUserMapper;
+import com.green.fefu.parents.model.GetSignatureReq;
 import com.green.fefu.score.model.*;
 
 import com.green.fefu.score.module.RoleCheckerImpl;
@@ -10,6 +12,7 @@ import com.green.fefu.student.model.dto.getDetail;
 import com.green.fefu.student.service.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.maven.model.Parent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,17 +29,19 @@ public class ScoreServiceImpl {
     private final AuthenticationFacade authenticationFacade;
     private final StudentMapper studentMapper;
     private final RoleCheckerImpl roleChecker;
-
+    private final ParentsUserMapper parentsUserMapper;
 
 
 
     //점수 넣기
     public int postScore(InsScoreReq p) {
-
         MyUser user = authenticationFacade.getLoginUser();
         DelScore delScore = new DelScore();
-
         // 선생이 아닐때
+        GetSignatureReq req = new GetSignatureReq();
+        req.setStudentPk(p.getStudentPk());
+        req.setSemester(p.getSemester());
+        req.setYear(p.getYear());
 
         roleChecker.checkTeacherRole();
 
@@ -49,12 +54,10 @@ public class ScoreServiceImpl {
         //성적 있을시 성적 지우고 새로입력
         try {
             int res3 = mapper.delScore(delScore);
-
             // 기본 정보 삽입
-
-
             // scoreList 삽입
             if (p.getScoreList() != null && !p.getScoreList().isEmpty()) {
+                parentsUserMapper.delSignature(req);
                 return mapper.postScoreList(p);
             }
             return 1; // 기본 정보만 삽입된 경우
@@ -102,6 +105,8 @@ public class ScoreServiceImpl {
         p.setLatestGrade(res.getLatestGrade());
 
         res.setExam(p.getExam());
+
+        //싸인 조회
 
         SignResult sign = new SignResult();
         sign.setStudentPk(res.getStudentPk());
