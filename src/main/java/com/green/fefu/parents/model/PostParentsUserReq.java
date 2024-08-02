@@ -41,8 +41,8 @@ public class PostParentsUserReq {
     @Schema(description = "상세 주소")
     private String detail;
 
-    @Schema(description = "학생PK값")
-    private long studentPk;
+    @Schema(description = "학생 고유 랜덤코드값.")
+    private long studentRandomCode;
 
     @JsonIgnore
     private String addrs ;

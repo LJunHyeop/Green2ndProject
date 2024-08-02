@@ -175,7 +175,7 @@
     <update id="updStudentParent">
         UPDATE student
         SET parent_id = #{parentPk}
-        WHERE stu_id = #{studentPk}
+        WHERE rand_code = #{studentRandCode}
     </update>
 
 
