@@ -5,6 +5,8 @@ import com.green.fefu.security.SignInProviderType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface ParentRepository extends JpaRepository<Parents, Long> {
     @Query(value = "select ff from Parents ff " +
             "inner join ParentOAuth2 po2 " +
@@ -28,4 +30,5 @@ public interface ParentRepository extends JpaRepository<Parents, Long> {
     @Query("SELECT p FROM Parents p WHERE p.uid = :uid")
     Parents findParentByUid(String uid);
 
+    List<Parents> findAllByStateIs(int state);
 }
