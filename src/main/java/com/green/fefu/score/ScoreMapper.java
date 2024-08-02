@@ -19,7 +19,7 @@ public interface ScoreMapper {
 
     List<InsScoreList> getDetailScoreFinal(GetDetailScoreReq p);
 
-    int delScore(long studentPk);
+    int delScore(DelScore p);
 
     List<InsScoreList> totalList(DelScore p);
 

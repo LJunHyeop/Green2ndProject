@@ -8,7 +8,7 @@ public class DelScore {
     @JsonIgnore
     private long scoreId;
 
-    private long scId;
+    private long studentPk;
 
     private int semester;
     private int exam;
