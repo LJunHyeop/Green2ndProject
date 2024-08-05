@@ -117,9 +117,14 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     }
     // 전자서명
     @Override @PostMapping(value = "/signature") @Operation(summary = "전자서명") @PreAuthorize("hasRole('PARENTS')")
-    public ResponseEntity<SignatureRes> signature( @RequestPart MultipartFile pic, @RequestPart SignatureReq req){
-        SignatureRes result = service.signature(pic, req);
-        return ResponseEntity.ok().body(result) ;
+    public ResponseEntity signature( @RequestPart MultipartFile pic, @RequestPart SignatureReq req){
+        try {
+            SignatureRes result = service.signature(pic, req);
+            return ResponseEntity.ok().body(result) ;
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage()) ;
+        }
     }
     // 학생정보 조회
     @Override @GetMapping("/get-student-parent") @Operation(summary = "자녀 학생정보 조회") @PreAuthorize("hasRole('PARENTS')")

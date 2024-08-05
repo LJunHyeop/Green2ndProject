@@ -19,7 +19,7 @@ public class AuthenticationFacade {
         return myUserDetails == null ? null : myUserDetails.getMyUser();
     }
 
-    public long getLoginUserId() {
+    public  long getLoginUserId() {
         MyUser myUser = getLoginUser();
         return myUser == null ? 0 : myUser.getUserId();
     }
