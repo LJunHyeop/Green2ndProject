@@ -4,15 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class SignatureReq {
     @JsonIgnore
     private long signId ;
 
     @Schema(description = "학생 pk")
-    private long studentPk;
+    private long stuId;
 
     @Schema(description = "년도")
     private int year ;
