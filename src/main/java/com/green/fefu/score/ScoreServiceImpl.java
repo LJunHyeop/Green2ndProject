@@ -36,9 +36,10 @@ public class ScoreServiceImpl {
     private final StudentMapper studentMapper;
     private final RoleCheckerImpl roleChecker;
     private final ParentsUserMapper parentsUserMapper;
-    private final ScoreRepository scoreRepository;
+    private final ScoreRepository repository;
     private final StudentClassRepository studentClassRepository;
     private final StudentRepository studentRepository;
+
     //점수 넣기
     public int postScore(InsScoreReq p) {
         MyUser user = authenticationFacade.getLoginUser();
@@ -55,10 +56,12 @@ public class ScoreServiceImpl {
         delScore.setStudentPk(p.getStudentPk());
         delScore.setYear(p.getYear());
 
-        Score score = new Score();
+        Student student = studentRepository.getReferenceById(p.getStudentPk()) ;
 
-        Student student = studentRepository.getReferenceById(p.getStudentPk());
+
+        Score score = new Score();
 //        repository.getReferenceById(user.getUserId());
+//
 //        score.setScId(repository.findStudentBy(p.getStudentPk()));
 //        repository.findScoreBy(p.getScoreList().get(0).getMark());
 //        repository.findExamBy(p.getScoreList().get(0).getExam());
@@ -74,11 +77,9 @@ public class ScoreServiceImpl {
         score.setName(p.getScoreList().get(0).getName());
         score.setMark(p.getScoreList().get(0).getMark());
 
+
+
         roleChecker.checkTeacherRole();
-
-
-
-
 
 //        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk());
 //        GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
@@ -88,12 +89,18 @@ public class ScoreServiceImpl {
 //        }
         //성적 있을시 성적 지우고 새로입력
         try {
-            scoreRepository.save(score);
+            int res3 = mapper.delScore(delScore);
+            // 기본 정보 삽입
+            // scoreList 삽입
+            if (p.getScoreList() != null && !p.getScoreList().isEmpty()) {
+                parentsUserMapper.delSignature(req);
+                return mapper.postScoreList(p);
+            }
+            return 1; // 기본 정보만 삽입된 경우
         } catch (Exception e) {
             e.printStackTrace();
             throw new CustomException(SCORE_INSERT_POST);
         }
-        return 1;
     }
     //점수 받아오기
     public Dto getScore(StuGetRes p){
