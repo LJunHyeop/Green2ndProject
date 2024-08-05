@@ -194,16 +194,13 @@ public class TeacherServiceImpl implements TeacherService {
 //        담당 학급이 있을 때 ( 방금 회원가입하면 담당학급이 없음 )
         if (teacherClass != null) {
             tClass = Parser.classParserArray(teacherClass);
-        }
-        else {
-            throw new CustomException(GRADE_DATA_NOT_FOUND);
+            map.put(TEACHER_GRADE, tClass[0]);
+            map.put(TEACHER_CLASS, tClass[1]);
         }
 
 //        데이터 삽입
         map.put(TEACHER_NAME, teacher.getName());
         map.put(TEACHER_EMAIL, teacher.getEmail());
-        map.put(TEACHER_GRADE, tClass[0]);
-        map.put(TEACHER_CLASS, tClass[1]);
         map.put(TEACHER_ACCESS_TOKEN, accessToken);
         return map;
     }

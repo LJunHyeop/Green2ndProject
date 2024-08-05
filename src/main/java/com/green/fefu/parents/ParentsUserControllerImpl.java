@@ -41,6 +41,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     private final ParentsUserServiceImpl service;
     private final JwtTokenProviderV2 tokenProvider;
     private final String FILE_BASE_PATH = "/home/download/sign/";
+    private final String TEST_BASE_PATH = "D:\\download\\2nd\\sign/" ;
 
     // 학부모 회원가입
     @Override @PostMapping("/sign-up") @Operation(summary = "회원가입", description = "")
@@ -139,24 +140,31 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         return ResponseEntity.ok().body(list) ;
     }
     // 전사서명 조회
-    @GetMapping("/get-signature") @Operation(summary = "전자서명 가져오기") @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER')")
-    public ResponseEntity getSignature(GetSignatureReq req){
-
-        return ResponseEntity.ok().body(null) ;
+    @GetMapping("/get-signature") @Operation(summary = "전자서명 가져오기" , description = "학부모, 선생님 둘 다 가능") @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER')")
+    public ResponseEntity getSignature(@ModelAttribute @ParameterObject GetSignaturePicReq req){
+        try {
+            GetSignaturePicRes res = service.getSignaturePics(req);
+            return ResponseEntity.ok().body(res);
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException( );
+        }
     }
     // 전자서명 다운로드
-    @GetMapping("/download/{signPk}") @Operation(summary = "전자서명 다운로드")
+    @GetMapping("/download/{signPk}") @Operation(summary = "전자서명 다운로드", description = "학부모, 선생님 둘 다 가능") @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER')")
     public ResponseEntity<UrlResource> downloadFile(@PathVariable Long signPk) {
         try {
             String fileName = service.signatureNm(signPk);
+            log.info(fileName) ;
             if (fileName == null || fileName.isEmpty()) {
                 throw new RuntimeException("파일을 찾을 수 없습니다.");
             }
 
-            String filePath = FILE_BASE_PATH + signPk + "\\" + fileName;
+            String filePath = FILE_BASE_PATH + signPk + "/" + fileName;
             Path path = Paths.get(filePath);
 
             UrlResource resource = new UrlResource(path.toUri());
+            log.info("resource: {}", resource) ;
 
             if (!resource.exists() || !resource.isReadable()) {
                 throw new RuntimeException("파일을 찾을 수 없거나 읽을 수 없습니다.");
@@ -167,7 +175,8 @@ public class ParentsUserControllerImpl implements ParentsUserController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                     .body(resource);
         } catch (Exception e) {
-            throw new RuntimeException("파일 다운로드에 실패했습니다.", e);
+            e.printStackTrace();
+            throw new RuntimeException("파일 다운로드에 실패했습니다." + e.getMessage(), e);
         }
     }
     // 소셜로그인 회원가입

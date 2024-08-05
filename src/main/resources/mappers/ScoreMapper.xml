@@ -20,7 +20,7 @@
 
     <delete id="scoreSing">
         DELETE FROM score_sign
-        WHERE stu_id = #{studentPk}
+        WHERE student_pk = #{studentPk}
     </delete>
     <select id="getScoreMidterm">
         SELECT
@@ -242,6 +242,6 @@
     <select id="signResult">
         SELECT pic,exam_sign AS examSign, sign_id AS signId
         FROM score_sign
-        WHERE stu_id = #{studentPk} AND semester = #{semester} AND exam_sign = #{examSign}
+        WHERE student_pk = #{studentPk} AND semester = #{semester} AND exam_sign = #{examSign}
     </select>
 </mapper>

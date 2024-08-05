@@ -21,7 +21,7 @@
     <update id="deleteStudent">
         UPDATE student
         SET state = #{state}
-        WHERE stu_id = #{pk}
+        WHERE student_pk = #{pk}
     </update>
 
     <select id="getStudentList">

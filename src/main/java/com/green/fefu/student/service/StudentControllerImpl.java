@@ -189,7 +189,7 @@ public class StudentControllerImpl implements StudentController {
 
     //    부모 회원가입시 -> 이름 기준 검색 -> 학생 LIST 불러오기 ( 이름 + 전화번호 + 사진 + 학년 + 반 )
     @GetMapping(value = "list", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @Operation(summary = "부모가 회원가입 하지 않은 학생 List", description = "리턴 => 사진, 학생 pk, 이름, 학년 반 번호, 전화번호 ( 끝 4자리 )")
+    @Operation(summary = "부모 회원가입 시 학생 코드 입력", description = "리턴 => 사진, 학생 pk, 이름, 학년 반 번호, 전화번호 ( 끝 4자리 )")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "[\n" +
@@ -207,8 +207,8 @@ public class StudentControllerImpl implements StudentController {
             )
     })
     @Override
-    public ResponseEntity getStudentListForParent(@RequestParam @NotBlank(message = "학생 코드는 필수입력입니다.") String searchWord) {
-
+    public ResponseEntity getStudentListForParent(@RequestParam String searchWord) {
+        log.info("{}", searchWord);
         service.getStudentListForParent(searchWord);
         return new ResponseEntity<>(OK);
     }
