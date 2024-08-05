@@ -315,12 +315,12 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         GetSignatureReq req1 = new GetSignatureReq();
         req1.setSemester(req.getSemester());
         req1.setYear(req.getYear());
-        req1.setStudentPk((req.getStuId()));
+        req1.setStudentPk((req.getStudentPk()));
         req1.setExamSign(req.getExamSign());
 
         GetSignatureRes res = mapper.getSignature(req1);
-        Student student = studentRepository.getReferenceById(req.getStuId()) ;
-        ScoreSign scoreSign = scoreSignRepository.getAllByStuIdAndExamSignAndSemesterAndYear(student, req.getExamSign(), req.getSemester(), req.getYear()) ;
+        Student student = studentRepository.getReferenceById(req.getStudentPk()) ;
+        ScoreSign scoreSign = scoreSignRepository.getAllByStudentPkAndExamSignAndSemesterAndYear(student, req.getExamSign(), req.getSemester(), req.getYear()) ;
         if (res != null) {
             scoreSignRepository.delete(scoreSign) ;
             String path = String.format("sign/%d", req.getSignId());
@@ -362,14 +362,14 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     }
     // sign pk 값으로 사진 가져오기
     public GetSignaturePicRes getSignaturePics(GetSignaturePicReq req){
-        Student student = studentRepository.getReferenceById(req.getStuId()) ;
-        ScoreSign scoreSign = scoreSignRepository.getAllByStuIdAndExamSignAndSemesterAndYear(student, req.getExamSign(), req.getSemester(), req.getYear()) ;
+        Student student = studentRepository.getReferenceById(req.getStudentPk()) ;
+        ScoreSign scoreSign = scoreSignRepository.getAllByStudentPkAndExamSignAndSemesterAndYear(student, req.getExamSign(), req.getSemester(), req.getYear()) ;
 
         GetSignaturePicRes res = new GetSignaturePicRes() ;
         res.setSignId(scoreSign.getSignId()) ;
         res.setYear(scoreSign.getYear()) ;
         res.setPic(scoreSign.getPic()) ;
-        res.setStuId(scoreSign.getStuId().getStuId()) ;
+        res.setStuId(scoreSign.getStudentPk().getStuId()) ;
         res.setSemester(scoreSign.getSemester()) ;
         res.setExamSign(scoreSign.getExamSign()) ;
 

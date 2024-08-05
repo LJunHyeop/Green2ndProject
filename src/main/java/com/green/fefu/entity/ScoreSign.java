@@ -13,9 +13,9 @@ public class ScoreSign extends CreatedAt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long signId;
 
-    @JoinColumn(name = "stu_id")
+    @JoinColumn(name = "student_pk")
     @ManyToOne
-    private Student stuId;
+    private Student studentPk;
 
     @Column
     private int year;
