@@ -175,7 +175,7 @@
                 s.phone AS phone,
                 p.name AS parentName,
                 p.phone AS parentPhone,
-                s.parents_id AS parentsPk,
+                s.parent_id AS parentsPk,
                 MAX(sc.class_id) AS classId,
                 t.name AS teacherName,
                 s.pic AS pic
