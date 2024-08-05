@@ -1,6 +1,7 @@
 package com.green.fefu.score;
 
 import com.green.fefu.entity.Score;
+import com.green.fefu.entity.Student;
 import com.green.fefu.entity.StudentClass;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.ParentsUserMapper;
@@ -13,6 +14,7 @@ import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.student.model.dto.getDetail;
 import com.green.fefu.student.repository.StudentClassRepository;
+import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.service.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,7 @@ public class ScoreServiceImpl {
     private final ParentsUserMapper parentsUserMapper;
     private final ScoreRepository repository;
     private final StudentClassRepository studentClassRepository;
+    private final StudentRepository studentRepository;
 
     //점수 넣기
     public int postScore(InsScoreReq p) {
@@ -53,6 +56,9 @@ public class ScoreServiceImpl {
         delScore.setStudentPk(p.getStudentPk());
         delScore.setYear(p.getYear());
 
+        Student student = studentRepository.getReferenceById(p.getStudentPk()) ;
+
+
         Score score = new Score();
 //        repository.getReferenceById(user.getUserId());
 //
@@ -64,7 +70,7 @@ public class ScoreServiceImpl {
 //        repository.findYearBy(p.getYear());
 
         score.setExam(p.getScoreList().get(0).getExam());
-        StudentClass scid = studentClassRepository.findByStuId(p.getStudentPk());
+        StudentClass scid = studentClassRepository.findByStuId(student);
         score.setScId(scid);
         score.setSemester(p.getSemester());
         score.setYear(Integer.toString(p.getYear()));

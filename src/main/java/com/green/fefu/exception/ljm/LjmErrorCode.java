@@ -26,7 +26,8 @@ public enum LjmErrorCode implements ErrorCode {
     NOT_EXISTENCE_SIGNATURE_FILE(HttpStatus.BAD_REQUEST, "서명 파일이 없습니다.") ,
     ERROR_SIGNATURE(HttpStatus.BAD_REQUEST, "서명 등록 오류가 발생했습니다.") ,
     NOT_ACCESS_AUTHORITY(HttpStatus.BAD_REQUEST, "접근 권한이 없습니다."),
-    NOT_FOUND_PERISTALSIS_ID(HttpStatus.BAD_REQUEST, "연동된 아이디가 없습니다.")
+    NOT_FOUND_PERISTALSIS_ID(HttpStatus.BAD_REQUEST, "연동된 아이디가 없습니다."),
+    ERROR_SIGNATURE_CODE(HttpStatus.BAD_REQUEST, "서명오류가 발생했습니다.")
     ;
 
     private final HttpStatus httpStatus ;
