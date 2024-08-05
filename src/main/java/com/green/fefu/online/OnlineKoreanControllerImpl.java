@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/online")
+@RequestMapping("/api/online/korean")
 @Tag(name = "온라인 학습-국어", description = "국어문제 CRUD")
 public class OnlineKoreanControllerImpl {
     private final OnlineKoreanServiceImpl service;
@@ -45,7 +45,8 @@ public class OnlineKoreanControllerImpl {
     })
     @PostMapping
     @PreAuthorize("hasRole('TEACHER')")
-    public ResultDto<Integer> PostKoreanQuestion(@RequestPart MultipartFile pic, @RequestPart PostOnlineQuestionReq p){
+    public ResultDto<Integer> PostKoreanQuestion(@RequestPart(required = false) MultipartFile pic, @RequestPart PostOnlineQuestionReq p){
+        log.info("{}",p);
         int result=service.PostKoreanQuestion(pic, p);
         return ResultDto.<Integer>builder()
                 .statusCode(HttpStatus.OK)
