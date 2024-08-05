@@ -49,7 +49,7 @@ public class ScoreServiceImpl {
 
         // 선생이 아닐때
         GetSignatureReq req = new GetSignatureReq();
-        req.setStuId(p.getStudentPk());
+        req.setStudentPk((p.getStudentPk()));
         req.setSemester(p.getSemester());
         req.setYear(p.getYear());
         delScore.setExam(p.getScoreList().get(0).getExam());
@@ -77,10 +77,8 @@ public class ScoreServiceImpl {
         score.setName(p.getScoreList().get(0).getName());
         score.setMark(p.getScoreList().get(0).getMark());
 
-
-
         roleChecker.checkTeacherRole();
-
+        repository.save(score);
 //        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk());
 //        GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
 //        // 담당 학급이 아닐때

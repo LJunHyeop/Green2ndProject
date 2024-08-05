@@ -315,7 +315,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         GetSignatureReq req1 = new GetSignatureReq();
         req1.setSemester(req.getSemester());
         req1.setYear(req.getYear());
-        req1.setStuId(req.getStuId());
+        req1.setStudentPk((req.getStuId()));
         req1.setExamSign(req.getExamSign());
 
         GetSignatureRes res = mapper.getSignature(req1);
