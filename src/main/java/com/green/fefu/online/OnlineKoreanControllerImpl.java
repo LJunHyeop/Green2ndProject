@@ -10,9 +10,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +45,8 @@ public class OnlineKoreanControllerImpl {
     })
     @PostMapping
     @PreAuthorize("hasRole('TEACHER')")
-    public ResultDto<Integer> PostKoreanQuestion(@RequestBody PostOnlineQuestionReq p){
-        int result=service.PostKoreanQuestion(p);
+    public ResultDto<Integer> PostKoreanQuestion(@RequestPart MultipartFile pic, @RequestPart PostOnlineQuestionReq p){
+        int result=service.PostKoreanQuestion(pic, p);
         return ResultDto.<Integer>builder()
                 .statusCode(HttpStatus.OK)
                 .result(result)

@@ -42,7 +42,7 @@ public class ScoreServiceImpl {
 
         // 선생이 아닐때
         GetSignatureReq req = new GetSignatureReq();
-        req.setStudentPk(p.getStudentPk());
+        req.setStuId(p.getStudentPk());
         req.setSemester(p.getSemester());
         req.setYear(p.getYear());
         delScore.setExam(p.getScoreList().get(0).getExam());

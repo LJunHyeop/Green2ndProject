@@ -16,4 +16,8 @@ public class OnlineMath extends UpdatedAt{
     private String question;
 
     private Integer answer;
+
+    @ManyToOne
+    @JoinColumn(name="tea_id", nullable = false)
+    private Teacher teacher;
 }
