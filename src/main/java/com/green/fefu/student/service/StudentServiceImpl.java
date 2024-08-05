@@ -50,7 +50,14 @@ public class StudentServiceImpl implements StudentService {
 //        createStudentLengthCheck(p);
 
         fileNameChange(p, pic);
-
+        Student a = studentRepository.findStudentByGrade(Integer.parseInt(p.getGrade()));
+        if(a != null){
+            throw new CustomException(GRADE_DUPLICATE_ERROR);
+        }
+        a = studentRepository.findStudentByUid(p.getStudentId());
+        if(a != null){
+            throw new CustomException(STUDENT_ID_DUPLICATE_ERROR);
+        }
 //        int result = mapper.createStudent(p);
         Student student = new Student();
         student.setPic(p.getPic());
@@ -214,15 +221,19 @@ public class StudentServiceImpl implements StudentService {
         map.put(CONNET, result.getConnet());
         map.put(PARENT_PHONE, result.getParentPhone());
         map.put(TEACHER_NAME, result.getTeacherName());
-        String classData = null;
+        String[] classData = null;
         if (result.getUClass() != null) {
-            classData = Parser.classParser(result.getUClass());
+            classData = Parser.classParserArray(result.getUClass());
         }
-        String[] addr = {null, null};
+        else {
+            throw new CustomException(GRADE_DATA_NOT_FOUND);
+        }
+        String[] addr;
         if (result.getAddr() != null) {
             addr = Parser.addressParser(result.getAddr());
-            log.info("data : {}", classData);
-            map.put(STUDENT_CLASS, classData);
+//            log.info("data : {}", classData);
+            map.put(STUDENT_GRADE, classData[0]);
+            map.put(STUDENT_CLASS, classData[1]);
             map.put(STUDENT_ZONE_CODE, addr[0]);
             map.put(STUDENT_ADDR, addr[1]);
             map.put(STUDENT_DETAIL, addr[2]);
