@@ -7,7 +7,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class OnlineMathPic extends CreatedAt{
+public class OnlineMathPics extends CreatedAt{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long picId;
