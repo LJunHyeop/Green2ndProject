@@ -15,6 +15,7 @@ public interface TeacherMapNamingData {
     String TEACHER_CREATE_AT = "createdAt"; //생성일
     String TEACHER_UPDATED_AT = "updatedAt"; //수정일
     String TEACHER_CLASS = "class"; //담당 학급
+    String TEACHER_GRADE = "grade";
     String TEACHER_ACCESS_TOKEN = "accessToken";
     String TEACHER_RANDOM_CODE = "randomCode";
 }

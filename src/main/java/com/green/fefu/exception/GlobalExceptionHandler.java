@@ -1,5 +1,6 @@
 package com.green.fefu.exception;
 
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.green.fefu.exception.LJH.LjhErrorCode.SCORE_OVER_POST;
 
@@ -33,6 +36,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 //    벨리데이션 에러 터졌을때
     @Override
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error("MethodArgumentNotValidException - handlerException : {}", ex.getMessage());
 
@@ -85,6 +89,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleExceptions(Exception e) {
         log.error("Exception - handlerException : {}", e.getMessage());
+
         return handleExceptionInternal(
                CustomErrorCode.VALIDATION_ERROR
         );

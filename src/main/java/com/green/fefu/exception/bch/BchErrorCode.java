@@ -30,7 +30,10 @@ public enum BchErrorCode implements ErrorCode {
     RE_FRESH_TOKEN_TIME_OUT_ERROR(HttpStatus.BAD_REQUEST,"리프레쉬 토큰의 만료시간이 초과하였습니다."),
     DIVISION_ERROR(HttpStatus.BAD_REQUEST, "분류 코드가 잘못되었습니다."),
     FILE_ERROR(HttpStatus.BAD_REQUEST, "파일 저장에 실패하였습니다."),
-    NOT_YET_ACCEPT(HttpStatus.BAD_REQUEST, "아직 승인되지 않은 계정입니다.");
+    NOT_YET_ACCEPT(HttpStatus.BAD_REQUEST, "아직 승인되지 않은 계정입니다."),
+    STUDENT_ID_DUPLICATE_ERROR(HttpStatus.BAD_REQUEST, "이미 존재하는 아이디입니다."),
+    GRADE_DUPLICATE_ERROR(HttpStatus.BAD_REQUEST, "학년 반 번호 값이 이미 있습니다."),
+    GRADE_DATA_NOT_FOUND(HttpStatus.BAD_REQUEST, "학년 반 정보가 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
