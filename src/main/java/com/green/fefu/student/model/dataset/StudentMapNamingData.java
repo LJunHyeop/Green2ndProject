@@ -12,6 +12,7 @@ public interface StudentMapNamingData {
     String STUDENT_ETC = "studentEtc";
     String STUDENT_CREATED_AT = "studentCreatedAt";
     String STUDENT_CLASS = "studentClass";
+    String STUDENT_GRADE = "studentGrade";
     String STUDENT_PIC = "studentPic";
     String PARENT_ID = "parentId";
     String PARENT_NAME = "parentName";
