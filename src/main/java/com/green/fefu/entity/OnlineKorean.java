@@ -17,6 +17,15 @@ public class OnlineKorean extends UpdatedAt{
     @Column(length=1000)
     private String question;
 
+    @Column(length=1000)
+    private String contents;
+
     private Integer answer;
 
+    @ManyToOne
+    @JoinColumn(name="tea_id", nullable = false)
+    private Teacher teaId;
+
+
+    //학년정보 추가
 }
