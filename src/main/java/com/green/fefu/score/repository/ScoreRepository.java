@@ -2,6 +2,7 @@ package com.green.fefu.score.repository;
 
 
 import com.green.fefu.entity.Score;
+import com.green.fefu.entity.StudentClass;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ScoreRepository extends JpaRepository<Score, Long> {
@@ -15,5 +16,5 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
 
    Score findYearBy(int year);
 
-   Score findStudentBy(int scId);
+   StudentClass findStudentBy(int scId);
 }
