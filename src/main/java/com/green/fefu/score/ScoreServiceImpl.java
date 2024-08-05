@@ -1,14 +1,20 @@
 package com.green.fefu.score;
 
+import com.green.fefu.entity.Score;
+import com.green.fefu.entity.Student;
+import com.green.fefu.entity.StudentClass;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.ParentsUserMapper;
 import com.green.fefu.parents.model.GetSignatureReq;
 import com.green.fefu.score.model.*;
 
 import com.green.fefu.score.module.RoleCheckerImpl;
+import com.green.fefu.score.repository.ScoreRepository;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.student.model.dto.getDetail;
+import com.green.fefu.student.repository.StudentClassRepository;
+import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.service.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,22 +36,47 @@ public class ScoreServiceImpl {
     private final StudentMapper studentMapper;
     private final RoleCheckerImpl roleChecker;
     private final ParentsUserMapper parentsUserMapper;
-
-
+    private final ScoreRepository repository;
+    private final StudentClassRepository studentClassRepository;
+    private final StudentRepository studentRepository;
 
     //점수 넣기
     public int postScore(InsScoreReq p) {
         MyUser user = authenticationFacade.getLoginUser();
         DelScore delScore = new DelScore();
+
+
+
         // 선생이 아닐때
         GetSignatureReq req = new GetSignatureReq();
-        req.setStudentPk(p.getStudentPk());
+        req.setStuId(p.getStudentPk());
         req.setSemester(p.getSemester());
         req.setYear(p.getYear());
-
         delScore.setExam(p.getScoreList().get(0).getExam());
         delScore.setStudentPk(p.getStudentPk());
         delScore.setYear(p.getYear());
+
+        Student student = studentRepository.getReferenceById(p.getStudentPk()) ;
+
+
+        Score score = new Score();
+//        repository.getReferenceById(user.getUserId());
+//
+//        score.setScId(repository.findStudentBy(p.getStudentPk()));
+//        repository.findScoreBy(p.getScoreList().get(0).getMark());
+//        repository.findExamBy(p.getScoreList().get(0).getExam());
+//        repository.findNameBy(p.getScoreList().get(0).getName());
+//        repository.findSemesterBy(p.getSemester());
+//        repository.findYearBy(p.getYear());
+
+        score.setExam(p.getScoreList().get(0).getExam());
+        StudentClass scid = studentClassRepository.findByStuId(student);
+        score.setScId(scid);
+        score.setSemester(p.getSemester());
+        score.setYear(Integer.toString(p.getYear()));
+        score.setName(p.getScoreList().get(0).getName());
+        score.setMark(p.getScoreList().get(0).getMark());
+
 
 
         roleChecker.checkTeacherRole();

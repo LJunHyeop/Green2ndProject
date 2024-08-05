@@ -111,7 +111,7 @@
     </select>
     <insert id="signature" useGeneratedKeys="true" keyProperty="signId">
         INSERT INTO score_sign
-        SET stu_id = #{studentPk}
+        SET stu_id = #{stuId}
         , year = #{year}
         , semester = #{semester}
         , pic = #{pic}
@@ -175,17 +175,17 @@
                 s.phone AS phone,
                 p.name AS parentName,
                 p.phone AS parentPhone,
-                s.parents_id AS parentsPk,
+                s.parent_id AS parentsPk,
                 MAX(sc.class_id) AS classId,
                 t.name AS teacherName,
                 s.pic AS pic
         FROM student s
         LEFT JOIN parents p
-        ON s.parents_id = p.parents_id
+        ON s.parent_id = p.parents_id
         LEFT JOIN (
                 SELECT sc1.class_id AS class_id
                 , sc1.stu_id
-                FROM student_classes sc1
+                FROM student_class sc1
                 INNER JOIN student sc2
                 ON sc1.stu_id = sc2.stu_id
                 ORDER BY sc1.class_id DESC
@@ -196,7 +196,7 @@
         LEFT JOIN teacher t
         ON c.tea_id = t.tea_id
         WHERE s.parent_id = #{parentPk}
-        GROUP BY s.stu_id, s.name, s.gender, s.birth, s.phone, p.name, p.phone, s.parents_id
+        GROUP BY s.stu_id, s.name, s.gender, s.birth, s.phone, p.name, p.phone, s.parent_id
         ORDER BY s.name, s.birth, sc.class_id DESC ;
     </select>
     <select id="selPasswordBeforeLogin">

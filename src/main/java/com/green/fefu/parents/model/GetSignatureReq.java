@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class GetSignatureReq {
-    private long studentPk ;
+    private long stuId ;
     private int year ;
     private int semester ;
     private int examSign ;

@@ -1,7 +1,6 @@
-package com.green.fefu.parents;
+package com.green.fefu.parents.repository;
 
 import com.green.fefu.entity.ParentOAuth2;
-import com.green.fefu.entity.Parents;
 import com.green.fefu.security.SignInProviderType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

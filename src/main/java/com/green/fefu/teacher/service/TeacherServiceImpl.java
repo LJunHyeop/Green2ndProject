@@ -190,16 +190,20 @@ public class TeacherServiceImpl implements TeacherService {
 
 //        담당 학급 받아오기
         String teacherClass = mapper.getCurrentClassesByTeacherId(teacher.getTeaId());
-        String tClass = null;
+        String[] tClass = null;
 //        담당 학급이 있을 때 ( 방금 회원가입하면 담당학급이 없음 )
         if (teacherClass != null) {
-            tClass = Parser.classParser(teacherClass);
+            tClass = Parser.classParserArray(teacherClass);
+        }
+        else {
+            throw new CustomException(GRADE_DATA_NOT_FOUND);
         }
 
 //        데이터 삽입
         map.put(TEACHER_NAME, teacher.getName());
         map.put(TEACHER_EMAIL, teacher.getEmail());
-        map.put(TEACHER_CLASS, tClass);
+        map.put(TEACHER_GRADE, tClass[0]);
+        map.put(TEACHER_CLASS, tClass[1]);
         map.put(TEACHER_ACCESS_TOKEN, accessToken);
         return map;
     }
@@ -249,8 +253,14 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher teacher;
         if (p.getId() != null) {
             teacher = teacherRepository.findByUid(p.getId());
+            if(teacher == null) {
+                throw new CustomException(NOT_FOUND_USER_ERROR);
+            }
         } else if (p.getEmail() != null) {
             teacher = teacherRepository.findByEmail(p.getEmail());
+            if(teacher == null) {
+                throw new CustomException(NOT_FOUND_USER_ERROR);
+            }
         } else {
             throw new CustomException(MULTIPLE_DATA_ERROR);
         }
@@ -427,7 +437,7 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
 
         String teacherClass = mapper.getCurrentClassesByTeacherId(teacher.getTeaId());
-        String tClass = Parser.classParser(teacherClass);
+        String[] tClass = Parser.classParserArray(teacherClass);
 
         map.put(TEACHER_ID, teacher.getTeaId());
         map.put(TEACHER_NAME, teacher.getName());
@@ -435,7 +445,8 @@ public class TeacherServiceImpl implements TeacherService {
         map.put(TEACHER_EMAIL, teacher.getEmail());
         map.put(TEACHER_GENDER, teacher.getGender());
         map.put(TEACHER_BIRTH, teacher.getBirth());
-        map.put(TEACHER_CLASS, tClass);
+        map.put(TEACHER_GRADE, tClass[0]);
+        map.put(TEACHER_CLASS, tClass[1]);
 
 
 //        주소 자를껀지 물어보고 잘라야 하면 잘라서 보내주기

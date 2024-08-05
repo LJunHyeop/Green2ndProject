@@ -16,7 +16,7 @@ public class InsScoreReq {
     @JsonIgnore
     private int scoreId;
     @Schema(example = "1", description = "학생Pk")
-    private int studentPk;
+    private Long studentPk;
     @Schema(example = "2023", description = "년도")
     private int year;
     @Schema(example = "1", description = "학기")

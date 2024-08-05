@@ -1,10 +1,9 @@
 package com.green.fefu.parents;
 
 import com.green.fefu.entity.ParentOAuth2;
+import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.model.*;
-import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
-import com.green.fefu.security.oauth2.MyOAuth2UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -21,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.green.fefu.chcommon.ResponsDataSet.OK;
+import static com.green.fefu.exception.ljm.LjmErrorCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -57,8 +56,8 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         }
     )
     public ResponseEntity postParents(@RequestBody PostParentsUserReq p) {
-        int result = service.postParentsUser(p) ;
-        return ResponseEntity.ok().body(result) ;
+        int result = service.postParentsUser(p);
+        return ResponseEntity.ok().body(result);
     }
     // 아이디, 이메일 중복조회
     @Override @GetMapping("/check-duplication") @Operation(summary = "아이디, 이메일 중복조회", description = "리턴 => 없음 <br><strong>아이디 이메일 둘중 하나만 넣어주세요</strong>")
@@ -117,9 +116,17 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     }
     // 전자서명
     @Override @PostMapping(value = "/signature") @Operation(summary = "전자서명") @PreAuthorize("hasRole('PARENTS')")
-    public ResponseEntity<SignatureRes> signature( @RequestPart MultipartFile pic, @RequestPart SignatureReq req){
-        SignatureRes result = service.signature(pic, req);
-        return ResponseEntity.ok().body(result) ;
+    public ResponseEntity signature( @RequestPart MultipartFile pic, @RequestPart SignatureReq req){
+        try {
+            SignatureRes result = service.signature(pic, req);
+
+            Map map = new HashMap();
+            map.put("sign_id", req.getSignId());
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new CustomException(ERROR_SIGNATURE_CODE) ;
+        }
     }
     // 학생정보 조회
     @Override @GetMapping("/get-student-parent") @Operation(summary = "자녀 학생정보 조회") @PreAuthorize("hasRole('PARENTS')")
@@ -130,6 +137,12 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         }
         List<GetStudentParentsRes> list = service.getStudentParents(token) ;
         return ResponseEntity.ok().body(list) ;
+    }
+    // 전사서명 조회
+    @GetMapping("/get-signature") @Operation(summary = "전자서명 가져오기") @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER')")
+    public ResponseEntity getSignature(GetSignatureReq req){
+
+        return ResponseEntity.ok().body(null) ;
     }
     // 전자서명 다운로드
     @GetMapping("/download/{signPk}") @Operation(summary = "전자서명 다운로드")

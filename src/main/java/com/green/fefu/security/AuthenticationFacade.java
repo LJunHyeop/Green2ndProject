@@ -12,14 +12,14 @@ Authentication이 해당 위치에 저장이 되어있어야만 스프링 시큐
 @Component
 public class AuthenticationFacade {
 
-    public static MyUser getLoginUser() {
+    public MyUser getLoginUser() {
         MyUserDetails myUserDetails = (MyUserDetails)SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
         return myUserDetails == null ? null : myUserDetails.getMyUser();
     }
 
-    public static long getLoginUserId() {
+    public  long getLoginUserId() {
         MyUser myUser = getLoginUser();
         return myUser == null ? 0 : myUser.getUserId();
     }

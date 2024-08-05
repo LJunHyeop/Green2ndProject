@@ -11,4 +11,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Student findByRandCode(String randCode);
     @Query(value = "select ff from Student ff where ff.parent.parentsId = :parentId")
     List<Student> findByParent(Long parentId);
+
+
+    Student findStudentByGrade(int grade);
+    Student findStudentByUid(String uid);
 }

@@ -5,10 +5,14 @@ import com.green.fefu.admin.model.dto.*;
 import com.green.fefu.admin.model.req.*;
 import com.green.fefu.admin.test.AdminService;
 import com.green.fefu.chcommon.Parser;
+import com.green.fefu.entity.Class;
 import com.green.fefu.entity.Parents;
 import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
-import com.green.fefu.parents.ParentRepository;
+//import com.green.fefu.parents.ParentRepository;
+import com.green.fefu.parents.repository.ParentRepository;
+import com.green.fefu.student.repository.ClassRepository;
+//import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +36,7 @@ public class AdminServiceImpl implements AdminService {
     private final AdminMapper mapper;
     private final TeacherRepository teacherRepository;
     private final ParentRepository parentRepository;
+    private final ClassRepository classRepository;
     private final int PrarentCode = 1;
     private final int TeacherCode = 2;
 
@@ -146,7 +151,7 @@ public class AdminServiceImpl implements AdminService {
 //        validation.nullCheck(p.getPk().toString());
 //    }
 
-    public List<FindUserListDto> findUserList(FindUserListReq p, List list) {
+    public List<FindUserListDto> findUserList(FindUserListReq p, List<FindUserListDto> list) {
 
 //        부모
         if (p.getP() == PrarentCode) {
@@ -173,13 +178,15 @@ public class AdminServiceImpl implements AdminService {
                 return new ArrayList<>();
             }
             for (Teacher teacher : teacherList) {
+                Class c = classRepository.getReferenceByTeaId(teacher.getTeaId());
                 FindUserListDto data = new FindUserListDto();
                 data.setState(teacher.getState() == 1 ? "활성화" : "비활성화");
                 data.setUid(teacher.getUid());
                 data.setName(teacher.getName());
 //                담당 학급 받아오는거 아직 class 엔티티 없어서 못만듦
-//                data.setGrade(teacher.get);
-//                data.setUclass();
+                String[] gradeClass = Parser.classParserArray(Long.toString(c.getClassId()));
+                data.setGrade(gradeClass[0]);
+                data.setUclass(gradeClass[1]);
                 data.setDate(Date.valueOf(teacher.getCreatedAt().toLocalDate()));
                 list.add(data);
             }
