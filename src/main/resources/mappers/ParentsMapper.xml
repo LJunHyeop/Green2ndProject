@@ -185,7 +185,7 @@
         LEFT JOIN (
                 SELECT sc1.class_id AS class_id
                 , sc1.stu_id
-                FROM student_classes sc1
+                FROM student_class sc1
                 INNER JOIN student sc2
                 ON sc1.stu_id = sc2.stu_id
                 ORDER BY sc1.class_id DESC
