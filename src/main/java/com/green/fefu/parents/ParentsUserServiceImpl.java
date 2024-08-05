@@ -377,7 +377,8 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     }
     // sign pk 값으로 조회
     public String signatureNm(Long signPk){
-        return mapper.getSignaturePk(signPk) ;
+        ScoreSign scoreSign = scoreSignRepository.getReferenceById(signPk) ;
+        return scoreSign.getPic() ;
     }
     // 사인 조회 및 중복 삭제
     public void getSignature(GetSignatureReq req){

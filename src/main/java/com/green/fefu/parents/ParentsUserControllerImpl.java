@@ -41,6 +41,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     private final ParentsUserServiceImpl service;
     private final JwtTokenProviderV2 tokenProvider;
     private final String FILE_BASE_PATH = "/home/download/sign/";
+    private final String TEST_BASE_PATH = "D:\\download\\2nd\\sign/" ;
 
     // 학부모 회원가입
     @Override @PostMapping("/sign-up") @Operation(summary = "회원가입", description = "")
@@ -154,14 +155,16 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     public ResponseEntity<UrlResource> downloadFile(@PathVariable Long signPk) {
         try {
             String fileName = service.signatureNm(signPk);
+            log.info(fileName) ;
             if (fileName == null || fileName.isEmpty()) {
                 throw new RuntimeException("파일을 찾을 수 없습니다.");
             }
 
-            String filePath = FILE_BASE_PATH + signPk + "\\" + fileName;
+            String filePath = FILE_BASE_PATH + signPk + "/" + fileName;
             Path path = Paths.get(filePath);
 
             UrlResource resource = new UrlResource(path.toUri());
+            log.info("resource: {}", resource) ;
 
             if (!resource.exists() || !resource.isReadable()) {
                 throw new RuntimeException("파일을 찾을 수 없거나 읽을 수 없습니다.");
@@ -172,7 +175,8 @@ public class ParentsUserControllerImpl implements ParentsUserController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                     .body(resource);
         } catch (Exception e) {
-            throw new RuntimeException("파일 다운로드에 실패했습니다.", e);
+            e.printStackTrace();
+            throw new RuntimeException("파일 다운로드에 실패했습니다." + e.getMessage(), e);
         }
     }
     // 소셜로그인 회원가입
