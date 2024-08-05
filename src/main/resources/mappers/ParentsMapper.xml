@@ -111,7 +111,7 @@
     </select>
     <insert id="signature" useGeneratedKeys="true" keyProperty="signId">
         INSERT INTO score_sign
-        SET stu_id = #{stuId}
+        SET stu_id = #{studentPk}
         , year = #{year}
         , semester = #{semester}
         , pic = #{pic}
@@ -123,11 +123,11 @@
         WHERE sign_id = #{signId}
     </update>
     <select id="getSignature">
-        SELECT stu_id AS stuId
+        SELECT stu_id AS studentPk
                 , year
                 , semester
         FROM score_sign
-        WHERE stu_id = #{stuId}
+        WHERE stu_id = #{studentPk}
         AND year = #{year}
         AND semester = #{semester}
         AND exam_sign = #{examSign}
