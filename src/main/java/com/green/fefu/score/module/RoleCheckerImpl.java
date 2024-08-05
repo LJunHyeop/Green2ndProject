@@ -21,13 +21,14 @@ import static com.green.fefu.exception.LJH.LjhErrorCode.SCORE_INSERT_POST;
 import static com.green.fefu.exception.LJH.LjhErrorCode.SCORE_INSERT_STU_POST;
 
 @Component
+@RequiredArgsConstructor
 public class RoleCheckerImpl implements Check {
     private final AuthenticationFacade authenticationFacade;
 
-    @Autowired
-    public RoleCheckerImpl(AuthenticationFacade authenticationFacade) {
-        this.authenticationFacade = authenticationFacade;
-    }
+//    @Autowired
+//    public RoleCheckerImpl(AuthenticationFacade authenticationFacade) {
+//        this.authenticationFacade = authenticationFacade;
+//    }
 
     @Override
     public void checkTeacherRole() {

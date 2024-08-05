@@ -6,6 +6,7 @@ import com.green.fefu.parents.model.GetSignatureReq;
 import com.green.fefu.score.model.*;
 
 import com.green.fefu.score.module.RoleCheckerImpl;
+import com.green.fefu.score.repository.ScoreRepository;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.student.model.dto.getDetail;
@@ -30,22 +31,32 @@ public class ScoreServiceImpl {
     private final StudentMapper studentMapper;
     private final RoleCheckerImpl roleChecker;
     private final ParentsUserMapper parentsUserMapper;
-
-
+    private final ScoreRepository repository;
 
     //점수 넣기
     public int postScore(InsScoreReq p) {
         MyUser user = authenticationFacade.getLoginUser();
         DelScore delScore = new DelScore();
+
+
+
         // 선생이 아닐때
         GetSignatureReq req = new GetSignatureReq();
         req.setStuId(p.getStudentPk());
         req.setSemester(p.getSemester());
         req.setYear(p.getYear());
-
         delScore.setExam(p.getScoreList().get(0).getExam());
         delScore.setStudentPk(p.getStudentPk());
         delScore.setYear(p.getYear());
+
+        repository.getReferenceById(user.getUserId());
+
+        repository.findScoreBy(p.getScoreList().get(0).getMark());
+        repository.findExamBy(p.getScoreList().get(0).getExam());
+        repository.findNameBy(p.getScoreList().get(0).getName());
+        repository.findSemesterBy(p.getSemester());
+        repository.findYearBy(p.getYear());
+        repository.findStudentBy(p.getStudentPk());
 
 
         roleChecker.checkTeacherRole();
