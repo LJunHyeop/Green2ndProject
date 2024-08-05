@@ -11,6 +11,7 @@ import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.ParentRepository;
 import com.green.fefu.student.repository.ClassRepository;
+//import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

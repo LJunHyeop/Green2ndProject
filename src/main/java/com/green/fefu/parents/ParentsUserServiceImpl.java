@@ -7,9 +7,13 @@ import com.green.fefu.common.CookieUtils;
 import com.green.fefu.common.CustomFileUtils;
 import com.green.fefu.entity.ParentOAuth2;
 import com.green.fefu.entity.Parents;
+import com.green.fefu.entity.ScoreSign;
 import com.green.fefu.entity.Student;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.model.*;
+import com.green.fefu.parents.repository.ParentOAuth2Repository;
+import com.green.fefu.parents.repository.ParentRepository;
+import com.green.fefu.parents.repository.ScoreSignRepository;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.security.MyUserDetails;
@@ -65,6 +69,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     private final StudentRepository studentRepository ;
     private final ParentOAuth2Repository oAuth2Repository ;
     private final ParentOAuth2Repository parentOAuth2Repository;
+    private final ScoreSignRepository scoreSignRepository ;
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
 
     @Override @Transactional // 회원가입
@@ -314,8 +319,10 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         req1.setExamSign(req.getExamSign());
 
         GetSignatureRes res = mapper.getSignature(req1);
+        Student student = studentRepository.getReferenceById(req.getStuId()) ;
+        ScoreSign scoreSign = scoreSignRepository.getAllByStuIdAndExamSignAndSemesterAndYear(student, req.getExamSign(), req.getSemester(), req.getYear()) ;
         if (res != null) {
-            mapper.delSignature(req1);
+            scoreSignRepository.delete(scoreSign) ;
             String path = String.format("sign/%d", req.getSignId());
             String delAbsoluteFolderPath = String.format("%s%s", customFileUtils.uploadPath, path);
             customFileUtils.deleteFolder(delAbsoluteFolderPath);
@@ -352,6 +359,10 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .signId(req.getSignId())
                 .pics(picName)
                 .build();
+    }
+    // sign pk 값 가져오기
+    public void getSignature(){
+        scoreSignRepository.getReferenceById(null) ;
     }
     // sign pk 값으로 조회
     public String signatureNm(Long signPk){
