@@ -11,8 +11,8 @@
         parents p
         LEFT JOIN student s
         ON p.parents_id = s.parents_id
-        LEFT JOIN student_classes sc
-        ON s.stu_id = sc.stu_id
+        LEFT JOIN student_class sc
+        ON s.student_pk = sc.stu_id
         LEFT JOIN class c
         ON sc.class_id = c.class_id
         WHERE
