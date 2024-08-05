@@ -77,11 +77,11 @@ public class Parser {
             return result ;
         }
 
-        result[grade] = String.format("%s학년", data.substring(0, 1));
+        result[grade] = String.format("%s", data.substring(0, 1));
 
-        result[uClass] = String.format("%s반", data.substring(1, 3));
+        result[uClass] = String.format("%d", Integer.parseInt(originData.substring(1, 3)));
         if (data.length() == 5) {
-            result[cNumber] = String.format("%s번", data.substring(3, 5));
+            result[cNumber] = String.format("%d", Integer.parseInt(originData.substring(3, 5)));
         }
         log.info("result = {}", Arrays.toString(result));
         return result;

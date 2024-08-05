@@ -16,7 +16,7 @@ public class OnlineKoreanMultiple {
     @JoinColumn(name="que_id", nullable = false)
     private OnlineKorean onlineKorean;
 
-    private String num;
+    private Integer num;
 
     @Column(length=30, nullable = false)
     private String sentence;
