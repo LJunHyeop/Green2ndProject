@@ -1,5 +1,5 @@
 -- 국어 테스트 문항
-INSERT INTO `online_korean` (`answer`, `created_at`, `que_id`, `updated_at`, `question`, tea_id, contents) VALUES (1, '2024-07-31 16:08:28.000000', 1, '2024-07-31 16:08:30.000000', '(DEFAULT) 다음 중 옳은 것을 고르시오.', 1, '(DEFAULT)별 하나에 추억과 별 하나에 사랑과 별 하나에 쓸쓸함과');
+INSERT INTO `online_korean` (`answer`, `created_at`, `que_id`, `updated_at`, `question`, tea_id, contents, level, class_id) VALUES (1, '2024-07-31 16:08:28.000000', 1, '2024-07-31 16:08:30.000000', '(DEFAULT) 다음 중 옳은 것을 고르시오.', 1, '(DEFAULT)별 하나에 추억과 별 하나에 사랑과 별 하나에 쓸쓸함과', 3, 1);
 INSERT INTO `online_korean_multiple` (`num`, `answer_id`, `que_id`, `sentence`) VALUES (1, 1, 1, '국어 테스트문항 1번 보기입니다.'),(2, 2, 1, '국어 테스트문항 2번 보기입니다.'), (3, 3, 1, '국어 테스트문항 3번 보기입니다.'), (4, 4, 1, '국어 테스트문항 4번 보기입니다.'), (5, 5, 1, '국어 테스트문항 5번 보기입니다.');
 INSERT INTO `online_korean_pics` (`created_at`, `pic_id`, `que_id`, `pic`) VALUES ('2024-07-31 16:11:25.000000', 1, 1, 'KOREAN_EXAMPLE_PICTURE');
 -- 수학 테스트 문항 = 문항 넣기 수정 필요
