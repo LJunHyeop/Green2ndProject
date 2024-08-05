@@ -240,7 +240,7 @@
         WHERE tea_id = #{teaId} AND stu_id = #{stuId}
     </select>
     <select id="signResult">
-        SELECT pic,exam_sign AS examSign, sing_id AS signId
+        SELECT pic,exam_sign AS examSign, sign_id AS signId
         FROM score_sign
         WHERE stu_id = #{studentPk} AND semester = #{semester} AND exam_sign = #{examSign}
     </select>
