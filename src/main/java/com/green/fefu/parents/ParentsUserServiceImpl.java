@@ -360,9 +360,20 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .pics(picName)
                 .build();
     }
-    // sign pk 값 가져오기
-    public void getSignature(){
-        scoreSignRepository.getReferenceById(null) ;
+    // sign pk 값으로 사진 가져오기
+    public GetSignaturePicRes getSignaturePics(GetSignaturePicReq req){
+        Student student = studentRepository.getReferenceById(req.getStuId()) ;
+        ScoreSign scoreSign = scoreSignRepository.getAllByStuIdAndExamSignAndSemesterAndYear(student, req.getExamSign(), req.getSemester(), req.getYear()) ;
+
+        GetSignaturePicRes res = new GetSignaturePicRes() ;
+        res.setSignId(scoreSign.getSignId()) ;
+        res.setYear(scoreSign.getYear()) ;
+        res.setPic(scoreSign.getPic()) ;
+        res.setStuId(scoreSign.getStuId().getStuId()) ;
+        res.setSemester(scoreSign.getSemester()) ;
+        res.setExamSign(scoreSign.getExamSign()) ;
+
+        return res ;
     }
     // sign pk 값으로 조회
     public String signatureNm(Long signPk){
