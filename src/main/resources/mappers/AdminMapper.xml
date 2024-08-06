@@ -5,29 +5,29 @@
 <mapper namespace="com.green.fefu.admin.service.AdminMapper">
     <select id="getParentList">
         SELECT p.parents_id AS pk, p.uid AS id,
-        p.nm AS name, c.class_id AS grade,
+        p.name AS name, c.class_id AS grade,
         p.created_at AS createdAt
         FROM
         parents p
         LEFT JOIN student s
-        ON p.parents_id = s.parents_id
+        ON p.parents_id = s.parent_id
         LEFT JOIN student_class sc
-        ON s.student_pk = sc.stu_id
+        ON s.stu_id = sc.stu_id
         LEFT JOIN class c
         ON sc.class_id = c.class_id
         WHERE
-        p.acept = 2
+        p.accept = 2
         ORDER BY p.created_at
     </select>
 
     <select id="getTeacherList">
         SELECT t.tea_id AS pk, t.uid AS id,
-        t.nm AS name, c.class_id AS grade,
+        t.name AS name, c.class_id AS grade,
         t.created_at AS createdAt
         FROM teacher t
         LEFT JOIN class c
         ON c.tea_id = t.tea_id
-        WHERE t.acept = 2
+        WHERE t.accept = 2
         ORDER BY t.created_at
     </select>
 
@@ -43,13 +43,13 @@
 
     <update id="updParent">
         UPDATE parents
-        SET acept = 1
+        SET accept = 1
         WHERE parents_id = #{pk}
     </update>
 
     <update id="updTeacher">
         UPDATE teacher
-        SET acept = 1
+        SET accept = 1
         WHERE tea_id = #{pk}
     </update>
 </mapper>
