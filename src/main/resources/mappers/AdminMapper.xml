@@ -22,12 +22,12 @@
 
     <select id="getTeacherList">
         SELECT t.tea_id AS pk, t.uid AS id,
-        t.nm AS name, c.class_id AS grade,
+        t.name AS name, c.class_id AS grade,
         t.created_at AS createdAt
         FROM teacher t
         LEFT JOIN class c
         ON c.tea_id = t.tea_id
-        WHERE t.acept = 2
+        WHERE t.accept = 2
         ORDER BY t.created_at
     </select>
 
@@ -43,13 +43,13 @@
 
     <update id="updParent">
         UPDATE parents
-        SET acept = 1
+        SET accept = 1
         WHERE parents_id = #{pk}
     </update>
 
     <update id="updTeacher">
         UPDATE teacher
-        SET acept = 1
+        SET accept = 1
         WHERE tea_id = #{pk}
     </update>
 </mapper>
