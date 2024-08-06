@@ -36,9 +36,9 @@ public class updateStudentReq {
     @Schema(example = "갑각류 알러지 있음", description = "특이사항 기입")
     private String studentEtc;
 
-    @NotBlank(message = "Pk값은 필수입니다.")
+//    @NotBlank(message = "Pk값은 필수입니다.")
     @Schema(example = "1", description = "바꿀 학생의 pk값", required = true)
-    private long studentPk;
+    private Long studentPk;
 
     @Pattern(regexp = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$", message = BIRTH_TYPE_ERROR)
     @Schema(example = "1999-01-01", description = "학생 생년월일")

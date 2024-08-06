@@ -13,6 +13,8 @@ import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.test.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,7 @@ public class StudentServiceImpl implements StudentService {
     private final AuthenticationFacade authenticationFacade;
     private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
+
 
     //    학생 데이터 넣기
     @Transactional
@@ -267,16 +270,20 @@ public class StudentServiceImpl implements StudentService {
         log.info("updateStudentDataCheck = " + p);
 //        int result = mapper.updateStudent(p);
         Student student = studentRepository.getReferenceById(p.getStudentPk());
-        if (!student.getName().equals(p.getStudentName())) {
+        if (p.getStudentName() != null && !student.getName().equals(p.getStudentName())) {
             student.setName(p.getStudentName());
         }
-        if (!student.getPhone().equals(p.getStudentPhone())) {
+        if (p.getStudentPhone() != null && !student.getPhone().equals(p.getStudentPhone())) {
             student.setPhone(p.getStudentPhone());
         }
-        if (!student.getAddr().equals(p.getFullAddr())) {
+        if (p.getFullAddr() != null
+                && student.getAddr() != null
+                && !student.getAddr().equals(p.getFullAddr())) {
             student.setAddr(p.getFullAddr());
         }
-        if (!student.getEtc().equals(p.getStudentEtc())) {
+        if (p.getStudentEtc() != null
+                && student.getEtc() != null
+                && !student.getEtc().equals(p.getStudentEtc())) {
             student.setEtc(p.getStudentEtc());
         }
         if (p.getStudentBirth() != null) {
@@ -288,14 +295,15 @@ public class StudentServiceImpl implements StudentService {
         if (pic != null) {
             p.setPic(fileNameChange(pic));
             try {
+
                 String path = String.format("student/%s", p.getStudentPk());
+                customFileUtils.deleteFolder(String.format("%s/%s", customFileUtils.uploadPath, path));
                 customFileUtils.makeFolders(path);
                 String target = String.format("%s/%s", path, p.getPic());
                 customFileUtils.transferTo(pic, target);
             } catch (Exception e) {
                 throw new CustomException(FILE_ERROR);
             }
-
         }
         studentRepository.save(student);
     }
