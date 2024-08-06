@@ -19,4 +19,6 @@ public class SignResult {
     private int examSign;
 
     private String pic;
+
+    private int signId;
 }
