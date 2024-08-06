@@ -15,6 +15,6 @@ public interface StudentService {
     void deleteStudent(deleteStudentReq p);
     List getStudentList(List<getStudent> list);
     Map getStudentDetail(long pk, Map map);
-    void updateStudent(updateStudentReq p);
+    void updateStudent(updateStudentReq p , MultipartFile pic);
     void getStudentListForParent(String searchWord);
 }
