@@ -16,8 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("api/online/english")
 public class OnlineEnglishControllerImpl {
     private final OnlineEnglishServiceImpl service;
-    @PostMapping
-    public ResultDto<Integer> PostEnglishWordQuestion(@RequestPart PostOnlineQuestionEnglishWordReq p, @RequestPart MultipartFile pic){
+    @PostMapping("/post")
+    public ResultDto<Integer> PostEnglishWordQuestion(@RequestPart PostOnlineQuestionEnglishWordReq p, @RequestPart MultipartFile pic /*, @RequestPart MultipartFile v*/){
+
         int result=1;
         return ResultDto.<Integer>builder()
                 .result(result)
