@@ -18,7 +18,7 @@ public interface StudentController {
 //    학생 한명의 데이터
     ResponseEntity getStudentDetail(@RequestParam long pk);
 //    학생 업데이트
-    ResponseEntity updateStudent(@RequestBody updateStudentReq p);
+    ResponseEntity updateStudent(@RequestPart updateStudentReq p , @RequestPart MultipartFile pic);
 //    부모가 없는 학생들 리스트
     ResponseEntity getStudentListForParent(@RequestParam(required = false) String searchWord);
 }
