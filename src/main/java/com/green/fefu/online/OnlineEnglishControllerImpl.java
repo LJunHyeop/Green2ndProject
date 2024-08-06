@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class OnlineEnglishControllerImpl {
     private final OnlineEnglishServiceImpl service;
     @PostMapping
-    public ResultDto<Integer> PostEnglishWordQuestion(@RequestPart PostOnlineQuestionEnglishWordReq p, @RequestPart MultipartFile pic /*, @RequestPart MultipartFile v*/){
+    public ResultDto<Integer> PostEnglishWordQuestion(@RequestPart PostOnlineQuestionEnglishWordReq p, @RequestPart MultipartFile pic){
         int result=1;
         return ResultDto.<Integer>builder()
                 .result(result)
@@ -26,8 +26,8 @@ public class OnlineEnglishControllerImpl {
                 .build();
     }
 
-    @PostMapping
-    public ResultDto<Integer> PostEnglishListeningQuestion(@RequestPart PostOnlineQuestionEnglishListeningReq p, @RequestPart MultipartFile pic /*, @RequestPart MultipartFile v*/){
+    @PostMapping("listen")
+    public ResultDto<Integer> PostEnglishListeningQuestion(@RequestPart PostOnlineQuestionEnglishListeningReq p, @RequestPart MultipartFile pic){
         int result=1;
         return ResultDto.<Integer>builder()
                 .result(result)
