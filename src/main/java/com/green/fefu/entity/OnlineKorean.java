@@ -35,5 +35,8 @@ public class OnlineKorean extends UpdatedAt{
     // 학년정보 추가
     private Long classId;
 
+    // 문제 유형
+    private Long typeTag;
+
 
 }

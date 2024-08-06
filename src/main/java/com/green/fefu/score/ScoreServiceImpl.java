@@ -1,11 +1,14 @@
 package com.green.fefu.score;
 
 import com.green.fefu.entity.Score;
+import com.green.fefu.entity.ScoreSign;
 import com.green.fefu.entity.Student;
 import com.green.fefu.entity.StudentClass;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.ParentsUserMapper;
 import com.green.fefu.parents.model.GetSignatureReq;
+import com.green.fefu.parents.repository.ParentRepository;
+import com.green.fefu.parents.repository.ScoreSignRepository;
 import com.green.fefu.score.model.*;
 
 import com.green.fefu.score.module.RoleCheckerImpl;
@@ -39,7 +42,7 @@ public class ScoreServiceImpl {
     private final ScoreRepository repository;
     private final StudentClassRepository studentClassRepository;
     private final StudentRepository studentRepository;
-
+    private final ScoreSignRepository scoreSignRepository;
     //점수 넣기
     public int postScore(InsScoreReq p) {
         MyUser user = authenticationFacade.getLoginUser();
@@ -57,7 +60,7 @@ public class ScoreServiceImpl {
         delScore.setYear(p.getYear());
 
         Student student = studentRepository.getReferenceById(p.getStudentPk()) ;
-
+        ScoreSign scoreSign = new ScoreSign();
 
         Score score = new Score();
 //        repository.getReferenceById(user.getUserId());
@@ -77,8 +80,16 @@ public class ScoreServiceImpl {
         score.setName(p.getScoreList().get(0).getName());
         score.setMark(p.getScoreList().get(0).getMark());
 
+        //전자서명 확인
+        scoreSign = scoreSignRepository.findTop1BySemesterAndYearAndStudentPk(p.getSemester(),p.getYear(),student) ;
+
+
+        //권한체크
         roleChecker.checkTeacherRole();
         repository.save(score);
+        if (scoreSign != null) {
+            scoreSignRepository.delete(scoreSign);
+        }
 //        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk());
 //        GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
 //        // 담당 학급이 아닐때

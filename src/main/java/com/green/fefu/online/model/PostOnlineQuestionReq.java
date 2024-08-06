@@ -33,6 +33,9 @@ public class PostOnlineQuestionReq {
     @JsonIgnore
     private Long teacherPk;
 
+    @Schema(example = "1", description = "1->어법 2->어휘 3->독해...(임시)")
+    private Long typeTag;
+
 //    @JsonIgnore
 //    private Long classId;
 }

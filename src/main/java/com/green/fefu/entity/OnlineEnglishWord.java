@@ -22,6 +22,8 @@ public class OnlineEnglishWord {
 
     private String pic;
 
+    private String voice;
+
     @ManyToOne
     @JoinColumn(name="tea_id", nullable = false)
     private Teacher teaId;
