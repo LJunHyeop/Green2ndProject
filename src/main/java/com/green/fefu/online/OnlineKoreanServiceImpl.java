@@ -44,7 +44,6 @@ public class OnlineKoreanServiceImpl {
         OnlineKoreanPics entKoreanPic = new OnlineKoreanPics();
         OnlineKorean entOnlineKorean = new OnlineKorean();
 
-
         entOnlineKorean.setQuestion(p.getQuestion());
         entOnlineKorean.setContents(p.getContents());
         entOnlineKorean.setAnswer(p.getAnswer().toString());
@@ -53,6 +52,7 @@ public class OnlineKoreanServiceImpl {
         //선생님 PK를 통해서 반 정보
         entOnlineKorean.setClassId(mapper.teacherClass(teacher.getTeaId()));
         entOnlineKorean.setCreatedAt(LocalDateTime.now());
+        entOnlineKorean.setTypeTag(p.getTypeTag());
         // 문제 Entity에 저장
         onlineKoreanRepository.save(entOnlineKorean);
 

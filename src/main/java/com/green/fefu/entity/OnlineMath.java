@@ -22,6 +22,9 @@ public class OnlineMath extends UpdatedAt{
 
     private Integer answer;
 
+    // 난이도
+    private Integer level;
+
     @ManyToOne
     @JoinColumn(name="tea_id", nullable = false)
     private Teacher teaId;
@@ -29,6 +32,10 @@ public class OnlineMath extends UpdatedAt{
     // 학년정보 추가
     private Long classId;
 
-    // 난이도
-    private Integer level;
+    // 문제 유형
+    private Long typeTag;
+
+    // 문제 타입 1->객관식 2-> 주관식
+    private Long queTag;
+
 }
