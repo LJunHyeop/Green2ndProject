@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ScoreSignRepository extends JpaRepository<ScoreSign, Long> {
     ScoreSign getAllByStudentPkAndExamSignAndSemesterAndYear(Student student, int examSign, int semester, int year) ;
 
+    ScoreSign findTop1BySemesterAndYearAndStudentPk(int Semester, int year, Student student);
 }
