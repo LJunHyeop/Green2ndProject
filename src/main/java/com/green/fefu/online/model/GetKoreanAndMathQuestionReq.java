@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GetKoreanQuestionReq {
+public class GetKoreanAndMathQuestionReq {
     private Long studentPk;
-    private String subject;
+    private Long subject;
 }

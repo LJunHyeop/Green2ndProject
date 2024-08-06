@@ -1,8 +1,7 @@
 package com.green.fefu.online;
 
 import com.green.fefu.common.model.ResultDto;
-import com.green.fefu.entity.OnlineKorean;
-import com.green.fefu.online.model.GetKoreanQuestionReq;
+import com.green.fefu.online.model.GetKoreanAndMathQuestionReq;
 import com.green.fefu.online.model.PostOnlineQuestionReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -56,9 +54,9 @@ public class OnlineKoreanControllerImpl {
     }
 
     @GetMapping
-    public ResultDto<List<GetKoreanQuestionReq>> GetKoreanQuestion(){
-        List<GetKoreanQuestionReq> result=new ArrayList<>();
-        return ResultDto.<List<GetKoreanQuestionReq>>builder()
+    public ResultDto<List<GetKoreanAndMathQuestionReq>> GetKoreanQuestion(){
+        List<GetKoreanAndMathQuestionReq> result=new ArrayList<>();
+        return ResultDto.<List<GetKoreanAndMathQuestionReq>>builder()
                 .result(result)
                 .build();
     }
