@@ -37,5 +37,4 @@ public class OnlineMath extends UpdatedAt{
 
     // 문제 타입 1->객관식 2-> 주관식
     private Long queTag;
-
 }
