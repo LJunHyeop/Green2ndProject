@@ -46,6 +46,8 @@ public class updateStudentReq {
 
     @JsonIgnore
     private String fullAddr;
+    @JsonIgnore
+    private String pic;
 
 //    public void setFullAddr() {
 //        if(studentAddr != null) {

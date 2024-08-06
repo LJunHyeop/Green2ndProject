@@ -180,9 +180,9 @@ public class StudentControllerImpl implements StudentController {
     })
     @PreAuthorize("hasRole('TEACHER') or hasRole('PARENTS')")
     @Override
-    public ResponseEntity updateStudent(@RequestBody @Valid updateStudentReq p) {
+    public ResponseEntity updateStudent(@RequestPart @Valid updateStudentReq p, @RequestPart(required = false) MultipartFile pic) {
         log.info("updateStudent req : {}", p);
-        service.updateStudent(p);
+        service.updateStudent(p, pic);
         return new ResponseEntity<>(OK);
     }
 

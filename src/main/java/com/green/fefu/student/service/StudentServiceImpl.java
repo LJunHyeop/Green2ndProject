@@ -31,7 +31,7 @@ import static com.green.fefu.student.model.dataset.StudentMapNamingData.*;
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
     private final StudentMapper mapper;
-//    private final Validation validation;
+    //    private final Validation validation;
 //    private final PatternCheck patternCheck;
     private final CustomFileUtils customFileUtils;
     private final AuthenticationFacade authenticationFacade;
@@ -49,13 +49,13 @@ public class StudentServiceImpl implements StudentService {
 //        길이 체크
 //        createStudentLengthCheck(p);
 
-        fileNameChange(p, pic);
+        p.setPic(fileNameChange(pic));
         Student a = studentRepository.findStudentByGrade(Integer.parseInt(p.getGrade()));
-        if(a != null){
+        if (a != null) {
             throw new CustomException(GRADE_DUPLICATE_ERROR);
         }
         a = studentRepository.findStudentByUid(p.getStudentId());
-        if(a != null){
+        if (a != null) {
             throw new CustomException(STUDENT_ID_DUPLICATE_ERROR);
         }
 //        int result = mapper.createStudent(p);
@@ -148,11 +148,11 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
-    private void fileNameChange(createStudentReq p, MultipartFile pic) {
+    private String fileNameChange(MultipartFile pic) {
         if (pic != null) {
-            String uuidFileName = customFileUtils.makeRandomFileName(pic);
-            p.setPic(uuidFileName);
+            return customFileUtils.makeRandomFileName(pic);
         }
+        throw new CustomException(FILE_ERROR);
     }
 
     //=====================================================================================================================
@@ -224,8 +224,7 @@ public class StudentServiceImpl implements StudentService {
         String[] classData = null;
         if (result.getUClass() != null) {
             classData = Parser.classParserArray(result.getUClass());
-        }
-        else {
+        } else {
             throw new CustomException(GRADE_DATA_NOT_FOUND);
         }
         String[] addr;
@@ -248,8 +247,8 @@ public class StudentServiceImpl implements StudentService {
         log.info("removePrevEtc.size() = " + prevEtc.size());
         for (int i = 0; i < prevEtc.size(); i++) {
             String etcClass = Parser.classParser(prevEtc.get(i).getUClass());
-            if(etcClass == null){
-                break ;
+            if (etcClass == null) {
+                break;
             }
             prevEtc.get(i).setUClass(etcClass);
         }
@@ -262,7 +261,7 @@ public class StudentServiceImpl implements StudentService {
 //    학생 정보 수정
     @Override
     @Transactional
-    public void updateStudent(updateStudentReq p) {
+    public void updateStudent(updateStudentReq p, MultipartFile pic) {
 //        updateStudentDataCheck(p);
         p.setFullAddr(Parser.addressParserMerge(p.getStudentZoneCode(), p.getStudentAddr(), p.getStudentDetail()));
         log.info("updateStudentDataCheck = " + p);
@@ -286,30 +285,43 @@ public class StudentServiceImpl implements StudentService {
                 student.setBirth(date);
             }
         }
+        if (pic != null) {
+            p.setPic(fileNameChange(pic));
+            try {
+                String path = String.format("student/%s", p.getStudentPk());
+                customFileUtils.makeFolders(path);
+                String target = String.format("%s/%s", path, p.getPic());
+                customFileUtils.transferTo(pic, target);
+            } catch (Exception e) {
+                throw new CustomException(FILE_ERROR);
+            }
+
+        }
         studentRepository.save(student);
     }
-/*
-    private void updateStudentDataCheck(updateStudentReq p) {
-        if (p.getStudentAddr() != null && p.getStudentZoneCode() != null) {
-            p.setFullAddr(Parser.addressParserMerge(p.getStudentZoneCode(), p.getStudentAddr(), p.getStudentDetail()));
+
+    /*
+        private void updateStudentDataCheck(updateStudentReq p) {
+            if (p.getStudentAddr() != null && p.getStudentZoneCode() != null) {
+                p.setFullAddr(Parser.addressParserMerge(p.getStudentZoneCode(), p.getStudentAddr(), p.getStudentDetail()));
+            }
+            if (p.getStudentPk() < 1) {
+                throw new CustomException(REQUIRED_DATA_ERROR);
+            }
+            if (p.getStudentPhone() != null) {
+                patternCheck.phoneCheck(p.getStudentPhone());
+            }
+            if (p.getStudentName() != null) {
+                patternCheck.nameCheck(p.getStudentName());
+            }
         }
-        if (p.getStudentPk() < 1) {
-            throw new CustomException(REQUIRED_DATA_ERROR);
-        }
-        if (p.getStudentPhone() != null) {
-            patternCheck.phoneCheck(p.getStudentPhone());
-        }
-        if (p.getStudentName() != null) {
-            patternCheck.nameCheck(p.getStudentName());
-        }
-    }
-*/
+    */
     //=====================================================================================================================
 //    부모 없는 학생 List 출력
     @Override
     public void getStudentListForParent(String searchWord) {
         Student student = studentRepository.findByRandCode(searchWord);
-        if(student == null) {
+        if (student == null) {
             throw new CustomException(NOT_FOUND_USER_ERROR);
         }
     }
