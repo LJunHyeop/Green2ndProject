@@ -70,7 +70,7 @@ public class AdminControllerImpl implements AdminController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity findUnAcceptList(@PathVariable @Schema(example = "1", description = "1-> 부모List, 2-> 선생List") @NotBlank int p) {
+    public ResponseEntity findUnAcceptList(@PathVariable @Schema(example = "1", description = "1-> 부모List, 2-> 선생List") int p) {
         log.info("parameter p: {}", p);
         Map map = new HashMap();
         map = service.findUnAcceptList(p, map);
