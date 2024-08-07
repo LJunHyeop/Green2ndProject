@@ -3,11 +3,9 @@ package com.green.fefu.online.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter

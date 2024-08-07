@@ -1,6 +1,5 @@
 package com.green.fefu.entity.dummy;
 
-import com.green.fefu.entity.HaesolOnline;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
