@@ -1,12 +1,17 @@
 package com.green.fefu.online;
 
 import com.green.fefu.common.CustomFileUtils;
+import com.green.fefu.common.model.ResultDto;
 import com.green.fefu.entity.HaesolOnline;
 import com.green.fefu.entity.HaesolOnlineMultiple;
 import com.green.fefu.entity.Teacher;
+import com.green.fefu.entity.dummy.Subject;
+import com.green.fefu.entity.dummy.TypeTag;
+import com.green.fefu.online.model.GetKoreanAndMathQuestionReq;
 import com.green.fefu.online.model.PostOnlineQuestionReq;
 import com.green.fefu.online.repository.HaesolOnlineMultipleRepository;
 import com.green.fefu.online.repository.HaesolOnlineRepository;
+import com.green.fefu.online.repository.TypeTagRepository;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +29,8 @@ import java.util.*;
 public class HaesolOnlineServiceImpl {
     private final HaesolOnlineRepository HaesolOnlineRepository;
     private final HaesolOnlineMultipleRepository HaesolOnlineMultipleRepository;
+    private final TypeTagRepository typeTagRepository;
+    private final SubjectRepository subjectRepository;
 
     private final AuthenticationFacade authenticationFacade;
     private final TeacherRepository teacherRepository;
@@ -34,19 +41,19 @@ public class HaesolOnlineServiceImpl {
     @Transactional
     public int PostKorAMatQuestion(MultipartFile pic, PostOnlineQuestionReq p) {
         log.info("데이터 객체 : {}", p);
-        // 로그인 한 선생님 정보
+        //setter에 들어갈 Entity + fileName제작
         Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
+        Subject subject = subjectRepository.getReferenceById(p.getSubjectCode());
+        TypeTag typeTag = typeTagRepository.findByTypeNumAndSubject_SubjectId(p.getSubjectCode(), p.getTypeTag());
+        String picString = customFileUtils.makeRandomFileName(pic);
 
         // entity 생성 + 파일 이름
         HaesolOnline haesolOnline = new HaesolOnline();
-        String picString = null;
 
-
-        //선생님 PK를 통해서 반 정보
-        haesolOnline.setTeaId(teacher); //선생님 PK
+        haesolOnline.setTeaId(teacher); //선생님 PK->아래에서 학반 정보
         haesolOnline.setClassId(mapper.teacherClass(teacher.getTeaId())); //선생님 정보 토대로 학년 정보
-        haesolOnline.setSubjectCode(p.getSubjectCode()); //과목코드
-        haesolOnline.setTypeTag(p.getTypeTag()); //객관식-주관식
+        haesolOnline.setSubjectCode(subject); //과목코드
+        haesolOnline.setTypeTag(typeTag); //객관식-주관식
         haesolOnline.setLevel(p.getLevel()); //난이도
         haesolOnline.setQuestion(p.getQuestion()); //문제
         haesolOnline.setContents(p.getContents()); //내용
@@ -57,21 +64,21 @@ public class HaesolOnlineServiceImpl {
         // 문제 Entity에 저장
         HaesolOnlineRepository.save(haesolOnline);
 
+        // 사진을 폴더에 저장
         if (pic != null || !pic.isEmpty()) {
-            try {// 사진 저장 및 랜덤 이름 DB에 저장
-                picString=customFileUtils.makeRandomFileName(pic);
+            try {
                 String path = String.format("korean/%s", haesolOnline.getQueId());
                 customFileUtils.makeFolders(path);
                 String target = String.format("%s/%s", path, picString);
                 customFileUtils.transferTo(pic, target);
-
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException("시험문제 업로드에 실패했습니다.");
             }
         }
 
-        if (p.getQueTag() == 1) {// 문제 유형이 객관식이라면 보기를 담기
+        // 문제 유형이 객관식이라면 보기를 Entity에 저장
+        if (p.getQueTag() == 1) {
             List<String> koreanMultipleList = p.getMultiple();
             log.info("multiple req : {}", p.getMultiple());
             int num=1;
@@ -84,12 +91,14 @@ public class HaesolOnlineServiceImpl {
                 entKoreanMultiple.setSentence(mul);
                 num++;
                 multipleList.add(entKoreanMultiple);
-            }// 보기 Entity에 저장
+            }
             HaesolOnlineMultipleRepository.saveAll(multipleList);
         }
 
-
-
         return 1;
+    }
+
+    public ResultDto<List<GetKoreanAndMathQuestionReq>> GetKorAMatQuestion(GetKoreanAndMathQuestionReq p){
+        return null;
     }
 }

@@ -1,6 +1,8 @@
 package com.green.fefu.entity;
 
 
+import com.green.fefu.entity.dummy.Subject;
+import com.green.fefu.entity.dummy.TypeTag;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,11 +29,14 @@ public class HaesolOnline extends UpdatedAt{
     private Long classId;
 
     // 과목코드 1->국어, 2->수학
-    @Column(nullable = false)
-    private Integer subjectCode;
+    @ManyToOne
+    @JoinColumn(name="subjectCode", nullable = false)
+    private Subject subjectCode;
 
     // 과목 세부 유형 ex. 1-> 문법, 2->어휘 ...
-    private Long typeTag;
+    @ManyToOne
+    @JoinColumn(name="typeTag", nullable = false, referencedColumnName = "typeNum")
+    private TypeTag typeTag;
 
     // 문제 유형 1->객관식 2->주관식
     @ColumnDefault("1")

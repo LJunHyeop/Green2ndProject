@@ -55,7 +55,7 @@ public class HaesolOnlineControllerImpl {
     }
 
     @GetMapping
-    public ResultDto<List<GetKoreanAndMathQuestionReq>> GetKorAMatQuestion(GetKoreanAndMathQuestionReq p){
+    public ResultDto<List<GetKoreanAndMathQuestionReq>> GetKorAMatQuestion(@RequestBody GetKoreanAndMathQuestionReq p){
         List<GetKoreanAndMathQuestionReq> result=new ArrayList<>();
         return ResultDto.<List<GetKoreanAndMathQuestionReq>>builder()
                 .result(result)

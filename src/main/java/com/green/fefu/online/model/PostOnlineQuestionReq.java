@@ -23,9 +23,9 @@ public class PostOnlineQuestionReq {
 
     // ========== 시험 과목 불러오기 및 분류 ==========
     @Schema(example = "1", description = "[과목 코드] 1: 국어, 2: 수학")
-    private Integer subjectCode;
+    private Long subjectCode;
 
-    @Schema(example = "3", description = "1->어법 2->어휘 3->독해...(임시)")
+    @Schema(example = "3", description = "1->독해 2->문법 3->문학")
     private Long typeTag;
 
     @Schema(example = "1", description = "1->객관식 2->주관식")
