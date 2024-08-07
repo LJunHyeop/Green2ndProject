@@ -11,6 +11,6 @@ public class SocialSignInReq {
     @Schema(description = "유저 아이디", requiredMode = Schema.RequiredMode.REQUIRED)
     private String id ;
 
-    @JsonIgnore
+    @Schema(description = "연동 타입")
     private SignInProviderType providerType ;
 }

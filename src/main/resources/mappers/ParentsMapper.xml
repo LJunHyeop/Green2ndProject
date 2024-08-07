@@ -166,6 +166,30 @@
         SET parent_id = #{parentPk}
         WHERE student_pk = #{studentPk}
     </update>
+    <select id="studentList">
+        SELECT a.name AS studentName
+        , a.uid AS uid
+        , a.accept AS accept
+        , a.state AS state
+        , a.birth AS birth
+        , a.stu_id AS studentPk
+        , a.grade AS grade
+        , a.pic AS pic
+        , a.rand_code AS randCond
+        , d.name AS teacherName
+        , d.phone AS teacherPhone
+        , d.email AS teacherEmail
+        FROM student a
+        INNER JOIN student_class b
+        ON a.stu_id = b.stu_id
+        INNER JOIN class c
+        ON b.class_id = c.class_id
+        INNER JOIN teacher d
+        ON c.tea_id = d.tea_id
+        INNER JOIN parents f
+        ON a.parent_id = f.parents_id
+        WHERE f.parents_id = #{parentId} ;
+    </select>
     <select id="getStudentParents">
         SELECT
                 s.stu_id AS studentPk,
