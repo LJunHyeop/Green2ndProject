@@ -20,7 +20,7 @@ public class SignInPostRes {
     private String nm;
 
     @Schema(description = "자녀 List")
-    private List<Student> studentList ;
+    private List<StudentRes> studentList ;
 
     private String accessToken;
 }

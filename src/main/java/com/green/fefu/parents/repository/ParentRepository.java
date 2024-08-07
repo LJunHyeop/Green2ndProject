@@ -13,7 +13,7 @@ public interface ParentRepository extends JpaRepository<Parents, Long> {
             "on ff.parentsId = po2.parentsId.parentsId " +
             "where po2.providerType = :providerType" +
             " and po2.parentsId.parentsId = :parentsId")
-    Parents getParentsByProviderTypeAndUidAndParentsId(SignInProviderType providerType, long parentsId) ;
+    Parents getParentsByProviderTypeAndParentsId(SignInProviderType providerType, long parentsId) ;
 
     @Query(value = "select ff.parentsId from Parents ff where ff.parentsId = :parentsId")
     long getParentsByParentsId(long parentsId) ;

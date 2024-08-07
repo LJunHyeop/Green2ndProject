@@ -27,7 +27,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Hibernate;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -193,7 +192,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         long parent = repository.getParentsByParentsId(parentsUser.getParentsId()) ;
         log.info("parentsId: {}", parent);
 
-        Parents parents = repository.getParentsByProviderTypeAndUidAndParentsId(parentOAuth2.getProviderType(), parent) ;
+        Parents parents = repository.getParentsByProviderTypeAndParentsId(parentOAuth2.getProviderType(), parent) ;
         log.info("parents: {}", parents);
 
         if(parentsUser == null || !BCrypt.checkpw(p.getUpw(), parentsUser.getUpw())){
@@ -209,12 +208,12 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 role(role.trim()).
                 build();
 
-        List<Student> student = studentRepository.findByParent(parents.getParentsId()) ;
+        List<StudentRes> student = mapper.studentList(parents.getParentsId()) ;
         log.info("student: {}", student);
 
-        for (Student students : student) {
-            Hibernate.initialize(students.getParent());
-        }
+//        for (StudentRes students : student) {
+//            Hibernate.initialize(students.getParent());
+//        }
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
         String refreshToken = jwtTokenProvider.generateRefreshToken(myUser);
@@ -423,11 +422,12 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     // 소셜 로그인
     public SignInPostRes socialSignIn(SocialSignInReq req, HttpServletResponse res){
         ParentOAuth2 parentsOAuth2 = oAuth2Repository.getParentsByProviderTypeAndId(req.getProviderType(), req.getId()) ;
-        Parents parents = repository.getParentsByProviderTypeAndUidAndParentsPk(parentsOAuth2.getProviderType(), req.getId(), parentsOAuth2.getParentsId().getParentsId()) ;
-
         if(parentsOAuth2 == null ){
             throw new CustomException(NOT_EXISTENCE_USER) ;
-        } else if (Objects.equals(parents.getAuth(), "ROLE_PARENTS")) {
+        }
+
+        Parents parents = repository.getParentsByProviderTypeAndUidAndParentsPk(parentsOAuth2.getProviderType(), req.getId(), parentsOAuth2.getParentsId().getParentsId()) ;
+        if (Objects.equals(parents.getAuth(), "ROLE_PARENTS")) {
             throw new CustomException(NOT_ACCESS_AUTHORITY) ;
         }
 
