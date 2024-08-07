@@ -54,19 +54,18 @@ public class HaesolOnlineControllerImpl {
                 .build();
     }
 
+
     @GetMapping
-    public ResultDto<List<GetKoreanAndMathQuestionReq>> GetKorAMatQuestion(@RequestBody GetKoreanAndMathQuestionReq p){
-        List<GetKoreanAndMathQuestionReq> result=new ArrayList<>();
-        return ResultDto.<List<GetKoreanAndMathQuestionReq>>builder()
-                .result(result)
+    public ResultDto<List<GetKoreanAndMathQuestionRes>> GetKorAMatQuestion(GetKoreanAndMathQuestionReq p) {
+        List<GetKoreanAndMathQuestionRes> list=service.GetKorAMatQuestion(p);
+        return ResultDto.<List<GetKoreanAndMathQuestionRes>>builder()
+                .statusCode(HttpStatus.OK)
+                .resultMsg(HttpStatus.OK.toString())
+                .result(list)
                 .build();
     }
 
-    @GetMapping("korean")
-    public ResultDto<List<GetKoreanAndMathQuestionRes>> getKoreanQuestion(GetKoreanAndMathQuestionReq p) {
-        return ResultDto.<List<GetKoreanAndMathQuestionRes>>builder()
-                .build();
-    }
+
 //    @PutMapping
 //    public ResultDto<>(){
 //        return ResultDto.<>builder()

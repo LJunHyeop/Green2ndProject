@@ -8,6 +8,7 @@ import com.green.fefu.entity.Teacher;
 import com.green.fefu.entity.dummy.Subject;
 import com.green.fefu.entity.dummy.TypeTag;
 import com.green.fefu.online.model.GetKoreanAndMathQuestionReq;
+import com.green.fefu.online.model.GetKoreanAndMathQuestionRes;
 import com.green.fefu.online.model.PostOnlineQuestionReq;
 import com.green.fefu.online.repository.HaesolOnlineMultipleRepository;
 import com.green.fefu.online.repository.HaesolOnlineRepository;
@@ -27,8 +28,8 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class HaesolOnlineServiceImpl {
-    private final HaesolOnlineRepository HaesolOnlineRepository;
-    private final HaesolOnlineMultipleRepository HaesolOnlineMultipleRepository;
+    private final HaesolOnlineRepository haesolOnlineRepository;
+    private final HaesolOnlineMultipleRepository haesolOnlineMultipleRepository;
     private final TypeTagRepository typeTagRepository;
     private final SubjectRepository subjectRepository;
 
@@ -37,6 +38,7 @@ public class HaesolOnlineServiceImpl {
     private final CustomFileUtils customFileUtils;
 
     private final OnlineMapper mapper;
+    private final Integer TOTAL_TEST_QUESTION=20;
 
     @Transactional
     public int PostKorAMatQuestion(MultipartFile pic, PostOnlineQuestionReq p) {
@@ -68,7 +70,7 @@ public class HaesolOnlineServiceImpl {
         haesolOnline.setCreatedAt(LocalDateTime.now()); //생성일자(상속)
         // 문제 Entity에 저장
         log.info("OnlineEntity(haesolOnline) : {}", haesolOnline);
-        HaesolOnlineRepository.save(haesolOnline);
+        haesolOnlineRepository.save(haesolOnline);
 
         // 사진을 폴더에 저장
         if (pic != null || !pic.isEmpty()) {
@@ -99,13 +101,24 @@ public class HaesolOnlineServiceImpl {
                 multipleList.add(entHaesolOnlineMultiple);
                 log.info("OnlineEntity(entHaesolOnlineMultiple) : {}", entHaesolOnlineMultiple);
             }
-            HaesolOnlineMultipleRepository.saveAll(multipleList);
+            haesolOnlineMultipleRepository.saveAll(multipleList);
         }
-
         return 1;
     }
 
-    public ResultDto<List<GetKoreanAndMathQuestionReq>> GetKorAMatQuestion(GetKoreanAndMathQuestionReq p){
-        return null;
+
+    public List<GetKoreanAndMathQuestionRes> GetKorAMatQuestion(GetKoreanAndMathQuestionReq p){
+        List<GetKoreanAndMathQuestionRes> listAll=haesolOnlineRepository.findQueIdQuestionContentsAnswerLevelPicTypeTagQueTagBySubjectCodeAndClassId(p.getLevel(), p.getSubjectCode());
+        List<GetKoreanAndMathQuestionRes> list=new ArrayList<>(TOTAL_TEST_QUESTION);
+
+        if(!listAll.isEmpty() && list.size()!=TOTAL_TEST_QUESTION) {
+            int random=(int)Math.random()*list.size();
+            list.add(listAll.get(random));
+        }
+
+        for(GetKoreanAndMathQuestionRes res: list) {
+            res.setSentence(haesolOnlineMultipleRepository.findSentencebyQueIdOrderbynum(res.getQueId()));
+        }
+        return list;
     }
 }
