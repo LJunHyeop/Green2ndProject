@@ -86,8 +86,13 @@ dependencies {
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
+    // WebSocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+// sockjs
+    implementation 'org.webjars:sockjs-client:1.5.1'
+// stomp
+    implementation 'org.webjars:stomp-websocket:2.3.4'
+// gson
+    implementation 'com.google.code.gson:gson:2.9.0'
 
-tasks.named('test') {
-    useJUnitPlatform()
 }
