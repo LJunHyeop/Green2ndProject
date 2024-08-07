@@ -1,6 +1,7 @@
 package com.green.fefu.parents;
 
 import com.green.fefu.entity.ParentOAuth2;
+import com.green.fefu.entity.Student;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.model.*;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
@@ -195,6 +196,17 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     @PostMapping("/sign-in/social-login") @Operation(summary = "소셜로그인", description = "회원가입된 회원이 소셜로그인 연동한 경우에만 로그인 가능")
     public ResponseEntity socialLogin(@Valid @RequestBody SocialSignInReq req, HttpServletResponse res){
         SignInPostRes result = service.socialSignIn(req, res) ;
+        return ResponseEntity.ok().body(result) ;
+    }
+    // 소셜로그인 시 로컬아이디가 없는 경우
+    @PostMapping("/sign-up/social-login/random-code") @Operation(summary = "소셜로그인 회원가입", description = "학생 랜덤코드로 회원가입된 학부모가 없으면 회원가입")
+    public ResponseEntity socialLoginSignUp(@RequestBody String randCode){
+        String result = service.getStudentRandCode(randCode) ;
+        return ResponseEntity.ok().body(result) ;
+    }
+    @PostMapping("/sign-up/social-login/phone") @Operation(summary = "소셜로그인 회원가입 전화번호", description = "전화번호 입력")
+    public ResponseEntity socialLoginSignUpPhone(@RequestBody String phoneNumber, @RequestBody long parentPk){
+        String result = service.postSocialPhoneNumber(phoneNumber, parentPk) ;
         return ResponseEntity.ok().body(result) ;
     }
 }
