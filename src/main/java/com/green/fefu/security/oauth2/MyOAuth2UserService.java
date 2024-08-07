@@ -80,7 +80,11 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
 
         // 연동된 아이디가 없을 시
         if(list == null) {
-            throw new CustomException(NOT_FOUND_PERISTALSIS_ID) ;
+            PostParentsUserReq user = new PostParentsUserReq() ;
+            user.setNm(oAuth2UserInfo.getName()) ;
+            user.setEmail(oAuth2UserInfo.getEmail()) ;
+            mapper.postParentsUser(user) ;
+//            throw new CustomException(NOT_FOUND_PERISTALSIS_ID) ;
         }
 
         MyUserOAuth2Vo myUserOAuth2Vo =
