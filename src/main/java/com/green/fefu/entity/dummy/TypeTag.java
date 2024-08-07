@@ -3,9 +3,9 @@ package com.green.fefu.entity.dummy;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-
-
+@ToString
 @Getter
 @Setter
 @Entity

@@ -40,11 +40,16 @@ public class HaesolOnlineServiceImpl {
 
     @Transactional
     public int PostKorAMatQuestion(MultipartFile pic, PostOnlineQuestionReq p) {
-        log.info("데이터 객체 : {}", p);
+        log.info("Service 데이터 객체 : {}", p);
         //setter에 들어갈 Entity + fileName제작
         Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
+        log.info("teacher entity {}",teacher);
         Subject subject = subjectRepository.getReferenceById(p.getSubjectCode());
-        TypeTag typeTag = typeTagRepository.findByTypeNumAndSubject_SubjectId(p.getSubjectCode(), p.getTypeTag());
+        log.info("subject entity {}", subject);
+        TypeTag typeTag = typeTagRepository.findByTypeNumAndSubject_SubjectId(p.getTypeTag(), p.getSubjectCode());
+        log.info("p.getTypeTag {}", p.getTypeTag());
+        log.info("p.getSubjectCode {}", p.getSubjectCode());
+        log.info("typeTag entity {}", typeTag);
         String picString = customFileUtils.makeRandomFileName(pic);
 
         // entity 생성 + 파일 이름
@@ -62,6 +67,7 @@ public class HaesolOnlineServiceImpl {
         haesolOnline.setPic(picString); // 사진 저장
         haesolOnline.setCreatedAt(LocalDateTime.now()); //생성일자(상속)
         // 문제 Entity에 저장
+        log.info("OnlineEntity(haesolOnline) : {}", haesolOnline);
         HaesolOnlineRepository.save(haesolOnline);
 
         // 사진을 폴더에 저장
@@ -79,18 +85,19 @@ public class HaesolOnlineServiceImpl {
 
         // 문제 유형이 객관식이라면 보기를 Entity에 저장
         if (p.getQueTag() == 1) {
-            List<String> koreanMultipleList = p.getMultiple();
+            List<String> haesolOnlineMultipleList = p.getMultiple();
             log.info("multiple req : {}", p.getMultiple());
             int num=1;
             List<HaesolOnlineMultiple> multipleList=new ArrayList<>();
-            for(String mul:koreanMultipleList) {
-                HaesolOnlineMultiple entKoreanMultiple = new HaesolOnlineMultiple();
-                entKoreanMultiple.setHaesolOnline(haesolOnline);
-                entKoreanMultiple.setNum(num);
+            for(String mul:haesolOnlineMultipleList) {
+                HaesolOnlineMultiple entHaesolOnlineMultiple = new HaesolOnlineMultiple();
+                entHaesolOnlineMultiple.setHaesolOnline(haesolOnline);
+                entHaesolOnlineMultiple.setNum(num);
                 log.info("num:{} : string : {}", num, mul);
-                entKoreanMultiple.setSentence(mul);
+                entHaesolOnlineMultiple.setSentence(mul);
                 num++;
-                multipleList.add(entKoreanMultiple);
+                multipleList.add(entHaesolOnlineMultiple);
+                log.info("OnlineEntity(entHaesolOnlineMultiple) : {}", entHaesolOnlineMultiple);
             }
             HaesolOnlineMultipleRepository.saveAll(multipleList);
         }

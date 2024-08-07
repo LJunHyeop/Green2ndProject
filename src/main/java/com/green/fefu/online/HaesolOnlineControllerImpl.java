@@ -45,7 +45,7 @@ public class HaesolOnlineControllerImpl {
     @PostMapping("/question")
     @PreAuthorize("hasRole('TEACHER')")
     public ResultDto<Integer> PostKorAMatQuestion(@RequestPart(required = false) MultipartFile pic, @RequestPart PostOnlineQuestionReq p){
-        log.info("{}",p);
+        log.info("Controller 데이터 객체 : {}", p);
         int result=service.PostKorAMatQuestion(pic, p);
         return ResultDto.<Integer>builder()
                 .statusCode(HttpStatus.OK)

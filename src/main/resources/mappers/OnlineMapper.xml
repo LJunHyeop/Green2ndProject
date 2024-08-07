@@ -8,7 +8,8 @@
         SELECT FLOOR(B.class_id/100) AS teasGrade
         FROM teacher A
         INNER JOIN class B
-        ON #{teaId}=B.tea_id;
+        ON #{teaId}=B.tea_id
+        LIMIT 1;
     </select>
 
 </mapper>
