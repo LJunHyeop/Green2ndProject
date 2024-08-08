@@ -189,6 +189,9 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         }
 
         Parents parentsUser = repository.findParentByUid(p.getUid()) ;
+        if(parentsUser == null && p.getProviderType().equals(SignInProviderType.LOCAL)){
+            throw new CustomException(NOT_EXISTENCE_PARENT) ;
+        }
         log.info("parentsUser: {}", parentsUser);
         String role = "ROLE_PARENTS";
         ParentOAuth2 parentOAuth2 = new ParentOAuth2() ;
@@ -202,7 +205,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         Parents parents = repository.getParentsByProviderTypeAndParentsId(parentOAuth2.getProviderType(), parent) ;
         log.info("parents: {}", parents);
 
-        if(parentsUser == null || !BCrypt.checkpw(p.getUpw(), parentsUser.getUpw())){
+        if(!BCrypt.checkpw(p.getUpw(), parentsUser.getUpw())){
             throw new CustomException(CHECK_ID_AND_PASSWORD) ;
         }
 
@@ -434,7 +437,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         }
 
         Parents parents = repository.getParentsByProviderTypeAndUidAndParentsPk(parentsOAuth2.getProviderType(), req.getId(), parentsOAuth2.getParentsId().getParentsId()) ;
-        if (Objects.equals(parents.getAuth(), "ROLE_PARENTS")) {
+        if (!Objects.equals(parents.getAuth(), "ROLE_PARENTS")) {
             throw new CustomException(NOT_ACCESS_AUTHORITY) ;
         }
 
