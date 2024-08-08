@@ -4,5 +4,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface OnlineMapper {
-    Long teacherClass(Long teaId);
+    long teacherClass(Long teaId);
+    long parentsClass(Long parentsId, Long stuId);
+    long studentClass(Long stuId);
+
 }

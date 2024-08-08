@@ -1,6 +1,7 @@
 package com.green.fefu.online.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,9 +9,9 @@ import lombok.Setter;
 @Setter
 public class GetKoreanAndMathQuestionReq {
     //과목, 학년, 난이도
-    @JsonIgnore
+    @Schema(example = "1", description = "학부모의 경우 한 명의 자녀 PK가 필요함")
     private Long studentPk; // 학년 정보를 가져옴
 
     private Long subjectCode; // 과목
-    private Long level;
+
 }

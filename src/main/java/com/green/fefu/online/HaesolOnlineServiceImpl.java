@@ -2,27 +2,32 @@ package com.green.fefu.online;
 
 import com.green.fefu.common.CustomFileUtils;
 import com.green.fefu.common.model.ResultDto;
-import com.green.fefu.entity.HaesolOnline;
-import com.green.fefu.entity.HaesolOnlineMultiple;
-import com.green.fefu.entity.Teacher;
+import com.green.fefu.entity.*;
 import com.green.fefu.entity.dummy.Subject;
 import com.green.fefu.entity.dummy.TypeTag;
+import com.green.fefu.exception.CustomException;
 import com.green.fefu.online.model.GetKoreanAndMathQuestionReq;
 import com.green.fefu.online.model.GetKoreanAndMathQuestionRes;
 import com.green.fefu.online.model.PostOnlineQuestionReq;
 import com.green.fefu.online.repository.HaesolOnlineMultipleRepository;
 import com.green.fefu.online.repository.HaesolOnlineRepository;
 import com.green.fefu.online.repository.TypeTagRepository;
+import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.security.AuthenticationFacade;
+import com.green.fefu.security.MyUser;
+import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.auth.AUTH;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static com.green.fefu.exception.JSH.JshErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +38,8 @@ public class HaesolOnlineServiceImpl {
     private final TypeTagRepository typeTagRepository;
     private final SubjectRepository subjectRepository;
 
+    private final StudentRepository studentRepository;
+    private final ParentRepository parentRepository;
     private final AuthenticationFacade authenticationFacade;
     private final TeacherRepository teacherRepository;
     private final CustomFileUtils customFileUtils;
@@ -108,7 +115,30 @@ public class HaesolOnlineServiceImpl {
 
 
     public List<GetKoreanAndMathQuestionRes> GetKorAMatQuestion(GetKoreanAndMathQuestionReq p){
-        List<GetKoreanAndMathQuestionRes> listAll=haesolOnlineRepository.findQueIdQuestionContentsAnswerLevelPicTypeTagQueTagBySubjectCodeAndClassId(p.getLevel(), p.getSubjectCode());
+        MyUser ss=authenticationFacade.getLoginUser();
+
+        long classData = switch (ss.getRole()){
+            case "ROLE_PARENTS"->{
+                if(p.getStudentPk() != null || p.getStudentPk()==0){
+                    throw new CustomException(STUDENT_PK_NOT_FOUND_ERROR);
+                }
+                Parents parents=parentRepository.getReferenceById(ss.getUserId());
+                yield mapper.parentsClass(parents.getParentsId(), p.getStudentPk());
+            }
+            case "ROLE_TEACHER"-> {
+                Teacher teacher = teacherRepository.getReferenceById(ss.getUserId());
+                yield mapper.teacherClass(teacher.getTeaId());
+            }
+            case "ROLE_STUDENT"->{
+                Student student=studentRepository.getReferenceById(ss.getUserId());
+                yield mapper.studentClass(student.getStuId());
+            }
+            default-> throw new CustomException(CANT_ENTER);
+        };
+
+        //학부모-> 자녀 학급, 학생->본인, 학급 선생님-> 담당학급 을 추출하는 과정이 필요
+
+        List<GetKoreanAndMathQuestionRes> listAll=haesolOnlineRepository.findBySubjectCodeAndClassId(p.getSubjectCode(), classData);
         List<GetKoreanAndMathQuestionRes> list=new ArrayList<>(TOTAL_TEST_QUESTION);
 
         if(!listAll.isEmpty() && list.size()!=TOTAL_TEST_QUESTION) {
@@ -117,7 +147,7 @@ public class HaesolOnlineServiceImpl {
         }
 
         for(GetKoreanAndMathQuestionRes res: list) {
-            res.setSentence(haesolOnlineMultipleRepository.findSentencebyQueIdOrderbynum(res.getQueId()));
+            res.setSentence(haesolOnlineMultipleRepository.findSentenceByQueIdOrderByNum(res.getQueId()));
         }
         return list;
     }
