@@ -432,8 +432,10 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     // 소셜 로그인
     public SignInPostRes socialSignIn(SocialSignInReq req, HttpServletResponse res){
         ParentOAuth2 parentsOAuth2 = oAuth2Repository.getParentsByProviderTypeAndId(req.getProviderType(), req.getId()) ;
-        if(parentsOAuth2 == null ){
-            throw new CustomException(NOT_EXISTENCE_USER) ;
+        if( parentsOAuth2 == null ){
+            return SignInPostRes.builder()
+                    .parentsId(-1)
+                    .build() ;
         }
 
         Parents parents = repository.getParentsByProviderTypeAndUidAndParentsPk(parentsOAuth2.getProviderType(), req.getId(), parentsOAuth2.getParentsId().getParentsId()) ;
@@ -469,9 +471,10 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         return 1 ;
     }
     // 소셜 회원가입 시 전화번호 입력
-    public String postSocialPhoneNumber(String phoneNumber, long parentPk){
+    public String postSocialPhoneNumber(String phoneNumber, String connect, long parentPk){
         Parents parent = repository.getReferenceById(parentPk) ;
         parent.setPhone(phoneNumber) ;
+        parent.setConnect(connect) ;
         return phoneNumber ;
     }
 }

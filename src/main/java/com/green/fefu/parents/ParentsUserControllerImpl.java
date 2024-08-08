@@ -204,9 +204,10 @@ public class ParentsUserControllerImpl implements ParentsUserController {
         int result = service.getStudentRandCode(randCode) ;
         return ResponseEntity.ok().body(result) ;
     }
-    @PostMapping("/sign-up/social-login/phone") @Operation(summary = "소셜로그인 회원가입 전화번호", description = "전화번호 입력")
-    public ResponseEntity socialLoginSignUpPhone(@RequestBody String phoneNumber, @RequestBody long parentPk){
-        String result = service.postSocialPhoneNumber(phoneNumber, parentPk) ;
+    // 소셜회원가입 시 전화번호 및 관계 주입용
+    @PostMapping("/sign-up/social-login/phone") @Operation(summary = "소셜로그인 회원가입 전화번호 및 관계", description = "전화번호 입력")
+    public ResponseEntity socialLoginSignUpPhone(@RequestBody String phoneNumber, @RequestBody String connect, @RequestBody long parentPk){
+        String result = service.postSocialPhoneNumber(phoneNumber, connect, parentPk) ;
         return ResponseEntity.ok().body(result) ;
     }
 }
