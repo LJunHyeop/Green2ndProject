@@ -29,7 +29,8 @@ public enum LjmErrorCode implements ErrorCode {
     NOT_FOUND_PERISTALSIS_ID(HttpStatus.BAD_REQUEST, "연동된 아이디가 없습니다."),
     ERROR_SIGNATURE_CODE(HttpStatus.BAD_REQUEST, "서명오류가 발생했습니다.") ,
     EXISTENCE_PARENT(HttpStatus.BAD_REQUEST, "가입된 아이디가 있습니다.") ,
-    NOT_EXISTENCE_STUDENT(HttpStatus.BAD_REQUEST, "학생 정보가 없습니다.")
+    NOT_EXISTENCE_STUDENT(HttpStatus.BAD_REQUEST, "학생 정보가 없습니다.") ,
+    NOT_EXISTENCE_PARENT(HttpStatus.BAD_REQUEST, "유저정보가 없습니다.")
     ;
 
     private final HttpStatus httpStatus ;

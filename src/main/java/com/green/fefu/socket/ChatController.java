@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -46,26 +48,36 @@ public class ChatController {
     public String teacherCreateRoom(@PathVariable("teaId")Long teaId, @AuthenticationPrincipal UserDetails userDetails){
         Parents parentsId = parentRepository.getReferenceById(authenticationFacade.getLoginUserId());
         parentsId.getName();
+
         Teacher teacher = teacherRepository.getReferenceById(teaId);
-
         Long roomId = chatService.createRoom(parentsId, teacher);
-
         log.info("Create Chat Room , senderNick"+teacher.getName()+"학부모님 입장했습니다");
-
         log.info("Create Chat Room , senderNick"+parentsId.getName()+"선생님이 입장했습니다");
-
         return "redirect:/teacher/"+teaId+"/chat/"+roomId;
     }
-    @PostMapping(value = "teacher/{parentId}/chat")
-    @Operation(summary = "채팅방 만들기", description = "학부모 로그인 -> 선생님 Pk값 받고 같이 리턴 ")
-    public String parentCreateRoom(@PathVariable("parentId")Long parentsId, @AuthenticationPrincipal UserDetails userDetails){
+    @PostMapping(value = "teacher/chat")
+    @Operation(summary = "채팅방 만들기", description = "학부모 로그인 -> 선생님 PK값 받고 같이 리턴 ")
+    public ResponseEntity<String> parentCreateRoom(
+            @RequestBody List<Long> parentsId,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        // 현재 로그인한 선생님의 ID를 가져옵니다.
         Teacher teaId = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
-        teaId.getName();
-        Parents parents = parentRepository.getReferenceById(parentsId);
-        Long roomId = chatService.createRoom(parents,teaId);
-        log.info("Create Chat Room , senderNick"+parents.getName()+"학부모님 입장했습니다");
-        log.info("Create Chat Room , senderNick"+teaId.getName()+"선생님이 입장했습니다");
-        return "redirect:/parentsId/"+parentsId+"/chat/"+roomId;
+        String teacherName = teaId.getName();
+
+        // 최초의 부모 ID를 사용하여 채팅방을 생성합니다. (여기서는 첫 번째 부모 ID 사용)
+        Parents firstParent = parentRepository.getReferenceById(parentsId.get(0)); // 첫 번째 부모 객체 가져오기
+        Long roomId = chatService.createRoom(firstParent, teaId); // 첫 번째 학부모와 선생님으로 방 생성
+
+        // 모든 학부모에 대해 로그 기록
+        for (Long parentId : parentsId) {
+            Parents parents = parentRepository.getReferenceById(parentId);
+            log.info("Create Chat Room, senderNick: {} 학부모님이 입장했습니다", parents.getName());
+        }
+        log.info("Create Chat Room, senderNick: {} 선생님이 입장했습니다", teacherName);
+        // 생성된 채팅방 링크를 만듭니다.
+        String roomLink = "/parentsId/" + parentsId.get(0) + "/chat/" + roomId; // 첫 번째 부모 ID 사용
+        return ResponseEntity.ok(roomLink); // 생성된 링크 반환
     }
     @GetMapping(value = "teacher/{parentId}/chat")
     @Operation(summary = "선생님이 특정 학부모 채팅 가져오기 ")

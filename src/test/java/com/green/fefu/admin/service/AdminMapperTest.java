@@ -18,7 +18,7 @@ class AdminMapperTest {
     @Test
     void getParentList() {
         List<GetUserListDto> list = new ArrayList<>();
-        List<GetUserListDto> result = mapper.getParentList();
+        List<GetUserListDto> result = mapper.getParentList("");
         list.add(createDto("parent4", "4", "최부모", "102", "2024-07-04 08:02:22"));
         list.add(createDto("parent5", "5", "정부모", "101", "2024-07-04 08:02:22"));
         list.add(createDto("parent8", "8", "윤부모", "202", "2024-07-04 08:02:22"));
@@ -57,7 +57,7 @@ class AdminMapperTest {
     @Test
     void getTeacherList() {
         List<GetUserListDto> list = new ArrayList<>();
-        List<GetUserListDto> result = mapper.getTeacherList();
+        List<GetUserListDto> result = mapper.getTeacherList("");
         list.add(createDto("teacher2", "2", "최선생", "102", "2024-07-04 08:02:22"));
         list.add(createDto("teacher5", "5", "이선생", "301", "2024-07-04 08:02:22"));
         list.add(createDto("teacher7", "7", "조선생", "401", "2024-07-04 08:02:22"));

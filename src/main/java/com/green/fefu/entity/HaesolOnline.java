@@ -37,7 +37,7 @@ public class HaesolOnline extends UpdatedAt{
 
     // 과목 세부 유형 ex. 1-> 문법, 2->어휘 ...
     @ManyToOne
-    @JoinColumn(name="typeTag", nullable = false, referencedColumnName = "typeNum")
+    @JoinColumn(name="typeTag", nullable = false)
     private TypeTag typeTag;
 
     // 문제 유형 1->객관식 2->주관식
