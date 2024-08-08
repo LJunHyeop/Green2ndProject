@@ -8,7 +8,22 @@
         SELECT FLOOR(B.class_id/100) AS teasGrade
         FROM teacher A
         INNER JOIN class B
-        ON #{teaId}=B.tea_id;
+        ON #{teaId}=B.tea_id
+        LIMIT 1;
     </select>
 
+    <select id="studentClass">
+        SELECT FLOOR(class_id/100) AS stusGrade
+        FROM student A
+        WHERE stu_id=#{stuId}
+        ORDER BY created_at DESC
+        LIMIT 1;
+    </select>
+
+    <select id="parentsClass">
+        SELECT FLOOR(class_id/100) AS parsGrade
+        FROM parents
+        WHERE parents_id=#{parentsId} AND stuId=#{stuId}
+        LIMIT 1;
+    </select>
 </mapper>

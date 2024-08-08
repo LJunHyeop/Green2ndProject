@@ -5,12 +5,14 @@ import com.green.fefu.chcommon.PatternCheck;
 import com.green.fefu.chcommon.Validation;
 import com.green.fefu.common.CustomFileUtils;
 import com.green.fefu.entity.Student;
+import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.student.model.dto.*;
 import com.green.fefu.student.model.req.*;
 import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.test.StudentService;
+import com.green.fefu.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -293,17 +296,18 @@ public class StudentServiceImpl implements StudentService {
             }
         }
         if (pic != null) {
-            p.setPic(fileNameChange(pic));
+            student.setPic(fileNameChange(pic));
             try {
 
-                String path = String.format("student/%s", p.getStudentPk());
+                String path = String.format("student/%s", student.getStuId());
                 customFileUtils.deleteFolder(String.format("%s/%s", customFileUtils.uploadPath, path));
                 customFileUtils.makeFolders(path);
-                String target = String.format("%s/%s", path, p.getPic());
+                String target = String.format("%s/%s", path, student.getPic());
                 customFileUtils.transferTo(pic, target);
             } catch (Exception e) {
                 throw new CustomException(FILE_ERROR);
             }
+
         }
         studentRepository.save(student);
     }
@@ -327,11 +331,18 @@ public class StudentServiceImpl implements StudentService {
     //=====================================================================================================================
 //    부모 없는 학생 List 출력
     @Override
-    public void getStudentListForParent(String searchWord) {
+    public Map getStudentListForParent(String searchWord) {
         Student student = studentRepository.findByRandCode(searchWord);
+        String response = "성공적으로 등록 되었습니다.";
+        Map map = new HashMap();
         if (student == null) {
-            throw new CustomException(NOT_FOUND_USER_ERROR);
+            response = "학생 코드를 찾을 수 없습니다.";
         }
+        else if (student.getParent() != null) {
+            response = "이미 보호자가 등록된 학생입니다.";
+        }
+        map.put("response", response);
+        return map;
     }
 
 
@@ -384,5 +395,26 @@ public class StudentServiceImpl implements StudentService {
     private void studentAdvanceGradeParse(studentAdvanceGradeReq p) {
 //        20101 -> 201
         p.setSubNumber(p.getGrade().substring(0, 3));
+    }
+
+    public Map studentSignIn(StudentSignInReq p){
+        Student student = studentRepository.findStudentByUid(p.getStudentUid());
+        if(student == null){
+            throw new CustomException(NOT_FOUND_USER_ERROR);
+        }
+        if(!passwordEncoder.matches(p.getStudentPwd(),student.getUpw())){
+            throw new CustomException(PASSWORD_NO_MATCH_ERROR);
+        }
+        Map map = new HashMap();
+        map.put(STUDENT_PK, student.getStuId());
+        map.put(STUDENT_PIC, student.getPic());
+        map.put(STUDENT_NAME, student.getName());
+        String[] data = Parser.classParserArray(Integer.toString(student.getGrade()));
+        map.put(STUDENT_GRADE,data[0]);
+        map.put(STUDENT_CLASS, data[1]);
+        map.put(STUDENT_CLASS_NUMBER,data[2]);
+        String teacherName = mapper.findTeacherName(student.getStuId());
+        map.put(TEACHER_NAME, teacherName);
+        return map;
     }
 }
