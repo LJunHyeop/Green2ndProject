@@ -27,7 +27,7 @@ public class PostOnlineQuestionReq {
     private Long typeTag;
 
     @Schema(example = "1", description = "1->객관식 2->주관식")
-    private Long queTag=1L;
+    private Integer queTag=1;
 
     // ========== 실제 출력 되는 항목 ==========
     @Schema(example="5", description="난이도를 표시하는 항목입니다.")
