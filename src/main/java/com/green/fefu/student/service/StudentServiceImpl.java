@@ -296,17 +296,18 @@ public class StudentServiceImpl implements StudentService {
             }
         }
         if (pic != null) {
-            p.setPic(fileNameChange(pic));
+            student.setPic(fileNameChange(pic));
             try {
 
-                String path = String.format("student/%s", p.getStudentPk());
+                String path = String.format("student/%s", student.getStuId());
                 customFileUtils.deleteFolder(String.format("%s/%s", customFileUtils.uploadPath, path));
                 customFileUtils.makeFolders(path);
-                String target = String.format("%s/%s", path, p.getPic());
+                String target = String.format("%s/%s", path, student.getPic());
                 customFileUtils.transferTo(pic, target);
             } catch (Exception e) {
                 throw new CustomException(FILE_ERROR);
             }
+
         }
         studentRepository.save(student);
     }
