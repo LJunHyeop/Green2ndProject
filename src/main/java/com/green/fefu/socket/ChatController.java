@@ -37,7 +37,8 @@ public class ChatController {
     private final ParentRepository parentRepository;
     private final TeacherRepository teacherRepository;
     private final AuthenticationFacade authenticationFacade;
-    private final SimpMessagingTemplate Template;
+
+    private final SimpMessagingTemplate template;
 
 
     @PostMapping(value = "parents/{teaId}/chat")
@@ -67,14 +68,24 @@ public class ChatController {
         return "redirect:/parentsId/"+parentsId+"/chat/"+roomId;
     }
     @GetMapping(value = "teacher/{parentId}/chat")
-    public String chatGet(@PathVariable("roomId")String roomId,@PathVariable UserDetails userDetails, Model model){
+    @Operation(summary = "선생님이 특정 학부모 채팅 가져오기 ")
+    public String chatGetTeacher(@PathVariable("roomId")String roomId,@PathVariable UserDetails userDetails, Model model){
         log.info("GET Chat Room , roomId : " + roomId);
         ChatRoomDto chatRoomDto = chatService.findRoom(Long.parseLong(roomId));
         Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
-
-
         model.addAttribute("chatRoomDto", chatRoomDto);
         model.addAttribute("teachers", teacher);
+
+        return "chat";
+    }
+    @GetMapping(value = "parentId/{teacher}/chat")
+    @Operation(summary = "학부모가  특정  선생님 채팅 가져오기 ")
+    public String chatGetParent(@PathVariable("roomId")String roomId,@PathVariable UserDetails userDetails, Model model){
+        log.info("GET Chat Room , roomId : " + roomId);
+        ChatRoomDto chatRoomDto = chatService.findRoom(Long.parseLong(roomId));
+        Parents parents = parentRepository.getReferenceById(authenticationFacade.getLoginUserId());
+        model.addAttribute("chatRoomDto", chatRoomDto);
+        model.addAttribute("parents", parents);
 
         return "chat";
     }
@@ -85,7 +96,6 @@ public class ChatController {
         Long teacherId = authenticationFacade.getLoginUserId();
         Teacher teacher = teacherRepository.getReferenceById(teacherId);
         List<ChatRoomDto> chatRooms = chatService.findAllRoomsByTeacher(teacherId);
-
         model.addAttribute("chatRooms", chatRooms);
         model.addAttribute("teacher", teacher);
 
@@ -98,7 +108,6 @@ public class ChatController {
         Long parentsId = authenticationFacade.getLoginUserId();
         Parents parents = parentRepository.getReferenceById(parentsId);
         List<ChatRoomDto> chatRooms = chatService.findAllRoomsByTeacher(parentsId);
-
         model.addAttribute("chatRooms", chatRooms);
         model.addAttribute("teacher", parents);
         return "chatList";
