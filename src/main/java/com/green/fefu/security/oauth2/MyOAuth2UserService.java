@@ -1,15 +1,19 @@
 package com.green.fefu.security.oauth2;
 
 import com.green.fefu.entity.Parents;
+import com.green.fefu.entity.Student;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.ParentsUserMapper;
+import com.green.fefu.parents.ParentsUserServiceImpl;
 import com.green.fefu.parents.model.*;
+import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.parents.utils.ParentUtils;
 import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.MyUserOAuth2Vo;
 import com.green.fefu.security.SignInProviderType;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfoFactory;
+import com.green.fefu.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -45,6 +49,9 @@ import static com.green.fefu.exception.ljm.LjmErrorCode.*;
 @RequiredArgsConstructor
 public class MyOAuth2UserService extends DefaultOAuth2UserService {
     private final ParentsUserMapper mapper ;
+    private final ParentRepository repository ;
+    private final StudentRepository studentRepository ;
+    private final ParentsUserServiceImpl service ;
     private final OAuth2UserInfoFactory oAuth2UserInfoFactory ;
 
     @Override
@@ -77,12 +84,14 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         List<ParentsUser> list = mapper.getParentUser(signInParam.getUid()) ;
 
         Parents parents = ParentUtils.convertToUserInfo(list) ;
-
+//        String phone = service.postSocialPhoneNumber() ;
         // 연동된 아이디가 없을 시
         if(list == null) {
             PostParentsUserReq user = new PostParentsUserReq() ;
             user.setNm(oAuth2UserInfo.getName()) ;
             user.setEmail(oAuth2UserInfo.getEmail()) ;
+            user.setUid("간편아이디" + user.getParentsId()) ;
+            user.setPhone("010-0000-0000");
             mapper.postParentsUser(user) ;
 //            throw new CustomException(NOT_FOUND_PERISTALSIS_ID) ;
         }
