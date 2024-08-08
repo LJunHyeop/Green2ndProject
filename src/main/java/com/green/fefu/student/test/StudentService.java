@@ -16,5 +16,5 @@ public interface StudentService {
     List getStudentList(List<getStudent> list);
     Map getStudentDetail(long pk, Map map);
     void updateStudent(updateStudentReq p , MultipartFile pic);
-    String getStudentListForParent(String searchWord);
+    Map getStudentListForParent(String searchWord);
 }
