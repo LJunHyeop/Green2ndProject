@@ -458,8 +458,8 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .build() ;
     }
     // 소셜 회원가입 시 학생 랜덤코드로 회원가입 여부 확인
-    public int getStudentRandCode(String randCode){
-        Student student = studentRepository.findByRandCode(randCode) ;
+    public int getStudentRandCode(RandCodeReq randCode){
+        Student student = studentRepository.findByRandCode(randCode.getRandCode()) ;
         if (student.getParent() != null){
             throw new CustomException(EXISTENCE_PARENT) ;
         }
