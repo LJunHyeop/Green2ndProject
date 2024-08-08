@@ -1,11 +1,11 @@
--- 국어 테스트 문항
-INSERT INTO `online_korean` (`answer`, `created_at`, `que_id`, `updated_at`, `question`, `tea_id`, `contents`, `level`, `class_id`, `type_tag`) VALUES (1, '2024-07-31 16:08:28.000000', 1, '2024-07-31 16:08:30.000000', '(DEFAULT) 다음 중 옳은 것을 고르시오.', 1, '(DEFAULT)별 하나에 추억과 별 하나에 사랑과 별 하나에 쓸쓸함과', 3, 1, 1);
-INSERT INTO `online_korean_multiple` (`num`, `answer_id`, `que_id`, `sentence`) VALUES (1, 1, 1, '국어 테스트문항 1번 보기입니다.'),(2, 2, 1, '국어 테스트문항 2번 보기입니다.'), (3, 3, 1, '국어 테스트문항 3번 보기입니다.'), (4, 4, 1, '국어 테스트문항 4번 보기입니다.'), (5, 5, 1, '국어 테스트문항 5번 보기입니다.');
-INSERT INTO `online_korean_pics` (`created_at`, `pic_id`, `que_id`, `pic`) VALUES ('2024-07-31 16:11:25.000000', 1, 1, 'KOREAN_EXAMPLE_PICTURE');
--- 수학 테스트 문항 = 문항 넣기 수정 필요
-INSERT INTO `online_math`(`answer`, `created_at`, `que_id`, `updated_at`, `question`, `contents`, `level`, `tea_id`, `class_id`, `type_tag`, `que_tag`) VALUES (3, '2024-07-31 16:12:28.000000', 1, NULL, '(DEFAULT-객관식) 옳은 말을 하는 사람을 고르시오.', '(DEFAULT-객관식)민수: 삼각형 내각의 합은 400도야 ...', 2, 1, 1, 1,5), (111111111, '2024-07-31 16:13:10.000000', 2, '2024-07-31 16:13:12.000000', '(DEFAULT-주관식) 12345679*9=?', '(DEFAULT-주관식) 내용내용', 2, 1,1,2,3);
-INSERT INTO `online_math_multiple` (`num`, `answer_id`, `que_id`, `sentence`) VALUES (1, 1, 1, '민수, 영희'), (2, 2, 1, '영희, 다현'), (3, 3, 1, '다현, 민수'), (4, 4, 1, '영희'), (5, 5, 1, '민수'), (111111111, 6, 2, '');
-INSERT INTO `online_math_pics` (`created_at`, `pic_id`, `que_id`, `pic`) VALUES ('2024-07-31 16:17:53.000000', 1, 1, 'MATH_EXAMPLE_PICTURE'), ('2024-07-31 16:26:12.000000', 2, 2, 'NO_MORE_MATH');
+-- JSH : 과목 DB, 세부 분류 DB, 문제 및 보기 임의 데이터
+INSERT INTO `subject` (subject_name) VALUE ('국어'),('수학'),('영어');
+INSERT INTO type_tag (tag_id, subject_id, type_num, tag_name) VALUE (1, 1, 1, '독해'), (2, 1, 2, '문법'), (3, 1, 3, '문학');
+
+INSERT INTO haesol_online (que_id, tea_id, class_id, subject_code, type_tag, `level`, question, contents, answer, pic, created_at, updated_at) VALUES (1, 1, 1, 1, 1, 3, '(DEFAULT) 다음 중 옳은 것을 고르시오.','(DEFAULT)별 하나에 추억과 별 하나에 사랑과 별 하나에 쓸쓸함과', 1, 'DEFAULT_PICTURE_DATA','2024-07-31 16:08:28.000000', '2024-07-31 16:08:30.000000'), (2, 1, 1, 2, 1, 5, '(DEFAULT-객관식) 옳은 말을 하는 사람을 고르시오.', '(DEFAULT-객관식)민수: 삼각형 내각의 합은 400도야 ...', 3, 'TEST_DEFAULT_MATH_PIC1', '2024-07-31 16:12:28.000000', NULL), (3, 1, 1, 2, 2, 1, '(DEFAULT-주관식) 12345679*9=?', '(DEFAULT-주관식) 내용내용', 111111111, 'TEST_DEFAULT_MATH_PIC2', '2024-07-31 16:13:10.000000', '2024-07-31 16:13:12.000000');
+INSERT INTO `haesol_online_multiple` (`answer_id`,`num`, `que_id`, `sentence`) VALUES (1, 1, 1, '국어 테스트문항 1번 보기입니다.'), (2, 2, 1, '국어 테스트문항 2번 보기입니다.'),(3, 3, 1, '국어 테스트문항 3번 보기입니다.'),(4, 4, 1, '국어 테스트문항 4번 보기입니다.'), (5, 5, 1, '국어 테스트문항 5번 보기입니다.'), (6, 1, 2, '민수, 영희'), (7, 2, 2, '영희, 다현'), (8, 3, 2, '다현, 민수'), (9, 4, 2, '영희'), (10, 5, 2, '민수');
+
+
 
 INSERT INTO `teacher` (`accept`, `birth`, `state`, `gender`, `created_at`, `tea_id`, `updated_at`, `name`, `phone`, `auth`, `uid`, `upw`, `addr`, `email`) VALUES	(1, '2024-07-31', 1, NULL, '2024-07-31 15:30:54.000000', 1, '2024-07-31 15:30:55.000000', '김철', '010-000-0000', 'ROLE_TEACHER', 'rlacjf111', '$2a$10$K/DxoACUp2sB/nZGq02yseVoKRaFUQbzpfp/Yyst33IoO1KLP7.L.', NULL, 'rlacjf111@naver.com');
 

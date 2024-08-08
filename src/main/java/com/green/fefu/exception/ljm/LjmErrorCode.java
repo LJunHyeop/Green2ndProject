@@ -22,7 +22,7 @@ public enum LjmErrorCode implements ErrorCode {
     NOT_EQUAL_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "Refresh token cookie 값이 맞지않습니다.") ,
     NOT_INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "Refresh token 이 유효하지 않습니다.") ,
     FAIL_USER_FROM_TOKEN(HttpStatus.BAD_REQUEST, "사용자 정보가 맞지않습니다.") ,
-    NOT_EXISTENCE_USER(HttpStatus.BAD_REQUEST, "사용자 정보가 없습니다.") ,
+    NOT_EXISTENCE_USER(HttpStatus.BAD_REQUEST, "연동된 사용자 정보가 없습니다.") ,
     NOT_EXISTENCE_SIGNATURE_FILE(HttpStatus.BAD_REQUEST, "서명 파일이 없습니다.") ,
     ERROR_SIGNATURE(HttpStatus.BAD_REQUEST, "서명 등록 오류가 발생했습니다.") ,
     NOT_ACCESS_AUTHORITY(HttpStatus.BAD_REQUEST, "접근 권한이 없습니다."),

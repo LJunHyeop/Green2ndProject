@@ -44,4 +44,6 @@ public interface ParentsUserMapper {
     // 학생정보 수정 ( 학부모 pk )
     int updStudent(UpdateStudentParentsIdReq p);
 
+    // 로그인 시 자녀 정보 조회
+    List<StudentRes> studentList(long parentId) ;
 }
