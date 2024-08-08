@@ -1,6 +1,9 @@
 package com.green.fefu.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,9 +13,7 @@ import lombok.Setter;
 public class OnlineEnglishWord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long wordId;
-
-    //낱말, 정답, 사진, 영어
+    private Long wordPk;
 
     @Column(length=1000)
     private String word;
@@ -22,11 +23,12 @@ public class OnlineEnglishWord {
 
     private String pic;
 
-    private String voice;
-
     @ManyToOne
     @JoinColumn(name="tea_id", nullable = false)
     private Teacher teaId;
+
+    @Min(1) @Max(6)
+    private Long grade;
 
     // 난이도
     // private Integer level;

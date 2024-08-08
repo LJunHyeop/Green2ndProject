@@ -4,6 +4,8 @@ package com.green.fefu.entity;
 import com.green.fefu.entity.dummy.Subject;
 import com.green.fefu.entity.dummy.TypeTag;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -39,12 +41,13 @@ public class HaesolOnline extends UpdatedAt{
     private TypeTag typeTag;
 
     // 문제 유형 1->객관식 2->주관식
-    @ColumnDefault("1")
+    @Min(1) @Max(2)
     private Integer queTag;
 
     //============실제 문제 출력될 요소=============
 
     // 난이도
+    @Min(1) @Max(5)
     @Column(nullable = false)
     private Integer level;
 
