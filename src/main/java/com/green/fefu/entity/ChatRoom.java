@@ -25,6 +25,7 @@ public class ChatRoom  extends UpdatedAt{
     private Teacher teaId;
 
     @OneToMany
+    @Column(name = "chatList")
     private List<ChatMsg> chatMsgList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
