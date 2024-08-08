@@ -331,11 +331,17 @@ public class StudentServiceImpl implements StudentService {
     //=====================================================================================================================
 //    부모 없는 학생 List 출력
     @Override
-    public void getStudentListForParent(String searchWord) {
+    public String getStudentListForParent(String searchWord) {
         Student student = studentRepository.findByRandCode(searchWord);
+        String response = "성공적으로 등록 되었습니다.";
         if (student == null) {
-            throw new CustomException(NOT_FOUND_USER_ERROR);
+            response = "학생 코드를 찾을 수 없습니다.";
         }
+        else if (student.getParent() != null) {
+            response = "이미 보호자가 등록된 학생입니다.";
+        }
+
+        return response;
     }
 
 

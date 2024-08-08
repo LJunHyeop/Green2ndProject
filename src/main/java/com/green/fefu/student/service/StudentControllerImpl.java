@@ -206,8 +206,8 @@ public class StudentControllerImpl implements StudentController {
     @Override
     public ResponseEntity getStudentListForParent(@RequestParam String searchWord) {
         log.info("{}", searchWord);
-        service.getStudentListForParent(searchWord);
-        return new ResponseEntity<>(OK);
+        String response = service.getStudentListForParent(searchWord);
+        return new ResponseEntity<>(response,OK);
     }
 
     @PatchMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
