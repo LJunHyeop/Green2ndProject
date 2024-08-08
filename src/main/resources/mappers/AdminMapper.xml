@@ -15,8 +15,12 @@
         ON s.stu_id = sc.stu_id
         LEFT JOIN class c
         ON sc.class_id = c.class_id
-        WHERE
-        p.accept = 2
+        <where>
+            p.accept = 2
+            <if test="searchWord != null and searchWord != ''">
+                AND p.name LIKE '%${searchWord}%'
+            </if>
+        </where>
         ORDER BY p.created_at
     </select>
 
@@ -27,7 +31,12 @@
         FROM teacher t
         LEFT JOIN class c
         ON c.tea_id = t.tea_id
-        WHERE t.accept = 2
+        <where>
+            t.accept = 2
+            <if test="searchWord != null and searchWord != ''">
+                AND t.name LIKE '%${searchWord}%'
+            </if>
+        </where>
         ORDER BY t.created_at
     </select>
 

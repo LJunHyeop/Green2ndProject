@@ -5,12 +5,14 @@ import com.green.fefu.chcommon.PatternCheck;
 import com.green.fefu.chcommon.Validation;
 import com.green.fefu.common.CustomFileUtils;
 import com.green.fefu.entity.Student;
+import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.student.model.dto.*;
 import com.green.fefu.student.model.req.*;
 import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.test.StudentService;
+import com.green.fefu.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -384,5 +387,26 @@ public class StudentServiceImpl implements StudentService {
     private void studentAdvanceGradeParse(studentAdvanceGradeReq p) {
 //        20101 -> 201
         p.setSubNumber(p.getGrade().substring(0, 3));
+    }
+
+    public Map studentSignIn(StudentSignInReq p){
+        Student student = studentRepository.findStudentByUid(p.getStudentUid());
+        if(student == null){
+            throw new CustomException(NOT_FOUND_USER_ERROR);
+        }
+        if(!passwordEncoder.matches(p.getStudentPwd(),student.getUpw())){
+            throw new CustomException(PASSWORD_NO_MATCH_ERROR);
+        }
+        Map map = new HashMap();
+        map.put(STUDENT_PK, student.getStuId());
+        map.put(STUDENT_PIC, student.getPic());
+        map.put(STUDENT_NAME, student.getName());
+        String[] data = Parser.classParserArray(Integer.toString(student.getGrade()));
+        map.put(STUDENT_GRADE,data[0]);
+        map.put(STUDENT_CLASS, data[1]);
+        map.put(STUDENT_CLASS_NUMBER,data[2]);
+        String teacherName = mapper.findTeacherName(student.getStuId());
+        map.put(TEACHER_NAME, teacherName);
+        return map;
     }
 }

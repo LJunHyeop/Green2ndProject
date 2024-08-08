@@ -7,9 +7,9 @@ import java.util.List;
 
 @Mapper
 public interface AdminMapper {
-    List<GetUserListDto> getParentList();
+    List<GetUserListDto> getParentList(String searchWord);
 
-    List<GetUserListDto> getTeacherList();
+    List<GetUserListDto> getTeacherList(String searchWord);
 
     int delParent(long pk);
 

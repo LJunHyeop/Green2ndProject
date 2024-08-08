@@ -42,21 +42,23 @@ public class AdminServiceImpl implements AdminService {
 
 
     //    유저 리스트 가져오기
-    public Map findUnAcceptList(int p, Map map) {
+    public Map findUnAcceptList(FindUnAcceptListReq p, Map map) {
         List<GetUserListDto> list;
         List<Map> result = new ArrayList<>();
 //        부모 리스트 가져오기
-        if (p == 1) {
-            list = mapper.getParentList();
+        if (p.getP() == 1) {
+            list = mapper.getParentList(p.getSearchWord());
             map.put(CODE, "학부모");
         }
 //        교직원 리스트 가져오기
-        else if (p == 2) {
-            list = mapper.getTeacherList();
+        else if (p.getP() == 2) {
+            list = mapper.getTeacherList(p.getSearchWord());
             map.put(CODE, "교직원");
         } else {
             throw new CustomException(DIVISION_ERROR);
         }
+
+
 //        해야함
 //      클래스 아이디 기준으로 학년 반 나눠야함
         for (GetUserListDto getUserListDto : list) {
@@ -155,40 +157,92 @@ public class AdminServiceImpl implements AdminService {
 
 //        부모
         if (p.getP() == PrarentCode) {
-            List<Parents> parentList = parentRepository.findAllByStateIs(p.getCheck());
-            if(parentList == null || parentList.isEmpty()) {
-                return new ArrayList<>();
-            }
-            for (Parents parent : parentList) {
-                FindUserListDto data = new FindUserListDto();
-                data.setState(parent.getState() == 1 ? "활성화" : "비활성화");
-                data.setUid(parent.getUid());
-                data.setName(parent.getName());
+            if (p.getSearchWord() != null) {
+                List<Parents> searchParentList = parentRepository.findByNameContainingAndStateIs(p.getSearchWord(), p.getCheck());
+                if (searchParentList == null || searchParentList.isEmpty()) {
+                    return new ArrayList<>();
+                }
+                for (Parents parent : searchParentList) {
+                    FindUserListDto data = new FindUserListDto();
+                    data.setState(parent.getState() == 1 ? "활성화" : "비활성화");
+                    data.setUid(parent.getUid());
+                    data.setName(parent.getName());
 //                자녀 여러명 보여줘야 하는지 프론트 한테 물어봐야함
 //                data.setGrade();
 //                data.setUclass();
 //                data.setDate();
-                list.add(data);
+                    list.add(data);
+                }
+            } else {
+
+
+                List<Parents> parentList = parentRepository.findAllByStateIs(p.getCheck());
+                if (parentList == null || parentList.isEmpty()) {
+                    return new ArrayList<>();
+                }
+                for (Parents parent : parentList) {
+                    FindUserListDto data = new FindUserListDto();
+                    data.setState(parent.getState() == 1 ? "활성화" : "비활성화");
+                    data.setUid(parent.getUid());
+                    data.setName(parent.getName());
+//                자녀 여러명 보여줘야 하는지 프론트 한테 물어봐야함
+//                data.setGrade();
+//                data.setUclass();
+//                data.setDate();
+                    list.add(data);
+                }
             }
         }
 //        교직원
         else if (p.getP() == TeacherCode) {
-            List<Teacher> teacherList = teacherRepository.findAllByStateIs(p.getCheck());
-            if(teacherList == null || teacherList.isEmpty()) {
-                return new ArrayList<>();
+            if(p.getSearchWord() != null) {
+                List<Teacher> searchTeacherList = teacherRepository.findByNameContainingAndStateIs(p.getSearchWord(), p.getCheck());
+                if (searchTeacherList == null || searchTeacherList.isEmpty()) {
+                    return new ArrayList<>();
+                }
+                for (Teacher teacher : searchTeacherList) {
+                    Class c = classRepository.findByTeaId(teacher.getTeaId());
+                    FindUserListDto data = new FindUserListDto();
+                    data.setState(teacher.getState() == 1 ? "활성화" : "비활성화");
+                    data.setUid(teacher.getUid());
+                    data.setName(teacher.getName());
+                    if(c != null){
+                    String[] gradeClass = Parser.classParserArray(Long.toString(c.getClassId()));
+                    data.setGrade(gradeClass[0]);
+                    data.setUclass(gradeClass[1]);
+                    }
+                    data.setDate(Date.valueOf(teacher.getCreatedAt().toLocalDate()));
+                    list.add(data);
+                }
             }
-            for (Teacher teacher : teacherList) {
-                Class c = classRepository.getReferenceByTeaId(teacher.getTeaId());
-                FindUserListDto data = new FindUserListDto();
-                data.setState(teacher.getState() == 1 ? "활성화" : "비활성화");
-                data.setUid(teacher.getUid());
-                data.setName(teacher.getName());
-//                담당 학급 받아오는거 아직 class 엔티티 없어서 못만듦
-                String[] gradeClass = Parser.classParserArray(Long.toString(c.getClassId()));
-                data.setGrade(gradeClass[0]);
-                data.setUclass(gradeClass[1]);
-                data.setDate(Date.valueOf(teacher.getCreatedAt().toLocalDate()));
-                list.add(data);
+
+            else {
+
+                log.info("else find 전");
+                List<Teacher> teacherList = teacherRepository.findAllByStateIs(p.getCheck());
+                if (teacherList == null || teacherList.isEmpty()) {
+                    return new ArrayList<>();
+                }
+                log.info("else find 후");
+                for (Teacher teacher : teacherList) {
+                    log.info("class find 전");
+                    Class c = classRepository.findByTeaId(teacher.getTeaId());
+                    log.info("class find 후");
+                    FindUserListDto data = new FindUserListDto();
+                    data.setState(teacher.getState() == 1 ? "활성화" : "비활성화");
+                    data.setUid(teacher.getUid());
+                    data.setName(teacher.getName());
+                    log.info("데이터 파싱 전");
+                    if(c != null) {
+                        String[] gradeClass = Parser.classParserArray(Long.toString(c.getClassId()));
+                        data.setGrade(gradeClass[0]);
+                        data.setUclass(gradeClass[1]);
+                    }
+                    data.setDate(Date.valueOf(teacher.getCreatedAt().toLocalDate()));
+                    log.info("data add 전");
+                    list.add(data);
+                    log.info("data add 후");
+                }
             }
         } else {
             throw new CustomException(DIVISION_ERROR);
@@ -199,7 +253,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public void updateUser(UpdateUserReq p) {
 //        부모
-        if(p.getP() == PrarentCode){
+        if (p.getP() == PrarentCode) {
             Parents parent = parentRepository.getReferenceById(p.getPk());
             parent.setState(2);
             parentRepository.save(parent);

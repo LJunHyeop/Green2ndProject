@@ -191,4 +191,16 @@
         class_id = #{classPk}
     </insert>
 
+    <select id="findTeacherName">
+        SELECT te.name
+        FROM student st
+        JOIN student_class sc
+        ON st.stu_id = sc.stu_id
+        JOIN class cl
+        ON sc.class_id = cl.class_id
+        JOIN teacher te
+        ON cl.tea_id = te.tea_id
+        WHERE st.stu_id = #{studentPk}
+    </select>
+
 </mapper>
