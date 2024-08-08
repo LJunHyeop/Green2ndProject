@@ -179,6 +179,7 @@
         , d.name AS teacherName
         , d.phone AS teacherPhone
         , d.email AS teacherEmail
+        , d.tea_id AS teaId
         FROM student a
         INNER JOIN student_class b
         ON a.stu_id = b.stu_id
