@@ -35,6 +35,7 @@ public enum BchErrorCode implements ErrorCode {
     GRADE_DUPLICATE_ERROR(HttpStatus.BAD_REQUEST, "학년 반 번호 값이 이미 있습니다."),
     GRADE_DATA_NOT_FOUND(HttpStatus.BAD_REQUEST, "학년 반 정보가 없습니다.");
 
+
     private final HttpStatus httpStatus;
     private final String message;
 }

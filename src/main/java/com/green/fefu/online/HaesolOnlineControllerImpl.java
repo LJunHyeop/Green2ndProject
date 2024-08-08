@@ -10,7 +10,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,7 +47,7 @@ public class HaesolOnlineControllerImpl {
     @PostMapping("/question")
     @PreAuthorize("hasRole('TEACHER')")
     public ResultDto<Integer> PostKorAMatQuestion(@RequestPart(required = false) MultipartFile pic, @RequestPart PostOnlineQuestionReq p){
-        log.info("{}",p);
+        log.info("Controller 데이터 객체 : {}", p);
         int result=service.PostKorAMatQuestion(pic, p);
         return ResultDto.<Integer>builder()
                 .statusCode(HttpStatus.OK)
@@ -54,19 +56,19 @@ public class HaesolOnlineControllerImpl {
                 .build();
     }
 
-    @GetMapping
-    public ResultDto<List<GetKoreanAndMathQuestionReq>> GetKorAMatQuestion(@RequestBody GetKoreanAndMathQuestionReq p){
-        List<GetKoreanAndMathQuestionReq> result=new ArrayList<>();
-        return ResultDto.<List<GetKoreanAndMathQuestionReq>>builder()
-                .result(result)
-                .build();
+
+    @GetMapping("/test")
+    @Operation(summary = "문제 리스트 불러오기", description = "" +
+            "<p>학생, 학부모, 선생 모두 사용 가능</p>" +
+            "<p>학부모의 경우 한 학생의 pk를 <strong>무조건!!</strong> 보내줘야함</p>")
+    public ResponseEntity GetKorAMatQuestion(@ParameterObject GetKoreanAndMathQuestionReq p) {
+        List<GetKoreanAndMathQuestionRes> list=service.GetKorAMatQuestion(p);
+
+        log.info("컨트롤러 리턴");
+        return new ResponseEntity(list, HttpStatus.OK);
     }
 
-    @GetMapping("korean")
-    public ResultDto<List<GetKoreanAndMathQuestionRes>> getKoreanQuestion(GetKoreanAndMathQuestionReq p) {
-        return ResultDto.<List<GetKoreanAndMathQuestionRes>>builder()
-                .build();
-    }
+
 //    @PutMapping
 //    public ResultDto<>(){
 //        return ResultDto.<>builder()

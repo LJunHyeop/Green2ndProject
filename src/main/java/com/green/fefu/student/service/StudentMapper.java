@@ -37,4 +37,6 @@ public interface StudentMapper {
     void insertClassIfNotExists(ClassInsert p);
 
     void insertClassStudent(ClassInsert p);
+
+    String findTeacherName(Long studentPk);
 }

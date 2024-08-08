@@ -2,6 +2,7 @@ package com.green.fefu.admin.service;
 
 import com.green.fefu.admin.model.dto.FindUserListDto;
 import com.green.fefu.admin.model.dto.GetUserListDto;
+import com.green.fefu.admin.model.req.FindUnAcceptListReq;
 import com.green.fefu.admin.model.req.FindUserListReq;
 import com.green.fefu.admin.model.req.UpdateUserReq;
 import com.green.fefu.admin.model.req.adminUserReq;
@@ -38,10 +39,13 @@ public class AdminControllerImpl implements AdminController {
     private final AdminServiceImpl service;
 
     //    list Get
-    @GetMapping(value = "{p}",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 
-    @Operation(summary = "승인 필요한 계정List 불러오기", description = "리턴 => 학부모, 승인 대기 학부모 리스트" +
-            "승인 신청일, 자녀 학년, 자녀 학급, 부모 pk, 부모 id, 부모 이름")
+    @Operation(summary = "회원 가입 시 승인/반려 처리를 위한 유저 List 조회", description = "리턴 => 학부모, 승인 대기 학부모 리스트" +
+            "승인 신청일, 자녀 학년, 자녀 학급, 부모 pk, 부모 id, 부모 이름" +
+            "<hr/>" +
+            "<p> p = > 학부모 교직원 분류 코드 ( 1 -> 학부모 / 2 -> 교직원 ) </p>" +
+            "<p> searchWord = > 검색어 입력(이름) ( 필수값 아님! )</p>")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "{\n" +
@@ -70,7 +74,7 @@ public class AdminControllerImpl implements AdminController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity findUnAcceptList(@PathVariable @Schema(example = "1", description = "1-> 부모List, 2-> 선생List") int p) {
+    public ResponseEntity findUnAcceptList(@ParameterObject @ModelAttribute FindUnAcceptListReq p) {
         log.info("parameter p: {}", p);
         Map map = new HashMap();
         map = service.findUnAcceptList(p, map);
@@ -131,7 +135,11 @@ public class AdminControllerImpl implements AdminController {
 
 //    검색 기능 ( 학부모, 교직원 )
     @GetMapping(value = "list",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @Operation(summary = "교직원 학부모 검색 리스트", description = "교직원, 학부모 등의 상태 리스트 불러오는 api")
+    @Operation(summary = "교직원 학부모 현황 조회 ( 재직자 / 퇴사자 or 활성화 / 비활성화 )", description = "교직원, 학부모 등의 상태 리스트 불러오는 api" +
+            "\"<hr/>\" +\n" +
+            "            \"<p> p = > 학부모 교직원 분류 코드 ( 1 -> 학부모 / 2 -> 교직원 ) </p>\" +\n" +
+            "            \"<p> searchWord = > 검색어 입력(이름) ( 필수값 아님! )</p>\")" +
+            "<p>check = > 퇴사자 포함 체크박스 여부 ( 1 -> 체크 안됨 / 2 -> 체크 됨 )</p>")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = ""

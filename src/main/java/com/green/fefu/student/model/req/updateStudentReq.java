@@ -2,6 +2,7 @@ package com.green.fefu.student.model.req;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -14,12 +15,10 @@ import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.*;
 @Setter
 @ToString
 public class updateStudentReq {
-    @NotBlank(message = "이름을 확인해주세요")
     @Pattern(regexp = "^[가-힣a-zA-Z\\s-]+$", message = NAME_PATTERN_ERROR)
     @Schema(example = "홍길동", description = "학생 이름")
     private String studentName;
 
-    @NotBlank(message = "전화번호를 확인해주세요")
     @Pattern(regexp = "^010-\\d{4}-\\d{4}$", message = PHONE_PATTERN_ERROR)
     @Schema(example = "010-0000-0000", description = "전화번호")
     private String studentPhone;
@@ -38,6 +37,7 @@ public class updateStudentReq {
 
 //    @NotBlank(message = "Pk값은 필수입니다.")
     @Schema(example = "1", description = "바꿀 학생의 pk값", required = true)
+    @Min(value = 1,message = "PK값은 필수 이며 1보다 커야 합니다.")
     private Long studentPk;
 
     @Pattern(regexp = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$", message = BIRTH_TYPE_ERROR)

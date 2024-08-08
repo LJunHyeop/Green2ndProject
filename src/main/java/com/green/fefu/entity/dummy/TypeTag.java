@@ -3,9 +3,9 @@ package com.green.fefu.entity.dummy;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-
-
+@ToString
 @Getter
 @Setter
 @Entity
@@ -19,7 +19,7 @@ public class TypeTag {
     @JoinColumn(name="subject_id", nullable = false)
     private Subject subject;
 
-    private Long typeNum;
+    private Integer typeNum;
 
     private String tagName;
 
