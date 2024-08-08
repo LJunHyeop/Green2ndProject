@@ -27,8 +27,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.maven.model.Parent;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.embedded.NettyWebServerFactoryCustomizer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -69,6 +71,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     private final ParentOAuth2Repository oAuth2Repository ;
     private final ParentOAuth2Repository parentOAuth2Repository;
     private final ScoreSignRepository scoreSignRepository ;
+    private final NettyWebServerFactoryCustomizer nettyWebServerFactoryCustomizer;
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
 
     @Override @Transactional // 회원가입
@@ -114,6 +117,10 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         int stuResult = studentMapper.updStudentParent( p.getStudentRandomCode(), parents.getParentsId());
         if(stuResult != 1){
             throw new CustomException(STUDENT_INFORMATION_INPUT);
+        }
+        Student student = studentRepository.findByRandCode(p.getStudentRandomCode()) ;
+        if(student == null){
+            throw new CustomException(NOT_EXISTENCE_STUDENT) ;
         }
         return 1 ;
     }
@@ -449,5 +456,19 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .nm(parents.getName())
                 .accessToken(accessToken)
                 .build() ;
+    }
+    // 소셜 회원가입 시 학생 랜덤코드로 회원가입 여부 확인
+    public int getStudentRandCode(String randCode){
+        Student student = studentRepository.findByRandCode(randCode) ;
+        if (student.getParent() != null){
+            throw new CustomException(EXISTENCE_PARENT) ;
+        }
+        return 1 ;
+    }
+    // 소셜 회원가입 시 전화번호 입력
+    public String postSocialPhoneNumber(String phoneNumber, long parentPk){
+        Parents parent = repository.getReferenceById(parentPk) ;
+        parent.setPhone(phoneNumber) ;
+        return phoneNumber ;
     }
 }
