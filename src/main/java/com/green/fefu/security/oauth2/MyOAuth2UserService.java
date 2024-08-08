@@ -88,7 +88,8 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
             user.setNm(oAuth2UserInfo.getName()) ;
             user.setEmail(oAuth2UserInfo.getEmail()) ;
             user.setUid("간편아이디" + user.getParentsId()) ;
-            user.setPhone("010-0000-0000");
+            user.setPhone("010-0000-0000") ;
+            user.setConnect("기타") ;
             mapper.postParentsUser(user) ;
 //            throw new CustomException(NOT_FOUND_PERISTALSIS_ID) ;
         }
