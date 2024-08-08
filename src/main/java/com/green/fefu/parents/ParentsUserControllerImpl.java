@@ -200,7 +200,7 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     }
     // 소셜로그인 시 로컬아이디가 없는 경우
     @PostMapping("/sign-up/social-login/random-code") @Operation(summary = "소셜로그인 회원가입", description = "학생 랜덤코드로 회원가입된 학부모가 없으면 회원가입")
-    public ResponseEntity socialLoginSignUp(@RequestBody String randCode){
+    public ResponseEntity socialLoginSignUp(@RequestBody RandCodeReq randCode){
         int result = service.getStudentRandCode(randCode) ;
         return ResponseEntity.ok().body(result) ;
     }

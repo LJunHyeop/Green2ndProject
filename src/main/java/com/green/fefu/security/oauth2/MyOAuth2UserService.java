@@ -49,9 +49,6 @@ import static com.green.fefu.exception.ljm.LjmErrorCode.*;
 @RequiredArgsConstructor
 public class MyOAuth2UserService extends DefaultOAuth2UserService {
     private final ParentsUserMapper mapper ;
-    private final ParentRepository repository ;
-    private final StudentRepository studentRepository ;
-    private final ParentsUserServiceImpl service ;
     private final OAuth2UserInfoFactory oAuth2UserInfoFactory ;
 
     @Override
