@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity
 public class Class extends UpdatedAt {
     @Id
-    private long classId ;
+    private Integer classId ;
 
     @OneToOne
     @JoinColumn(name = "tea_id",nullable = false)

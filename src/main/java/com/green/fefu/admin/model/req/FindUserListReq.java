@@ -22,4 +22,6 @@ public class FindUserListReq {
     @Min(value = 1, message = DIVISION_ERROR)
     @Max(value = 2, message = DIVISION_ERROR)
     private Integer check;
+
+    private String searchWord;
 }

@@ -31,4 +31,6 @@ public interface ParentRepository extends JpaRepository<Parents, Long> {
     Parents findParentByUid(String uid);
 
     List<Parents> findAllByStateIs(int state);
+
+    List<Parents> findByNameContainingAndStateIs(String name, Integer state);
 }

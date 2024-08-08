@@ -2,10 +2,7 @@ package com.green.fefu.student.service;
 
 import com.green.fefu.student.model.dto.getListForNoParent;
 import com.green.fefu.student.model.dto.getStudent;
-import com.green.fefu.student.model.req.createStudentReq;
-import com.green.fefu.student.model.req.deleteStudentReq;
-import com.green.fefu.student.model.req.studentAdvanceGradeReq;
-import com.green.fefu.student.model.req.updateStudentReq;
+import com.green.fefu.student.model.req.*;
 import com.green.fefu.student.test.StudentController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -110,7 +107,7 @@ public class StudentControllerImpl implements StudentController {
     }
 
     //    선생기준 -> 자기 반 학생 한명 전체 데이터 들고오기
-    @GetMapping(value = "detail",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @GetMapping(value = "detail", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "학생 한명의 정보 가져오기", description = "리턴 => 생년월일, 관계, 선생이름," +
             " 생성일, 주소, 우편번호, 사진, 이름, 전화번호, 성별, 학년 학급, 기타사항, pk, 부모 아이디, 부모 이름, 부모 전화번호")
     @ApiResponses(value = {
@@ -180,7 +177,7 @@ public class StudentControllerImpl implements StudentController {
     })
     @PreAuthorize("hasRole('TEACHER') or hasRole('PARENTS')")
     @Override
-    public ResponseEntity updateStudent(@RequestPart @Valid updateStudentReq p, @RequestPart(required = false) MultipartFile pic) {
+    public ResponseEntity updateStudent(@RequestPart(required = false) @Valid updateStudentReq p, @RequestPart(required = false) MultipartFile pic) {
         log.info("updateStudent req : {}", p);
         service.updateStudent(p, pic);
         return new ResponseEntity<>(OK);
@@ -209,8 +206,9 @@ public class StudentControllerImpl implements StudentController {
     @Override
     public ResponseEntity getStudentListForParent(@RequestParam String searchWord) {
         log.info("{}", searchWord);
-        service.getStudentListForParent(searchWord);
-        return new ResponseEntity<>(OK);
+        Map response = service.getStudentListForParent(searchWord);
+
+        return new ResponseEntity<>(response,OK);
     }
 
     @PatchMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
@@ -224,10 +222,25 @@ public class StudentControllerImpl implements StudentController {
             )
     })
     @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
-    public ResponseEntity studentAdvanceGrade(@RequestBody @Valid List<studentAdvanceGradeReq> p){
+    public ResponseEntity studentAdvanceGrade(@RequestBody @Valid List<studentAdvanceGradeReq> p) {
         log.info("studentAdvanceGrade req : {}", p);
         service.studentAdvanceGrade(p);
         return new ResponseEntity<>(OK);
     }
 
+    @PostMapping(value = "sign-in", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @Operation(summary = "학생 로그인", description = "리턴 => ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = ""
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명"
+            )
+    })
+    public ResponseEntity studentSignIn(@RequestBody @Valid StudentSignInReq p) {
+        log.info("StudentSignInReq : {}", p);
+        Map map = service.studentSignIn(p);
+        return new ResponseEntity<>(map,OK);
+    }
 }
