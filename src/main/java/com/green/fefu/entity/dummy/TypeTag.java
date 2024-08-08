@@ -19,7 +19,7 @@ public class TypeTag {
     @JoinColumn(name="subject_id", nullable = false)
     private Subject subject;
 
-    private Long typeNum;
+    private Integer typeNum;
 
     private String tagName;
 

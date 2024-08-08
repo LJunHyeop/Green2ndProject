@@ -138,17 +138,47 @@ public class HaesolOnlineServiceImpl {
 
         //학부모-> 자녀 학급, 학생->본인, 학급 선생님-> 담당학급 을 추출하는 과정이 필요
 
-        List<GetKoreanAndMathQuestionRes> listAll=haesolOnlineRepository.findBySubjectCodeAndClassId(p.getSubjectCode(), classData);
-        List<GetKoreanAndMathQuestionRes> list=new ArrayList<>(TOTAL_TEST_QUESTION);
+        List<HaesolOnline> listAll=haesolOnlineRepository.findBySubjectCodeAndClassId(p.getSubjectCode(), classData);
+        List<GetKoreanAndMathQuestionRes> list=new ArrayList<>();
 
-        if(!listAll.isEmpty() && list.size()!=TOTAL_TEST_QUESTION) {
-            int random=(int)Math.random()*list.size();
-            list.add(listAll.get(random));
+//        if(!listAll.isEmpty() && list.size()!=TOTAL_TEST_QUESTION) {
+//            int random=(int)Math.random()*list.size();
+//            list.add(listAll.get(random));
+//        }
+
+        if(listAll == null || listAll.isEmpty()){
+            throw new CustomException(NOT_FOUND_QUESTION);
         }
 
-        for(GetKoreanAndMathQuestionRes res: list) {
-            res.setSentence(haesolOnlineMultipleRepository.findSentenceByQueIdOrderByNum(res.getQueId()));
+        for (int i = 0; i < (TOTAL_TEST_QUESTION < listAll.size() ? TOTAL_TEST_QUESTION : listAll.size()); i++) {
+            HaesolOnline a = listAll.get(i);
+            int rand = (int)(Math.random()*listAll.size());
+            listAll.set(i, listAll.get(rand));
+            listAll.set(rand, a);
         }
+        for (int i = 0; i < (TOTAL_TEST_QUESTION < listAll.size() ? TOTAL_TEST_QUESTION : listAll.size()); i++) {
+            GetKoreanAndMathQuestionRes a = new GetKoreanAndMathQuestionRes();
+
+            a.setQuestion(listAll.get(i).getQuestion());
+            a.setQueId(listAll.get(i).getQueId());
+            a.setLevel(listAll.get(i).getLevel());
+            a.setTypeTag(listAll.get(i).getTypeTag().getTypeNum());
+            a.setQueTag(listAll.get(i).getQueTag());
+            a.setContents(listAll.get(i).getContents());
+            a.setAnswer(listAll.get(i).getAnswer());
+            a.setPic(listAll.get(i).getPic());
+            List<HaesolOnlineMultiple> aaa = haesolOnlineMultipleRepository.findSentenceByQueIdOrderByNum(listAll.get(i).getQueId());
+            for (HaesolOnlineMultiple item : aaa){
+                a.getSentence().add(item.getSentence());
+            }
+            log.info("리스트 add 직전");
+            list.add(a);
+
+        }
+//        for(GetKoreanAndMathQuestionRes res: list) {
+//            res.setSentence(haesolOnlineMultipleRepository.findSentenceByQueIdOrderByNum(res.getQueId()));
+//        }
+        log.info("리턴 전");
         return list;
     }
 }

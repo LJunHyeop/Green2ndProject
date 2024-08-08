@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,13 +61,11 @@ public class HaesolOnlineControllerImpl {
     @Operation(summary = "문제 리스트 불러오기", description = "" +
             "<p>학생, 학부모, 선생 모두 사용 가능</p>" +
             "<p>학부모의 경우 한 학생의 pk를 <strong>무조건!!</strong> 보내줘야함</p>")
-    public ResultDto<List<GetKoreanAndMathQuestionRes>> GetKorAMatQuestion(@ParameterObject GetKoreanAndMathQuestionReq p) {
+    public ResponseEntity GetKorAMatQuestion(@ParameterObject GetKoreanAndMathQuestionReq p) {
         List<GetKoreanAndMathQuestionRes> list=service.GetKorAMatQuestion(p);
-        return ResultDto.<List<GetKoreanAndMathQuestionRes>>builder()
-                .statusCode(HttpStatus.OK)
-                .resultMsg(HttpStatus.OK.toString())
-                .result(list)
-                .build();
+
+        log.info("컨트롤러 리턴");
+        return new ResponseEntity(list, HttpStatus.OK);
     }
 
 

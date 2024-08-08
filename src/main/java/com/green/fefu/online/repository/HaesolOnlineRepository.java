@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface HaesolOnlineRepository extends JpaRepository<HaesolOnline,Long> {
-    @Query("SELECT question, contents, answer, level, pic FROM HaesolOnline WHERE subjectCode=:subjectCode AND classId=:classId")
-    List<GetKoreanAndMathQuestionRes> findBySubjectCodeAndClassId(@Param("subjectCode")Long subjectCode, @Param("classId")Long classId);
+    @Query("SELECT ha FROM HaesolOnline ha WHERE ha.subjectCode.subjectId=:subjectCode AND ha.classId=:classId")
+    List<HaesolOnline> findBySubjectCodeAndClassId(@Param("subjectCode")Long subjectCode, @Param("classId")Long classId);
 }

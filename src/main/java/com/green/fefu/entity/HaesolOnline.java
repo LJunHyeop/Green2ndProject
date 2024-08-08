@@ -40,7 +40,7 @@ public class HaesolOnline extends UpdatedAt{
 
     // 문제 유형 1->객관식 2->주관식
     @ColumnDefault("1")
-    private Long queTag;
+    private Integer queTag;
 
     //============실제 문제 출력될 요소=============
 
