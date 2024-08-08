@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
@@ -34,5 +35,6 @@ public class StudentRes {
     private String teacherPhone ;
     @Schema(description = "학생 담임선생 이메일")
     private String teacherEmail ;
-
+    @Schema(description = "선생 PK")
+    private long teaId ;
 }
