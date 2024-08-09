@@ -203,7 +203,8 @@
                 s.parent_id AS parentsPk,
                 MAX(sc.class_id) AS classId,
                 t.name AS teacherName,
-                s.pic AS pic
+                s.pic AS pic,
+                t.tea_id AS teaId
         FROM student s
         LEFT JOIN parents p
         ON s.parent_id = p.parents_id

@@ -1,6 +1,7 @@
 package com.green.fefu.common;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Component
 @Getter
+@Slf4j
 public class CustomFileUtils {
     public final String uploadPath; // 객체화가 끝난다음에 final이 되기떄문에 이대로 사용 불가능
     // DI
@@ -50,6 +52,7 @@ public class CustomFileUtils {
     }
     // 파일저장  target 는 경로랑 파일명까지 지정 된상태
     public  void transferTo(MultipartFile mf , String target ) throws Exception {
+        log.info("uploadPath:{}",uploadPath);
         File saveFile = new File(uploadPath , target); // 죄종경로
 
         mf.transferTo(saveFile);
