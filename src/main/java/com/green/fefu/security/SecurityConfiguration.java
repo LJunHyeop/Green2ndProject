@@ -42,6 +42,7 @@ public class SecurityConfiguration {
 
     @Bean //메소드 타입의 빈 등록 (파라미터, 리턴타입 중요) 파라미터는 빈등록할때 필요한 객체
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
         //파라미터없이 내가 직접 new 객체화해서 리턴으로 빈등록 가능
 
         CommonOAuth2Provider a;
@@ -60,12 +61,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth ->
                         auth.
                                 requestMatchers("/api/feed").authenticated()
-                                .requestMatchers(
-                                        "/api/feed"
-                                        , "/api/feed/*"
-                                        , "/api/user/pic"
-                                )
-                                .authenticated()
+                                .requestMatchers("/api/feed", "/api/feed/*").authenticated()
+                                .requestMatchers("/pic/**").permitAll()
                                 .anyRequest()
                                 .permitAll()
                 )
