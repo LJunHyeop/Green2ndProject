@@ -18,29 +18,22 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     private final String uploadPath;
 
     public WebMvcConfiguration(@Value("${file.directory}") String uploadPath) {
+        log.info("file.directory: {}", uploadPath);
         this.uploadPath = uploadPath;
     }
 
-    @Override // CORS 오픈
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOriginPatterns("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
-                .allowedHeaders("Authorization", "Content-Type")
-                .allowCredentials(true) // 쿠키 요청을 허용
-                .maxAge(3600) ;
-
-    }
 
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/pic/**")
                 .addResourceLocations("file:" + uploadPath);
+
         registry.addResourceHandler("/**") //를
                 .addResourceLocations("classpath:/static/**")//로 맵핑
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver(){
                     @Override
                     protected Resource getResource(String resourcePath, Resource location) throws IOException {
+                        log.info("resourcePath: {}", resourcePath);
                         Resource requestedResource = location.createRelative(resourcePath);
 
                         if(requestedResource.exists() && requestedResource.isReadable()){
