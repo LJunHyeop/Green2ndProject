@@ -145,6 +145,8 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     public ResponseEntity getSignature(@ModelAttribute @ParameterObject GetSignaturePicReq req){
         try {
             GetSignaturePicRes res = service.getSignaturePics(req);
+            String url = service.fileUrl(res.getPic()) ;
+            res.setPic(url) ;
             return ResponseEntity.ok().body(res);
         } catch (Exception e){
             e.printStackTrace();

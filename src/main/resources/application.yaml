@@ -9,7 +9,6 @@ spring:
     username: ${DEFAULT.DB_USERNAME}
     password: ${DEFAULT.DB_PASSWORD}
 
-
   security:
     oauth2:
       client:
