@@ -376,6 +376,11 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .pics(picName)
                 .build();
     }
+    // url 생성
+    public String fileUrl(String pic){
+        String url = String.format("http://http://112.222.157.156:5121/pic/%s", pic) ;
+        return url ;
+    }
     // sign pk 값으로 사진 가져오기
     public GetSignaturePicRes getSignaturePics(GetSignaturePicReq req){
         Student student = studentRepository.getReferenceById(req.getStudentPk()) ;
