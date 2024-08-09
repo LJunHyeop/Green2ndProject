@@ -11,7 +11,8 @@ import java.sql.Date;
 @ToString
 public class FindUserListDto {
     private String state;
-    private String uid;
+
+    private String id;
     private String name;
     private String uclass;
     private String grade;
