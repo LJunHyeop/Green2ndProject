@@ -1,6 +1,8 @@
 package com.green.fefu.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,6 +16,7 @@ public class HaesolOnlineMultiple {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long AnswerId;
 
+    @Min(1) @Max(5)
     private Integer num;
 
     @ManyToOne

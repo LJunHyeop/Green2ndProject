@@ -1,6 +1,8 @@
 package com.green.fefu.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,5 +29,7 @@ public class Notice extends UpdatedAt{
     @Column(length=1000)
     private String content;
 
+    @Min(1)
+    @Max(2)
     private Integer state;
 }
