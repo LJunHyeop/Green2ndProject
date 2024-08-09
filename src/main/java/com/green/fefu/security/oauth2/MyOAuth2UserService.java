@@ -16,6 +16,7 @@ import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfoFactory;
 import com.green.fefu.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.maven.model.Parent;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -50,6 +51,7 @@ import static com.green.fefu.exception.ljm.LjmErrorCode.*;
 public class MyOAuth2UserService extends DefaultOAuth2UserService {
     private final ParentsUserMapper mapper ;
     private final OAuth2UserInfoFactory oAuth2UserInfoFactory ;
+    private final ParentRepository parentRepository ;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -91,6 +93,9 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
             user.setPhone("010-0000-0000") ;
             user.setConnect("기타") ;
             mapper.postParentsUser(user) ;
+
+            Parents parent = parentRepository.getReferenceById(user.getParentsId()) ;
+            parent.setAuth("ROLE_PARENTS");
 //            throw new CustomException(NOT_FOUND_PERISTALSIS_ID) ;
         }
 
