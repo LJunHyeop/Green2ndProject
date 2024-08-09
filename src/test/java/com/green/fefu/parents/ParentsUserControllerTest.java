@@ -52,7 +52,7 @@ class ParentsUserControllerTest {
     @BeforeEach
     void setUp() {
         req = new PostParentsUserReq();
-        req.setStudentPk(1);
+//        req.setStudentPk(1);
         req.setNm("길동");
         req.setEmail("rffrfr@gmail.com");
         req.setConnect("부");
