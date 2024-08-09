@@ -23,7 +23,7 @@ public class PostOnlineQuestionReq {
     @Schema(example = "1", description = "[과목 코드] 1: 국어, 2: 수학")
     private Long subjectCode;
 
-    @Schema(example = "3", description = "1->독해 2->문법 3->문학")
+    @Schema(example = "11", description = "11->독해 12->문법 13->문학")
     private Long typeTag;
 
     @Schema(example = "1", description = "1->객관식 2->주관식")

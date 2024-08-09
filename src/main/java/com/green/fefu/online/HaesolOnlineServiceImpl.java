@@ -32,17 +32,23 @@ import static com.green.fefu.exception.JSH.JshErrorCode.*;
 @RequiredArgsConstructor
 @Slf4j
 public class HaesolOnlineServiceImpl {
+    // 공통된 메소드를 저장(로그인한 유저에 따라 해당하는 학년정보 추출)
+    private final CommonMethodStorage methodStorage;
+
+    // 내가 저장하고 꺼내올  Entity Repository
     private final HaesolOnlineRepository haesolOnlineRepository;
     private final HaesolOnlineMultipleRepository haesolOnlineMultipleRepository;
     private final TypeTagRepository typeTagRepository;
     private final SubjectRepository subjectRepository;
 
-    private final StudentRepository studentRepository;
-    private final ParentRepository parentRepository;
+    // 어떠한 사용자인지 분기
     private final AuthenticationFacade authenticationFacade;
     private final TeacherRepository teacherRepository;
-    private final CustomFileUtils customFileUtils;
+    private final StudentRepository studentRepository;
+    private final ParentRepository parentRepository;
 
+    // 기타 문제
+    private final CustomFileUtils customFileUtils;
     private final OnlineMapper mapper;
     private final Integer TOTAL_TEST_QUESTION=20;
 
@@ -54,7 +60,7 @@ public class HaesolOnlineServiceImpl {
         log.info("teacher entity {}",teacher);
         Subject subject = subjectRepository.getReferenceById(p.getSubjectCode());
         log.info("subject entity {}", subject);
-        TypeTag typeTag = typeTagRepository.findByTypeNumAndSubject_SubjectId(p.getTypeTag(), p.getSubjectCode());
+        TypeTag typeTag = typeTagRepository.findByTypeNum(p.getTypeTag());
         log.info("p.getTypeTag {}", p.getTypeTag());
         log.info("p.getSubjectCode {}", p.getSubjectCode());
         log.info("typeTag entity {}", typeTag);
@@ -67,6 +73,7 @@ public class HaesolOnlineServiceImpl {
         haesolOnline.setClassId(mapper.teacherClass(teacher.getTeaId())); //선생님 정보 토대로 학년 정보
         haesolOnline.setSubjectCode(subject); //과목코드
         haesolOnline.setTypeTag(typeTag); //객관식-주관식
+        log.info("typeTag is null? {}", haesolOnline.getTypeTag());
         haesolOnline.setLevel(p.getLevel()); //난이도
         haesolOnline.setQuestion(p.getQuestion()); //문제
         haesolOnline.setContents(p.getContents()); //내용
@@ -87,7 +94,7 @@ public class HaesolOnlineServiceImpl {
                 customFileUtils.transferTo(pic, target);
             } catch (Exception e) {
                 e.printStackTrace();
-                throw new RuntimeException("시험문제 업로드에 실패했습니다.");
+                throw new CustomException(CAN_T_UPROAD_QUESTION);
             }
         }
 
@@ -116,49 +123,33 @@ public class HaesolOnlineServiceImpl {
     public List<GetKoreanAndMathQuestionRes> GetKorAMatQuestion(GetKoreanAndMathQuestionReq p){
         //학부모-> 자녀 학급, 학생->본인, 학급 선생님-> 담당학급 을 추출하는 과정이 필요
         //로그인 한 유저가 누구이며 그에 따른 학년 조회
-        MyUser ss=authenticationFacade.getLoginUser();
-        long classData = switch (ss.getRole()){
-            case "ROLE_PARENTS"->{
-                if(p.getStudentPk() != null || p.getStudentPk()==0){
-                    throw new CustomException(STUDENT_PK_NOT_FOUND_ERROR);
-                }
-                Parents parents=parentRepository.getReferenceById(ss.getUserId());
-                yield mapper.parentsClass(parents.getParentsId(), p.getStudentPk());
-            }
-            case "ROLE_TEACHER"-> {
-                Teacher teacher = teacherRepository.getReferenceById(ss.getUserId());
-                yield mapper.teacherClass(teacher.getTeaId());
-            }
-            case "ROLE_STUDENT"->{
-                Student student=studentRepository.getReferenceById(ss.getUserId());
-                yield mapper.studentClass(student.getStuId());
-            }
-            default-> throw new CustomException(CANT_ENTER);
-        };
+        long grade=methodStorage.signedUserGrade(p.getStudentPk());
+
         //TypeTag typeTag = typeTagRepository.findByTypeNumAndSubject_SubjectId(p.getTypeTag(), p.getSubjectCode());
 
         // 학년과 과목 코드를 넣어서 전체 문제 리스트 조회 ex. 1학년 수학과목
-        List<HaesolOnline> listAll=haesolOnlineRepository.findBySubjectCodeAndClassId(p.getSubjectCode(), classData);
+        List<HaesolOnline> listAll=haesolOnlineRepository.findBySubjectCodeAndClassId(p.getSubjectCode(), grade);
         List<GetKoreanAndMathQuestionRes> list=new ArrayList<>(); //20문제만 뽑아 낼 새로운 리스트
         // 문제가 없을 때의 exception 처리
         if(listAll == null || listAll.isEmpty()){
             throw new CustomException(NOT_FOUND_QUESTION);
         }
         log.info("문제는 받아왔음");
-        //총 문제 수와 20문제의 비교 후 필요한 만큼 추출(삼항식)
-        for (int i = 0; i < (TOTAL_TEST_QUESTION < listAll.size() ? TOTAL_TEST_QUESTION : listAll.size()); i++) {
-            HaesolOnline a = listAll.get(i);
-            int rand = (int)(Math.random()*listAll.size());
-            // 랜덤으로 숫자를 섞음
-            listAll.set(i, listAll.get(rand));
-            listAll.set(rand, a);
-        }
+        Collections.shuffle(listAll);
+//        총 문제 수와 20문제의 비교 후 필요한 만큼 추출(삼항식)
+//        for (int i = 0; i < (TOTAL_TEST_QUESTION < listAll.size() ? TOTAL_TEST_QUESTION : listAll.size()); i++) {
+//            HaesolOnline a = listAll.get(i);
+//            int rand = (int)(Math.random()*listAll.size());
+//             랜덤으로 숫자를 섞음
+//            listAll.set(i, listAll.get(rand));
+//            listAll.set(rand, a);
+//        }
         log.info("랜덤으로 문제를 섞음");
         for (int i = 0; i < (TOTAL_TEST_QUESTION < listAll.size() ? TOTAL_TEST_QUESTION : listAll.size()); i++) {
             GetKoreanAndMathQuestionRes a = new GetKoreanAndMathQuestionRes();
 
             a.setQuestion(listAll.get(i).getQuestion());
-            a.setQueId(listAll.get(i).getQueId());
+            //a.setQueId(listAll.get(i).getQueId());
             a.setLevel(listAll.get(i).getLevel());
             log.info("get res 태그 전: {}",a);
             a.setTypeTag(listAll.get(i).getTypeTag().getTypeNum());
@@ -174,11 +165,7 @@ public class HaesolOnlineServiceImpl {
             }
             log.info("리스트 add 직전");
             list.add(a);
-
         }
-//        for(GetKoreanAndMathQuestionRes res: list) {
-//            res.setSentence(haesolOnlineMultipleRepository.findSentenceByQueIdOrderByNum(res.getQueId()));
-//        }
         log.info("리턴 전");
         return list;
     }

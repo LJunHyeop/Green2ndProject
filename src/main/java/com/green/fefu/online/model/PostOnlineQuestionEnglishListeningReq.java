@@ -20,6 +20,4 @@ public class PostOnlineQuestionEnglishListeningReq {
     @Schema(example = "Hi, I'm Daniel. I'm from USA. I like korean food. My favorite korean food is kimchi", description = "보이스웨어가 읽을 문장을 입력하는 부분입니다.")
     private String sentence;
 
-    @JsonIgnore
-    private Long teacherPk;
 }

@@ -4,5 +4,5 @@ import com.green.fefu.entity.dummy.TypeTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TypeTagRepository extends JpaRepository<TypeTag, Long> {
-    TypeTag findByTypeNumAndSubject_SubjectId(Long typeNum, Long subjectId);
+    TypeTag findByTypeNum(Long typeNum);
 }

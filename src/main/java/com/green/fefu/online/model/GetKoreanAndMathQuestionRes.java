@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class GetKoreanAndMathQuestionRes {
-    private long queId;
+    //private long queId;
     // question Entity
     private String question;
     private int level;
