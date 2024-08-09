@@ -17,8 +17,11 @@ public class ChatRoom  extends UpdatedAt{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rood_id")
-    private Long roomId;
+    private Long room;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "roomId")
+    private ChatRoomId roomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teaId")

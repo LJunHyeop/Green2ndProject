@@ -2,6 +2,7 @@ package com.green.fefu.socket;
 
 
 
+import com.green.fefu.entity.ChatRoomId;
 import com.green.fefu.entity.Parents;
 import com.green.fefu.entity.Teacher;
 import com.green.fefu.parents.ParentsUserServiceImpl;
@@ -9,6 +10,7 @@ import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.socket.model.ChatMsgDto;
 import com.green.fefu.socket.model.ChatRoomDto;
+import com.green.fefu.socket.repository.ChatRoomIdRepository;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import com.green.fefu.teacher.service.TeacherServiceImpl;
 
@@ -50,10 +52,10 @@ public class ChatController {
         parentsId.getName();
 
         Teacher teacher = teacherRepository.getReferenceById(teaId);
-        Long roomId = chatService.createRoom(parentsId, teacher);
+        ChatRoomId roomId = chatService.createRoom(parentsId, teacher);
         log.info("Create Chat Room , senderNick"+teacher.getName()+"학부모님 입장했습니다");
         log.info("Create Chat Room , senderNick"+parentsId.getName()+"선생님이 입장했습니다");
-        return "redirect:/teacher/"+teaId+"/chat/"+roomId;
+        return "chatRoomId : "+roomId.getId();
     }
     @PostMapping(value = "teacher/chat")
     @Operation(summary = "채팅방 만들기", description = "학부모 로그인 -> 선생님 PK값 받고 같이 리턴 ")
@@ -67,32 +69,33 @@ public class ChatController {
 
         // 최초의 부모 ID를 사용하여 채팅방을 생성합니다. (여기서는 첫 번째 부모 ID 사용)
         Parents firstParent = parentRepository.getReferenceById(parentsId.get(0)); // 첫 번째 부모 객체 가져오기
-        Long roomId = chatService.createRoom(firstParent, teaId); // 첫 번째 학부모와 선생님으로 방 생성
+        ChatRoomId roomId = chatService.createRoom(firstParent, teaId); // 첫 번째 학부모와 선생님으로 방 생성
 
         // 모든 학부모에 대해 로그 기록
-        for (Long parentId : parentsId) {
-            Parents parents = parentRepository.getReferenceById(parentId);
+        for (int i = 0; i<parentsId.size(); i++) {
+            Parents parents = parentRepository.getReferenceById(parentsId.get(i));
+            String roomLink = "/parentsId/" + parentsId.get(i) + "/chat/" + roomId; // 첫 번째 부모 ID 사용
             log.info("Create Chat Room, senderNick: {} 학부모님이 입장했습니다", parents.getName());
+            return ResponseEntity.ok(roomLink); // 생성된 링크 반환
         }
         log.info("Create Chat Room, senderNick: {} 선생님이 입장했습니다", teacherName);
         // 생성된 채팅방 링크를 만듭니다.
-        String roomLink = "/parentsId/" + parentsId.get(0) + "/chat/" + roomId; // 첫 번째 부모 ID 사용
-        return ResponseEntity.ok(roomLink); // 생성된 링크 반환
+        return ResponseEntity.ok(teacherName);
     }
-    @GetMapping(value = "teacher/{parentId}/chat")
+    @GetMapping(value = "teacher/{roomId}/chat")
     @Operation(summary = "선생님이 특정 학부모 채팅 가져오기 ")
-    public String chatGetTeacher(@PathVariable("roomId")String roomId,@PathVariable UserDetails userDetails, Model model){
+    public String findRoomId(@PathVariable("roomId")String roomId,@PathVariable Long parentsPk, Model model){
         log.info("GET Chat Room , roomId : " + roomId);
-        ChatRoomDto chatRoomDto = chatService.findRoom(Long.parseLong(roomId));
         Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
+        List<ChatRoomDto> chatRoomDto = chatService.findRoomId(parentRepository.getReferenceById(parentsPk), teacher);
         model.addAttribute("chatRoomDto", chatRoomDto);
         model.addAttribute("teachers", teacher);
-
+        log.info("GET Chat Room , roomId : " + roomId);
         return "chat";
     }
-    @GetMapping(value = "parentId/{teacher}/chat")
+    @GetMapping(value = "parentId/{roomId}/chat")
     @Operation(summary = "학부모가  특정  선생님 채팅 가져오기 ")
-    public String chatGetParent(@PathVariable("roomId")String roomId,@PathVariable UserDetails userDetails, Model model){
+    public String findRoomId(@PathVariable("roomId")String roomId, Model model){
         log.info("GET Chat Room , roomId : " + roomId);
         ChatRoomDto chatRoomDto = chatService.findRoom(Long.parseLong(roomId));
         Parents parents = parentRepository.getReferenceById(authenticationFacade.getLoginUserId());
@@ -108,9 +111,9 @@ public class ChatController {
         Long teacherId = authenticationFacade.getLoginUserId();
         Teacher teacher = teacherRepository.getReferenceById(teacherId);
         List<ChatRoomDto> chatRooms = chatService.findAllRoomsByTeacher(teacherId);
+
         model.addAttribute("chatRooms", chatRooms);
         model.addAttribute("teacher", teacher);
-
         return "chatList";
     }
 

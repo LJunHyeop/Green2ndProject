@@ -21,4 +21,6 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> ,ChatR
     @Query("SELECT cr FROM ChatRoom cr WHERE cr.teaId = :parentsId")
     List<ChatRoom> findAllByParentsId(@Param("parentId") Parents parentsId);
 
+
+
 }

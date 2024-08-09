@@ -8,7 +8,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -16,6 +18,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     private static List<WebSocketSession> list = new ArrayList<>();
 
+    private final Map<String, WebSocketSession> sessions = new HashMap<>();
 
     protected void handleTextMessage(WebSocketSession session, String message) throws  Exception {
 
@@ -28,6 +31,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         list.add(session);
+        String sessionId = session.getId();
+        sessions.put(sessionId, session);
+
+
         log.info(session + " 클라이언트 접속");
     }
 
@@ -35,6 +42,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         log.info(session + " 클라이언트 접속 해제");
+
         list.remove(session);
     }
 

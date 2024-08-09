@@ -1,13 +1,12 @@
+
 package com.green.fefu.socket;
 
-import com.green.fefu.entity.ChatMsg;
-import com.green.fefu.entity.ChatRoom;
-import com.green.fefu.entity.Parents;
-import com.green.fefu.entity.Teacher;
+import com.green.fefu.entity.*;
 import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.socket.model.ChatMsgDto;
 import com.green.fefu.socket.model.ChatRoomDto;
 import com.green.fefu.socket.repository.ChatMsgRepository;
+import com.green.fefu.socket.repository.ChatRoomIdRepository;
 import com.green.fefu.socket.repository.ChatRoomRepository;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.transform.Result;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,28 +30,36 @@ public class ChatService {
 
     private final ParentRepository parentRepository;
 
-    @Transactional // 채팅방생성
-    public Long createRoom(Parents parentsId, Teacher teacherId) {
-        ChatRoom chatRoom = new ChatRoom(teacherId,parentsId);
-        chatRoomRepository.save(chatRoom);
+    private final ChatRoomIdRepository chatRoomIdRepository;
 
+    @Transactional // 채팅방생성
+    public ChatRoomId createRoom(Parents parentsId, Teacher teacherId) {
+        ChatRoomId chatRoomId = new ChatRoomId();
+        chatRoomIdRepository.save(chatRoomId);
+
+            ChatRoom chatRoom = new ChatRoom(teacherId,parentsId);
+            chatRoom.setRoomId(chatRoomId);
+            chatRoomRepository.save(chatRoom);
         return chatRoom.getRoomId();
     }
+
+        // 채팅방 찾기
     public ChatRoomDto findRoom(Long roomId){
         List<ChatRoomDto> chatRoomList = chatRoomRepository.getChatRoomList(roomId);
         return chatRoomList.get(0);
     }
-    public Long findRoomId(Parents parentsId , Teacher teacherId){
+    // 특정 채팅방 조회
+    public List<ChatRoomDto> findRoomId(Parents parentsId , Teacher teacherId){
         List<ChatRoomDto> chatRoomDtoList = chatRoomRepository.getChatRoomId(parentsId, teacherId);
-        if(chatRoomDtoList.size()>0){
-            return chatRoomDtoList.get(0).getRoomId();
-        }
-        return null;
+
+        return chatRoomDtoList;
     }
 
+
     @Transactional
+    // 채팅메시지 DB에 저장
     public void saveChat(ChatMsgDto chatMsgDto){
-        List<ChatRoomDto> chatRooms = chatRoomRepository.getChatRoomList(chatMsgDto.getRoomId());
+        List<ChatRoomDto> chatRooms = chatRoomRepository.getChatRoomList(chatMsgDto.getRoomId().getId());
         ChatMsg chatMsg = chatMsgDto.createChat(chatMsgDto.getSender(), chatMsgDto.getMsg(), chatRooms.get(0));
         chatMsgRepository.save(chatMsg);
     }

@@ -66,6 +66,7 @@ public class SecurityConfiguration {
                                         , "/api/user/pic"
                                 )
                                 .authenticated()
+                                .requestMatchers("/socket.io/**").permitAll()
                                 .anyRequest()
                                 .permitAll()
                 )
