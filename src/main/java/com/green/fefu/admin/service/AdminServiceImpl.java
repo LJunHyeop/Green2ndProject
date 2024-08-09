@@ -153,95 +153,87 @@ public class AdminServiceImpl implements AdminService {
 //        validation.nullCheck(p.getPk().toString());
 //    }
 
-    public List<FindUserListDto> findUserList(FindUserListReq p, List<FindUserListDto> list) {
+    public List<Map> findUserList(FindUserListReq p, List list) {
+        String state = "state";
+        String id = "id";
+        String name = "name";
+        String grade = "grade";
+        String uclass = "class";
+        String pk = "pk";
+        String date = "date";
 
-//        부모
+//  부모
         if (p.getP() == PrarentCode) {
             if (p.getSearchWord() != null) {
-                List<Parents> searchParentList = parentRepository.findByNameContainingAndStateIs(p.getSearchWord(), p.getCheck());
+                List<Parents> searchParentList = parentRepository.findByNameContainingAndStateIsAndAcceptIs(p.getSearchWord(), p.getCheck(), 1);
                 if (searchParentList == null || searchParentList.isEmpty()) {
                     return new ArrayList<>();
                 }
                 for (Parents parent : searchParentList) {
-                    FindUserListDto data = new FindUserListDto();
-                    data.setState(parent.getState() == 1 ? "활성화" : "비활성화");
-                    data.setUid(parent.getUid());
-                    data.setName(parent.getName());
-//                자녀 여러명 보여줘야 하는지 프론트 한테 물어봐야함
-//                data.setGrade();
-//                data.setUclass();
-//                data.setDate();
-                    list.add(data);
+                    Map map = new HashMap();  // 새 map 객체 생성
+                    map.put(state, parent.getState() == 1 ? "활성화" : "비활성화");
+                    map.put(id, parent.getUid());
+                    map.put(name, parent.getName());
+                    map.put(pk, parent.getParentsId());
+                    list.add(map);
                 }
             } else {
-
-
-                List<Parents> parentList = parentRepository.findAllByStateIs(p.getCheck());
+                List<Parents> parentList = parentRepository.findAllByStateIsAndAcceptIs(p.getCheck(), 1);
                 if (parentList == null || parentList.isEmpty()) {
                     return new ArrayList<>();
                 }
                 for (Parents parent : parentList) {
-                    FindUserListDto data = new FindUserListDto();
-                    data.setState(parent.getState() == 1 ? "활성화" : "비활성화");
-                    data.setUid(parent.getUid());
-                    data.setName(parent.getName());
-//                자녀 여러명 보여줘야 하는지 프론트 한테 물어봐야함
-//                data.setGrade();
-//                data.setUclass();
-//                data.setDate();
-                    list.add(data);
+                    Map map = new HashMap();  // 새 map 객체 생성
+                    map.put(state, parent.getState() == 1 ? "활성화" : "비활성화");
+                    map.put(id, parent.getUid());
+                    map.put(name, parent.getName());
+                    map.put(pk, parent.getParentsId());
+                    list.add(map);
                 }
             }
         }
-//        교직원
+//  교직원
         else if (p.getP() == TeacherCode) {
             if(p.getSearchWord() != null) {
-                List<Teacher> searchTeacherList = teacherRepository.findByNameContainingAndStateIs(p.getSearchWord(), p.getCheck());
+                List<Teacher> searchTeacherList = teacherRepository.findByNameContainingAndStateIsAndAcceptIs(p.getSearchWord(), p.getCheck(), 1);
                 if (searchTeacherList == null || searchTeacherList.isEmpty()) {
                     return new ArrayList<>();
                 }
                 for (Teacher teacher : searchTeacherList) {
+                    Map map = new HashMap();  // 새 map 객체 생성
                     Class c = classRepository.findByTeaId(teacher.getTeaId());
-                    FindUserListDto data = new FindUserListDto();
-                    data.setState(teacher.getState() == 1 ? "활성화" : "비활성화");
-                    data.setUid(teacher.getUid());
-                    data.setName(teacher.getName());
+                    map.put(state, teacher.getState() == 1 ? "활성화" : "비활성화");
+                    map.put(id, teacher.getUid());
+                    map.put(name, teacher.getName());
+                    map.put(pk, teacher.getTeaId());
                     if(c != null){
-                    String[] gradeClass = Parser.classParserArray(Long.toString(c.getClassId()));
-                    data.setGrade(gradeClass[0]);
-                    data.setUclass(gradeClass[1]);
+                        String[] gradeClass = Parser.classParserArray(Long.toString(c.getClassId()));
+                        map.put(grade, gradeClass[0]);
+                        map.put(uclass, gradeClass[1]);
                     }
-                    data.setDate(Date.valueOf(teacher.getCreatedAt().toLocalDate()));
-                    list.add(data);
+                    map.put(date, Date.valueOf(teacher.getCreatedAt().toLocalDate()));
+                    list.add(map);
                 }
             }
-
             else {
-
-                log.info("else find 전");
-                List<Teacher> teacherList = teacherRepository.findAllByStateIs(p.getCheck());
+                List<Teacher> teacherList = teacherRepository.findAllByStateIsAndAcceptIs(p.getCheck(), 1);
                 if (teacherList == null || teacherList.isEmpty()) {
                     return new ArrayList<>();
                 }
-                log.info("else find 후");
                 for (Teacher teacher : teacherList) {
-                    log.info("class find 전");
+                    Map map = new HashMap();  // 새 map 객체 생성
                     Class c = classRepository.findByTeaId(teacher.getTeaId());
-                    log.info("class find 후");
-                    FindUserListDto data = new FindUserListDto();
-                    data.setState(teacher.getState() == 1 ? "활성화" : "비활성화");
-                    data.setUid(teacher.getUid());
-                    data.setName(teacher.getName());
-                    log.info("데이터 파싱 전");
+                    map.put(state, teacher.getState() == 1 ? "활성화" : "비활성화");
+                    map.put(id, teacher.getUid());
+                    map.put(name, teacher.getName());
+                    map.put(pk, teacher.getTeaId());
                     if(c != null) {
                         String[] gradeClass = Parser.classParserArray(Long.toString(c.getClassId()));
-                        data.setGrade(gradeClass[0]);
-                        data.setUclass(gradeClass[1]);
+                        map.put(grade, gradeClass[0]);
+                        map.put(uclass, gradeClass[1]);
                     }
-                    data.setDate(Date.valueOf(teacher.getCreatedAt().toLocalDate()));
-                    log.info("data add 전");
-                    list.add(data);
-                    log.info("data add 후");
+                    map.put(date, Date.valueOf(teacher.getCreatedAt().toLocalDate()));
+                    list.add(map);
                 }
             }
         } else {
@@ -249,6 +241,7 @@ public class AdminServiceImpl implements AdminService {
         }
         return list;
     }
+
 
     @Transactional
     public void updateUser(UpdateUserReq p) {
