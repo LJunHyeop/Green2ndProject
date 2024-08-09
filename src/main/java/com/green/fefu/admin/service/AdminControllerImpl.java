@@ -136,9 +136,9 @@ public class AdminControllerImpl implements AdminController {
 //    검색 기능 ( 학부모, 교직원 )
     @GetMapping(value = "list",produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "교직원 학부모 현황 조회 ( 재직자 / 퇴사자 or 활성화 / 비활성화 )", description = "교직원, 학부모 등의 상태 리스트 불러오는 api" +
-            "\"<hr/>\" +\n" +
-            "            \"<p> p = > 학부모 교직원 분류 코드 ( 1 -> 학부모 / 2 -> 교직원 ) </p>\" +\n" +
-            "            \"<p> searchWord = > 검색어 입력(이름) ( 필수값 아님! )</p>\")" +
+            "<hr/>" +
+            "            <p> p = > 학부모 교직원 분류 코드 ( 1 -> 학부모 / 2 -> 교직원 ) </p>" +
+            "            <p> searchWord = > 검색어 입력(이름) ( 필수값 아님! )</p>" +
             "<p>check = > 퇴사자 포함 체크박스 여부 ( 1 -> 체크 안됨 / 2 -> 체크 됨 )</p>")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -156,7 +156,7 @@ public class AdminControllerImpl implements AdminController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity findUserList(@ParameterObject @ModelAttribute @Valid FindUserListReq p) {
-        List<FindUserListDto> list = new ArrayList();
+        List<Map> list = new ArrayList();
         list = service.findUserList(p, list);
         return new ResponseEntity<>(list, OK);
     }

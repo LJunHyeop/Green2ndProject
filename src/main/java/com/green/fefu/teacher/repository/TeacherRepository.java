@@ -12,9 +12,9 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     Teacher findByUid(String uid);
     Teacher findByEmail(String email);
     Teacher findByNameAndPhone(String name, String phone);
-    List<Teacher> findAllByStateIs(int state);
+    List<Teacher> findAllByStateIsAndAcceptIs(Integer state, Integer accept);
 
-    List<Teacher> findByNameContainingAndStateIs(String name, Integer state);
+    List<Teacher> findByNameContainingAndStateIsAndAcceptIs(String name, Integer state, Integer accept);
 
 
 }

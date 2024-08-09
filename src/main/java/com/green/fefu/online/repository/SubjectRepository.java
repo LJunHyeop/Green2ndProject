@@ -1,4 +1,4 @@
-package com.green.fefu.online;
+package com.green.fefu.online.repository;
 
 import com.green.fefu.entity.dummy.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;

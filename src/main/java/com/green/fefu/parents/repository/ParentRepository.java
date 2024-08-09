@@ -30,7 +30,7 @@ public interface ParentRepository extends JpaRepository<Parents, Long> {
     @Query("SELECT p FROM Parents p WHERE p.uid = :uid")
     Parents findParentByUid(String uid);
 
-    List<Parents> findAllByStateIs(int state);
+    List<Parents> findAllByStateIsAndAcceptIs(Integer state, Integer accept);
 
-    List<Parents> findByNameContainingAndStateIs(String name, Integer state);
+    List<Parents> findByNameContainingAndStateIsAndAcceptIs(String name, Integer state, Integer accept);
 }
