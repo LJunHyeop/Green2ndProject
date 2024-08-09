@@ -171,5 +171,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-#file:
-#  directory: ${PROD.FILE_DIRECTORY}
+file:
+  directory: ${PROD.FILE_DIRECTORY}
