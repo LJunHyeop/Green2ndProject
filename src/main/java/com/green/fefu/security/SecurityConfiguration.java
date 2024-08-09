@@ -61,8 +61,12 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth ->
                         auth.
                                 requestMatchers("/api/feed").authenticated()
-                                .requestMatchers("/api/feed", "/api/feed/*").authenticated()
-                                .requestMatchers("/pic/**").permitAll()
+                                .requestMatchers(
+                                        "/api/feed"
+                                        , "/api/feed/*"
+                                        , "/api/user/pic"
+                                )
+                                .authenticated()
                                 .anyRequest()
                                 .permitAll()
                 )
