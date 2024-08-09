@@ -71,7 +71,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     private final ParentOAuth2Repository oAuth2Repository ;
     private final ParentOAuth2Repository parentOAuth2Repository;
     private final ScoreSignRepository scoreSignRepository ;
-    private final NettyWebServerFactoryCustomizer nettyWebServerFactoryCustomizer;
+    @Value("${file.directory}") String uploadPath ;
     @Value("${coolsms.api.caller}") private String coolsmsApiCaller;
 
     @Override @Transactional // 회원가입
@@ -349,11 +349,18 @@ public class ParentsUserServiceImpl implements ParentsUserService {
             // 랜덤 파일 이름 생성 및 파일 저장
             String saveFileName = customFileUtils.makeRandomFileName(pic);
             String target = String.format("%s/%s", path, saveFileName);
+            log.info("target: {}", uploadPath);
+            log.info("File saved at: {}", target); // target은 파일의 전체 경로를 포함한 문자열
+            log.info("Trying to load file from: {}", customFileUtils.uploadPath);
 
             // 파일 이름 설정 및 로그 출력
             req.setPic(saveFileName);
             log.info("Saving file: {}", saveFileName); // 로그 추가
             log.info("Request object pic field: {}", req.getPic()); // 로그 추가
+
+            // URL 생성
+            String fileUrl = String.format("http://localhost:8080/pic/%s", target);
+            log.info("File URL: {}", fileUrl);
 
             // 파일 저장
             customFileUtils.transferTo(pic, target);
