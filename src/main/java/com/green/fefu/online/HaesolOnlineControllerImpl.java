@@ -63,6 +63,13 @@ public class HaesolOnlineControllerImpl {
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
+    @PostMapping
+    @Operation(summary="시험 마킹 결과 및 채점 결과 확인")
+    public ResponseEntity testMarking(){
+        List<GetKoreanAndMathQuestionRes> test;
+        // 시험 점수 + 분야별 어느거 많이 틀렸는지
+        return new ResponseEntity(null);
+    }
 
 
 

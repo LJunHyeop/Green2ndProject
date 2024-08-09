@@ -169,4 +169,27 @@ public class HaesolOnlineServiceImpl {
         log.info("리턴 전");
         return list;
     }
+
+    //시험 문제를 풀고 그에 따른 점수 및 분석
+//    public ???? testMarking() {
+//        List<Integer> answerList=new ArrayList<>(); //학생의 응답
+//        List<GetKoreanAndMathQuestionRes> testNow=new ArrayList<>();
+//        List<Integer> markingList=new ArrayList<>();
+//        for(int i=0; i<testNow.size(); i++){
+//            if(testNow.get(i).getAnswer()!=answerList.get(i)){
+//                markingList.add(a); // 맞은 정답과 틀린 정답을 담을 수 있는 객체
+//
+//            }
+//
+//
+//        }
+//
+//        //현재 화면상에 출력되고 있는 시험 문제 리스트
+//        //그 리스트의 문제의 정답과 유형
+//        //사용자가 체크한 리스트와 비교
+//        //다른 부분 유형 분석
+//        //ex. 국어 : 독해 11 문법 12 문학 13 -> 유달리 많이 틀린 문제
+//        // [독해] 유형을 많이 틀리셨습니다.
+//        return null;
+//    }
 }

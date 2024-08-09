@@ -21,7 +21,7 @@ public class GetKoreanAndMathQuestionRes {
     private String pic;
 
     // multiple Entity
-//    private List<Integer> num;
+    //private List<Integer> num;
     private List<String> sentence=new ArrayList<>();
 
 
