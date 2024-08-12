@@ -2,10 +2,13 @@ package com.green.fefu.online;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface OnlineMapper {
-    long teacherClass(Long teaId);
-    long parentsClass(Long parentsId, Long stuId);
-    long studentClass(Long stuId);
+    Long teacherClass(Long teaId);
+    Long parentsClass(Long parentsId, Long stuId);
+    Long studentClass(Long stuId);
 
+    List<String> testAnalysis(List<Long> wrongPks);
 }
