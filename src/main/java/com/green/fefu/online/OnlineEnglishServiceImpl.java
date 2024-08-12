@@ -41,10 +41,9 @@ public class OnlineEnglishServiceImpl {
     private final CustomFileUtils customFileUtils;
     private final OnlineMapper mapper;
 
-    // 어떠한 사용자인지 분기
+    // 어떠한 사용자인지 분기 -> 메소드화
     private final TeacherRepository teacherRepository;
-    private final ParentRepository parentRepository;
-    private final StudentRepository studentRepository;
+
 
     @Transactional // word DB 업로드
     public int postEnglishWordQuestion(PostOnlineQuestionEnglishWordReq p, MultipartFile pic) {
@@ -118,7 +117,8 @@ public class OnlineEnglishServiceImpl {
 
     public List<GetEnglishWordQuestionRes> getEnglishWords(GetEnglishQuestionReq p){
         // 로그인 한 유저에 맞는 방식으로 학년 추출
-        long grade=methodStorage.signedUserGrade(p.getStudentPk());
+        MyUser user = authenticationFacade.getLoginUser(); // ROLE를 구분해서 관련 학년정보 리턴
+        long grade=methodStorage.signedUserGrade(user, p.getStudentPk());
 
         List<OnlineEnglishWord> listAll=wordRepository.getAllByGrade(grade);
         Collections.shuffle(listAll);
@@ -134,7 +134,8 @@ public class OnlineEnglishServiceImpl {
     }
 
     public List<GetEnglishListeningQuestionRes> getEnglishListening(GetEnglishQuestionReq p){
-        long grade=methodStorage.signedUserGrade(p.getStudentPk());
+        MyUser user = authenticationFacade.getLoginUser(); // ROLE를 구분해서 관련 학년정보 리턴
+        long grade=methodStorage.signedUserGrade(user, p.getStudentPk());
 
         List<OnlineEnglishListening> listAll=listeningRepository.getAllByGrade(grade);
         Collections.shuffle(listAll);

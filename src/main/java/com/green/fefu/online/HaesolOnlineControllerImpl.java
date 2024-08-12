@@ -1,12 +1,8 @@
 package com.green.fefu.online;
 
 import com.green.fefu.common.model.ResultDto;
-import com.green.fefu.online.model.GetKoreanAndMathQuestionReq;
-import com.green.fefu.online.model.GetKoreanAndMathQuestionRes;
-import com.green.fefu.online.model.PostOnlineQuestionReq;
+import com.green.fefu.online.model.*;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,11 +60,14 @@ public class HaesolOnlineControllerImpl {
     }
 
     @PostMapping
-    @Operation(summary="시험 마킹 결과 및 채점 결과 확인")
-    public ResponseEntity testMarking(){
-        List<GetKoreanAndMathQuestionRes> test;
-        // 시험 점수 + 분야별 어느거 많이 틀렸는지
-        return new ResponseEntity(null);
+    @Operation(summary="(제작중)시험 마킹 결과 및 채점 결과 확인~제작중입니다~", description = "" +
+            "문제의 PK 번호와 학생이 마킹한 번호 리스트 제공 부탁드립니다" +
+            "<p><strong>questionPk</strong>현재 출력된 문제의 PK값</p>" +
+            "<p><strong>omrAnswer</strong>학생이 제출한 OMR 마킹</p>")
+    public ResponseEntity testMarking(@RequestBody List<StudentOmr> p){
+        TestOutCome outCome=service.testMarking(p);
+
+        return new ResponseEntity(outCome, HttpStatus.OK);
     }
 
 
