@@ -38,6 +38,10 @@ public class User extends UpdatedAt{
     @Column(nullable = false)
     private Integer accept = 2;
 
+//    1 -> 재직,재학
+//    2 -> 전학
+//    3 -> 졸업
+//    4 -> 퇴학
     @Column(nullable = false)
     private Integer state = 1;
 }
