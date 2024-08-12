@@ -26,4 +26,16 @@
         WHERE parents_id=#{parentsId} AND stuId=#{stuId}
         LIMIT 1;
     </select>
+
+    <select id="testAnalysis">
+        SELECT A.tag_id, A.tag_name, B.tag_count
+        FROM type_tag A
+        INNER JOIN(SELECT type_tag, COUNT(type_tag) AS tag_count
+                    FROM haesol_online
+                    WHERE que_id IN #{wrongPks}
+                    GROUP BY type_tag
+                    ORDER BY tag_count DESC
+                    LIMIT 1) B
+        ON A.tag_id=B.type_tag;
+    </select>
 </mapper>
