@@ -25,6 +25,8 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.info("OAuth2AuthenticationFailureHandler - onAuthenticationFailure");
 
+        log.error("Authentication failed", exception);
+
         exception.printStackTrace();
 
         String targetUrl = cookieUtils.getCookie(request
