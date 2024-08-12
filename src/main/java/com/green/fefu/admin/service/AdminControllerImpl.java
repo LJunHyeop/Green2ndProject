@@ -1,19 +1,16 @@
 package com.green.fefu.admin.service;
 
-import com.green.fefu.admin.model.dto.FindUserListDto;
-import com.green.fefu.admin.model.dto.GetUserListDto;
+
 import com.green.fefu.admin.model.req.FindUnAcceptListReq;
 import com.green.fefu.admin.model.req.FindUserListReq;
 import com.green.fefu.admin.model.req.UpdateUserReq;
 import com.green.fefu.admin.model.req.adminUserReq;
 import com.green.fefu.admin.test.AdminController;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
