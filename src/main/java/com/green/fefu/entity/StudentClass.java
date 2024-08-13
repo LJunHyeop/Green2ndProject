@@ -14,13 +14,13 @@ import lombok.Setter;
                 )
         }
 )
-public class StudentClass  extends  UpdatedAt{
+public class StudentClass  extends UpdatedAt {
     @Id
     private Integer scId;
 
     @ManyToOne
     @JoinColumn(name = "stu_id" , nullable = false)
-    private Student stuId;
+    private com.green.fefu.entity.Student stuId;
 
     @ManyToOne
     @JoinColumn(name = "class_id", nullable = false)

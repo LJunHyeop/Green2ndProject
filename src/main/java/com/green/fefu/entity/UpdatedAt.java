@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class UpdatedAt extends CreatedAt{
+public class UpdatedAt extends CreatedAt {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;

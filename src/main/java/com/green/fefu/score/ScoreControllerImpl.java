@@ -43,9 +43,10 @@ public class ScoreControllerImpl implements ScoreController {
                     description = "에러 난 이유 설명"
             )
     })
-    public ResultDto<Long> postScore(@RequestBody  InsScoreReq p){
+    public ResultDto<Long> postScore(@RequestBody InsScoreReq p){
         long res = service.postScore(p);
         try {
+
             return ResultDto.resultDto(SUCCESS_CODE,"점수 입력 성공",res);
         }catch (RuntimeException e){
             return ResultDto.resultDto1(ERROR_CODE,"점수 입력 실패");

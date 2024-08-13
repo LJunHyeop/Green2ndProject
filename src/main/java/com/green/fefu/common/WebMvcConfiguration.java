@@ -27,7 +27,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .allowedOriginPatterns("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
                 .allowedHeaders("Authorization", "Content-Type")
-                .allowCredentials(true) // 쿠키 요청을 허용
+                .allowCredentials(false) // 쿠키 요청을 허용
                 .maxAge(3600) ;
 
     }
