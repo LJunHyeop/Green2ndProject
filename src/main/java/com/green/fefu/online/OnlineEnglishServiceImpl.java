@@ -56,8 +56,11 @@ public class OnlineEnglishServiceImpl {
         entEnglishWord.setPic(picName);
         Teacher teacher=teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
         entEnglishWord.setTeaId(teacher);
-        long grade=mapper.teacherClass(teacher.getTeaId());
-        entEnglishWord.setGrade(grade);
+        Long teacherClass=mapper.teacherClass(teacher.getTeaId());
+        if(teacherClass==null){
+            throw new CustomException(HOMEROOM_ISN_T_EXIST);
+        }
+        entEnglishWord.setGrade(teacherClass);
         log.info("service-entity {}", entEnglishWord);
         log.info("service-entity.getGrade {}", entEnglishWord.getGrade());
         wordRepository.save(entEnglishWord);

@@ -38,4 +38,13 @@
                     LIMIT 1) B
         ON A.tag_id=B.type_tag;
     </select>
+
+    <select id="getTagList">
+        SELECT B.tag_name
+        FROM (SELECT *
+              FROM haesol_online
+              WHERE que_id IN #{queId}) A
+        INNER JOIN type_tag B
+        ON A.type_tag=B.tag_id;
+    </select>
 </mapper>
