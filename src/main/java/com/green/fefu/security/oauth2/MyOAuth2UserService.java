@@ -1,10 +1,8 @@
 package com.green.fefu.security.oauth2;
 
+import com.green.fefu.chcommon.SmsSender;
 import com.green.fefu.entity.Parents;
-import com.green.fefu.entity.Student;
-import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.ParentsUserMapper;
-import com.green.fefu.parents.ParentsUserServiceImpl;
 import com.green.fefu.parents.model.*;
 import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.parents.utils.ParentUtils;
@@ -13,10 +11,8 @@ import com.green.fefu.security.MyUserOAuth2Vo;
 import com.green.fefu.security.SignInProviderType;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfoFactory;
-import com.green.fefu.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.maven.model.Parent;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -27,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.green.fefu.exception.ljm.LjmErrorCode.*;
 
 /*
     MyOAuth2UserService:
@@ -60,6 +55,7 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         } catch (AuthenticationException e) {
             throw e;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new InternalAuthenticationServiceException(e.getMessage(), e.getCause());
         }
     }
@@ -82,29 +78,36 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         signInParam.setProviderType(signInProviderType);
         List<ParentsUser> list = mapper.getParentUser(signInParam.getUid()) ;
 
-        Parents parents = ParentUtils.convertToUserInfo(list) ;
 //        String phone = service.postSocialPhoneNumber() ;
         // 연동된 아이디가 없을 시
-        if(list == null) {
-            PostParentsUserReq user = new PostParentsUserReq() ;
-            user.setNm(oAuth2UserInfo.getName()) ;
-            user.setEmail(oAuth2UserInfo.getEmail()) ;
-            user.setUid("간편아이디" + user.getParentsId()) ;
-            user.setPhone("010-0000-0000") ;
-            user.setConnect("기타") ;
-            mapper.postParentsUser(user) ;
+        if(list.isEmpty()) {
+            Parents parents1 = new Parents() ;
+            parents1.setAuth("ROLE_PARENTS") ;
+            parents1.setPhone("010-0000-0000") ;
+            parents1.setUid("간편아이디") ;
+            parents1.setEmail(oAuth2UserInfo.getEmail()) ;
+            parents1.setConnect("기타") ;
+            parents1.setName(oAuth2UserInfo.getName()) ;
 
-            Parents parent = parentRepository.getReferenceById(user.getParentsId()) ;
-            parent.setAuth("ROLE_PARENTS");
+            parentRepository.save(parents1) ;
+            parents1.setUid(oAuth2UserInfo.getId()) ;
+            parentRepository.save(parents1) ;
+
+            log.info("user: {}",parents1) ;
+            System.out.println(parents1.getParentsId()) ;
 //            throw new CustomException(NOT_FOUND_PERISTALSIS_ID) ;
+            MyUserOAuth2Vo myUserOAuth2Vo =
+                    new MyUserOAuth2Vo(parents1.getParentsId(), parents1.getAuth(), parents1.getName(), null) ;
+            MyUserDetails signInUser = new MyUserDetails() ;
+            signInUser.setMyUser(myUserOAuth2Vo); ;
+            return signInUser ; // authentication 에 저장됨.
         }
 
         MyUserOAuth2Vo myUserOAuth2Vo =
-                new MyUserOAuth2Vo(parents.getParentsId(), parents.getAuth(), parents.getName(), null) ;
-
+                new MyUserOAuth2Vo(list.get(0).getParentsId(), list.get(0).getAuth(), list.get(0).getNm(), null) ;
         MyUserDetails signInUser = new MyUserDetails() ;
         signInUser.setMyUser(myUserOAuth2Vo); ;
-        return signInUser ; // authentication 에 저장됨.
+        return signInUser ;
     }
 
 }

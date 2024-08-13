@@ -107,7 +107,23 @@
                 , addr
         FROM parents
         WHERE uid = #{uid}
-        AND phone = #{phone}
+        <if test="phone != null || phone != ''">
+            AND phone = #{phone}
+        </if>
+    </select>
+    <select id="getParentUser">
+        SELECT parents_id AS parentsId
+        , uid
+        , upw
+        , name
+        , phone
+        , sub_phone AS subPhone
+        , email
+        , connect
+        , addr
+        , auth
+        FROM parents
+        WHERE uid = #{uid}
     </select>
     <insert id="signature" useGeneratedKeys="true" keyProperty="signId">
         INSERT INTO score_sign

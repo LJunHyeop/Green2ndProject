@@ -19,6 +19,7 @@ import com.green.fefu.student.model.dto.getDetail;
 import com.green.fefu.student.repository.StudentClassRepository;
 import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.service.StudentMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.maven.model.Parent;
@@ -44,6 +45,7 @@ public class ScoreServiceImpl {
     private final StudentRepository studentRepository;
     private final ScoreSignRepository scoreSignRepository;
     //점수 넣기
+    @Transactional
     public int postScore(InsScoreReq p) {
         MyUser user = authenticationFacade.getLoginUser();
         DelScore delScore = new DelScore();
@@ -55,9 +57,11 @@ public class ScoreServiceImpl {
         req.setStudentPk((p.getStudentPk()));
         req.setSemester(p.getSemester());
         req.setYear(p.getYear());
+
         delScore.setExam(p.getScoreList().get(0).getExam());
         delScore.setStudentPk(p.getStudentPk());
         delScore.setYear(p.getYear());
+        delScore.setSemester(p.getSemester());
 
         Student student = studentRepository.getReferenceById(p.getStudentPk()) ;
         ScoreSign scoreSign = new ScoreSign();
@@ -83,13 +87,16 @@ public class ScoreServiceImpl {
         //전자서명 확인
         scoreSign = scoreSignRepository.findTop1BySemesterAndYearAndStudentPk(p.getSemester(),p.getYear(),student) ;
 
-
         //권한체크
         roleChecker.checkTeacherRole();
-        repository.save(score);
+
+
+
+
         if (scoreSign != null) {
             scoreSignRepository.delete(scoreSign);
         }
+
 //        getDetail list3 = studentMapper.getStudentDetail(p.getStudentPk());
 //        GetClassIdRes res = mapper.getClassId(user.getUserId(), p.getStudentPk());
 //        // 담당 학급이 아닐때
@@ -97,13 +104,14 @@ public class ScoreServiceImpl {
 //            throw new CustomException(SCORE_INSERT_STU_POST);
 //        }
         //성적 있을시 성적 지우고 새로입력
+
         try {
-            int res3 = mapper.delScore(delScore);
             // 기본 정보 삽입
             // scoreList 삽입
+            mapper.delScore(delScore);
             if (p.getScoreList() != null && !p.getScoreList().isEmpty()) {
                 parentsUserMapper.delSignature(req);
-                return mapper.postScoreList(p);
+                repository.save(score);
             }
             return 1; // 기본 정보만 삽입된 경우
         } catch (Exception e) {
@@ -150,15 +158,11 @@ public class ScoreServiceImpl {
         p.setLatestGrade(res.getLatestGrade());
 
         res.setExam(p.getExam());
-
         //싸인 조회
-
         SignResult sign = new SignResult();
         sign.setStudentPk(res.getStudentPk());
         sign.setExamSign(p.getExam());
         sign.setSemester(res.getLatestSemester());
-
-
 
         if((res.getLatestSemester() == 1 || res.getLatestSemester() == 2)&& res.getExam() == 1){
             List<InsScoreList> list = mapper.getScoreMidterm(res);

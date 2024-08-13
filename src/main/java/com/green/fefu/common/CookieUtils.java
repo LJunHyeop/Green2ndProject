@@ -50,8 +50,8 @@ public class CookieUtils {
 
     public <T> T getCookie (HttpServletRequest req, String name, Class<T> valueType) {
         Cookie cookie = getCookie(req, name);
-        if(cookie == null) {return null;}
-        if(valueType==String.class) {
+        if(cookie == null) { return null;}
+        if(valueType == String.class) {
             return (T) cookie.getValue();
         }
         return deserialize(cookie,valueType);

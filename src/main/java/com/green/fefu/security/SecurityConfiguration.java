@@ -20,6 +20,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @RequiredArgsConstructor
@@ -42,7 +45,6 @@ public class SecurityConfiguration {
 
     @Bean //메소드 타입의 빈 등록 (파라미터, 리턴타입 중요) 파라미터는 빈등록할때 필요한 객체
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
         //파라미터없이 내가 직접 new 객체화해서 리턴으로 빈등록 가능
 
         CommonOAuth2Provider a;
@@ -59,8 +61,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable()) //CSRF (CORS랑 많이 헷갈려 함)
                 //requestMatchers
                 .authorizeHttpRequests(auth ->
-                        auth.
-                                requestMatchers("/api/feed").authenticated()
+                        auth.requestMatchers("/api/feed").authenticated()
                                 .requestMatchers(
                                         "/api/feed"
                                         , "/api/feed/*"
@@ -77,7 +78,6 @@ public class SecurityConfiguration {
                 .oauth2Login( oauth2 -> oauth2.authorizationEndpoint(
                                         auth -> auth.baseUri("/oauth2/authorization")
                                                 .authorizationRequestRepository(repository)
-
                                 )
                                 .redirectionEndpoint( redirection -> redirection.baseUri("/*/oauth2/code/*"))
                                 .userInfoEndpoint(userInfo -> userInfo.userService(myOAuth2UserService))
@@ -97,11 +97,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/ddd").authenticated();
                 })
                 */
-
-
                 .build();
-
-
 /*
         //위 람다식을 풀어쓰면 아래와 같다. 람다식은 짧게 적을 수 있는 기법.
         return httpSecurity.sessionManagement(new Customizer<SessionManagementConfigurer<HttpSecurity>>() {
@@ -112,6 +108,7 @@ public class SecurityConfiguration {
         }).build();
 */
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

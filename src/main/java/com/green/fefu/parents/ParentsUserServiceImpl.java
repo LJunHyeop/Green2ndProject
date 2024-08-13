@@ -378,8 +378,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     }
     // sign pk 값으로 사진 가져오기
     public GetSignaturePicRes getSignaturePics(GetSignaturePicReq req){
-        Student student = studentRepository.getReferenceById(req.getStudentPk()) ;
-        ScoreSign scoreSign = scoreSignRepository.getAllByStudentPkAndExamSignAndSemesterAndYear(student, req.getExamSign(), req.getSemester(), req.getYear()) ;
+        ScoreSign scoreSign = scoreSignRepository.findAllBySignId(req.getSignPk()) ;
 
         GetSignaturePicRes res = new GetSignaturePicRes() ;
         res.setSignId(scoreSign.getSignId()) ;
