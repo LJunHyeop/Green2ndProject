@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table
-public class Parents extends User{
+public class Parents extends User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long parentsId ;
 

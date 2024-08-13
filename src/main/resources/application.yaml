@@ -177,6 +177,6 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
 file:
   directory: ${PROD.FILE_DIRECTORY}
