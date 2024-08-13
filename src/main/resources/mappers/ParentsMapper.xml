@@ -121,6 +121,7 @@
         , email
         , connect
         , addr
+        , auth
         FROM parents
         WHERE uid = #{uid}
     </select>

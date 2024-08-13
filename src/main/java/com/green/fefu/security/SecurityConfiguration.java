@@ -97,11 +97,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/ddd").authenticated();
                 })
                 */
-
-
                 .build();
-
-
 /*
         //위 람다식을 풀어쓰면 아래와 같다. 람다식은 짧게 적을 수 있는 기법.
         return httpSecurity.sessionManagement(new Customizer<SessionManagementConfigurer<HttpSecurity>>() {
