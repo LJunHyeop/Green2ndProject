@@ -7,7 +7,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Score extends UpdatedAt{
+public class Score extends UpdatedAt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scoreId;

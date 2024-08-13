@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Notice extends UpdatedAt{
+public class Notice extends UpdatedAt {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long noticeId;

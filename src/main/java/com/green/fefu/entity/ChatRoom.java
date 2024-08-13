@@ -1,7 +1,9 @@
 package com.green.fefu.entity;
 
+import com.green.fefu.entity.ChatMsg;
+import com.green.fefu.entity.ChatRoomMember;
+import com.green.fefu.entity.UpdatedAt;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,35 +13,18 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-
-@Table(name ="chat_room")
-public class ChatRoom  extends UpdatedAt{
+@Table(name = "chat_room")
+public class ChatRoom extends UpdatedAt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long room;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "roomId")
-    private ChatRoomId roomId;
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatRoomMember> members = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teaId")
-    private Teacher teaId;
 
-    @OneToMany
-    @Column(name = "chatList")
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatMsg> chatMsgList = new ArrayList<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parents_id")
-    private Parents parentsId;
-
-
-    @Builder
-    public ChatRoom(Teacher teaId, Parents parentsId) {
-        this.teaId = teaId;
-        this.parentsId = parentsId;
-    }
 
 }

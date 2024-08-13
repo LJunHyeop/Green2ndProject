@@ -9,13 +9,12 @@ import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
 @Setter
 @ToString
-public class HaesolOnline extends UpdatedAt{
+public class HaesolOnline extends UpdatedAt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long queId;
