@@ -80,8 +80,8 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
 
 //        String phone = service.postSocialPhoneNumber() ;
         // 연동된 아이디가 없을 시
-        Parents parents1 = new Parents() ;
         if(list.isEmpty()) {
+            Parents parents1 = new Parents() ;
             parents1.setAuth("ROLE_PARENTS") ;
             parents1.setPhone("010-0000-0000") ;
             parents1.setUid("간편아이디") ;
@@ -90,20 +90,24 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
             parents1.setName(oAuth2UserInfo.getName()) ;
 
             parentRepository.save(parents1) ;
-            parents1.setUid("간편아이디" + SmsSender.makeRandomCode()) ;
+            parents1.setUid(oAuth2UserInfo.getId()) ;
             parentRepository.save(parents1) ;
 
             log.info("user: {}",parents1) ;
             System.out.println(parents1.getParentsId()) ;
 //            throw new CustomException(NOT_FOUND_PERISTALSIS_ID) ;
+            MyUserOAuth2Vo myUserOAuth2Vo =
+                    new MyUserOAuth2Vo(parents1.getParentsId(), parents1.getAuth(), parents1.getName(), null) ;
+            MyUserDetails signInUser = new MyUserDetails() ;
+            signInUser.setMyUser(myUserOAuth2Vo); ;
+            return signInUser ; // authentication 에 저장됨.
         }
 
         MyUserOAuth2Vo myUserOAuth2Vo =
-                new MyUserOAuth2Vo(parents1.getParentsId(), parents1.getAuth(), parents1.getName(), null) ;
-
+                new MyUserOAuth2Vo(list.get(0).getParentsId(), list.get(0).getAuth(), list.get(0).getNm(), null) ;
         MyUserDetails signInUser = new MyUserDetails() ;
         signInUser.setMyUser(myUserOAuth2Vo); ;
-        return signInUser ; // authentication 에 저장됨.
+        return signInUser ;
     }
 
 }
