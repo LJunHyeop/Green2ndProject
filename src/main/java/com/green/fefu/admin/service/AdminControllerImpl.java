@@ -139,7 +139,26 @@ public class AdminControllerImpl implements AdminController {
             "<p>check = > 퇴사자 포함 체크박스 여부 ( 1 -> 체크 안됨 / 2 -> 체크 됨 )</p>")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = ""
+                    description = "\"createdAt\": \"가입일\",\n" +
+                            "    \"name\": \"학부모/선생 이름\",\n" +
+                            "    \"studentList\": (학부모 만)[\n" +
+                            "      {\n" +
+                            "        \"studentId\": \"학생 아이디\",\n" +
+                            "        \"studentPK\": 학생 pk,\n" +
+                            "        \"studentGrade\": \"학생 학년\",\n" +
+                            "        \"studentCode\": \"학생 코드\",\n" +
+                            "        \"studentName\": \"학생 이름\",\n" +
+                            "        \"studentState\": \"학생 상태\",\n" +
+                            "        \"studentClass\": \"학생 학급\"\n" +
+                            "      },\n" +
+                            "    ],\n" +
+                            "    \"state\": \"학부모/선생 상태\",\n" +
+                            "    \"id\": \"학부모/선생 아이디\",\n" +
+                            "    \"pk\": 학부모/선생 pk,\n" +
+                            "    \"totalChild\": (학부모 만)학교에 다닌 총 자녀 수,\n" +
+                            "    \"inSchoolStudent\": (학부모 만)현재 학교에 재학중인 자녀 수\n" +
+                            "    \"totalStudent\": (교직원 만)담당학급 학생 수,"+
+                            "  }"
             ),
             @ApiResponse(responseCode = "404",
                     description = "에러 난 이유 설명"
