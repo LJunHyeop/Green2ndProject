@@ -6,12 +6,10 @@ import com.green.fefu.entity.dummy.Subject;
 import com.green.fefu.entity.dummy.TypeTag;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.online.model.*;
-import com.green.fefu.online.repository.HaesolOnlineMultipleRepository;
-import com.green.fefu.online.repository.HaesolOnlineRepository;
-import com.green.fefu.online.repository.SubjectRepository;
-import com.green.fefu.online.repository.TypeTagRepository;
+import com.green.fefu.online.repository.*;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
+import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +38,9 @@ public class HaesolOnlineServiceImpl {
     // 어떠한 사용자인지 분기 -> 메소드화
     private final AuthenticationFacade authenticationFacade;
     private final TeacherRepository teacherRepository;
+    private final StudentRepository studentRepository;
+    private final StudentOnlineRecodeRepository studentOnlineRecodeRepository;
+    private final StudentOnlineTestRepository studentOnlineTestRepository;
 
     // 기타 문제
     private final CustomFileUtils customFileUtils;
@@ -79,7 +80,8 @@ public class HaesolOnlineServiceImpl {
         haesolOnline.setAnswer(p.getAnswer()); //보기 및 단답형 정답
         haesolOnline.setQueTag(p.getQueTag()); //객관식 주관식 구분
         haesolOnline.setPic(picName); // 사진 저장
-        haesolOnline.setCreatedAt(LocalDateTime.now()); //생성일자(상속)
+        //haesolOnline.setCreatedAt(LocalDateTime.now()); //생성일자(상속)
+        haesolOnline.setExplanation(p.getExplanation()); //해설
         // 문제 Entity에 저장
         log.info("OnlineEntity(haesolOnline) : {}", haesolOnline);
         haesolOnlineRepository.save(haesolOnline);
@@ -93,7 +95,7 @@ public class HaesolOnlineServiceImpl {
                 customFileUtils.transferTo(pic, target);
             } catch (Exception e) {
                 e.printStackTrace();
-                throw new CustomException(CAN_T_UPROAD_QUESTION);
+                throw new CustomException(CAN_T_UPLOAD_QUESTION);
             }
         }
 
@@ -181,13 +183,25 @@ public class HaesolOnlineServiceImpl {
     //========= 시험 문제를 풀고 그에 따른 점수 및 분석(시험 채점 점수 분석) =========
     public TestOutCome testMarking(StudentOmr p) { //필요한 것 : 현재 출력된 문제들의 PK값 + 학생이 체크한 정답 리스트
         //문제 번호와 정답만 담은 리스트
+        // ========================== 오답노트 ==========================
+        StudentOnlineRecode onlineRecode=new StudentOnlineRecode();
+        onlineRecode.setStudent(studentRepository.getReferenceById(authenticationFacade.getLoginUserId()));
+        Subject subject=subjectRepository.getReferenceById(p.getSubjectCode());
+        onlineRecode.setSubject(subject);
+        onlineRecode.setTestTitle(p.getTitle());
+        studentOnlineRecodeRepository.save(onlineRecode);
+
         TestOutCome outCome=new TestOutCome(); //최종적으로 리턴할 객체
         StudentOmr testOutComeList=p; //TestOutCome에 담겨 틀린 문제의 리스트를 리턴(전체 문제의 PK, 학생답, 실제 답)
         outCome.setStudentOmr(testOutComeList);
-        //testOutComeList.setQuestionPk(p.getQuestionPk()); // 무슨 문제를 풀었는지 PK
-        //testOutComeList.setOmrAnswer(p.getOmrAnswer()); //학생이 마킹한 답
         log.info("parameter P: {}", p);
+        log.info("pklist: {}", p.getQuestionPk());
         List<Integer> realAnswer=haesolOnlineRepository.findAnswerByQueId(p.getQuestionPk());
+
+        if(realAnswer.size()!=p.getQuestionPk().size()){
+                throw new CustomException(EXCEED_PK_VALUE);
+        }
+
         outCome.setRealAnswer(realAnswer);
         log.info("P.setRealAnswer: {}", p);
         log.info("realAnswer : {}", realAnswer);
@@ -200,7 +214,15 @@ public class HaesolOnlineServiceImpl {
         outCome.setTypeString(typeString);
             log.info("p.getTypeString {}",outCome.getTypeString());
         log.info("outCome : {}",outCome);
-        //outCome에 세팅 안 함
+
+        for(int i=0; i<p.getQuestionPk().size(); i++){
+            StudentOnlineTest studentOnlineTest=new StudentOnlineTest();
+            studentOnlineTest.setStudentOnlineRecode(onlineRecode);
+            studentOnlineTest.setHaesolOnline(haesolOnlineRepository.getReferenceById(p.getQuestionPk().get(i)));
+            studentOnlineTest.setStuAnswer(testOutComeList.getOmrAnswer().get(i));
+            studentOnlineTestRepository.save(studentOnlineTest);
+        }
+
         return outCome;
         }
 }

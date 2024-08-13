@@ -61,6 +61,7 @@ public class HaesolOnline extends UpdatedAt {
 
     @Column(nullable = false)
     private String explanation; //문제 해설
+
     //사진 이름
     private String pic;
 
