@@ -61,8 +61,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable()) //CSRF (CORS랑 많이 헷갈려 함)
                 //requestMatchers
                 .authorizeHttpRequests(auth ->
-                        auth.
-                                requestMatchers("/api/feed").authenticated()
+                        auth.requestMatchers("/api/feed").authenticated()
                                 .requestMatchers(
                                         "/api/feed"
                                         , "/api/feed/*"
@@ -79,7 +78,6 @@ public class SecurityConfiguration {
                 .oauth2Login( oauth2 -> oauth2.authorizationEndpoint(
                                         auth -> auth.baseUri("/oauth2/authorization")
                                                 .authorizationRequestRepository(repository)
-
                                 )
                                 .redirectionEndpoint( redirection -> redirection.baseUri("/*/oauth2/code/*"))
                                 .userInfoEndpoint(userInfo -> userInfo.userService(myOAuth2UserService))

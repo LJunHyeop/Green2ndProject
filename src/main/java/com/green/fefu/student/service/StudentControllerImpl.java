@@ -186,18 +186,10 @@ public class StudentControllerImpl implements StudentController {
 
     //    부모 회원가입시 -> 이름 기준 검색 -> 학생 LIST 불러오기 ( 이름 + 전화번호 + 사진 + 학년 + 반 )
     @GetMapping(value = "list", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @Operation(summary = "부모 회원가입 시 학생 코드 입력", description = "리턴 => 사진, 학생 pk, 이름, 학년 반 번호, 전화번호 ( 끝 4자리 )")
+    @Operation(summary = "부모 회원가입 시 학생 코드 입력", description = "리턴 => 없음")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "[\n" +
-                            "  {\n" +
-                            "    \"pic\": null,\n" +
-                            "    \"pk\": 1,\n" +
-                            "    \"name\": \"홍길동\",\n" +
-                            "    \"grade\": \"1학년 1반 1번\",\n" +
-                            "    \"phone\": \"0000\"\n" +
-                            "  }\n" +
-                            "]"
+                    description = ""
             ),
             @ApiResponse(responseCode = "404",
                     description = "에러 난 이유 설명"

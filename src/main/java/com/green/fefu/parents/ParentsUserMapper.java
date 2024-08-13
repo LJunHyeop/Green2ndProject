@@ -24,6 +24,8 @@ public interface ParentsUserMapper {
     // 로그인
     ParentsUser signInPost(String uid) ;
     // 전체 회원 조회
+    List<ParentsUser> getParentUserList(String uid) ;
+    // 회원조회
     List<ParentsUser> getParentUser(String uid) ;
     // 회원 찾기 ( 비밀번호 찾기 )
     List<ParentsUserEntity> getParentUserList(GetFindPasswordReq req);

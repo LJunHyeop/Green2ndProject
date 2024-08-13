@@ -9,17 +9,17 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"subject_id", "type_num"})}) //복합키
 public class TypeTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long TagId;
+    private Long TagId; //pk
 
     @ManyToOne
     @JoinColumn(name="subject_id", nullable = false)
-    private Subject subject;
+    private Subject subject; // 과목 1->국어 2->수학
 
-    private Integer typeNum;
+    @Column(unique = true)
+    private Integer typeNum; // 11->문법 12-> 작문 ...
 
     private String tagName;
 

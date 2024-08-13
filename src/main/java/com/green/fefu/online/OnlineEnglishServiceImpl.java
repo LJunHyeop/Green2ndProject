@@ -3,10 +3,7 @@ package com.green.fefu.online;
 import com.green.fefu.common.CustomFileUtils;
 import com.green.fefu.entity.*;
 import com.green.fefu.exception.CustomException;
-import com.green.fefu.online.model.GetEnglishListeningQuestionRes;
-import com.green.fefu.online.model.GetEnglishWordsQuestionReq;
-import com.green.fefu.online.model.PostOnlineQuestionEnglishListeningReq;
-import com.green.fefu.online.model.PostOnlineQuestionEnglishWordReq;
+import com.green.fefu.online.model.*;
 import com.green.fefu.online.repository.OnlineEnglishListeningRepository;
 import com.green.fefu.online.repository.OnlineEnglishWordRepository;
 import com.green.fefu.parents.repository.ParentRepository;
@@ -20,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static com.green.fefu.exception.JSH.JshErrorCode.*;
@@ -28,19 +28,22 @@ import static com.green.fefu.exception.JSH.JshErrorCode.*;
 @Service
 @RequiredArgsConstructor
 public class OnlineEnglishServiceImpl {
+    private final CommonMethodStorage methodStorage;
+
     // 내가 저장하고 꺼내올  Entity Repository
     private final OnlineEnglishWordRepository wordRepository;
     private final OnlineEnglishListeningRepository listeningRepository;
 
     // 파일을 다루고, 로그인 된 사용자
     private final AuthenticationFacade authenticationFacade;
+
+    // 기타 객체
     private final CustomFileUtils customFileUtils;
     private final OnlineMapper mapper;
 
-    // 어떠한 사용자인지 분기
+    // 어떠한 사용자인지 분기 -> 메소드화
     private final TeacherRepository teacherRepository;
-    private final ParentRepository parentRepository;
-    private final StudentRepository studentRepository;
+
 
     @Transactional // word DB 업로드
     public int postEnglishWordQuestion(PostOnlineQuestionEnglishWordReq p, MultipartFile pic) {
@@ -77,7 +80,7 @@ public class OnlineEnglishServiceImpl {
         return 1;
     }
 
-
+    @Transactional
     public int PostEnglishListeningQuestion(PostOnlineQuestionEnglishListeningReq p, MultipartFile pic){
         log.info("service - p {}", p);
         log.info("service - pic {}", pic);
@@ -90,6 +93,8 @@ public class OnlineEnglishServiceImpl {
         log.info("service-entity {}", entEnglishListening);
         Teacher teacher=teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
         entEnglishListening.setTeaId(teacher);
+        long teaClass=mapper.teacherClass(teacher.getTeaId());
+        entEnglishListening.setGrade(teaClass);
         log.info("service-entity {}", entEnglishListening);
         listeningRepository.save(entEnglishListening);
         log.info("service-entity2 {}", entEnglishListening);
@@ -110,30 +115,41 @@ public class OnlineEnglishServiceImpl {
         return 1;
     }
 
-    public List<GetEnglishListeningQuestionRes> getEnglishWords(GetEnglishWordsQuestionReq p){
-        MyUser user=authenticationFacade.getLoginUser();
+    public List<GetEnglishWordQuestionRes> getEnglishWords(GetEnglishQuestionReq p){
+        // 로그인 한 유저에 맞는 방식으로 학년 추출
+        MyUser user = authenticationFacade.getLoginUser(); // ROLE를 구분해서 관련 학년정보 리턴
+        long grade=methodStorage.signedUserGrade(user, p.getStudentPk());
 
-        Long grade = switch (user.getRole()){
-            case "ROLE_PARENTS"->{
-                if(p.getStudentPk() != null || p.getStudentPk()==0){
-                    throw new CustomException(STUDENT_PK_NOT_FOUND_ERROR);
-                }
-                Parents parents=parentRepository.getReferenceById(user.getUserId());
-                yield mapper.parentsClass(parents.getParentsId(), p.getStudentPk());
-            }
-            case "ROLE_TEACHER"-> {
-                Teacher teacher = teacherRepository.getReferenceById(user.getUserId());
-                yield mapper.teacherClass(teacher.getTeaId());
-            }
-            case "ROLE_STUDENT"->{
-                Student student=studentRepository.getReferenceById(user.getUserId());
-                yield mapper.studentClass(student.getStuId());
-            }
-            default-> throw new CustomException(CANT_ENTER);
-        };
-
-        wordRepository.getAllByGrade(grade);
-        return null;
+        List<OnlineEnglishWord> listAll=wordRepository.getAllByGrade(grade);
+        Collections.shuffle(listAll);
+        List<GetEnglishWordQuestionRes> list=new ArrayList<>(20);
+        for(int i=0; i<listAll.size(); i++){
+            GetEnglishWordQuestionRes res=new GetEnglishWordQuestionRes();
+            res.setWord(listAll.get(i).getWord());
+            res.setAnswer(listAll.get(i).getAnswer());
+            res.setPic(listAll.get(i).getPic());
+            list.add(res);
+        }
+        return list;
     }
+
+    public List<GetEnglishListeningQuestionRes> getEnglishListening(GetEnglishQuestionReq p){
+        MyUser user = authenticationFacade.getLoginUser(); // ROLE를 구분해서 관련 학년정보 리턴
+        long grade=methodStorage.signedUserGrade(user, p.getStudentPk());
+
+        List<OnlineEnglishListening> listAll=listeningRepository.getAllByGrade(grade);
+        Collections.shuffle(listAll);
+        List<GetEnglishListeningQuestionRes> list=new ArrayList<>();
+        for(OnlineEnglishListening listening : listAll){
+            GetEnglishListeningQuestionRes res=new GetEnglishListeningQuestionRes();
+            res.setQuestion(listening.getQuestion());
+            res.setSentence(listening.getSentence());
+            res.setAnswer(listening.getPic());
+            res.setPic(listening.getPic());
+            list.add(res);
+        }
+        return list;
+    }
+
 }
 
