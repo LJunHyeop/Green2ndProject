@@ -33,7 +33,9 @@ public enum BchErrorCode implements ErrorCode {
     NOT_YET_ACCEPT(HttpStatus.BAD_REQUEST, "아직 승인되지 않은 계정입니다."),
     STUDENT_ID_DUPLICATE_ERROR(HttpStatus.BAD_REQUEST, "이미 존재하는 아이디입니다."),
     GRADE_DUPLICATE_ERROR(HttpStatus.BAD_REQUEST, "학년 반 번호 값이 이미 있습니다."),
-    GRADE_DATA_NOT_FOUND(HttpStatus.BAD_REQUEST, "학년 반 정보가 없습니다.");
+    GRADE_DATA_NOT_FOUND(HttpStatus.BAD_REQUEST, "학년 반 정보가 없습니다."),
+    MULTIPLE_TEACHER_ERROR(HttpStatus.BAD_REQUEST, "해당 학급에는 담당 선생님이 있습니다."),
+    MULTIPLE_PARENT_ERROR(HttpStatus.BAD_REQUEST, "이미 학부모 정보가 있습니다.");
 
 
     private final HttpStatus httpStatus;
