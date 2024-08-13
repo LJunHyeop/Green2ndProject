@@ -200,7 +200,7 @@ public class StudentControllerImpl implements StudentController {
         log.info("{}", searchWord);
         Map response = service.getStudentListForParent(searchWord);
 
-        return new ResponseEntity<>(response,OK);
+        return new ResponseEntity<>(response, OK);
     }
 
     @PatchMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
@@ -233,6 +233,33 @@ public class StudentControllerImpl implements StudentController {
     public ResponseEntity studentSignIn(@RequestBody @Valid StudentSignInReq p) {
         log.info("StudentSignInReq : {}", p);
         Map map = service.studentSignIn(p);
-        return new ResponseEntity<>(map,OK);
+        return new ResponseEntity<>(map, OK);
     }
+
+
+    @PutMapping(value = "child", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @Operation(summary = "학부모 학생 추가 (학부모 로그인 필요함)", description = "리턴 => 없음")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "성공"
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명"
+            ),
+            @ApiResponse(responseCode = "401",
+                    description = "JWT ACCESSTOKEN 에러 ( 토큰을 헤더에 추가해 주세요 )"
+            ),
+            @ApiResponse(responseCode = "403",
+                    description = "해당 유저는 사용 권한이 없음"
+            )
+    })
+    @PreAuthorize("hasRole('PARENTS')")
+    public ResponseEntity addChild(@ParameterObject @ModelAttribute @Valid AddChild p) {
+        log.info("addChild req : {}", p);
+        service.addChild(p);
+        Map map = new HashMap();
+        map.put("result", "성공");
+        return new ResponseEntity<>(map, OK);
+    }
+
 }
