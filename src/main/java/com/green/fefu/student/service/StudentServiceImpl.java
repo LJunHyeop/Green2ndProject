@@ -4,9 +4,11 @@ import com.green.fefu.chcommon.Parser;
 import com.green.fefu.chcommon.PatternCheck;
 import com.green.fefu.chcommon.Validation;
 import com.green.fefu.common.CustomFileUtils;
+import com.green.fefu.entity.Parents;
 import com.green.fefu.entity.Student;
 import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
+import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.student.model.dto.*;
 import com.green.fefu.student.model.req.*;
@@ -27,6 +29,7 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.green.fefu.exception.bch.BchErrorCode.*;
 import static com.green.fefu.student.model.dataset.StudentMapNamingData.*;
@@ -42,6 +45,7 @@ public class StudentServiceImpl implements StudentService {
     private final AuthenticationFacade authenticationFacade;
     private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ParentRepository parentRepository;
 
 
     //    학생 데이터 넣기
@@ -416,5 +420,19 @@ public class StudentServiceImpl implements StudentService {
         String teacherName = mapper.findTeacherName(student.getStuId());
         map.put(TEACHER_NAME, teacherName);
         return map;
+    }
+
+    public void addChild(AddChild p){
+        Optional<Student> optionalStudent = studentRepository.findStudentsByRandCode(p.getRandCode());
+        log.info("student : {}", optionalStudent.toString());
+        if (optionalStudent.isEmpty()) {
+            throw new CustomException(NOT_FOUND_USER_ERROR);
+        }
+        if(optionalStudent.get().getParent() != null){
+            throw new CustomException(MULTIPLE_PARENT_ERROR);
+        }
+        Parents parents = parentRepository.getReferenceById(authenticationFacade.getLoginUserId());
+        optionalStudent.get().setParent(parents);
+        studentRepository.save(optionalStudent.get());
     }
 }

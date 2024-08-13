@@ -5,10 +5,8 @@ import com.green.fefu.admin.model.dto.*;
 import com.green.fefu.admin.model.req.*;
 import com.green.fefu.admin.test.AdminService;
 import com.green.fefu.chcommon.Parser;
+import com.green.fefu.entity.*;
 import com.green.fefu.entity.Class;
-import com.green.fefu.entity.Parents;
-import com.green.fefu.entity.Student;
-import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
 //import com.green.fefu.parents.ParentRepository;
 import com.green.fefu.parents.repository.ParentRepository;
@@ -27,10 +25,7 @@ import static com.green.fefu.exception.bch.BchErrorCode.*;
 
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -40,16 +35,15 @@ public class AdminServiceImpl implements AdminService {
     private final TeacherRepository teacherRepository;
     private final ParentRepository parentRepository;
     private final ClassRepository classRepository;
-    private final int PrarentCode = 1;
-    private final int TeacherCode = 2;
+    private final int PrarentCode = 1,TeacherCode = 2,StudentCode = 3;
     private final StudentClassRepository studentClassRepository;
     private final StudentRepository studentRepository;
 
 
     //    유저 리스트 가져오기
-    public Map findUnAcceptList(FindUnAcceptListReq p, Map map) {
+    public Map<String,Object> findUnAcceptList(FindUnAcceptListReq p, Map<String,Object> map) {
         List<GetUserListDto> list;
-        List<Map> result = new ArrayList<>();
+        List<Map<String,Object>> result = new ArrayList<>();
 //        부모 리스트 가져오기
         if (p.getP() == 1) {
             list = mapper.getParentList(p.getSearchWord());
@@ -67,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
 //        해야함
 //      클래스 아이디 기준으로 학년 반 나눠야함
         for (GetUserListDto getUserListDto : list) {
-            Map dto = new HashMap();
+            Map<String,Object> dto = new HashMap<>();
             dto.put(PK, getUserListDto.getPk());
             dto.put(ID, getUserListDto.getId());
             dto.put(NAME, getUserListDto.getName());
@@ -158,7 +152,7 @@ public class AdminServiceImpl implements AdminService {
 //        validation.nullCheck(p.getPk().toString());
 //    }
 
-    public List<Map> findUserList(FindUserListReq p, List list) {
+    public List<Map<String,Object>> findUserList(FindUserListReq p, List<Map<String,Object>> list) {
 
 
 //  부모
@@ -173,7 +167,7 @@ public class AdminServiceImpl implements AdminService {
                 return new ArrayList<>();
             }
             for (Parents parent : parentList) {
-                Map map = new HashMap();  // 새 map 객체 생성
+                Map<String,Object> map = new HashMap<>();  // 새 map 객체 생성
                 map.put(STATE, parent.getState() == 1 ? "활성화" : "비활성화");
                 map.put(ID, parent.getUid());
                 map.put(NAME, parent.getName());
@@ -189,9 +183,9 @@ public class AdminServiceImpl implements AdminService {
 //                    자녀 리스트
                 List<Student> studentList = studentRepository.findStudentsByParentOrderByGradeAsc(parent);
                 if (studentList != null && !studentList.isEmpty()) {
-                    List<Map> result = new ArrayList<>();
+                    List<Map<String,Object>> result = new ArrayList<>();
                     for (Student student : studentList) {
-                        Map data = new HashMap();
+                        Map<String,Object> data = new HashMap<>();
                         data.put(STUDENT_ID, student.getUid());
                         data.put(STUDENT_NAME, student.getName());
                         data.put(STUDENT_PK, student.getStuId());
@@ -226,7 +220,7 @@ public class AdminServiceImpl implements AdminService {
                 return new ArrayList<>();
             }
             for (Teacher teacher : teacherList) {
-                Map map = new HashMap();  // 새 map 객체 생성
+                Map<String,Object> map = new HashMap<>();  // 새 map 객체 생성
                 Class c = classRepository.findByTeaId(teacher.getTeaId());
                 map.put(STATE, teacher.getState() == 1 ? "활성화" : "비활성화");
                 map.put(ID, teacher.getUid());
@@ -251,17 +245,82 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     public void updateUser(UpdateUserReq p) {
+        int result=0;
+        if (p.getUserClass() != 0 && p.getUserGrade() != 0){
+            String aString = Integer.toString(p.getUserGrade());
+            String bFormatted = String.format("%02d", p.getUserClass());
+            String resultString = aString + bFormatted;
+            result = Integer.parseInt(resultString);
+        }
+
+
 //        부모
         if (p.getP() == PrarentCode) {
+            Optional<Parents> optionalParent = parentRepository.findById(p.getPk());
+            if (optionalParent.isEmpty()) {
+                throw new CustomException(NOT_FOUND_USER_ERROR);
+            }
             Parents parent = parentRepository.getReferenceById(p.getPk());
-            parent.setState(2);
+            parent.setState(p.getState());
             parentRepository.save(parent);
         }
 //        교직원
         else if (p.getP() == TeacherCode) {
+            Optional<Teacher> optionalTeacher = teacherRepository.findById(p.getPk());
+            if (optionalTeacher.isEmpty()) {
+                throw new CustomException(NOT_FOUND_USER_ERROR);
+            }
             Teacher teacher = teacherRepository.getReferenceById(p.getPk());
-            teacher.setState(2);
+            if(p.getState() != 0) {
+                teacher.setState(p.getState());
+            }
+            if(p.getUserName() != null){
+                teacher.setName(p.getUserName());
+            }
+            if (result != 0){
+                Optional<Class> optionalClass = classRepository.findById(result);
+
+                if (optionalClass.isPresent()) {
+                    // 학급 데이터가 존재하고, TeaId가 존재하는 경우 예외 처리
+                    Class existingClass = optionalClass.get();
+                    if (existingClass.getTeaId() != null) {
+                        throw new CustomException(MULTIPLE_TEACHER_ERROR);
+                    }
+                    // 학급 데이터가 존재하지만 TeaId가 없으면 (필요한 처리) 추가 로직을 여기에서 구현
+                } else {
+                    // 학급 데이터가 존재하지 않으면 새로운 학급 데이터 생성 및 저장
+                    Class newClass = new Class();
+                    newClass.setClassId(result);
+                    newClass.setTeaId(teacher);
+                    // 필요 시 추가적인 필드 설정
+                    classRepository.save(newClass);
+                }
+            }
             teacherRepository.save(teacher);
+        } else if (p.getP() == StudentCode) {
+            Optional<Student> optionalStudent = studentRepository.findById(p.getPk());
+            if (optionalStudent.isEmpty()) {
+                throw new CustomException(NOT_FOUND_USER_ERROR);
+            }
+            Student student = studentRepository.getReferenceById(p.getPk());
+            if(p.getState() != 0) {
+                student.setState(p.getState());
+            }
+            if(p.getUserName() != null){
+                student.setName(p.getUserName());
+            }
+            if (result != 0){
+                StudentClass data = studentClassRepository.findByClassIdAndStuId(result,student.getStuId());
+                if(data == null){
+                    data = new StudentClass();
+                    data.getClassId().setClassId(result);
+                    data.setStuId(student);
+                    studentClassRepository.save(data);
+                }
+
+
+            }
+            studentRepository.save(student);
         } else {
             throw new CustomException(DIVISION_ERROR);
         }

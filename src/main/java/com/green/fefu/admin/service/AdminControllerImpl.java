@@ -172,12 +172,35 @@ public class AdminControllerImpl implements AdminController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity findUserList(@ParameterObject @ModelAttribute @Valid FindUserListReq p) {
-        List<Map> list = new ArrayList();
+        List<Map<String,Object>> list = new ArrayList();
         list = service.findUserList(p, list);
         return new ResponseEntity<>(list, OK);
     }
 //    자퇴 확인 처리
     @PatchMapping
+    @Operation(summary = "학부모/교직원 -> 재직중/퇴사 or 활성화/비활성화 처리", description = "<p>p : 1-> 부모 / 2-> 교직원 / 3-> 학생(필수 값)</p>" +
+            "<p>pk : 학부모/교직원/학생 pk값</p>" +
+            "<p>state : 학부모/교직원/학생 변환할 상태 값</p>" +
+            "<hr/>" +
+            "<strong>state 값 (학생, 부모, 선생) 순서임</strong>" +
+            "<p> 1 -> 재학,활성화,재직 </p>" +
+            "<p> 2 -> 전학,비활성화,퇴사 </p>" +
+            "<p> 3 -> 졸업 </p>" +
+            "<p> 4 -> 퇴학 </p>")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "리턴값 없음"
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "에러 난 이유 설명"
+            ),
+            @ApiResponse(responseCode = "401",
+                    description = "JWT ACCESSTOKEN 에러 ( 토큰을 헤더에 추가해 주세요 )"
+            ),
+            @ApiResponse(responseCode = "403",
+                    description = "해당 유저는 사용 권한이 없음"
+            )
+    })
     public ResponseEntity updateUser(@RequestBody @Valid UpdateUserReq p) {
         service.updateUser(p);
         return new ResponseEntity<>(OK);
