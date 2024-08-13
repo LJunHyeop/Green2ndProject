@@ -60,13 +60,12 @@ public class HaesolOnlineControllerImpl {
     }
 
     @PostMapping
-    @Operation(summary="(제작중)시험 마킹 결과 및 채점 결과 확인~제작중입니다~", description = "" +
+    @Operation(summary="(1차 완성)-해설 미포함", description = "" +
             "문제의 PK 번호와 학생이 마킹한 번호 리스트 제공 부탁드립니다" +
-            "<p><strong>questionPk</strong>현재 출력된 문제의 PK값</p>" +
-            "<p><strong>omrAnswer</strong>학생이 제출한 OMR 마킹</p>")
-    public ResponseEntity testMarking(@RequestBody List<StudentOmr> p){
+            "<p><strong>questionPk </strong> 현재 출력된 문제의 PK값</p>" +
+            "<p><strong>omrAnswer </strong> 학생이 제출한 OMR 마킹</p>")
+    public ResponseEntity testMarking(@ParameterObject @RequestBody StudentOmr p){
         TestOutCome outCome=service.testMarking(p);
-
         return new ResponseEntity(outCome, HttpStatus.OK);
     }
 

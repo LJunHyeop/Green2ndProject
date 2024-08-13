@@ -9,6 +9,4 @@ public interface OnlineMapper {
     Long teacherClass(Long teaId);
     Long parentsClass(Long parentsId, Long stuId);
     Long studentClass(Long stuId);
-
-    List<String> testAnalysis(List<Long> wrongPks);
 }

@@ -179,40 +179,28 @@ public class HaesolOnlineServiceImpl {
 
 
     //========= 시험 문제를 풀고 그에 따른 점수 및 분석(시험 채점 점수 분석) =========
-    public TestOutCome testMarking(List<StudentOmr> p) { //필요한 것 : 현재 출력된 문제들의 PK값 + 학생이 체크한 정답 리스트
+    public TestOutCome testMarking(StudentOmr p) { //필요한 것 : 현재 출력된 문제들의 PK값 + 학생이 체크한 정답 리스트
         //문제 번호와 정답만 담은 리스트
-        List<StudentOmr> testOutComeList=p; //TestOutCome에 담겨 틀린 문제의 리스트를 리턴(전체 문제의 PK, 학생답, 실제 답)
-        //List<StudentOmr> testOutComeList=new ArrayList<>(); //입력받은 값에 실제 정답만 추가해서 리턴(매기는 거에 PK값 필요 할 떄)
         TestOutCome outCome=new TestOutCome(); //최종적으로 리턴할 객체
-        outCome.setMarkOmrList(testOutComeList);
-        List<Long> wrongPks=new ArrayList<>();
-
-
-        List<Long> pkList=new ArrayList<>();
-        for(StudentOmr omr:p){ // OMR 카드 =20개
-            pkList.add(omr.getQuestionPk());
+        StudentOmr testOutComeList=p; //TestOutCome에 담겨 틀린 문제의 리스트를 리턴(전체 문제의 PK, 학생답, 실제 답)
+        outCome.setStudentOmr(testOutComeList);
+        //testOutComeList.setQuestionPk(p.getQuestionPk()); // 무슨 문제를 풀었는지 PK
+        //testOutComeList.setOmrAnswer(p.getOmrAnswer()); //학생이 마킹한 답
+        log.info("parameter P: {}", p);
+        List<Integer> realAnswer=haesolOnlineRepository.findAnswerByQueId(p.getQuestionPk());
+        outCome.setRealAnswer(realAnswer);
+        log.info("P.setRealAnswer: {}", p);
+        log.info("realAnswer : {}", realAnswer);
+        List<String> typeString=new ArrayList<>();
+        for(Long i:p.getQuestionPk()){
+            String type=haesolOnlineRepository.findTypeNameByQueId(i);
+            typeString.add(type);
+            log.info("typeString {},{}", typeString.size(), type);
         }
-        List<Integer> haesolAnswerList=haesolOnlineRepository.findAnswerByQueId(pkList); //PK를 바탕으로 정답리스트
-        int wrongCount=0;
-        for(int i=0; i<testOutComeList.size(); i++){
-            StudentOmr omrTmp=testOutComeList.get(i); //n번 객체의 주소값 복사
-            //OMR을 통해 넘어온 학생 마킹답과 해솔에서 넘어온 모범답안이 다르면
-            if(p.get(i).getOmrAnswer()!=haesolAnswerList.get(i)){
-                omrTmp.setRealAnswer(haesolAnswerList.get(i)); //실제 정답을 기록하고
-                testOutComeList.add(omrTmp); //그걸 리턴할 리스트에 추가
-                wrongCount++;
-                wrongPks.add(omrTmp.getQuestionPk());
-            }
-        }
-        mapper.testAnalysis(wrongPks);
-        log.info("제출된 문제 pk값에 따른 정답 {}", haesolAnswerList);
-        log.info("학생의 OMR 카드 {}", outCome.getMarkOmrList());
-        log.info("틀린 문제의 수 {}", wrongCount);
-
-        //몇 번 문제가 틀렸는지, 원래 정답과 지금 정답=>근데 PK로 리턴해도 되나??
-
-        String message=String.format("20문제 중 %s 문제를 틀렸습니다. 가장 많이 틀린 문제 유형은 %s입니다.", wrongCount,"값");
-        outCome.setMessage(message);
+        outCome.setTypeString(typeString);
+            log.info("p.getTypeString {}",outCome.getTypeString());
+        log.info("outCome : {}",outCome);
+        //outCome에 세팅 안 함
         return outCome;
         }
 }
