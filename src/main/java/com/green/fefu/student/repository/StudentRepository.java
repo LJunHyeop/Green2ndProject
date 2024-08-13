@@ -5,6 +5,7 @@ import com.green.fefu.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Student findByRandCode(String randCode);
@@ -15,4 +16,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Long countByParent(Parents parentsId);
     Long countByParentAndStateIs(Parents parentsId, Integer state);
     List<Student> findStudentsByParentOrderByGradeAsc(Parents parentsId);
+
+    Optional<Student> findStudentsByRandCode(String randCode);
 }
