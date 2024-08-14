@@ -199,7 +199,7 @@ public class HaesolOnlineServiceImpl {
         List<Integer> realAnswer=haesolOnlineRepository.findAnswerByQueId(p.getQuestionPk());
 
         if(realAnswer.size()!=p.getQuestionPk().size()){
-                throw new CustomException(EXCEED_PK_VALUE);
+            throw new CustomException(EXCEED_PK_VALUE);
         }
 
         outCome.setRealAnswer(realAnswer);
@@ -225,4 +225,7 @@ public class HaesolOnlineServiceImpl {
 
         return outCome;
         }
+
+        //public List<> testRecode
+
 }
