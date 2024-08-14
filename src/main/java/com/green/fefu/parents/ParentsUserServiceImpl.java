@@ -498,4 +498,33 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         res.setParentsId(parent.getParentsId()) ;
         return res ;
     }
+
+    // 소셜 회원가입 처음부터 하기
+    public int socialSignUpLogin(SocialLoginSIgnUpReq req){
+        Student student = studentRepository.findByRandCode(req.getRandomCode()) ;
+        if(student == null) {
+            throw new CustomException(NOT_EXISTENCE_STUDENT) ;
+        }
+
+        Parents parents = new Parents() ;
+        parents.setUid(req.getId()) ;
+        parents.setName(req.getName()) ;
+        parents.setAuth("ROLE_PARENTS") ;
+        parents.setPhone(req.getPhone()) ;
+        parents.setConnect(req.getConnect()) ;
+        parents.setEmail(req.getEmail()) ;
+        repository.save(parents) ;
+
+        ParentOAuth2 oAuth2 = new ParentOAuth2() ;
+        oAuth2.setParentsId(parents) ;
+        oAuth2.setId(req.getId()) ;
+        oAuth2.setEmail(req.getEmail()) ;
+        oAuth2.setName(req.getName()) ;
+        oAuth2.setProviderType(req.getSignInProviderType()) ;
+        oAuth2Repository.save(oAuth2) ;
+
+        student.setParent(parents) ;
+
+        return 1 ;
+    }
 }
