@@ -68,7 +68,7 @@ public class OnlineEnglishServiceImpl {
 
 
         //사진 처리
-        if (pic != null || pic.isEmpty()) {
+        if (pic != null || !pic.isEmpty()) {
             try {
                 String path = String.format("onlineEngWord/%s", entEnglishWord.getWordPk());
                 customFileUtils.makeFolders(path);
@@ -107,7 +107,7 @@ public class OnlineEnglishServiceImpl {
 
 
         //사진 처리
-        if (pic != null || pic.isEmpty()) {
+        if (pic != null || !pic.isEmpty()) {
             try {
                 String path = String.format("onlineEngLis/%s",entEnglishListening.getListeningPk());
                 customFileUtils.makeFolders(path);
@@ -153,6 +153,7 @@ public class OnlineEnglishServiceImpl {
         List<GetEnglishListeningQuestionRes> list=new ArrayList<>();
         for(OnlineEnglishListening listening : listAll){
             GetEnglishListeningQuestionRes res=new GetEnglishListeningQuestionRes();
+            res.setQueId(listening.getListeningPk());
             res.setQuestion(listening.getQuestion());
             res.setSentence(listening.getSentence());
             res.setAnswer(listening.getPic());

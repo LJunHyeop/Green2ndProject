@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +27,19 @@ public class HaesolOnlineControllerImpl {
 
     @Operation(summary = "국어 및 수학 문제 등록", description = "" +
             "<p><strong>subjectCode</strong> (정수)과목 코드 1: 국어 2: 수학</p>" +
-            "<p><strong>typeTag</strong> (정수)세부 과목 ex. 국어 : 11, 12, 13 / 수학 : 21, 22, 23, 24, 25</p>" +
+            "<p><strong>typeTag</strong> (정수)세부 과목 ex. 문법, 사칙연산, 규칙찾기</p>" +
+            "<div>" +
+            "<blockquote>"+
+            "<p>    11 -> 독해</p>" +
+            "<p>    12 -> 문법</p>"  +
+            "<p>    13 -> 문학</p>" +
+            "<hr>"+
+            "<p>    21 -> 사칙연산</p>" +
+            "<p>    22 -> 단위환산</p>" +
+            "<p>    23 -> 그래프</p>" +
+            "<p>    24 -> 규칙찾기</p>" +
+            "<p>    25 -> 도형 넓이 계산</p>" +
+            "</div>"+
             "<p><strong>queTag</strong> (정수)문제 유형 1: 객관식 2: 주관식 (Default 1)</p>" +
             "<p><strong>level</strong> (정수)난이도 1~5</p>" +
             "<p><strong>question</strong> (문자열)문제 ex. 다음 중 옳은 것을 고르시오</p>" +
@@ -49,10 +62,18 @@ public class HaesolOnlineControllerImpl {
 
     @GetMapping("/test")
     @Operation(summary = "문제 리스트 불러오기", description = "" +
+            "<p>학생, 학부모, 선생 모두 사용 가능</p>" +
+            "<p>학부모의 경우 한 학생의 pk를 <strong>무조건!!</strong> 보내줘야함</p>" +
+            "<hr>" +
             "<p><strong>studentPk</strong> 학생 1명의 PK</p>" +
             "<p><strong>subjectCode</strong> 국어/수학 과목 선택</p>" +
-            "<p>학생, 학부모, 선생 모두 사용 가능</p>" +
-            "<p>학부모의 경우 한 학생의 pk를 <strong>무조건!!</strong> 보내줘야함</p>")
+            "<hr>" +
+            "<p><strong>queId </strong>문제의 PK</p>" +
+            "<p><strong>question </strong>문제(ex.~것을 고르시오.)</p>" +
+            "<p><strong>level </strong>난이도 1~5</p>" +
+            "<p><strong>queTag </strong>문제 타입 1->객관식 2-> 주관식</p>" +
+            "<p><strong>contents </strong>문제 내용(ex.민수: 오늘 하늘이 참 맑다)</p>" +
+            "<p><strong>pic </strong>사진 이름</p>")
     public ResponseEntity GetKorAMatQuestion(@ParameterObject GetKoreanAndMathQuestionReq p) {
         List<GetKoreanAndMathQuestionRes> list=service.GetKorAMatQuestion(p);
 
@@ -63,12 +84,19 @@ public class HaesolOnlineControllerImpl {
     @PostMapping
     @Operation(summary="1차 완성(수정 중)", description = "" +
             "<p><strong>중요!! 스웨거 테스트시에는 숫자 리스트의 쌍따옴표를 없애주세요 </strong>예시 [1,5,8,3,9,2]</p>" +
-            "<p></p>" +
             "<p>문제의 PK 번호와 학생이 마킹한 번호 리스트 제공 부탁드립니다</p>" +
+            "<hr>" +
             "<p><strong>questionPk </strong> 현재 출력된 문제의 PK값</p>" +
             "<p><strong>omrAnswer </strong> 학생이 제출한 OMR 마킹</p>" +
             "<p><strong>title </strong> 온라인 시험의 이름</p>" +
-            "<p><strong>subjectCode </strong> 1->국어 2->수학</p>")
+            "<p><strong>subjectCode </strong> 1->국어 2->수학</p>" +
+            "<hr>" +
+            "<p><strong>questionPk </strong> 현재 출력된 문제의 PK값</p>" +
+            "<p><strong>omrAnswer </strong> 학생이 제출한 OMR 마킹</p>" +
+            "<p><strong>title </strong> 온라인 시험의 이름</p>" +
+            "<p><strong>subjectCode </strong> 1->국어 2->수학</p>" +
+            "<p><strong>realAnswer </strong> 실제 정답</p>" +
+            "<p><strong>typeString </strong>문제유형 ex. 문법, 도형넓이 ...</p>")
     public ResponseEntity testMarking(@RequestBody StudentOmr p){
         log.info("처음 받아온 p:{}",p);
         TestOutCome outCome=service.testMarking(p);
@@ -77,6 +105,16 @@ public class HaesolOnlineControllerImpl {
         return new ResponseEntity(outCome, HttpStatus.OK);
     }
 
-
+    @GetMapping("/recode")
+    @Operation(summary="오답노트 가져오기", description = "" +
+            "<p><strong></strong></p>" +
+            "<p></p>" +
+            "<p><strong></strong> </p>" +
+            "<p><strong></strong></p>" +
+            "<p><strong></strong></p>" +
+            "<p><strong></strong></p>")
+    public ResponseEntity testRecode(){
+        return new ResponseEntity(1, HttpStatus.OK);
+    }
 
 }
