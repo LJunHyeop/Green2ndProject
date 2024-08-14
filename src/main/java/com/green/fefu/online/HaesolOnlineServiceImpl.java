@@ -68,7 +68,7 @@ public class HaesolOnlineServiceImpl {
         haesolOnline.setTeaId(teacher); //선생님 PK->아래에서 학반 정보
         Long teacherClass=mapper.teacherClass(teacher.getTeaId());
         if(teacherClass==null){
-            throw new CustomException(HOMEROOM_ISN_T_EXIST);
+            throw new CustomException(HAS_NOT_CLASS);
         }
         haesolOnline.setClassId(teacherClass); //선생님 정보 토대로 학년 정보
         haesolOnline.setSubjectCode(subject); //과목코드
