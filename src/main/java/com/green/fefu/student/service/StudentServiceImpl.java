@@ -3,6 +3,8 @@ package com.green.fefu.student.service;
 import com.green.fefu.chcommon.Parser;
 import com.green.fefu.chcommon.PatternCheck;
 import com.green.fefu.chcommon.Validation;
+import com.green.fefu.common.AppProperties;
+import com.green.fefu.common.CookieUtils;
 import com.green.fefu.common.CustomFileUtils;
 import com.green.fefu.entity.Parents;
 import com.green.fefu.entity.Student;
@@ -10,11 +12,14 @@ import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.security.AuthenticationFacade;
+import com.green.fefu.security.MyUser;
+import com.green.fefu.security.jwt.JwtTokenProviderV2;
 import com.green.fefu.student.model.dto.*;
 import com.green.fefu.student.model.req.*;
 import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.test.StudentService;
 import com.green.fefu.teacher.repository.TeacherRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +51,9 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
     private final ParentRepository parentRepository;
-
+    private final JwtTokenProviderV2 jwtTokenProvider;
+    private final AppProperties appProperties;
+    private final CookieUtils cookieUtils;
 
     //    학생 데이터 넣기
     @Transactional
@@ -401,7 +408,7 @@ public class StudentServiceImpl implements StudentService {
         p.setSubNumber(p.getGrade().substring(0, 3));
     }
 
-    public Map studentSignIn(StudentSignInReq p){
+    public Map studentSignIn(StudentSignInReq p, HttpServletResponse res){
         Student student = studentRepository.findStudentByUid(p.getStudentUid());
         if(student == null){
             throw new CustomException(NOT_FOUND_USER_ERROR);
@@ -419,7 +426,23 @@ public class StudentServiceImpl implements StudentService {
         map.put(STUDENT_CLASS_NUMBER,data[2]);
         String teacherName = mapper.findTeacherName(student.getStuId());
         map.put(TEACHER_NAME, teacherName);
+        String accessToken = createToken(student, res);
+        map.put(STUDENT_ACCESS_TOKEN, accessToken);
         return map;
+    }
+    private String createToken(Student student, HttpServletResponse res){
+        MyUser myUser = MyUser.builder()
+                .userId(student.getStuId())
+                .role(student.getAuth().trim())
+                .build();
+        String accessToken = jwtTokenProvider.generateAccessToken(myUser);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(myUser);
+
+//        refreshToken은 보안 쿠키를 이용해서 처리
+        int refreshTokenMaxAge = appProperties.getJwt().getRefreshTokenCookieMaxAge();
+        cookieUtils.deleteCookie(res, "refresh-token");
+        cookieUtils.setCookie(res, "refresh-token", refreshToken, refreshTokenMaxAge);
+        return accessToken;
     }
 
     public void addChild(AddChild p){

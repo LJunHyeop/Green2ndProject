@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -230,9 +231,9 @@ public class StudentControllerImpl implements StudentController {
                     description = "에러 난 이유 설명"
             )
     })
-    public ResponseEntity studentSignIn(@RequestBody @Valid StudentSignInReq p) {
+    public ResponseEntity studentSignIn(@RequestBody @Valid StudentSignInReq p, HttpServletResponse res) {
         log.info("StudentSignInReq : {}", p);
-        Map map = service.studentSignIn(p);
+        Map map = service.studentSignIn(p, res);
         return new ResponseEntity<>(map, OK);
     }
 
