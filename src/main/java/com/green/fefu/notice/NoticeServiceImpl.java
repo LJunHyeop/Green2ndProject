@@ -42,7 +42,7 @@ public class NoticeServiceImpl implements NoticeService{
             throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
         }
         log.info("classroom :{}",classes.getClassId());
-
+        log.info("{}", p.getState());
         if(!(p.getState()==1 || p.getState()==2)){
             throw new CustomException(NOTICE_STATE_CHECK);
         }
