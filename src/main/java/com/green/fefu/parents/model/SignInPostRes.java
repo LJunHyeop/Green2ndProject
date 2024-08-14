@@ -2,15 +2,13 @@ package com.green.fefu.parents.model;
 
 import com.green.fefu.entity.Student;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Data
 @Builder
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignInPostRes {
@@ -23,4 +21,6 @@ public class SignInPostRes {
     private List<StudentRes> studentList ;
 
     private String accessToken;
+    @Schema(description = "필수값 여부 존재: 1, X: 2", defaultValue = "1")
+    private int result ;
 }

@@ -66,7 +66,7 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
-    private OAuth2User process(OAuth2UserRequest userRequest) {
+    private OAuth2User process(OAuth2UserRequest userRequest)  {
         OAuth2User oAuth2User = super.loadUser(userRequest); //제공자로부터 사용자정보를 얻음
         //각 소셜플랫폼에 맞는 enum타입을 얻는다.
         SignInProviderType signInProviderType = SignInProviderType.valueOf(userRequest.getClientRegistration()
@@ -89,15 +89,12 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         if(list.isEmpty()) {
             Parents parents1 = new Parents() ;
             parents1.setAuth("ROLE_PARENTS") ;
-            parents1.setPhone("010-0000-0000") ;
-            parents1.setUid("간편아이디") ;
             parents1.setEmail(oAuth2UserInfo.getEmail()) ;
+            parents1.setName(oAuth2UserInfo.getName()) ;
+            parents1.setUid(oAuth2UserInfo.getId()) ;
+            parents1.setPhone("010-0000-0000") ;
             parents1.setConnect("기타") ;
 
-            parents1.setName(oAuth2UserInfo.getName()) ;
-
-            parentRepository.save(parents1) ;
-            parents1.setUid(oAuth2UserInfo.getId()) ;
             parentRepository.save(parents1) ;
 
             ParentOAuth2 oAuth2 = new ParentOAuth2() ;

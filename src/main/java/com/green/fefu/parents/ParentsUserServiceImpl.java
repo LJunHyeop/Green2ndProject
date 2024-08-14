@@ -443,6 +443,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         }
 
         Parents parents = repository.getParentsByProviderTypeAndUidAndParentsPk(parentsOAuth2.getProviderType(), req.getId(), parentsOAuth2.getParentsId().getParentsId()) ;
+        log.info("parent: {}", parents) ;
         if (!Objects.equals(parents.getAuth(), "ROLE_PARENTS")) {
             throw new CustomException(NOT_ACCESS_AUTHORITY) ;
         }
@@ -451,7 +452,6 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .userId(parents.getParentsId())
                 .role(parents.getAuth())
                 .build() ;
-
         String accessToken = jwtTokenProvider.generateAccessToken(myUser) ;
         String refreshToken = jwtTokenProvider.generateRefreshToken(myUser) ;
 
@@ -459,10 +459,21 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         cookieUtils.deleteCookie(res, appProperties.getJwt().getRefreshTokenCookieName()) ;
         cookieUtils.setCookie(res, appProperties.getJwt().getRefreshTokenCookieName(), refreshToken, refreshTokenMaxAge) ;
 
+        List<ParentsUser> list = mapper.getParentUser(req.getId()) ;
+        log.info("list: {}", list.get(0));
+        if(list.get(0).getConnect().equals("기타") || list.get(0).getPhone().equals("010-0000-0000")){
+            return SignInPostRes.builder()
+                    .parentsId(parents.getParentsId())
+                    .nm(parents.getName())
+                    .result(2)
+                    .accessToken(accessToken)
+                    .build() ;
+        }
 
         return SignInPostRes.builder()
                 .parentsId(parents.getParentsId())
                 .nm(parents.getName())
+                .result(1)
                 .accessToken(accessToken)
                 .build() ;
     }

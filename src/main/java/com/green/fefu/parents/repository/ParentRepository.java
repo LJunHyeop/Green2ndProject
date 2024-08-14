@@ -26,6 +26,7 @@ public interface ParentRepository extends JpaRepository<Parents, Long> {
             " and po2.parentsId.parentsId = :parentsId")
     Parents getParentsByProviderTypeAndUidAndParentsPk(SignInProviderType providerType, String id, long parentsId) ;
 
+    Parents findParentsByPhoneAndUid(String phone, String uid) ;
 
     @Query("SELECT p FROM Parents p WHERE p.uid = :uid")
     Parents findParentByUid(String uid);
