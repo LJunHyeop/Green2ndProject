@@ -47,8 +47,9 @@ public class PostOnlineQuestionReq {
     @Schema(example = "1", description = "정답이 되는 보기 번호가 들어가는 부분입니다.")
     private int answer;
 
+    @Schema(example="화자는 봄을 맞이하여 기쁘기 때문에 1번입니다.", description = "문제에 대한 해설이 들어가는 부분입니다.")
+    private String explanation;
     // 사진은 별도로 받음
-
 
 //    @JsonIgnore
 //    private Long classId;
