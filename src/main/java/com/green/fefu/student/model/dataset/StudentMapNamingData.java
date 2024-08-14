@@ -21,4 +21,5 @@ public interface StudentMapNamingData {
     String PARENT_PHONE = "parentPhone";
     String TEACHER_NAME = "teacherName";
     String PREV_ETC_LIST = "prevEtcList";
+    String STUDENT_ACCESS_TOKEN = "studentAccessToken";
 }

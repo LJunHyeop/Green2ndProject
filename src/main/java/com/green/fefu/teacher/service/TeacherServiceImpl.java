@@ -250,13 +250,13 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher teacher;
         if (p.getId() != null) {
             teacher = teacherRepository.findByUid(p.getId());
-            if(teacher == null) {
-                throw new CustomException(NOT_FOUND_USER_ERROR);
+            if(teacher != null) {
+                throw new CustomException(DUPLICATE_DATA_ERROR);
             }
         } else if (p.getEmail() != null) {
             teacher = teacherRepository.findByEmail(p.getEmail());
-            if(teacher == null) {
-                throw new CustomException(NOT_FOUND_USER_ERROR);
+            if(teacher != null) {
+                throw new CustomException(DUPLICATE_DATA_ERROR);
             }
         } else {
             throw new CustomException(MULTIPLE_DATA_ERROR);

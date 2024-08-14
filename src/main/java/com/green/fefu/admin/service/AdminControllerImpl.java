@@ -176,7 +176,7 @@ public class AdminControllerImpl implements AdminController {
         list = service.findUserList(p, list);
         return new ResponseEntity<>(list, OK);
     }
-//    자퇴 확인 처리
+//    학적 변동 처리
     @PatchMapping
     @Operation(summary = "학부모/교직원 -> 재직중/퇴사 or 활성화/비활성화 처리", description = "<p>p : 1-> 부모 / 2-> 교직원 / 3-> 학생(필수 값)</p>" +
             "<p>pk : 학부모/교직원/학생 pk값</p>" +
@@ -186,7 +186,11 @@ public class AdminControllerImpl implements AdminController {
             "<p> 1 -> 재학,활성화,재직 </p>" +
             "<p> 2 -> 전학,비활성화,퇴사 </p>" +
             "<p> 3 -> 졸업 </p>" +
-            "<p> 4 -> 퇴학 </p>")
+            "<p> 4 -> 퇴학 </p>" +
+            "<hr/>" +
+            "<p>userName : 유저 이름 변경</p>" +
+            "<p>userGrade : (선생) 담당 학년 / </p><p>(학생) 학년 <strong>학년이나 학급 을 바꿀때는 꼭!! 학년학급 둘다 입력 해주세요</strong></p>" +
+            "<p>userClass : (선생) 담당 학급 / </p><p>(학생) 학급 <strong>학년이나 학급 을 바꿀때는 꼭!! 학년학급 둘다 입력 해주세요</strong></p>")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "리턴값 없음"
