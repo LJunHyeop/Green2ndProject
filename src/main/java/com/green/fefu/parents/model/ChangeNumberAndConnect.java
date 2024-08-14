@@ -10,5 +10,5 @@ public class ChangeNumberAndConnect {
     @Schema(description = "자녀와의 관계", required = true)
     private String connect ;
     @Schema(description = "학부모 Pk", required = true)
-    private long parentsId;
+    private String id;
 }

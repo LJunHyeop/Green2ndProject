@@ -485,9 +485,10 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         }
         return 1 ;
     }
+
     // 소셜 회원가입 시 전화번호 입력
     public ChangeNumberAndConnectRes postSocialPhoneNumber(ChangeNumberAndConnect req){
-        Parents parent = repository.getReferenceById(req.getParentsId()) ;
+        Parents parent = repository.findParentByUid(req.getId()) ;
         parent.setPhone(req.getPhoneNumber()) ;
         parent.setConnect(req.getConnect()) ;
         repository.save(parent) ;
