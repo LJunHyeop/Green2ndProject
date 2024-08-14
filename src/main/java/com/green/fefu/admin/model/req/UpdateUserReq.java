@@ -23,7 +23,7 @@ public class UpdateUserReq {
     @Schema(example = "1", description = "선생/부모/학생 PK값", required = true)
     private Long pk;
 
-    @Min(value = 1, message = STATE_DATA_ERROR)
+    @Min(value = 0, message = STATE_DATA_ERROR)
     @Max(value = 3, message = STATE_DATA_ERROR)
     @Schema(example = "2", description = "선생/부모/학생 바꿀 스테이트 값")
     private int state;
@@ -31,12 +31,12 @@ public class UpdateUserReq {
     @Schema(example = "홍길동", description = "바꿀 학생 이름")
     private String userName;
 
-    @Min(value = 1, message = STATE_DATA_ERROR)
+    @Min(value = 0, message = STATE_DATA_ERROR)
     @Max(value = 6, message = STATE_DATA_ERROR)
     @Schema(example = "2", description = "바꿀 학생 학년")
     private int userGrade;
 
-    @Min(value = 1, message = STATE_DATA_ERROR)
+    @Min(value = 0, message = STATE_DATA_ERROR)
     @Max(value = 99, message = STATE_DATA_ERROR)
     @Schema(example = "2", description = "바꿀 학생 학급")
     private int userClass;
