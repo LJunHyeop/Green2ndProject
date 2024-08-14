@@ -25,6 +25,7 @@ import static com.green.fefu.exception.bch.BchErrorCode.*;
 
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -292,7 +293,6 @@ public class AdminServiceImpl implements AdminService {
                     Class newClass = new Class();
                     newClass.setClassId(result);
                     newClass.setTeaId(teacher);
-                    // 필요 시 추가적인 필드 설정
                     classRepository.save(newClass);
                 }
             }
@@ -312,13 +312,38 @@ public class AdminServiceImpl implements AdminService {
             if (result != 0){
                 StudentClass data = studentClassRepository.findByClassIdAndStuId(result,student.getStuId());
                 if(data == null){
+
                     data = new StudentClass();
-                    data.getClassId().setClassId(result);
+
+                    Optional<Class> newClass = classRepository.findById(result);
+                    if(newClass.isEmpty()) {
+                        throw new CustomException(NOT_FOUND_CLASS_ERROR);
+                    }
+
+                    data.setClassId(newClass.get());
                     data.setStuId(student);
+
+
+
+//                    학생 grade 업데이트 처리
+
+                    StudentClass maxStudentNum = studentClassRepository.findTopByClassIdOrderByScId(result);
+                    log.info("maxStudentNum:"+maxStudentNum);
+                    if(maxStudentNum != null){
+                        Student maxStudentGrade = studentRepository.getReferenceById(maxStudentNum.getStuId().getStuId());
+
+                        log.info("maxStudentGrade:"+maxStudentGrade);
+                        student.setGrade(maxStudentGrade.getGrade()+1);
+                    }
+                    else {
+                        String aString = Integer.toString(result);
+                        String bFormatted = String.format("01");
+                        String resultString = aString + bFormatted;
+                        result = Integer.parseInt(resultString);
+                        student.setGrade(result);
+                    }
                     studentClassRepository.save(data);
                 }
-
-
             }
             studentRepository.save(student);
         } else {

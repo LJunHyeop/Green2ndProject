@@ -13,9 +13,7 @@ import static com.green.fefu.admin.model.dataset.ExceptionMsgDataSet.*;
 @ToString
 public class adminUserReq {
     @Schema(example = "1", description = "1-> 부모List, 2-> 선생List", required = true)
-    @NotBlank(message = DIVISION_CODE_ERROR)
     private Integer p;
     @Schema(example = "1", description = "승인/반려 할 사용자 pk값", required = true)
-    @NotBlank(message = NOT_FOUND_USER)
     private Long pk;
 }
