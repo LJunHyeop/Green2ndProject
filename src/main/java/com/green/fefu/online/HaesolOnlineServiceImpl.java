@@ -226,6 +226,23 @@ public class HaesolOnlineServiceImpl {
         return outCome;
         }
 
-        //public List<> testRecode
+        public List<TestOutCome> testRecode(){
+//            //시험 목록에서 조회되는 값
+//            Student student=studentRepository.getReferenceById(authenticationFacade.getLoginUserId());
+//            List<StudentOnlineRecode> testRecodes=studentOnlineRecodeRepository.getByStudent();
+//            //시험 20문제를 일일히 저장하는 DB
+//            List<StudentOnlineTest> onlineTests=studentOnlineTestRepository.getReferenceById();
+//            List<TestOutCome> list=new ArrayList<>();
+//            for(StudentOnlineRecode recode:testRecodes){
+//                TestOutCome testRecode=new TestOutCome();
+//                testRecode.getTypeString();//유형 문자열
+//                testRecode.getRealAnswer();//진짜 답
+//                testRecode.getStudentOmr().getQuestionPk();//질문 PK
+//                testRecode.getStudentOmr().getOmrAnswer(); //학생마킹답
+//                testRecode.getStudentOmr().getTitle(); //제목
+//                testRecode.getStudentOmr().getSubjectCode(); //과목코드
+//            }
+            return null;
+        }
 
 }
