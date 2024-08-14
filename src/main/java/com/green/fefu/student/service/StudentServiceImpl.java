@@ -234,6 +234,8 @@ public class StudentServiceImpl implements StudentService {
         String[] classData = null;
         if (result.getUClass() != null) {
             classData = Parser.classParserArray(result.getUClass());
+            map.put(STUDENT_GRADE, classData[0]);
+            map.put(STUDENT_CLASS, classData[1]);
         } else {
             throw new CustomException(GRADE_DATA_NOT_FOUND);
         }
@@ -241,8 +243,6 @@ public class StudentServiceImpl implements StudentService {
         if (result.getAddr() != null) {
             addr = Parser.addressParser(result.getAddr());
 //            log.info("data : {}", classData);
-            map.put(STUDENT_GRADE, classData[0]);
-            map.put(STUDENT_CLASS, classData[1]);
             map.put(STUDENT_ZONE_CODE, addr[0]);
             map.put(STUDENT_ADDR, addr[1]);
             map.put(STUDENT_DETAIL, addr[2]);
