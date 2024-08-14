@@ -7,12 +7,15 @@ import com.green.fefu.exception.CustomErrorCode;
 import com.green.fefu.notice.model.*;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
+import com.green.fefu.student.repository.ClassRepository;
+import com.green.fefu.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+import com.green.fefu.entity.Class;
 import java.util.*;
 
+import static com.green.fefu.exception.JSH.JshErrorCode.*;
 import static java.time.LocalDateTime.now;
 
 @Slf4j
@@ -22,39 +25,41 @@ public class NoticeServiceImpl implements NoticeService{
     private final NoticeMapper mapper;
     private final AuthenticationFacade authenticationFacade; //PK값을 제공(getLoginUserId();
     private final NoticeRepository repository;
-    //private final TeacherReposotory teacherReposotory;
+    private final TeacherRepository teacherRepository;
+    private final ClassRepository classRepository;
 
     /*알림장 등록 : 권한있는 사람만 등록 가능*/
     public int postNotice(PostNoticeReq p){
-        //Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
+        Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
+        Class classes=classRepository.findByTeaId(authenticationFacade.getLoginUserId());
+        if(classes==null){
+            throw new CustomException(HOMEROOM_ISN_T_EXIST);
+        }
+
+        MyUser myUser=authenticationFacade.getLoginUser();
+        log.info("user's role: {}", myUser.getRole());
+        if(!(myUser.getRole().equals("ROLE_TEACHER"))){
+            throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
+        }
+        log.info("classroom :{}",classes.getClassId());
+
+        if(!(p.getState()==1 || p.getState()==2)){
+            throw new CustomException(NOTICE_STATE_CHECK);
+        }
         Notice notice=new Notice();
-        //notice.setTeacher(teacher);
+        notice.setTeacher(teacher);
         notice.setTitle(p.getTitle());
         notice.setContent(p.getContent());
-        //notice.setClassId(p.getClassId());
+        notice.setClasses(classes);
         notice.setState(p.getState());
         notice.setCreatedAt(now());
 
-        Notice notice2=repository.save(notice);
+        repository.save(notice);
 
-
-        p.setTeaId(authenticationFacade.getLoginUserId());
-        MyUser myUser=authenticationFacade.getLoginUser();
-
-        //if(!myUser.getRole().equals("TEACHER")){
-        // throw new CustomException(CustomErrorCode.YOU_ARE_NOT_TEACHER);
-        //}
-        p.setClassId(mapper.teacherHomeroom(p.getTeaId()));
-
-        if(!(p.getState()==1 || p.getState()==2)){
-            throw new CustomException(CustomErrorCode.NOTICE_STATE_CHECK);
-        }
-
-        //로그인 안 된 사람 처리
-        return mapper.postNotice(p);
+        return 1;
     }
 
-    //
+
     public Map<String, List<GetNoticeRes>> getNotice(GetNoticeReq p){
         MyUser user=authenticationFacade.getLoginUser();
         log.info("pk : {}", authenticationFacade.getLoginUser().getRole());

@@ -15,13 +15,13 @@ public class Notice extends UpdatedAt {
     private Long noticeId;
 
     @ManyToOne
-    @JoinColumn(name="writer_id", nullable=false)
+    @JoinColumn(name="tea_id", nullable=false)
     private Teacher teacher;
 
-    //class 없음 만들어야함
-    //@ManyToOne
-    //@JoinColumn(name="class_id", nullable=false)
-    //private Class classes;
+
+    @ManyToOne
+    @JoinColumn(name="class_id", nullable=false)
+    private Class classes;
 
     @Column(length=50)
     private String title;

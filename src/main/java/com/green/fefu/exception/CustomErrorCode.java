@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum CustomErrorCode implements ErrorCode{
 
-    NOTICE_STATE_CHECK(HttpStatus.BAD_REQUEST,"정상적이지 않은 알림장 항목을 호출하였습니다."),
-
     CLASS_CHECK_PLEASE(HttpStatus.NOT_FOUND, "호출한 학급이 존재하지 않습니다."),
 
     YOU_ARE_NOT_TEACHER(HttpStatus.FORBIDDEN, "선생님만 접근할 수 있습니다."),

@@ -58,7 +58,7 @@ public class OnlineEnglishServiceImpl {
         entEnglishWord.setTeaId(teacher);
         Long teacherClass=mapper.teacherClass(teacher.getTeaId());
         if(teacherClass==null){
-            throw new CustomException(HOMEROOM_ISN_T_EXIST);
+            throw new CustomException(HAS_NOT_CLASS);
         }
         entEnglishWord.setGrade(teacherClass);
         log.info("service-entity {}", entEnglishWord);
@@ -96,7 +96,10 @@ public class OnlineEnglishServiceImpl {
         log.info("service-entity {}", entEnglishListening);
         Teacher teacher=teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
         entEnglishListening.setTeaId(teacher);
-        long teaClass=mapper.teacherClass(teacher.getTeaId());
+        Long teaClass=mapper.teacherClass(teacher.getTeaId());
+        if(teaClass==null){
+            throw new CustomException(HAS_NOT_CLASS);
+        }
         entEnglishListening.setGrade(teaClass);
         log.info("service-entity {}", entEnglishListening);
         listeningRepository.save(entEnglishListening);
@@ -121,8 +124,10 @@ public class OnlineEnglishServiceImpl {
     public List<GetEnglishWordQuestionRes> getEnglishWords(GetEnglishQuestionReq p){
         // 로그인 한 유저에 맞는 방식으로 학년 추출
         MyUser user = authenticationFacade.getLoginUser(); // ROLE를 구분해서 관련 학년정보 리턴
-        long grade=methodStorage.signedUserGrade(user, p.getStudentPk());
-
+        Long grade=methodStorage.signedUserGrade(user, p.getStudentPk());
+        if(grade==null){
+            throw new CustomException(HAS_NOT_GRADE);
+        }
         List<OnlineEnglishWord> listAll=wordRepository.getAllByGrade(grade);
         Collections.shuffle(listAll);
         List<GetEnglishWordQuestionRes> list=new ArrayList<>(20);
@@ -139,8 +144,10 @@ public class OnlineEnglishServiceImpl {
 
     public List<GetEnglishListeningQuestionRes> getEnglishListening(GetEnglishQuestionReq p){
         MyUser user = authenticationFacade.getLoginUser(); // ROLE를 구분해서 관련 학년정보 리턴
-        long grade=methodStorage.signedUserGrade(user, p.getStudentPk());
-
+        Long grade=methodStorage.signedUserGrade(user, p.getStudentPk());
+        if(grade==null){
+            throw new CustomException(HAS_NOT_GRADE);
+        }
         List<OnlineEnglishListening> listAll=listeningRepository.getAllByGrade(grade);
         Collections.shuffle(listAll);
         List<GetEnglishListeningQuestionRes> list=new ArrayList<>();
