@@ -32,7 +32,8 @@ public class HaesolOnlineControllerImpl {
             "<p><strong>question</strong> (문자열)문제 ex. 다음 중 옳은 것을 고르시오</p>" +
             "<p><strong>content</strong> (문자열)내용 ex. 먼 훗날 당신이 찾으시면 그때에 내 말이 \"잊었노라\"</p>" +
             "<p><strong>multiple</strong> (문자열 리스트)보기 리스트 사과 딸기 바나나 청포도 배(숫자 없이 문자만)</p>" +
-            "<p><strong>answer</strong> (정수)정답이 되는 보기 번호 ex.1")
+            "<p><strong>answer</strong> (정수)정답이 되는 보기 번호 ex.1" +
+            "<p><strong>explanation</strong> (문자열)문제에 대한 해설")
     @PostMapping("/question")
     @PreAuthorize("hasRole('TEACHER')")
     public ResultDto<Integer> PostKorAMatQuestion(@RequestPart(required = false) MultipartFile pic, @RequestPart PostOnlineQuestionReq p){
@@ -60,12 +61,19 @@ public class HaesolOnlineControllerImpl {
     }
 
     @PostMapping
-    @Operation(summary="(1차 완성)-해설 미포함", description = "" +
-            "문제의 PK 번호와 학생이 마킹한 번호 리스트 제공 부탁드립니다" +
+    @Operation(summary="1차 완성(수정 중)", description = "" +
+            "<p><strong>중요!! 스웨거 테스트시에는 숫자 리스트의 쌍따옴표를 없애주세요 </strong>예시 [1,5,8,3,9,2]</p>" +
+            "<p></p>" +
+            "<p>문제의 PK 번호와 학생이 마킹한 번호 리스트 제공 부탁드립니다</p>" +
             "<p><strong>questionPk </strong> 현재 출력된 문제의 PK값</p>" +
-            "<p><strong>omrAnswer </strong> 학생이 제출한 OMR 마킹</p>")
-    public ResponseEntity testMarking(@ParameterObject @RequestBody StudentOmr p){
+            "<p><strong>omrAnswer </strong> 학생이 제출한 OMR 마킹</p>" +
+            "<p><strong>title </strong> 온라인 시험의 이름</p>" +
+            "<p><strong>subjectCode </strong> 1->국어 2->수학</p>")
+    public ResponseEntity testMarking(@RequestBody StudentOmr p){
+        log.info("처음 받아온 p:{}",p);
         TestOutCome outCome=service.testMarking(p);
+        log.info("서비스에 들어간:{}",p);
+        log.info("리턴 값:{}", outCome);
         return new ResponseEntity(outCome, HttpStatus.OK);
     }
 

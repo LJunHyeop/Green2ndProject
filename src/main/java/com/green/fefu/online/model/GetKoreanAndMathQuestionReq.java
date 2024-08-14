@@ -15,4 +15,5 @@ public class GetKoreanAndMathQuestionReq {
     @Schema(example = "1", description = "1 -> 국어 2 -> 수학")
     private Long subjectCode; // 과목
 
+
 }

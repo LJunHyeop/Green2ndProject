@@ -76,7 +76,7 @@ public class OnlineEnglishServiceImpl {
                 customFileUtils.transferTo(pic, target);
             } catch (Exception e) {
                 e.printStackTrace();
-                throw new CustomException(CAN_T_UPROAD_QUESTION);
+                throw new CustomException(CAN_T_UPLOAD_QUESTION);
             }
         }
 
@@ -112,7 +112,7 @@ public class OnlineEnglishServiceImpl {
                 customFileUtils.transferTo(pic, target);
             } catch (Exception e) {
                 e.printStackTrace();
-                throw new CustomException(CAN_T_UPROAD_QUESTION);
+                throw new CustomException(CAN_T_UPLOAD_QUESTION);
             }
         }
         return 1;
@@ -128,6 +128,7 @@ public class OnlineEnglishServiceImpl {
         List<GetEnglishWordQuestionRes> list=new ArrayList<>(20);
         for(int i=0; i<listAll.size(); i++){
             GetEnglishWordQuestionRes res=new GetEnglishWordQuestionRes();
+            res.setWordQuePk(listAll.get(i).getWordPk());
             res.setWord(listAll.get(i).getWord());
             res.setAnswer(listAll.get(i).getAnswer());
             res.setPic(listAll.get(i).getPic());
