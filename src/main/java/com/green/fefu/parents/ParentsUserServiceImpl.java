@@ -443,6 +443,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         }
 
         Parents parents = repository.getParentsByProviderTypeAndUidAndParentsPk(parentsOAuth2.getProviderType(), req.getId(), parentsOAuth2.getParentsId().getParentsId()) ;
+        log.info("parent: {}", parents) ;
         if (!Objects.equals(parents.getAuth(), "ROLE_PARENTS")) {
             throw new CustomException(NOT_ACCESS_AUTHORITY) ;
         }
@@ -451,7 +452,6 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                 .userId(parents.getParentsId())
                 .role(parents.getAuth())
                 .build() ;
-
         String accessToken = jwtTokenProvider.generateAccessToken(myUser) ;
         String refreshToken = jwtTokenProvider.generateRefreshToken(myUser) ;
 
@@ -459,10 +459,21 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         cookieUtils.deleteCookie(res, appProperties.getJwt().getRefreshTokenCookieName()) ;
         cookieUtils.setCookie(res, appProperties.getJwt().getRefreshTokenCookieName(), refreshToken, refreshTokenMaxAge) ;
 
+        List<ParentsUser> list = mapper.getParentUser(req.getId()) ;
+        log.info("list: {}", list.get(0));
+        if(list.get(0).getConnect().equals("기타") || list.get(0).getPhone().equals("010-0000-0000")){
+            return SignInPostRes.builder()
+                    .parentsId(parents.getParentsId())
+                    .nm(parents.getName())
+                    .result(2)
+                    .accessToken(accessToken)
+                    .build() ;
+        }
 
         return SignInPostRes.builder()
                 .parentsId(parents.getParentsId())
                 .nm(parents.getName())
+                .result(1)
                 .accessToken(accessToken)
                 .build() ;
     }
@@ -474,9 +485,10 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         }
         return 1 ;
     }
+
     // 소셜 회원가입 시 전화번호 입력
     public ChangeNumberAndConnectRes postSocialPhoneNumber(ChangeNumberAndConnect req){
-        Parents parent = repository.getReferenceById(req.getParentsId()) ;
+        Parents parent = repository.findParentByUid(req.getId()) ;
         parent.setPhone(req.getPhoneNumber()) ;
         parent.setConnect(req.getConnect()) ;
         repository.save(parent) ;
@@ -485,5 +497,34 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         res.setConnect(parent.getConnect()) ;
         res.setParentsId(parent.getParentsId()) ;
         return res ;
+    }
+
+    // 소셜 회원가입 처음부터 하기
+    public int socialSignUpLogin(SocialLoginSIgnUpReq req){
+        Student student = studentRepository.findByRandCode(req.getRandomCode()) ;
+        if(student == null) {
+            throw new CustomException(NOT_EXISTENCE_STUDENT) ;
+        }
+
+        Parents parents = new Parents() ;
+        parents.setUid(req.getId()) ;
+        parents.setName(req.getName()) ;
+        parents.setAuth("ROLE_PARENTS") ;
+        parents.setPhone(req.getPhone()) ;
+        parents.setConnect(req.getConnect()) ;
+        parents.setEmail(req.getEmail()) ;
+        repository.save(parents) ;
+
+        ParentOAuth2 oAuth2 = new ParentOAuth2() ;
+        oAuth2.setParentsId(parents) ;
+        oAuth2.setId(req.getId()) ;
+        oAuth2.setEmail(req.getEmail()) ;
+        oAuth2.setName(req.getName()) ;
+        oAuth2.setProviderType(req.getSignInProviderType()) ;
+        oAuth2Repository.save(oAuth2) ;
+
+        student.setParent(parents) ;
+
+        return 1 ;
     }
 }

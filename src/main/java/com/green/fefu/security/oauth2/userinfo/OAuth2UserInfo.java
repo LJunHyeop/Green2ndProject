@@ -2,6 +2,7 @@ package com.green.fefu.security.oauth2.userinfo;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.Map;
 
@@ -16,4 +17,5 @@ public abstract class OAuth2UserInfo {
     public abstract String getName(); //이름
     public abstract String getEmail(); //이메일
     public abstract String getProfilePicUrl(); //프로필 사진   https://..... or null
+    public abstract String getAuthorities();
 }

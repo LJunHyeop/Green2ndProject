@@ -11,6 +11,7 @@ import com.green.fefu.parents.utils.ParentUtils;
 import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.MyUserOAuth2Vo;
 import com.green.fefu.security.SignInProviderType;
+import com.green.fefu.security.oauth2.userinfo.KakaoOAuth2UserInfo;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfoFactory;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +67,7 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
-    private OAuth2User process(OAuth2UserRequest userRequest) {
+    private OAuth2User process(OAuth2UserRequest userRequest)  {
         OAuth2User oAuth2User = super.loadUser(userRequest); //제공자로부터 사용자정보를 얻음
         //각 소셜플랫폼에 맞는 enum타입을 얻는다.
         SignInProviderType signInProviderType = SignInProviderType.valueOf(userRequest.getClientRegistration()
@@ -77,6 +78,7 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         //규격화된 UserInfo객체로 변환
         // oAuth2User.getAttributes() > Data가 HashMap 객체로 변환
         OAuth2UserInfo oAuth2UserInfo = oAuth2UserInfoFactory.getOAuth2UserInfo(signInProviderType, oAuth2User.getAttributes());
+        ((KakaoOAuth2UserInfo) oAuth2UserInfo).asd();
 
         //기존에 회원가입이 되어있는가 체크
         SignInPostReq signInParam = new SignInPostReq();
@@ -89,15 +91,12 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         if(list.isEmpty()) {
             Parents parents1 = new Parents() ;
             parents1.setAuth("ROLE_PARENTS") ;
-            parents1.setPhone("010-0000-0000") ;
-            parents1.setUid("간편아이디") ;
             parents1.setEmail(oAuth2UserInfo.getEmail()) ;
+            parents1.setName(oAuth2UserInfo.getName()) ;
+            parents1.setUid(oAuth2UserInfo.getId()) ;
+            parents1.setPhone("010-0000-0000") ;
             parents1.setConnect("기타") ;
 
-            parents1.setName(oAuth2UserInfo.getName()) ;
-
-            parentRepository.save(parents1) ;
-            parents1.setUid(oAuth2UserInfo.getId()) ;
             parentRepository.save(parents1) ;
 
             ParentOAuth2 oAuth2 = new ParentOAuth2() ;

@@ -1,7 +1,11 @@
 package com.green.fefu.security.oauth2.userinfo;
 
+import lombok.ToString;
+
 import java.util.Map;
 
+
+@ToString
 public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
 
     public KakaoOAuth2UserInfo(Map<String, Object> attributes) {
@@ -27,5 +31,14 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
     @Override
     public String getProfilePicUrl() {
         return null ;
+    }
+    @Override
+    public String getAuthorities(){
+        return null ;
+    }
+
+    public void asd()
+    {
+        System.out.println("asd: " + this.attributes.toString());
     }
 }

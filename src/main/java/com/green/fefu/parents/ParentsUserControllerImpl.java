@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.encrypt.RsaAlgorithm;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -212,6 +213,12 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     public ResponseEntity socialLoginSignUpPhone(@Valid @RequestBody ChangeNumberAndConnect req){
         log.info("Received request: {}", req);
         ChangeNumberAndConnectRes result = service.postSocialPhoneNumber(req) ;
+        return ResponseEntity.ok().body(result) ;
+    }
+    // 소셜회원가입 처음부터 가능
+    @PostMapping("/sign-up/social/first") @Operation(summary = "소셜회원가입 다이렉트로 하기.")
+    public ResponseEntity socialSignUp(@RequestBody SocialLoginSIgnUpReq req){
+        int result = service.socialSignUpLogin(req) ;
         return ResponseEntity.ok().body(result) ;
     }
 }
