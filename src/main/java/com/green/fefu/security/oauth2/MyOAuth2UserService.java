@@ -11,6 +11,7 @@ import com.green.fefu.parents.utils.ParentUtils;
 import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.MyUserOAuth2Vo;
 import com.green.fefu.security.SignInProviderType;
+import com.green.fefu.security.oauth2.userinfo.KakaoOAuth2UserInfo;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
 import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfoFactory;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +78,7 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         //규격화된 UserInfo객체로 변환
         // oAuth2User.getAttributes() > Data가 HashMap 객체로 변환
         OAuth2UserInfo oAuth2UserInfo = oAuth2UserInfoFactory.getOAuth2UserInfo(signInProviderType, oAuth2User.getAttributes());
+        ((KakaoOAuth2UserInfo) oAuth2UserInfo).asd();
 
         //기존에 회원가입이 되어있는가 체크
         SignInPostReq signInParam = new SignInPostReq();

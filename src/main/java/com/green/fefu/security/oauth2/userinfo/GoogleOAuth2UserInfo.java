@@ -33,4 +33,9 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
     public String getProfilePicUrl() {
         return null;
     }
+
+    @Override
+    public String getAuthorities(){
+        return null ;
+    }
 }
