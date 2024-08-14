@@ -27,10 +27,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.maven.model.Parent;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.web.embedded.NettyWebServerFactoryCustomizer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -477,10 +475,15 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         return 1 ;
     }
     // 소셜 회원가입 시 전화번호 입력
-    public String postSocialPhoneNumber(String phoneNumber, String connect, long parentPk){
-        Parents parent = repository.getReferenceById(parentPk) ;
-        parent.setPhone(phoneNumber) ;
-        parent.setConnect(connect) ;
-        return phoneNumber ;
+    public ChangeNumberAndConnectRes postSocialPhoneNumber(ChangeNumberAndConnect req){
+        Parents parent = repository.getReferenceById(req.getParentsId()) ;
+        parent.setPhone(req.getPhoneNumber()) ;
+        parent.setConnect(req.getConnect()) ;
+        repository.save(parent) ;
+        ChangeNumberAndConnectRes res = new ChangeNumberAndConnectRes() ;
+        res.setPhoneNumber(parent.getPhone()) ;
+        res.setConnect(parent.getConnect()) ;
+        res.setParentsId(parent.getParentsId()) ;
+        return res ;
     }
 }

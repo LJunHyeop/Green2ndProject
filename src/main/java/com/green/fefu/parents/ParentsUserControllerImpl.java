@@ -1,6 +1,7 @@
 package com.green.fefu.parents;
 
 import com.green.fefu.entity.ParentOAuth2;
+import com.green.fefu.entity.Parents;
 import com.green.fefu.entity.Student;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.model.*;
@@ -208,8 +209,9 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     }
     // 소셜회원가입 시 전화번호 및 관계 주입용
     @PostMapping("/sign-up/social-login/phone") @Operation(summary = "소셜로그인 회원가입 전화번호 및 관계", description = "전화번호 입력")
-    public ResponseEntity socialLoginSignUpPhone(@RequestBody String phoneNumber, @RequestBody String connect, @RequestBody long parentPk){
-        String result = service.postSocialPhoneNumber(phoneNumber, connect, parentPk) ;
+    public ResponseEntity socialLoginSignUpPhone(@Valid @RequestBody ChangeNumberAndConnect req){
+        log.info("Received request: {}", req);
+        ChangeNumberAndConnectRes result = service.postSocialPhoneNumber(req) ;
         return ResponseEntity.ok().body(result) ;
     }
 }
