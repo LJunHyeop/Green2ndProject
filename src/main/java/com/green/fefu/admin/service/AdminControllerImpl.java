@@ -206,6 +206,7 @@ public class AdminControllerImpl implements AdminController {
             )
     })
     public ResponseEntity updateUser(@RequestBody @Valid UpdateUserReq p) {
+        log.info("UpdateUserReq:{}", p);
         service.updateUser(p);
         return new ResponseEntity<>(OK);
     }

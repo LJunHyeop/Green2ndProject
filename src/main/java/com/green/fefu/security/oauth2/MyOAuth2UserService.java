@@ -1,9 +1,11 @@
 package com.green.fefu.security.oauth2;
 
 import com.green.fefu.chcommon.SmsSender;
+import com.green.fefu.entity.ParentOAuth2;
 import com.green.fefu.entity.Parents;
 import com.green.fefu.parents.ParentsUserMapper;
 import com.green.fefu.parents.model.*;
+import com.green.fefu.parents.repository.ParentOAuth2Repository;
 import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.parents.utils.ParentUtils;
 import com.green.fefu.security.MyUserDetails;
@@ -21,6 +23,9 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
@@ -47,6 +52,7 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
     private final ParentsUserMapper mapper ;
     private final OAuth2UserInfoFactory oAuth2UserInfoFactory ;
     private final ParentRepository parentRepository ;
+    private final ParentOAuth2Repository oAuth2Repository ;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -87,11 +93,20 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
             parents1.setUid("간편아이디") ;
             parents1.setEmail(oAuth2UserInfo.getEmail()) ;
             parents1.setConnect("기타") ;
+
             parents1.setName(oAuth2UserInfo.getName()) ;
 
             parentRepository.save(parents1) ;
             parents1.setUid(oAuth2UserInfo.getId()) ;
             parentRepository.save(parents1) ;
+
+            ParentOAuth2 oAuth2 = new ParentOAuth2() ;
+            oAuth2.setId(oAuth2UserInfo.getId()) ;
+            oAuth2.setName(oAuth2UserInfo.getName()) ;
+            oAuth2.setEmail(oAuth2UserInfo.getEmail()) ;
+            oAuth2.setProviderType(signInProviderType) ;
+            oAuth2.setParentsId(parents1) ;
+            oAuth2Repository.save(oAuth2) ;
 
             log.info("user: {}",parents1) ;
             System.out.println(parents1.getParentsId()) ;
