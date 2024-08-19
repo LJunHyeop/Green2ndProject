@@ -201,6 +201,8 @@
         JOIN teacher te
         ON cl.tea_id = te.tea_id
         WHERE st.stu_id = #{studentPk}
+        ORDER BY st.grade DESC
+        LIMIT 1
     </select>
 
 </mapper>
