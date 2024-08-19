@@ -21,7 +21,7 @@ public interface NoticeMapper {
     //학부모와 교사의 관계된 학반 조회
     int teacherHomeroom(long teaId);
 
-    int childClassRoomList(long parentsId, long studentPk);
+    Integer childClassRoomList(long parentsId, long studentPk);
 
 
 

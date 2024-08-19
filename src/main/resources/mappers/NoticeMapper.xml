@@ -23,11 +23,18 @@
     </select>
 
     <select id="getNoticeParent">
-        SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
-        title, content, created_at AS createdAt, updated_at AS updatedAt, state
-        FROM notice
-        WHERE class_id=#{classId} AND stu_id = #{studentPk}
-        ORDER BY created_at DESC
+        SELECT A.notice_id AS noticeId, A.tea_id AS teaId, A.class_id AS classId,
+        A.title, A.content, A.created_at AS createdAt, A.updated_at AS updatedAt, A.state
+        FROM notice A
+        INNER JOIN (SELECT FLOOR(grade/100) AS class_id, stu_id
+        FROM student
+        WHERE parent_id=#{parentsId}) B
+        ON A.class_id=B.class_id AND B.stu_id={studentPk};
+<!--        SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,-->
+<!--        title, content, created_at AS createdAt, updated_at AS updatedAt, state-->
+<!--        FROM notice-->
+<!--        WHERE class_id=#{classId} AND stu_id = #{studentPk}-->
+<!--        ORDER BY created_at DESC-->
     </select>
 
 
@@ -41,11 +48,19 @@
     </select>
 
     <select id="getNoticeLatestParent">
-        SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,
-        title, content, created_at AS createdAt, updated_at AS updatedAt, state
-        FROM notice
-        WHERE class_id=#{classId} AND stu_id = #{studentPk}
-        ORDER BY created_at DESC
+        SELECT A.notice_id AS noticeId, A.tea_id AS teaId, A.class_id AS classId,
+        A.title, A.content, A.created_at AS createdAt, A.updated_at AS updatedAt, A.state
+        FROM notice A
+        INNER JOIN (SELECT FLOOR(grade/100) AS class_id, stu_id
+        FROM student
+        WHERE parent_id=#{parentsId}) B
+        ON A.class_id=B.class_id AND B.stu_id=#{studentPk};
+
+<!--        SELECT notice_id AS noticeId, tea_id AS teaId, class_id AS classId,-->
+<!--        title, content, created_at AS createdAt, updated_at AS updatedAt, state-->
+<!--        FROM notice-->
+<!--        WHERE class_id=#{classId} AND stu_id = #{studentPk}-->
+<!--        ORDER BY created_at DESC-->
     </select>
 
 
@@ -91,13 +106,13 @@
         SELECT S.class_id
         FROM parents A
         INNER JOIN (
-                SELECT A.stu_id, A.`name`, max(B.class_id) AS class_id, A.parents_id
-                FROM student A
-                INNER JOIN student_classes B
-                ON A.stu_id=B.stu_id
-                GROUP BY A.stu_id
-            ) S
-        ON A.parents_id=S.parents_id
+        SELECT A.stu_id, A.`name`, max(B.class_id) AS class_id, A.parent_id
+        FROM student A
+        INNER JOIN student_class B
+        ON A.stu_id=B.stu_id
+        GROUP BY A.stu_id
+        ) S
+        ON A.parents_id=S.parent_id
         WHERE A.parents_id=#{parentsId} AND S.stu_id=#{studentPk}
         LIMIT 1
     </select>
