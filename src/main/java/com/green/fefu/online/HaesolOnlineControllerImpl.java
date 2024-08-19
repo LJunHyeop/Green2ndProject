@@ -131,4 +131,18 @@ public class HaesolOnlineControllerImpl {
         return new ResponseEntity(1, HttpStatus.OK);
     }
 
+    @DeleteMapping("/test/delete/{questionPk}")
+    @Operation(summary = "(FE요청)pk값만으로 문제 지우기")
+    public ResponseEntity tmpDeleteQuestion(@PathVariable long questionPk){
+        int result=service.tmpDeleteQuestion(questionPk);
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/test/get/{grade}")
+    @Operation(summary = "(FE요청)학년별 문제 조회")
+    public ResponseEntity tmpGetQuestion(@PathVariable long grade){
+        List<GetKoreanAndMathQuestionRes> list=service.tmpGetQuestion(grade);
+        return new ResponseEntity(list, HttpStatus.OK);
+    }
+
 }
