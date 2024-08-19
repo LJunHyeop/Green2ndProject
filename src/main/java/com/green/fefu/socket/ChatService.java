@@ -199,6 +199,7 @@ public class ChatService {
         return dtos;
     }
 
+
     /*
       ChatRoom 엔티티를 ChatRoomDto로 변환합니다.
       @param chatRoom 변환할 ChatRoom 엔티티
