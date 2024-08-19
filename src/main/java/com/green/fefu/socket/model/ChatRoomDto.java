@@ -24,6 +24,8 @@ public class ChatRoomDto {
     private ParentsDto parentsId;
 
 
+
+
     @Builder
     public ChatRoomDto(Long roomId, TeacherDto teaId, ParentsDto parentsId) {
         this.roomId = roomId;
