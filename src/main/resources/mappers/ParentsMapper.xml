@@ -105,6 +105,7 @@
                 , email
                 , connect
                 , addr
+                , rand_code AS randCode
         FROM parents
         WHERE uid = #{uid}
         <if test="phone != null || phone != ''">
@@ -191,7 +192,7 @@
         , a.stu_id AS studentPk
         , a.grade AS grade
         , a.pic AS pic
-        , a.rand_code AS randCond
+        , a.rand_code AS randCode
         , d.name AS teacherName
         , d.phone AS teacherPhone
         , d.email AS teacherEmail

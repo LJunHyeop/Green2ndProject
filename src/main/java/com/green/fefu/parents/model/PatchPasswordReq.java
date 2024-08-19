@@ -8,6 +8,7 @@ public class PatchPasswordReq {
     @JsonIgnore
     private long parentsId;
 
-    private String uid;
-    private String newUpw;
+    private String uid ;
+    private String upw ;
+    private String newUpw ;
 }
