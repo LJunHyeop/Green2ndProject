@@ -165,9 +165,9 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     }
     @Override @Transactional // 비밀번호 수정
     public int patchPassword(PatchPasswordReq p) {
+        p.setParentsId(authenticationFacade.getLoginUserId()) ;
         log.info("p: {}", p);
-        GetParentsUserReq req = new GetParentsUserReq();
-        req.setSignedUserId(p.getParentsId());
+
         log.info("parentId: {}", p.getParentsId());
         List<ParentsUserEntity> entity = mapper.selPasswordBeforeLogin(p.getUid()) ;
         if(Objects.isNull(entity)){
