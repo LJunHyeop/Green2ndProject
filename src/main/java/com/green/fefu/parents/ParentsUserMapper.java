@@ -1,6 +1,7 @@
 package com.green.fefu.parents;
 
 import com.green.fefu.parents.model.*;
+import com.green.fefu.student.model.dto.getStudent;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -48,4 +49,7 @@ public interface ParentsUserMapper {
 
     // 로그인 시 자녀 정보 조회
     List<StudentRes> studentList(long parentId) ;
+
+    //선생 pk 로 담당학급 부모님 조회
+    List<GetParentRes> getParentsList(long pk);
 }
