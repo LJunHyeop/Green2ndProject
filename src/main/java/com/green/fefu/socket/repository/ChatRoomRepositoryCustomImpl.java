@@ -21,7 +21,7 @@ public interface ChatRoomRepositoryCustomImpl extends JpaRepository<ChatRoom, Lo
 //    @Query("SELECT new com.green.fefu.socket.model.ChatRoomDto(c.id, " +
 //            "cm.teacher, cm.parent) " +
 //            "FROM ChatRoom c LEFT JOIN c.members cm WHERE c.id = :id")
-    Optional<ChatRoom> findById(Long id);
+    Optional<ChatRoom> findById(Long roomId);
 
     /**
      * 부모와 선생님으로 채팅방을 조회합니다.
