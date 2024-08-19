@@ -13,10 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Getter
 @Setter
 public class SenderDto {
-    private final AuthenticationFacade authenticationFacade;
 
-    private TeacherDto teacherDto;
-
-    private ParentsDto parentsDto;
+    private Long id;
+    private String name;
+    private String role;
 
 }
