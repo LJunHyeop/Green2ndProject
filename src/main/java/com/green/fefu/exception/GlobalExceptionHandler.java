@@ -39,7 +39,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 //    @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         log.error("MethodArgumentNotValidException - handlerException : {}", ex.getMessage());
-
         return handleExceptionInternal(
                 CustomErrorCode.VALIDATION_ERROR,
                 ex
@@ -89,7 +88,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleExceptions(Exception e) {
         log.error("Exception - handlerException : {}", e.getMessage());
-
+        e.printStackTrace();
         return handleExceptionInternal(
                CustomErrorCode.VALIDATION_ERROR
         );

@@ -2,6 +2,7 @@ package com.green.fefu.socket;
 
 
 
+import com.green.fefu.entity.ChatRoom;
 import com.green.fefu.entity.Parents;
 import com.green.fefu.entity.Teacher;
 import com.green.fefu.parents.ParentsUserServiceImpl;
@@ -57,6 +58,7 @@ public class ChatController {
         return "chatRoomId" + roomId.toString();
     }
     @PostMapping("/create")
+    @Operation(summary = "채팅방 만들기", description = "선생님 로그인 -> 학부모 Pk값 받고 같이 리턴 ")
     public ResponseEntity<String> parentCreateRoom(
             @RequestBody List<Long> parentsId) {
 
@@ -81,11 +83,14 @@ public class ChatController {
         return ResponseEntity.ok(roomLink); // 생성된 링크 반환
     }
 
-    @GetMapping(value = "teacher/{roomId}")
-    @Operation(summary = " 특정채팅 가져오기 ")
-    public ChatRoomDto getChatRoom(@PathVariable("roomId") Long roomId) {
-        log.info("GET Chat Room, roomId: " + roomId);
-        return chatService.findRoom(roomId);
+    @GetMapping(value = "chat/detail/{id}")
+    @Operation(summary = "특정 채팅방 상세 정보 가져오기")
+    @ResponseBody
+    public List<ChatRoomDto> getChatRoomDetail(@PathVariable Long id) {
+        log.info("GET Chat Room Detail, roomId: " + id);
+        List<ChatRoomDto> a =   chatService.findRoom(id);
+        System.out.println(a);
+        return a ;
     }
 
     @GetMapping(value = "teacher/chats")
