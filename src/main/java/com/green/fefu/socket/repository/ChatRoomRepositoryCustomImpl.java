@@ -18,11 +18,10 @@ public interface ChatRoomRepositoryCustomImpl extends JpaRepository<ChatRoom, Lo
     /**
      * 채팅방 ID로 채팅방 DTO를 조회합니다.
      */
-    @Query("SELECT new com.green.fefu.socket.model.ChatRoomDto(c.id, " +
-            "CASE WHEN cm.teacher IS NOT NULL THEN cm.teacher ELSE NULL END, " +
-            "CASE WHEN cm.parent IS NOT NULL THEN cm.parent ELSE NULL END) " +
-            "FROM ChatRoom c JOIN c.members cm WHERE c.id = :roomId")
-    List<ChatRoomDto> getChatRoomList(@Param("roomId") Long roomId);
+//    @Query("SELECT new com.green.fefu.socket.model.ChatRoomDto(c.id, " +
+//            "cm.teacher, cm.parent) " +
+//            "FROM ChatRoom c LEFT JOIN c.members cm WHERE c.id = :id")
+    Optional<ChatRoom> findById(Long id);
 
     /**
      * 부모와 선생님으로 채팅방을 조회합니다.
