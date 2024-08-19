@@ -173,7 +173,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         if(Objects.isNull(entity)){
             throw new CustomException(NOT_EXISTENCE_PARENT) ;
         }
-        if(BCrypt.checkpw(entity.get(0).getUpw(), p.getUpw())){
+        if(BCrypt.checkpw(p.getUpw(), entity.get(0).getUpw())){
             throw new CustomException(PASSWORD_NO_MATCH_ERROR) ;
         }
 
