@@ -13,8 +13,11 @@ import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -247,4 +250,45 @@ public class HaesolOnlineServiceImpl {
             return null;
         }
 
+        public int tmpDeleteQuestion(@PathVariable long questionPk){
+        int answer=mapper.tmpDeleteQuestionMul(questionPk);
+        int result=mapper.tmpDeleteQuestion(questionPk);
+        return answer+result;
+        }
+
+        public List<GetKoreanAndMathQuestionRes> tmpGetQuestion(@RequestBody long grade){
+            List<HaesolOnline> listAll = haesolOnlineRepository.findByClassId(grade);
+            List<GetKoreanAndMathQuestionRes> list = new ArrayList<>(); //20문제만 뽑아 낼 새로운 리스트
+            // 문제가 없을 때의 exception 처리
+            if (listAll == null || listAll.isEmpty()) {
+                throw new CustomException(NOT_FOUND_QUESTION);
+            }
+
+            for (int i = 0; i < (TOTAL_TEST_QUESTION < listAll.size() ? TOTAL_TEST_QUESTION : listAll.size()); i++) {
+                GetKoreanAndMathQuestionRes a = new GetKoreanAndMathQuestionRes();
+                //하나씩 문제를 객체에 저장
+                a.setQuestion(listAll.get(i).getQuestion()); //문제
+                a.setQueId(listAll.get(i).getQueId()); //PK
+                a.setLevel(listAll.get(i).getLevel()); //난이도
+                log.info("get res 태그 전: {}", a);
+                //a.setTypeTag(listAll.get(i).getTypeTag().getTypeNum()); //
+                //log.info("get Tag 아마 여기가 2개라서 : {}", a.getTypeTag());
+                log.info("get res 태그 후: {}", a);
+                a.setQueTag(listAll.get(i).getQueTag());
+                a.setContents(listAll.get(i).getContents());
+                //a.setAnswer(listAll.get(i).getAnswer());
+                a.setPic(listAll.get(i).getPic());
+                // 보기를 저장
+                if (listAll.get(i).getQueTag()!=2) { //NOT(과목이 수학이고 문제유형이 주관식이면)
+                    List<HaesolOnlineMultiple> aaa = haesolOnlineMultipleRepository.findSentenceByQueIdOrderByNum(listAll.get(i).getQueId());
+                    for (HaesolOnlineMultiple item : aaa) {
+                        a.getSentence().add(item.getSentence());
+                    }
+                    log.info("리스트 add 직전");
+                }
+                list.add(a);
+            }
+            log.info("리턴 전");
+            return list;
+        }
 }

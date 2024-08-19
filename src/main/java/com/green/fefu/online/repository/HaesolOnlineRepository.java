@@ -24,4 +24,8 @@ public interface HaesolOnlineRepository extends JpaRepository<HaesolOnline,Long>
                    "INNER JOIN type_tag B\n" +
                    "ON A.type_tag=B.tag_id;\n", nativeQuery = true)
     String findTypeNameByQueId(@Param("que_id") Long queId);
+
+
+    @Query("SELECT ha FROM HaesolOnline ha WHERE ha.classId=:classId")
+    List<HaesolOnline> findByClassId(@Param("classId")Long classId);
 }

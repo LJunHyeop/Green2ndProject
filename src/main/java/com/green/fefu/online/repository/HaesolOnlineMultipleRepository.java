@@ -10,4 +10,5 @@ import java.util.List;
 public interface HaesolOnlineMultipleRepository extends JpaRepository<HaesolOnlineMultiple, Long> {
     @Query("SELECT hom from HaesolOnlineMultiple hom WHERE hom.haesolOnline.queId =:queId")
     List<HaesolOnlineMultiple> findSentenceByQueIdOrderByNum(@Param("queId")Long queId);
+
 }

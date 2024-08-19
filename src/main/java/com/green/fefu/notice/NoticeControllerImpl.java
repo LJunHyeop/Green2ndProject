@@ -43,7 +43,7 @@ public class NoticeControllerImpl implements NoticeController{
     @GetMapping("")
     @Operation(summary = "알림장 조회",
             description = "<strong> 변수명 : STATE </strong> <p> 알림장 항목(1 : 알림장 / 2 : 준비물)  ex)1 </p>")
-    @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER')")
+    @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER') or hasRole('STUDENT')")
     public ResultDto<Map<String, List<GetNoticeRes>>> getNotice(@ModelAttribute @ParameterObject GetNoticeReq p){
         Map<String, List<GetNoticeRes>> list=service.getNotice(p);
         return ResultDto.<Map<String, List<GetNoticeRes>>>builder()
@@ -55,7 +55,7 @@ public class NoticeControllerImpl implements NoticeController{
     @GetMapping("/main")
     @Operation(summary = "최신 알림장 조회",
             description = "<strong> 변수명 : STATE </strong> <p> 알림장 항목(1 : 알림장 / 2 : 준비물)  ex)1 </p>")
-    @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER')")
+    @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER') or hasRole('STUDENT')")
     public ResultDto<Map<String, GetNoticeRes>> getNoticeLatest(@ModelAttribute @ParameterObject GetNoticeReq p){
         Map<String, GetNoticeRes> twoThing =service.getNoticeLatest(p);
         return ResultDto.<Map<String, GetNoticeRes>>builder()
