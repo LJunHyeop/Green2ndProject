@@ -4,6 +4,8 @@ import com.green.fefu.entity.*;
 import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.socket.model.ChatMsgDto;
 import com.green.fefu.socket.model.ChatRoomDto;
+import com.green.fefu.socket.model.ParentsDto;
+import com.green.fefu.socket.model.TeacherDto;
 import com.green.fefu.socket.repository.ChatMsgRepository;
 import com.green.fefu.socket.repository.ChatRoomMemberRepository;
 import com.green.fefu.socket.repository.ChatRoomRepository;
@@ -11,9 +13,12 @@ import com.green.fefu.socket.repository.ChatRoomRepositoryCustomImpl;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.xerces.impl.dv.xs.IDDV;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,15 +59,28 @@ public class ChatService {
 
     /**
      * 채팅방 ID로 채팅방을 찾아 DTO로 변환하여 반환합니다.
-     * @param roomId 찾을 채팅방의 ID
-     * @return 채팅방 DTO
-     */
-    public ChatRoomDto findRoom(Long roomId) {
-        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException("채팅방을 찾을 수 없습니다."));
-        return convertToChatRoomDto(chatRoom);
-    }
 
+     */
+    public List<ChatRoomDto> findRoom(Long roomId) {
+       ChatRoom chatRoom = customRepository.findById(roomId).orElseThrow(NullPointerException::new);
+       List<ChatRoomDto> dtos = new ArrayList<>();
+       ChatRoomDto a = new ChatRoomDto();
+       chatRoom.getMembers().forEach(chatRoomMember -> {
+               if (chatRoomMember.getTeacher() != null) {
+                    a.setTeaId(new TeacherDto(chatRoomMember.getTeacher()));
+               }
+               if (chatRoomMember.getParent() != null) {
+                   a.setParentsId(new ParentsDto(chatRoomMember.getParent()));
+               }
+               a.setRoomId(chatRoom.getId());
+               dtos.add(a);
+           }) ;
+        System.out.println("체크포인트");
+       return dtos;
+//        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
+//                .orElseThrow(() -> new ResourceNotFoundException("ChatRoom not found"));
+//        return convertToChatRoomDto(chatRoom);
+    }
     /*
      부모와 선생님으로 채팅방을 찾아 ID를 반환합니다.
       @param parent 찾을 채팅방의 부모
@@ -148,8 +166,8 @@ public class ChatService {
         // ChatRoomDto를 생성하여 반환합니다.
         return ChatRoomDto.builder()
                 .roomId(chatRoom.getId())
-                .teaId(teacher)
-                .parentsId(parent)
+                .teaId(teacher == null ? null : new TeacherDto(teacher))
+                .parentsId(parent == null ? null : new ParentsDto(parent))
                 .build();
     }
     /*
