@@ -383,7 +383,7 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher teacher = teacherRepository.findByUid(p.getTeacherId());
 //        타입 체크
 //        ChangePassWordTypeCheck(p);
-        if(BCrypt.checkpw(teacher.getUpw(), p.getOldPassWord())){
+        if(!passwordEncoder.matches(p.getOldPassWord(), teacher.getUpw())){
             throw new CustomException(PASSWORD_NO_MATCH_ERROR) ;
         }
 
