@@ -2,35 +2,24 @@ package com.green.fefu.socket;
 
 
 
-import com.green.fefu.entity.ChatRoom;
 import com.green.fefu.entity.Parents;
 import com.green.fefu.entity.Teacher;
 import com.green.fefu.parents.ParentsUserServiceImpl;
 import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.security.AuthenticationFacade;
-import com.green.fefu.socket.model.ChatMsgDto;
-import com.green.fefu.socket.model.ChatRoomDto;
-import com.green.fefu.socket.model.GetParentRoom;
-import com.green.fefu.socket.model.GetTeacherRoom;
+import com.green.fefu.socket.model.*;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import com.green.fefu.teacher.service.TeacherServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
 
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 @CrossOrigin(origins = "*")
 @Slf4j
@@ -97,39 +86,40 @@ public class ChatController {
     @GetMapping(value = "teacher/chats")
     @Operation(summary = "로그인한 선생님 전체 채팅 리스트 조회")
     @PreAuthorize("hasRole('TEACHER') or hasRole('ADMIN')")
-    public ResponseEntity findAllRoomsByTeacher() {
+    public List<GetMemberChat> findAllTeacher() {
         GetTeacherRoom teacherRoom = new GetTeacherRoom();
         teacherRoom.setTeaId(authenticationFacade.getLoginUserId());
-        List<ChatRoomDto> dto = chatService.findAllTeacher(teacherRoom.getTeaId());
-        List<GetTeacherRoom> result = new ArrayList<>();
-        for(int i = 0; i < dto.size(); i++){
-//            ChatRoomDto dto1 = dto.get(i) ;
-//            teacherRoom.setId(dto1.getRoomId()) ;
-            GetTeacherRoom res = new GetTeacherRoom();
-            res.setRoomId(dto.get(i).getRoomId());
-            res.setTeaId(dto.get(i).getTeaId().getTeaId());
-            result.add(res) ;
-        }
-        return ResponseEntity.ok().body(result) ;
+        log.info("teaid: {}",teacherRoom.getTeaId() );
+        List<GetMemberChat> dto = chatService.findAllTeacher(teacherRoom.getTeaId());
+        log.info("dto: {}", dto);
+//        for(int i = 0; i < dto.size(); i++){
+////            ChatRoomDto dto1 = dto.get(i) ;
+////            teacherRoom.setId(dto1.getRoomId()) ;
+//            GetTeacherRoom res = new GetTeacherRoom();
+//            res.setRoomId(dto.get(i).getRoomId());
+//            res.setTeaId(dto.get(i).getTeaId().getTeaId());
+//            result.add(res) ;
+//        }
+        return dto ;
     }
 
     @GetMapping(value = "parents/chats")
     @PreAuthorize("hasRole('PARENTS') or hasRole('ADMIN')")
     @Operation(summary = "로그인한 학부모 전체 채팅 리스트 조회")
-    public ResponseEntity findAllByMembersParent() {
+    public List<GetMemberChat> findAllByMembersParent() {
         GetParentRoom getParentRoom = new GetParentRoom();
         getParentRoom.setParentId(authenticationFacade.getLoginUserId());
-        List<ChatRoomDto> dto = chatService.findAllByMembersParent(getParentRoom.getParentId());
-        List<GetParentRoom> result = new ArrayList<>();
-        for(int i = 0; i < dto.size(); i++){
-//            ChatRoomDto dto1 = dto.get(i) ;
-//            teacherRoom.setId(dto1.getRoomId()) ;
-            GetParentRoom res = new GetParentRoom();
-            res.setRoomId(dto.get(i).getRoomId());
-            res.setParentId(dto.get(i).getTeaId().getTeaId());
-            result.add(res) ;
-        }
-        return ResponseEntity.ok().body(result) ;
+        List<GetMemberChat> dto = chatService.findAllByMembersParent(getParentRoom.getParentId());
+
+//        for(int i = 0; i < dto.size(); i++){
+////            ChatRoomDto dto1 = dto.get(i) ;
+////            teacherRoom.setId(dto1.getRoomId()) ;
+//            GetParentRoom res = new GetParentRoom();
+//            res.setRoomId(dto.get(i).getRoomId());
+//            res.setParentId(dto.get(i).getTeaId().getTeaId());
+//            result.add(res) ;
+//        }
+        return dto;
     }
 
 

@@ -14,6 +14,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ChatRoomDto {
     private Long roomId;
     private TeacherDto teaId;
@@ -21,11 +22,14 @@ public class ChatRoomDto {
     private ParentsDto parentsId;
     private List<ChatMsgDto> messages;
 
+
+
     @Builder
-    public ChatRoomDto(Long roomId, TeacherDto teaId, ParentsDto parentsId, List<ChatMsgDto> messages) {
+    public ChatRoomDto(Long roomId, TeacherDto teaId, ParentsDto parentsId, List<ChatMsgDto> messages ) {
         this.roomId = roomId;
         this.teaId = teaId;
         this.parentsId = parentsId;
         this.messages = messages;
+
     }
 }
