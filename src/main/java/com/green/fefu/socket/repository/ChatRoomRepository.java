@@ -12,7 +12,12 @@ import java.util.Optional;
 
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
+
     Optional<ChatRoom> findByMembersParentAndMembersTeacher(Parents parent, Teacher teacher);
+
     List<ChatRoom> findAllByMembersParent(Parents parent);
+
     List<ChatRoom> findAllByMembersTeacher(Teacher teacher);
+
+    ChatRoom findById(ChatRoom id);
 }
