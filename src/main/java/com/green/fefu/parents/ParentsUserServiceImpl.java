@@ -166,21 +166,21 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     }
     @Override @Transactional // 비밀번호 수정
     public int patchPassword(PatchPasswordReq p) {
+        p.setParentsId(authenticationFacade.getLoginUserId()) ;
         log.info("p: {}", p);
-        GetParentsUserReq req = new GetParentsUserReq();
-        req.setSignedUserId(p.getParentsId());
+
         log.info("parentId: {}", p.getParentsId());
         List<ParentsUserEntity> entity = mapper.selPasswordBeforeLogin(p.getUid()) ;
         if(Objects.isNull(entity)){
             throw new CustomException(NOT_EXISTENCE_PARENT) ;
         }
-        if(BCrypt.checkpw(entity.get(0).getUpw(), p.getUpw())){
+        if(!passwordEncoder.matches(p.getUpw(), entity.get(0).getUpw())){
             throw new CustomException(PASSWORD_NO_MATCH_ERROR) ;
         }
 
-        String password = passwordEncoder.encode(p.getNewUpw());
-        p.setParentsId(entity.get(0).getParentsId());
-        p.setNewUpw(password);
+        String password = passwordEncoder.encode(p.getNewUpw()) ;
+        p.setParentsId(entity.get(0).getParentsId()) ;
+        p.setNewUpw(password) ;
         return mapper.patchPassword(p);
     }
     @Override // 로그인
