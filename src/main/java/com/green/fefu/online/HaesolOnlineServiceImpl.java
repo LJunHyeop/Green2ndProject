@@ -180,7 +180,7 @@ public class HaesolOnlineServiceImpl {
         }
 
 
-    //========= 시험 문제를 풀고 그에 따른 점수 및 분석(시험 채점 점수 분석) =========
+    //========= 시험 문제를 풀고 그에 따른 점수(?) =========
     public TestOutCome testMarking(StudentOmr p) { //필요한 것 : 현재 출력된 문제들의 PK값 + 학생이 체크한 정답 리스트
         //문제 번호와 정답만 담은 리스트
         // ========================== 오답노트 ==========================
@@ -226,22 +226,24 @@ public class HaesolOnlineServiceImpl {
         return outCome;
         }
 
-        public List<TestOutCome> testRecode(){
-//            //시험 목록에서 조회되는 값
-//            Student student=studentRepository.getReferenceById(authenticationFacade.getLoginUserId());
-//            List<StudentOnlineRecode> testRecodes=studentOnlineRecodeRepository.getByStudent();
-//            //시험 20문제를 일일히 저장하는 DB
-//            List<StudentOnlineTest> onlineTests=studentOnlineTestRepository.getReferenceById();
-//            List<TestOutCome> list=new ArrayList<>();
-//            for(StudentOnlineRecode recode:testRecodes){
-//                TestOutCome testRecode=new TestOutCome();
-//                testRecode.getTypeString();//유형 문자열
-//                testRecode.getRealAnswer();//진짜 답
-//                testRecode.getStudentOmr().getQuestionPk();//질문 PK
-//                testRecode.getStudentOmr().getOmrAnswer(); //학생마킹답
-//                testRecode.getStudentOmr().getTitle(); //제목
-//                testRecode.getStudentOmr().getSubjectCode(); //과목코드
-//            }
+        public List<OnlineTestRecordListRes> testRecode(){ //오답노트 목록을 가져옴(학생 PK에 따라)
+            Student student=studentRepository.getReferenceById(authenticationFacade.getLoginUserId());
+            //이 학생 한 명에서 조회되는 값
+            List<StudentOnlineRecode> testRecodes=studentOnlineRecodeRepository.getByStuOnId(student.getStuId());
+            List<OnlineTestRecordListRes> resList=new ArrayList<>();
+            for(StudentOnlineRecode a: testRecodes){
+                OnlineTestRecordListRes res=new OnlineTestRecordListRes();
+                res.setRecodePk(a.getStuOnId());
+                res.setTitle(a.getTestTitle());
+                res.setCreatedAt(a.getCreatedAt().toString());
+                res.setSubject((a.getSubject().getSubjectId()==1?"국어":"수학"));
+                resList.add(res);
+            }
+            return resList;
+        }
+
+        public List<TestOutCome> testQuestion(long recodePk){
+        //여기
             return null;
         }
 

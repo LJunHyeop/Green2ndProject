@@ -82,7 +82,7 @@ public class HaesolOnlineControllerImpl {
     }
 
     @PostMapping
-    @Operation(summary="1차 완성(수정 중)", description = "" +
+    @Operation(summary="학생 마킹 값 전달 및 저장", description = "" +
             "<p><strong>중요!! 스웨거 테스트시에는 숫자 리스트의 쌍따옴표를 없애주세요 </strong>예시 [1,5,8,3,9,2]</p>" +
             "<p>문제의 PK 번호와 학생이 마킹한 번호 리스트 제공 부탁드립니다</p>" +
             "<hr>" +
@@ -106,14 +106,28 @@ public class HaesolOnlineControllerImpl {
     }
 
     @GetMapping("/recode")
-    @Operation(summary="오답노트 가져오기", description = "" +
-            "<p><strong></strong></p>" +
-            "<p></p>" +
-            "<p><strong></strong> </p>" +
-            "<p><strong></strong></p>" +
-            "<p><strong></strong></p>" +
-            "<p><strong></strong></p>")
+    @Operation(summary="오답노트 목록 가져오기", description = "" +
+            "<p>별도의 입력값 필요 없음</p>" +
+            "<hr>" +
+            "<p><strong>recodePk</strong> 오답노트 Pk</p>" +
+            "<p><strong>title</strong> 오답노트의 제목</p>" +
+            "<p><strong>createdAt</strong> 시험 일자</p>" +
+            "<p><strong>subject</strong> 과목</p>")
     public ResponseEntity testRecode(){
+         List<OnlineTestRecordListRes> list=service.testRecode();
+        return new ResponseEntity(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/recode/{recodePk}")
+    @Operation(summary="오답노트 pk값에 따른 오답노트 기록", description = "" +
+            "<p><strong>recodePk</strong> recode의 PK값</p>" +
+            "<hr>" +
+            "<p><strong></strong>  Pk</p>" +
+            "<p><strong></strong> </p>" +
+            "<p><strong></strong> </p>" +
+            "<p><strong></strong> </p>")
+    public ResponseEntity testQuestion(@PathVariable long recodePk){
+    //여기
         return new ResponseEntity(1, HttpStatus.OK);
     }
 

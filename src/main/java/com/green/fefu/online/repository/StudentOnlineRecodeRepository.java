@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface StudentOnlineRecodeRepository extends JpaRepository<StudentOnlineRecode, Long> {
-//    List<StudentOnlineRecode> getByStudent(Long stuId);
+    List<StudentOnlineRecode> getByStuOnId(Long stuOnId);
 }
