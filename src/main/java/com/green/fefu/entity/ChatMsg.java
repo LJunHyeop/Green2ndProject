@@ -24,4 +24,6 @@ public class ChatMsg extends UpdatedAt {
 
     private String message;
 
+
+
 }

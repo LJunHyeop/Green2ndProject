@@ -35,4 +35,9 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo {
     public String getAuthorities(){
         return null ;
     }
+
+    public void asd()
+    {
+        System.out.println("asd: " + this.attributes.toString());
+    }
 }

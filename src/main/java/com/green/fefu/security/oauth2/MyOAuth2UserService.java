@@ -1,19 +1,16 @@
 package com.green.fefu.security.oauth2;
 
-import com.green.fefu.chcommon.SmsSender;
 import com.green.fefu.entity.ParentOAuth2;
 import com.green.fefu.entity.Parents;
+import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.ParentsUserMapper;
 import com.green.fefu.parents.model.*;
 import com.green.fefu.parents.repository.ParentOAuth2Repository;
 import com.green.fefu.parents.repository.ParentRepository;
-import com.green.fefu.parents.utils.ParentUtils;
 import com.green.fefu.security.MyUserDetails;
 import com.green.fefu.security.MyUserOAuth2Vo;
 import com.green.fefu.security.SignInProviderType;
-import com.green.fefu.security.oauth2.userinfo.KakaoOAuth2UserInfo;
-import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfo;
-import com.green.fefu.security.oauth2.userinfo.OAuth2UserInfoFactory;
+import com.green.fefu.security.oauth2.userinfo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -24,10 +21,9 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
+
+import static com.green.fefu.exception.ljm.LjmErrorCode.*;
 
 
 /*
@@ -78,7 +74,15 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         //규격화된 UserInfo객체로 변환
         // oAuth2User.getAttributes() > Data가 HashMap 객체로 변환
         OAuth2UserInfo oAuth2UserInfo = oAuth2UserInfoFactory.getOAuth2UserInfo(signInProviderType, oAuth2User.getAttributes());
-        ((KakaoOAuth2UserInfo) oAuth2UserInfo).asd();
+        if(oAuth2UserInfo instanceof KakaoOAuth2UserInfo) {
+            ((KakaoOAuth2UserInfo) oAuth2UserInfo).asd();
+        }
+        if(oAuth2UserInfo instanceof NaverOAuth2UserInfo) {
+            ((NaverOAuth2UserInfo) oAuth2UserInfo).asd();
+        }
+        if(oAuth2UserInfo instanceof GoogleOAuth2UserInfo) {
+            ((GoogleOAuth2UserInfo) oAuth2UserInfo).asd();
+        }
 
         //기존에 회원가입이 되어있는가 체크
         SignInPostReq signInParam = new SignInPostReq();
@@ -86,6 +90,9 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
         signInParam.setProviderType(signInProviderType);
         List<ParentsUser> list = mapper.getParentUser(signInParam.getUid()) ;
 
+        if( !list.isEmpty() && list.get(0).getAccept() != 1){
+            throw new CustomException(YET_OK_USER) ;
+        }
 //        String phone = service.postSocialPhoneNumber() ;
         // 연동된 아이디가 없을 시
         if(list.isEmpty()) {
@@ -109,7 +116,7 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
 
             log.info("user: {}",parents1) ;
             System.out.println(parents1.getParentsId()) ;
-//            throw new CustomException(NOT_FOUND_PERISTALSIS_ID) ;
+
             MyUserOAuth2Vo myUserOAuth2Vo =
                     new MyUserOAuth2Vo(parents1.getParentsId(), parents1.getAuth(), parents1.getName(), null) ;
             MyUserDetails signInUser = new MyUserDetails() ;
