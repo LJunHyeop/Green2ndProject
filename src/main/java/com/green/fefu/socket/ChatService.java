@@ -174,6 +174,7 @@ public class ChatService {
                 .collect(Collectors.toList());
     }
 
+
     /*
       ChatRoom 엔티티를 ChatRoomDto로 변환합니다.
       @param chatRoom 변환할 ChatRoom 엔티티
