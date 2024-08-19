@@ -1,5 +1,6 @@
 package com.green.fefu.student.service;
 
+import com.green.fefu.parents.model.ParentsUser;
 import com.green.fefu.student.model.dto.getListForNoParent;
 import com.green.fefu.student.model.dto.getStudent;
 import com.green.fefu.student.model.req.*;
@@ -106,6 +107,8 @@ public class StudentControllerImpl implements StudentController {
         result = service.getStudentList(result);
         return new ResponseEntity<>(result, OK);
     }
+
+
 
     //    선생기준 -> 자기 반 학생 한명 전체 데이터 들고오기
     @GetMapping(value = "detail", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")

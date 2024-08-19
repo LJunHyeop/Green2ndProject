@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -220,5 +221,14 @@ public class ParentsUserControllerImpl implements ParentsUserController {
     public ResponseEntity socialSignUp(@RequestBody SocialLoginSIgnUpReq req){
         int result = service.socialSignUpLogin(req) ;
         return ResponseEntity.ok().body(result) ;
+    }
+
+    @GetMapping(value = "detail", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @Operation(summary = "선생 pk로 담당 학급의 부모님 조회 ")
+    @PreAuthorize("hasRole('TEACHER') or hasRole('ADMIN')")
+    public ResponseEntity getParentList() {
+        List<GetParentRes> result = new ArrayList<>();
+        result = service.getParentList(result);
+        return new ResponseEntity<>(result, OK);
     }
 }

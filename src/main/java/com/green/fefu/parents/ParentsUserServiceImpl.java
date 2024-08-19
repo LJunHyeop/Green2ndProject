@@ -41,6 +41,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 import static com.green.fefu.exception.bch.BchErrorCode.PASSWORD_NO_MATCH_ERROR;
+import static com.green.fefu.exception.bch.BchErrorCode.QUERY_RESULT_ERROR;
 import static com.green.fefu.exception.ljm.LjmErrorCode.*;
 import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.DUPLICATE_DATA_ERROR;
 import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.SMS_SEND_ERROR;
@@ -534,5 +535,16 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         student.setParent(parents) ;
 
         return 1 ;
+    }
+    // 선생이 학부모 리스트 조회
+    public List getParentList(List<GetParentRes> list) {
+        list = mapper.getParentsList(authenticationFacade.getLoginUserId());
+        if (list.isEmpty()) {
+            throw new CustomException(QUERY_RESULT_ERROR);
+        }
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i);
+        }
+        return list;
     }
 }

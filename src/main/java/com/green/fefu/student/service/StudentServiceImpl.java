@@ -10,6 +10,7 @@ import com.green.fefu.entity.Parents;
 import com.green.fefu.entity.Student;
 import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
+import com.green.fefu.parents.model.ParentsUser;
 import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
@@ -54,6 +55,8 @@ public class StudentServiceImpl implements StudentService {
     private final JwtTokenProviderV2 jwtTokenProvider;
     private final AppProperties appProperties;
     private final CookieUtils cookieUtils;
+
+
 
     //    학생 데이터 넣기
     @Transactional
@@ -217,6 +220,9 @@ public class StudentServiceImpl implements StudentService {
         }
         return list;
     }
+
+
+
 
     //=====================================================================================================================
     @Override
