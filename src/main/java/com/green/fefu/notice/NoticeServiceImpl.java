@@ -72,7 +72,10 @@ public class NoticeServiceImpl implements NoticeService{
             return noticeType(allList);
         }
         long parentsId=authenticationFacade.getLoginUserId();
-        int classId=mapper.childClassRoomList(parentsId, p.getStudentPk());
+        Integer classId=mapper.childClassRoomList(parentsId, p.getStudentPk());
+        if(classId==null){
+            throw new CustomException(HAS_NOT_GRADE);
+        }
         p.setClassId(classId);
         List<GetNoticeRes> allList = mapper.getNotice(p);
         return noticeType(allList);

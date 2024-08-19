@@ -21,9 +21,11 @@
     </select>
 
     <select id="parentsClass">
-        SELECT FLOOR(class_id/100) AS parsGrade
-        FROM parents
-        WHERE parents_id=#{parentsId} AND stuId=#{stuId}
+        SELECT FLOOR(grade/10000) AS parsGrade
+        FROM student A
+        INNER JOIN parents B
+        ON B.parents_id=A.parent_id
+        WHERE parents_id=#{parentsId} AND stu_id=#{stuId}
         LIMIT 1;
     </select>
 

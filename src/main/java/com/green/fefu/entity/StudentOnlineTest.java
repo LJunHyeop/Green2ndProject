@@ -15,6 +15,7 @@ public class StudentOnlineTest {
 
     @ManyToOne
     @JoinColumn(name="stuon_id")
+    //온라인 시험의 PK값(학생 pk, 과목, 제목 저장)
     private StudentOnlineRecode studentOnlineRecode;
 
     @ManyToOne
@@ -23,5 +24,4 @@ public class StudentOnlineTest {
 
     @Column
     private Integer stuAnswer; //문제마다 학생의 답안
-
 }
