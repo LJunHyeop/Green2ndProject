@@ -173,13 +173,13 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         if(Objects.isNull(entity)){
             throw new CustomException(NOT_EXISTENCE_PARENT) ;
         }
-        if(BCrypt.checkpw(p.getUpw(), entity.get(0).getUpw())){
+        if(!passwordEncoder.matches(p.getUpw(), entity.get(0).getUpw())){
             throw new CustomException(PASSWORD_NO_MATCH_ERROR) ;
         }
 
-        String password = passwordEncoder.encode(p.getNewUpw());
-        p.setParentsId(entity.get(0).getParentsId());
-        p.setNewUpw(password);
+        String password = passwordEncoder.encode(p.getNewUpw()) ;
+        p.setParentsId(entity.get(0).getParentsId()) ;
+        p.setNewUpw(password) ;
         return mapper.patchPassword(p);
     }
     @Override // 로그인
