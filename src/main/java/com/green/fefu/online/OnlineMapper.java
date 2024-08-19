@@ -9,4 +9,7 @@ public interface OnlineMapper {
     Long teacherClass(Long teaId);
     Long parentsClass(Long parentsId, Long stuId);
     Long studentClass(Long stuId);
+    int tmpDeleteQuestion(long questionPk);
+    int tmpDeleteQuestionMul(long questionPk);
+
 }

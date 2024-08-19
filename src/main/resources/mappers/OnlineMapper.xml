@@ -49,4 +49,16 @@
         INNER JOIN type_tag B
         ON A.type_tag=B.tag_id;
     </select>
+
+    <delete id="tmpDeleteQuestion">
+        DELETE
+        FROM haesol_online
+        WHERE que_id=#{questionPk}
+    </delete>
+
+    <delete id="tmpDeleteQuestionMul">
+        DELETE
+        FROM haesol_online_multiple
+        WHERE que_id=#{questionPk}
+    </delete>
 </mapper>
