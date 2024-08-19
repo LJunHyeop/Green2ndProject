@@ -129,6 +129,7 @@ public class ChatController {
         return ResponseEntity.ok().body(result) ;
     }
 
+
     @PostMapping(value = "chat/sender")
     @Operation(summary = "채팅 저장 ")
     public void message(@RequestBody ChatMsgDto message) {

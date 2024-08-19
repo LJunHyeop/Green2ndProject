@@ -3,22 +3,23 @@ package com.green.fefu.socket.model;
 import com.green.fefu.entity.ChatMsg;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
 
 public class ChatMsgDto {
-
     private String msg;
-
     private Long roomId;
+    private String sender;
+    private LocalDateTime sendTime;  // 시간 정보 추가
 
-   private SenderDto sender;
-
-    // 모든 필드를 초기화하는 생성자
-    public ChatMsgDto(String msg, Long roomId, SenderDto sender) {
+    // 생성자, getter, setter
+    public ChatMsgDto(String msg, Long roomId, String sender, LocalDateTime sendTime) {
         this.msg = msg;
         this.roomId = roomId;
         this.sender = sender;
+        this.sendTime = sendTime;
     }
 }

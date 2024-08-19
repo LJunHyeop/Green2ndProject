@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -14,22 +15,17 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatRoomDto {
-
     private Long roomId;
-
     private TeacherDto teaId;
-
     private Set<WebSocketSession> sessions = new HashSet<>();
-
     private ParentsDto parentsId;
-
-
-
+    private List<ChatMsgDto> messages;
 
     @Builder
-    public ChatRoomDto(Long roomId, TeacherDto teaId, ParentsDto parentsId) {
+    public ChatRoomDto(Long roomId, TeacherDto teaId, ParentsDto parentsId, List<ChatMsgDto> messages) {
         this.roomId = roomId;
         this.teaId = teaId;
         this.parentsId = parentsId;
+        this.messages = messages;
     }
 }
