@@ -153,7 +153,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
-    @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER')")
+    @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER') or hasRole('STUDENT')")
     @Override
     public ResponseEntity getStudentDetail(@RequestParam long pk) {
         log.info("getStudentDetail req : {}", pk);
