@@ -68,7 +68,7 @@ public class OnlineEnglishServiceImpl {
 
 
         //사진 처리
-        if (pic != null || !pic.isEmpty()) {
+        if (pic != null || !(pic.isEmpty())) {
             try {
                 String path = String.format("onlineEngWord/%s", entEnglishWord.getWordPk());
                 customFileUtils.makeFolders(path);
@@ -78,6 +78,8 @@ public class OnlineEnglishServiceImpl {
                 e.printStackTrace();
                 throw new CustomException(CAN_T_UPLOAD_QUESTION);
             }
+        }else{
+            log.info("else에 걸림");
         }
 
         return 1;
@@ -91,7 +93,7 @@ public class OnlineEnglishServiceImpl {
         entEnglishListening.setQuestion(p.getQuestion());
         entEnglishListening.setAnswer(p.getAnswer());
         String picName=customFileUtils.makeRandomFileName(pic);
-        entEnglishListening.setSentence(p.getSentence());
+        entEnglishListening.setSentence(picName);
         entEnglishListening.setPic(picName);
         log.info("service-entity {}", entEnglishListening);
         Teacher teacher=teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
