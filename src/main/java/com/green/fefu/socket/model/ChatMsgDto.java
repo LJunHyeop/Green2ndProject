@@ -1,21 +1,24 @@
 package com.green.fefu.socket.model;
 
 import com.green.fefu.entity.ChatMsg;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
+
 public class ChatMsgDto {
 
-    private String sender;
     private String msg;
+
     private Long roomId;
-    private Long ItemId;
 
+   private SenderDto sender;
 
-
-
+    // 모든 필드를 초기화하는 생성자
+    public ChatMsgDto(String msg, Long roomId, SenderDto sender) {
+        this.msg = msg;
+        this.roomId = roomId;
+        this.sender = sender;
+    }
 }

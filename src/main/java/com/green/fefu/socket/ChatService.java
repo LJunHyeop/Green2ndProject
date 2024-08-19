@@ -2,6 +2,8 @@ package com.green.fefu.socket;
 
 import com.green.fefu.entity.*;
 import com.green.fefu.parents.repository.ParentRepository;
+import com.green.fefu.security.AuthenticationFacade;
+import com.green.fefu.security.MyUser;
 import com.green.fefu.socket.model.ChatMsgDto;
 import com.green.fefu.socket.model.ChatRoomDto;
 import com.green.fefu.socket.model.ParentsDto;
@@ -34,6 +36,8 @@ public class ChatService {
     private final ChatRoomMemberRepository chatRoomMemberRepository;
     private final ChatRoomRepositoryCustomImpl customRepository;
 
+    private final AuthenticationFacade authenticationFacade;
+
     /*
       새로운 채팅방을 생성하고 부모와 선생님을 멤버로 추가합니다.
       @param parent 채팅방에 추가할 부모
@@ -64,19 +68,26 @@ public class ChatService {
     public List<ChatRoomDto> findRoom(Long roomId) {
        ChatRoom chatRoom = customRepository.findById(roomId).orElseThrow(NullPointerException::new);
        List<ChatRoomDto> dtos = new ArrayList<>();
-       ChatRoomDto a = new ChatRoomDto();
+
+       List<ChatMsgDto> msg = new ArrayList<>();
+
+       ChatRoomDto chatRoomDto = new ChatRoomDto();
+
        chatRoom.getMembers().forEach(chatRoomMember -> {
+
                if (chatRoomMember.getTeacher() != null) {
-                    a.setTeaId(new TeacherDto(chatRoomMember.getTeacher()));
+                   chatRoomDto.setTeaId(new TeacherDto(chatRoomMember.getTeacher()));
                }
                if (chatRoomMember.getParent() != null) {
-                   a.setParentsId(new ParentsDto(chatRoomMember.getParent()));
+                   chatRoomDto.setParentsId(new ParentsDto(chatRoomMember.getParent()));
                }
-               a.setRoomId(chatRoom.getId());
-               dtos.add(a);
+               chatRoomDto.setRoomId(chatRoom.getId());
+               dtos.add(chatRoomDto);
            }) ;
+
         System.out.println("체크포인트");
        return dtos;
+
 //        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
 //                .orElseThrow(() -> new ResourceNotFoundException("ChatRoom not found"));
 //        return convertToChatRoomDto(chatRoom);
@@ -97,16 +108,27 @@ public class ChatService {
       채팅 메시지를 저장합니다.
       @param chatMsgDto 저장할 채팅 메시지 DTO
      */
-    @Transactional
-    public void saveChat(ChatMsgDto chatMsgDto) {
+
+    public  void saveChat(ChatMsgDto chatMsgDto) {
         // 채팅방을 찾습니다.
         ChatRoom chatRoom = chatRoomRepository.findById(chatMsgDto.getRoomId())
                 .orElseThrow(() -> new EntityNotFoundException("채팅방을 찾을 수 없습니다."));
+        ChatMsgDto chatMsgDto1 = new ChatMsgDto();
+        MyUser myUser = authenticationFacade.getLoginUser();
+        User user = null ;
+        if(myUser.getRole().equals("ROLE_TEACHER")) {
+            user = teacherRepository.findById(myUser.getUserId()).orElseThrow(NullPointerException::new);
+        } else if (myUser.getRole().equals("ROLE_PARENTS")) {
+            user = parentRepository.findById(myUser.getUserId()).orElseThrow(NullPointerException::new) ;
+        } else {
+            throw new NullPointerException() ;
+        }
+        String name = user.getName() ;
 
         // 새로운 채팅 메시지를 생성하고 설정합니다.
         ChatMsg chatMsg = new ChatMsg();
         chatMsg.setChatRoom(chatRoom);
-        chatMsg.setSender(chatMsgDto.getSender());
+        chatMsg.setSender(name);
         chatMsg.setMessage(chatMsgDto.getMsg());
 
         // 채팅 메시지를 저장합니다.

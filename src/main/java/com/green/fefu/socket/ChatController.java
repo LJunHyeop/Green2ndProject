@@ -129,17 +129,10 @@ public class ChatController {
         return ResponseEntity.ok().body(result) ;
     }
 
-    @MessageMapping(value = "/item/{itemId}/chat/enter")
-    @Operation(summary = "채팅 생성 시 자동적으로 보내주는 알람")
-    public void enter(ChatMsgDto message) {
-        message.setMsg(message.getSender() + "님이 채팅방에 참여하셨습니다.");
-        template.convertAndSend("/sub/item/" + message.getItemId() + "/chat/" + message.getRoomId(), message);
-    }
-
-    @MessageMapping(value = "/item/{itemId}/chat/message")
-    @Operation(summary = "채팅 보내기")
-    public void message(ChatMsgDto message) {
+    @PostMapping(value = "chat/sender")
+    @Operation(summary = "채팅 저장 ")
+    public void message(@RequestBody ChatMsgDto message) {
         chatService.saveChat(message);
-        template.convertAndSend("/sub/item/" + message.getItemId() + "/chat/" + message.getRoomId(), message);
+        template.convertAndSend("/sub/item/" + "/chat/" + message.getRoomId(), message);
     }
 }
