@@ -158,7 +158,7 @@ public class OnlineEnglishServiceImpl {
             res.setQueId(listening.getListeningPk());
             res.setQuestion(listening.getQuestion());
             res.setSentence(listening.getSentence());
-            res.setAnswer(listening.getPic());
+            res.setAnswer(listening.getAnswer());
             res.setPic(listening.getPic());
             list.add(res);
         }
