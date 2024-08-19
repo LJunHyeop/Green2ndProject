@@ -27,7 +27,7 @@ public class OnlineEnglishControllerImpl {
             "<p><strong>word</strong> 영어 단어 ex. computer</p>" +
             "<p><strong>answer</strong> 한국어 의미 ex.컴퓨터</p>")
     @PreAuthorize("hasRole('TEACHER')")
-    public ResultDto<Integer> postEnglishWordQuestion(@RequestPart PostOnlineQuestionEnglishWordReq p, @RequestPart MultipartFile pic){
+    public ResultDto<Integer> postEnglishWordQuestion(@RequestPart PostOnlineQuestionEnglishWordReq p, @RequestPart(required = false) MultipartFile pic){
         log.info("controller - p {}", p);
         log.info("controller - pic {}", pic);
         int result=service.postEnglishWordQuestion(p,pic);
@@ -44,7 +44,7 @@ public class OnlineEnglishControllerImpl {
             "<p><strong>question</strong> 문제 ex. Amy가 바자회에 제출할 품목은 무엇입니까?</p>" +
             "<p><strong>answer</strong> 정답 단답형 ex.곰인형</p>"+
             "<p><strong>sentence</strong> ex. I love teddy bear</p>")
-    public ResultDto<Integer> postEnglishListeningQuestion(@RequestPart PostOnlineQuestionEnglishListeningReq p, @RequestPart MultipartFile pic){
+    public ResultDto<Integer> postEnglishListeningQuestion(@RequestPart PostOnlineQuestionEnglishListeningReq p, @RequestPart(required = false) MultipartFile pic){
         log.info("controller - p {}", p);
         log.info("controller - pic {}", pic);
         int result=service.PostEnglishListeningQuestion(p,pic);
