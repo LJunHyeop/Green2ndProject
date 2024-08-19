@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
@@ -95,6 +96,7 @@ public class ChatController {
 
     @GetMapping(value = "teacher/chats")
     @Operation(summary = "로그인한 선생님 전체 채팅 리스트 조회")
+    @PreAuthorize("hasRole('TEACHER') or hasRole('ADMIN')")
     public ResponseEntity findAllRoomsByTeacher() {
         GetTeacherRoom teacherRoom = new GetTeacherRoom();
         teacherRoom.setTeaId(authenticationFacade.getLoginUserId());
@@ -112,6 +114,7 @@ public class ChatController {
     }
 
     @GetMapping(value = "parents/chats")
+    @PreAuthorize("hasRole('PARENTS') or hasRole('ADMIN')")
     @Operation(summary = "로그인한 학부모 전체 채팅 리스트 조회")
     public ResponseEntity findAllByMembersParent() {
         GetParentRoom getParentRoom = new GetParentRoom();
