@@ -1,5 +1,6 @@
 package com.green.fefu.student.service;
 
+import com.green.fefu.parents.model.ParentsUser;
 import com.green.fefu.student.model.dto.getListForNoParent;
 import com.green.fefu.student.model.dto.getStudent;
 import com.green.fefu.student.model.req.*;
@@ -107,6 +108,8 @@ public class StudentControllerImpl implements StudentController {
         return new ResponseEntity<>(result, OK);
     }
 
+
+
     //    선생기준 -> 자기 반 학생 한명 전체 데이터 들고오기
     @GetMapping(value = "detail", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @Operation(summary = "학생 한명의 정보 가져오기", description = "리턴 => 생년월일, 관계, 선생이름," +
@@ -150,7 +153,7 @@ public class StudentControllerImpl implements StudentController {
                     description = "해당 유저는 사용 권한이 없음"
             )
     })
-    @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER')")
+    @PreAuthorize("hasRole('PARENTS') or hasRole('TEACHER') or hasRole('STUDENT')")
     @Override
     public ResponseEntity getStudentDetail(@RequestParam long pk) {
         log.info("getStudentDetail req : {}", pk);

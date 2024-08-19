@@ -7,6 +7,7 @@ import com.green.fefu.common.AppProperties;
 import com.green.fefu.common.CookieUtils;
 import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
+import com.green.fefu.exception.bch.BchErrorCode;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
@@ -17,6 +18,7 @@ import com.green.fefu.teacher.test.TeacherService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -381,7 +383,9 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher teacher = teacherRepository.findByUid(p.getTeacherId());
 //        타입 체크
 //        ChangePassWordTypeCheck(p);
-
+        if(!passwordEncoder.matches(p.getOldPassWord(), teacher.getUpw())){
+            throw new CustomException(PASSWORD_NO_MATCH_ERROR) ;
+        }
 
 //        비밀번호 암호화
         String hashpw = passwordEncoder.encode(p.getPassWord());

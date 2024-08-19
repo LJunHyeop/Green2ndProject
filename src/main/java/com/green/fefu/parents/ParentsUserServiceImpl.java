@@ -40,6 +40,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static com.green.fefu.exception.bch.BchErrorCode.PASSWORD_NO_MATCH_ERROR;
+import static com.green.fefu.exception.bch.BchErrorCode.QUERY_RESULT_ERROR;
 import static com.green.fefu.exception.ljm.LjmErrorCode.*;
 import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.DUPLICATE_DATA_ERROR;
 import static com.green.fefu.teacher.model.dataset.ExceptionMsgDataSet.SMS_SEND_ERROR;
@@ -164,18 +166,21 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     }
     @Override @Transactional // 비밀번호 수정
     public int patchPassword(PatchPasswordReq p) {
+        p.setParentsId(authenticationFacade.getLoginUserId()) ;
         log.info("p: {}", p);
-        GetParentsUserReq req = new GetParentsUserReq();
-        req.setSignedUserId(p.getParentsId());
+
         log.info("parentId: {}", p.getParentsId());
         List<ParentsUserEntity> entity = mapper.selPasswordBeforeLogin(p.getUid()) ;
-
         if(Objects.isNull(entity)){
-            throw new IllegalArgumentException();
+            throw new CustomException(NOT_EXISTENCE_PARENT) ;
         }
-        String password = passwordEncoder.encode(p.getNewUpw());
-        p.setParentsId(entity.get(0).getParentsId());
-        p.setNewUpw(password);
+        if(!passwordEncoder.matches(p.getUpw(), entity.get(0).getUpw())){
+            throw new CustomException(PASSWORD_NO_MATCH_ERROR) ;
+        }
+
+        String password = passwordEncoder.encode(p.getNewUpw()) ;
+        p.setParentsId(entity.get(0).getParentsId()) ;
+        p.setNewUpw(password) ;
         return mapper.patchPassword(p);
     }
     @Override // 로그인
@@ -459,7 +464,8 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         cookieUtils.deleteCookie(res, appProperties.getJwt().getRefreshTokenCookieName()) ;
         cookieUtils.setCookie(res, appProperties.getJwt().getRefreshTokenCookieName(), refreshToken, refreshTokenMaxAge) ;
 
-        List<ParentsUser> list = mapper.getParentUser(req.getId()) ;
+        List<ParentsUser> list = mapper.getParentUser(parents.getUid()) ;
+        List<StudentRes> student = mapper.studentList(parents.getParentsId()) ;
         log.info("list: {}", list.get(0));
         if(list.get(0).getConnect().equals("기타") || list.get(0).getPhone().equals("010-0000-0000")){
             return SignInPostRes.builder()
@@ -467,14 +473,17 @@ public class ParentsUserServiceImpl implements ParentsUserService {
                     .nm(parents.getName())
                     .result(2)
                     .accessToken(accessToken)
+                    .studentList(student)
                     .build() ;
         }
+
 
         return SignInPostRes.builder()
                 .parentsId(parents.getParentsId())
                 .nm(parents.getName())
                 .result(1)
                 .accessToken(accessToken)
+                .studentList(student)
                 .build() ;
     }
     // 소셜 회원가입 시 학생 랜덤코드로 회원가입 여부 확인
@@ -526,5 +535,16 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         student.setParent(parents) ;
 
         return 1 ;
+    }
+    // 선생이 학부모 리스트 조회
+    public List getParentList(List<GetParentRes> list) {
+        list = mapper.getParentsList(authenticationFacade.getLoginUserId());
+        if (list.isEmpty()) {
+            throw new CustomException(QUERY_RESULT_ERROR);
+        }
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i);
+        }
+        return list;
     }
 }

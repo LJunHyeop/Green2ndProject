@@ -83,12 +83,12 @@ public class ChatController {
         return ResponseEntity.ok(roomLink); // 생성된 링크 반환
     }
 
-    @GetMapping(value = "chat/detail/{id}")
+    @GetMapping(value = "chat/detail/{roomId}")
     @Operation(summary = "특정 채팅방 상세 정보 가져오기")
     @ResponseBody
-    public List<ChatRoomDto> getChatRoomDetail(@PathVariable Long id) {
-        log.info("GET Chat Room Detail, roomId: " + id);
-        List<ChatRoomDto> a =   chatService.findRoom(id);
+    public List<ChatRoomDto> getChatRoomDetail(@PathVariable Long roomId) {
+        log.info("GET Chat Room Detail, roomId: " + roomId);
+        List<ChatRoomDto> a =   chatService.findRoom(roomId);
         System.out.println(a);
         return a ;
     }
@@ -128,6 +128,7 @@ public class ChatController {
         }
         return ResponseEntity.ok().body(result) ;
     }
+
 
     @PostMapping(value = "chat/sender")
     @Operation(summary = "채팅 저장 ")

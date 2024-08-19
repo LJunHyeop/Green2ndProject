@@ -4,10 +4,7 @@ import com.green.fefu.entity.*;
 import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
-import com.green.fefu.socket.model.ChatMsgDto;
-import com.green.fefu.socket.model.ChatRoomDto;
-import com.green.fefu.socket.model.ParentsDto;
-import com.green.fefu.socket.model.TeacherDto;
+import com.green.fefu.socket.model.*;
 import com.green.fefu.socket.repository.ChatMsgRepository;
 import com.green.fefu.socket.repository.ChatRoomMemberRepository;
 import com.green.fefu.socket.repository.ChatRoomRepository;
@@ -21,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,67 +61,67 @@ public class ChatService {
 
     /**
      * 채팅방 ID로 채팅방을 찾아 DTO로 변환하여 반환합니다.
-
      */
+
     public List<ChatRoomDto> findRoom(Long roomId) {
-       ChatRoom chatRoom = customRepository.findById(roomId).orElseThrow(NullPointerException::new);
-       List<ChatRoomDto> dtos = new ArrayList<>();
+        ChatRoom chatRoom = customRepository.findById(roomId).orElseThrow(NullPointerException::new);
+        List<ChatRoomDto> dtos = new ArrayList<>();
 
-       List<ChatMsgDto> msg = new ArrayList<>();
+        // 채팅 메시지 가져오기 및 시간순 정렬
+        List<ChatMsg> messages = chatMsgRepository.findByChatRoomOrderBySendTimeAsc(chatRoom);
+        List<ChatMsgDto> messageDtos = messages.stream()
+                .map(this::convertToChatMsgDto)
+                .sorted(Comparator.comparing(ChatMsgDto::getSendTime))
+                .collect(Collectors.toList());
 
-       ChatRoomDto chatRoomDto = new ChatRoomDto();
+        ChatRoomDto teacherDto = new ChatRoomDto();
+        teacherDto.setRoomId(chatRoom.getId());
+        teacherDto.setMessages(messageDtos); // 메시지 추가
 
-       chatRoom.getMembers().forEach(chatRoomMember -> {
+        // Teacher 정보는 한 번만 설정
+        chatRoom.getMembers().stream()
+                .filter(member -> member.getTeacher() != null)
+                .findFirst()
+                .ifPresent(member -> {
+                    teacherDto.setTeaId(new TeacherDto(member.getTeacher()));
+                    dtos.add(teacherDto);
+                });
 
-               if (chatRoomMember.getTeacher() != null) {
-                   chatRoomDto.setTeaId(new TeacherDto(chatRoomMember.getTeacher()));
-               }
-               if (chatRoomMember.getParent() != null) {
-                   chatRoomDto.setParentsId(new ParentsDto(chatRoomMember.getParent()));
-               }
-               chatRoomDto.setRoomId(chatRoom.getId());
-               dtos.add(chatRoomDto);
-           }) ;
+        // Parent 정보 추가
+        chatRoom.getMembers().forEach(chatRoomMember -> {
+            if (chatRoomMember.getParent() != null) {
+                ChatRoomDto dto = new ChatRoomDto();
+                dto.setRoomId(chatRoom.getId());
+                dto.setParentsId(new ParentsDto(chatRoomMember.getParent()));
+                dto.setTeaId(teacherDto.getTeaId()); // 선생님 정보 복사
+                dto.setMessages(messageDtos); // 메시지 추가
+                dtos.add(dto);
+            }
+        });
 
         System.out.println("체크포인트");
-       return dtos;
-
-//        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
-//                .orElseThrow(() -> new ResourceNotFoundException("ChatRoom not found"));
-//        return convertToChatRoomDto(chatRoom);
-    }
-    /*
-     부모와 선생님으로 채팅방을 찾아 ID를 반환합니다.
-      @param parent 찾을 채팅방의 부모
-      @param teacher 찾을 채팅방의 선생님
-     @return 채팅방 ID, 없으면 null
-     */
-    public Long findAllByMembersParent(Parents parent, Teacher teacher) {
-        return chatRoomRepository.findByMembersParentAndMembersTeacher(parent, teacher)
-                .map(ChatRoom::getId)
-                .orElse(null);
+        return dtos;
     }
 
-    /*
-      채팅 메시지를 저장합니다.
-      @param chatMsgDto 저장할 채팅 메시지 DTO
-     */
+    private ChatMsgDto convertToChatMsgDto(ChatMsg chatMsg) {
+        SenderDto senderDto = new SenderDto(); // SenderDto 클래스를 별도로 정의해야 합니다.
+        // 필요한 경우 sender의 다른 정보도 설정
+        return new ChatMsgDto(
+                chatMsg.getMessage(),
+                chatMsg.getChatRoom().getId(),
+                chatMsg.getSender(),
+                chatMsg.getCreatedAt()
+        );
+    }
 
-    public  void saveChat(ChatMsgDto chatMsgDto) {
+    public void saveChat(ChatMsgDto chatMsgDto) {
         // 채팅방을 찾습니다.
         ChatRoom chatRoom = chatRoomRepository.findById(chatMsgDto.getRoomId())
                 .orElseThrow(() -> new EntityNotFoundException("채팅방을 찾을 수 없습니다."));
-        ChatMsgDto chatMsgDto1 = new ChatMsgDto();
+
         MyUser myUser = authenticationFacade.getLoginUser();
-        User user = null ;
-        if(myUser.getRole().equals("ROLE_TEACHER")) {
-            user = teacherRepository.findById(myUser.getUserId()).orElseThrow(NullPointerException::new);
-        } else if (myUser.getRole().equals("ROLE_PARENTS")) {
-            user = parentRepository.findById(myUser.getUserId()).orElseThrow(NullPointerException::new) ;
-        } else {
-            throw new NullPointerException() ;
-        }
-        String name = user.getName() ;
+        User user = getCurrentUser(myUser);
+        String name = user.getName();
 
         // 새로운 채팅 메시지를 생성하고 설정합니다.
         ChatMsg chatMsg = new ChatMsg();
@@ -135,6 +133,17 @@ public class ChatService {
         chatMsgRepository.save(chatMsg);
     }
 
+    private User getCurrentUser(MyUser myUser) {
+        if (myUser.getRole().equals("ROLE_TEACHER")) {
+            return teacherRepository.findById(myUser.getUserId())
+                    .orElseThrow(() -> new EntityNotFoundException("선생님을 찾을 수 없습니다."));
+        } else if (myUser.getRole().equals("ROLE_PARENTS")) {
+            return parentRepository.findById(myUser.getUserId())
+                    .orElseThrow(() -> new EntityNotFoundException("학부모를 찾을 수 없습니다."));
+        } else {
+            throw new IllegalStateException("잘못된 사용자 역할입니다.");
+        }
+    }
     /*
       채팅방에 부모를 추가합니다.
       @param roomId 부모를 추가할 채팅방 ID
@@ -209,5 +218,11 @@ public class ChatService {
         return chatRooms.stream()
                 .map(this::convertToChatRoomDto)
                 .collect(Collectors.toList());
+    }
+
+    public Long findAllByMembersParent(Parents parent, Teacher teacher) {
+        return chatRoomRepository.findByMembersParentAndMembersTeacher(parent, teacher)
+                .map(ChatRoom::getId)
+                .orElse(null);
     }
 }

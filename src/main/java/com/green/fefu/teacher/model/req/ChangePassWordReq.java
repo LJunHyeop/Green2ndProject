@@ -25,6 +25,11 @@ public class ChangePassWordReq {
     @Schema(example = "Test1234!@#$", description = "선생님 비밀번호", required = true)
     private String passWord;
 
+    @NotBlank(message = "비밀번호를 확인해주세요")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d|.*[!@#$%^&*()\\-_=+\\\\|\\[{\\]};:'\",<.>/?]).{8,20}$", message = PASSWORD_PATTERN_ERROR)
+    @Schema(example = "Test1234!@#$", description = "선생님 비밀번호", required = true)
+    private String oldPassWord ;
+
     @JsonIgnore
     private long pk;
 }
