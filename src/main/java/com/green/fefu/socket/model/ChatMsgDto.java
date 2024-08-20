@@ -17,6 +17,9 @@ public class ChatMsgDto {
     private String sender;
     private String sendTime;  // LocalDateTime 대신 String으로 변경
 
+    private Long teaId;
+    private Long parentId;
+
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     // 생성자
