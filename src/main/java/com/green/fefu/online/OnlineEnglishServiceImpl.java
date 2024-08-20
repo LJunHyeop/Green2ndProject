@@ -93,7 +93,7 @@ public class OnlineEnglishServiceImpl {
         entEnglishListening.setQuestion(p.getQuestion());
         entEnglishListening.setAnswer(p.getAnswer());
         String picName=customFileUtils.makeRandomFileName(pic);
-        entEnglishListening.setSentence(picName);
+        entEnglishListening.setSentence(p.getSentence());
         entEnglishListening.setPic(picName);
         log.info("service-entity {}", entEnglishListening);
         Teacher teacher=teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
