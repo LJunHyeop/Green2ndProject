@@ -463,7 +463,7 @@ public class TeacherServiceImpl implements TeacherService {
     //    선생님 정보 변경
     @Transactional
     @Override
-    public void ChangeTeacher(ChangeTeacherReq p){
+    public Teacher ChangeTeacher(ChangeTeacherReq p){
 //        p.setPk(authenticationFacade.getLoginUserId());
 
 //        타입 체크 and 데이터 길이 체크
@@ -491,6 +491,7 @@ public class TeacherServiceImpl implements TeacherService {
 //        if (result != 1) {
 //            throw new CustomException(QUERY_RESULT_ERROR);
 //        }
+        return teacher;
     }
 /*
     private void ChangeTeacherErrorCheck(ChangeTeacherReq p) throws Exception {
