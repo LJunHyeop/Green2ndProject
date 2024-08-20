@@ -70,7 +70,6 @@ public class ChatService {
 
         // 현재 로그인한 사용자 정보 가져오기
         MyUser myUser = authenticationFacade.getLoginUser();
-
         User loginUser = getCurrentUser(myUser);
 
         // 채팅 메시지 가져오기 및 시간순 정렬
@@ -80,33 +79,26 @@ public class ChatService {
                 .sorted(Comparator.comparing(ChatMsgDto::getSendTime))
                 .collect(Collectors.toList());
 
-        ChatRoomDto teacherDto = new ChatRoomDto();
-        teacherDto.setRoomId(chatRoom.getId());
-        teacherDto.setMessages(messageDtos);
+        // 기본 ChatRoomDto 생성
+        ChatRoomDto chatRoomDto = new ChatRoomDto();
+        chatRoomDto.setRoomId(chatRoom.getId());
+        chatRoomDto.setMessages(messageDtos);
+        chatRoomDto.setLoginUserName(loginUser.getName());
 
-        teacherDto.setLoginUserName(loginUser.getName());
-
-        // Teacher 정보는 한 번만 설정
+        // Teacher 정보 설정
         chatRoom.getMembers().stream()
                 .filter(member -> member.getTeacher() != null)
                 .findFirst()
-                .ifPresent(member -> {
-                    teacherDto.setTeaId(new TeacherDto(member.getTeacher()));
-                    dtos.add(teacherDto);
-                });
+                .ifPresent(member -> chatRoomDto.setTeaId(new TeacherDto(member.getTeacher())));
 
-        // Parent 정보 추가
-        chatRoom.getMembers().forEach(chatRoomMember -> {
-            if (chatRoomMember.getParent() != null) {
-                ChatRoomDto dto = new ChatRoomDto();
-                dto.setRoomId(chatRoom.getId());
-                dto.setParentsId(new ParentsDto(chatRoomMember.getParent()));
-                dto.setTeaId(teacherDto.getTeaId());
-                dto.setMessages(messageDtos);
-                dto.setLoginUserName(loginUser.getName());
-                dtos.add(dto);
-            }
-        });
+        // Parent 정보 설정
+        chatRoom.getMembers().stream()
+                .filter(member -> member.getParent() != null)
+                .findFirst()
+                .ifPresent(member -> chatRoomDto.setParentsId(new ParentsDto(member.getParent())));
+
+        // DTO 리스트에 추가
+        dtos.add(chatRoomDto);
 
         System.out.println("체크포인트");
         return dtos;
@@ -191,16 +183,16 @@ public class ChatService {
             // 선생님 정보 설정
             roomDto.setTeaId(new TeacherDto(currentTeacher));
 
-            result.add(roomDto);
+            // 부모 정보 설정
+            List<ParentsDto> parentsList = new ArrayList<>();
+            for (ChatRoomMember member : chatRoom.getMembers()) {
+                if (member.getParent() != null) {
+                    parentsList.add(new ParentsDto(member.getParent()));
+                }
+            }
+            roomDto.setParents(parentsList);
 
-            // 부모 정보 추가
-            chatRoom.getMembers().stream()
-                    .filter(member -> member.getParent() != null)
-                    .forEach(member -> {
-                        GetMemberChat parentDto = new GetMemberChat();
-                        parentDto.setParentsId(new ParentsDto(member.getParent()));
-                        result.add(parentDto);
-                    });
+            result.add(roomDto);
         }
 
         return result;
@@ -237,9 +229,10 @@ public class ChatService {
       @param parentsId 찾을 부모의 ID
       @return 채팅방 DTO 리스트
      */
+
     public List<GetMemberChat> findAllByMembersParent(Long parentsId) {
         Parents parents = parentRepository.findById(parentsId)
-                .orElseThrow(() -> new EntityNotFoundException("parents not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Parents not found"));
         List<ChatRoom> chatRooms = chatRoomRepository.findAllByMembersParent(parents);
         return convertToChatRoomDto(chatRooms, parents);
     }
@@ -255,18 +248,21 @@ public class ChatService {
             chatRoom.getMembers().stream()
                     .filter(member -> member.getTeacher() != null)
                     .findFirst()
-                    .ifPresent(member -> roomDto.setTeaId(new TeacherDto(member.getTeacher())));
+                    .ifPresent(member -> {
+                        TeacherDto teacherDto = new TeacherDto(member.getTeacher());
+                        roomDto.setTeaId(teacherDto);
+                    });
+
+            // 부모 정보 설정 (현재 부모 제외)
+            List<ParentsDto> parentsDtos = chatRoom.getMembers().stream()
+                    .filter(member -> member.getParent() != null && !member.getParent().equals(currentParent))
+                    .map(member -> new ParentsDto(member.getParent()))
+                    .collect(Collectors.toList());
+
+            // GetMemberChat 객체에 부모 리스트 설정
+            roomDto.setParents(parentsDtos);
 
             result.add(roomDto);
-
-            // 부모 정보 추가 (현재 부모 제외)
-            chatRoom.getMembers().stream()
-                    .filter(member -> member.getParent() != null && !member.getParent().equals(currentParent))
-                    .forEach(member -> {
-                        GetMemberChat parentDto = new GetMemberChat();
-                        parentDto.setParentsId(new ParentsDto(member.getParent()));
-                        result.add(parentDto);
-                    });
         }
 
         return result;
