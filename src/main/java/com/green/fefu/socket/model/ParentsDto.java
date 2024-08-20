@@ -14,7 +14,6 @@ public class ParentsDto {
     private String name;
 
 
-
     public ParentsDto(Parents data) {
         this.parentId = data.getParentsId();
         this.name = data.getName();

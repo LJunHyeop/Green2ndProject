@@ -13,5 +13,4 @@ public class TeacherDto {
         this.teaId = data.getTeaId() ;
         this.name = data.getName() ;
     }
-
 }

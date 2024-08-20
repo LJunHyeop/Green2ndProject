@@ -63,7 +63,6 @@ public class ChatService {
     /**
      * 채팅방 ID로 채팅방을 찾아 DTO로 변환하여 반환합니다.
      */
-
     public List<ChatRoomDto> findRoom(Long roomId) {
         ChatRoom chatRoom = customRepository.findById(roomId).orElseThrow(NullPointerException::new);
         List<ChatRoomDto> dtos = new ArrayList<>();
@@ -84,6 +83,18 @@ public class ChatService {
         chatRoomDto.setRoomId(chatRoom.getId());
         chatRoomDto.setMessages(messageDtos);
         chatRoomDto.setLoginUserName(loginUser.getName());
+
+        if (myUser.getRole().equals("ROLE_TEACHER")) {
+            Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
+            chatRoomDto.setTeaId(new TeacherDto(teacher));
+            chatRoomDto.setParentId(0L);
+        } else if (myUser.getRole().equals("ROLE_PARENT")) {
+            Parents parent = parentRepository.getReferenceById(authenticationFacade.getLoginUserId());
+            Teacher teacher = new Teacher();
+            teacher.setTeaId(0L);
+            chatRoomDto.setParentId(parent.getParentsId());
+            chatRoomDto.setTeaId(new TeacherDto(teacher)); // 기본 빈 객체 설정
+        }
 
         // Teacher 정보 설정
         chatRoom.getMembers().stream()
@@ -106,33 +117,53 @@ public class ChatService {
     }
 
     private ChatMsgDto convertToChatMsgDto(ChatMsg chatMsg) {
-        return new ChatMsgDto(
+        ChatMsgDto chatMsgDto = new ChatMsgDto(
                 chatMsg.getMessage(),
                 chatMsg.getChatRoom().getId(),
                 chatMsg.getSender(),
                 chatMsg.getCreatedAt()
         );
+        // 보낸 사람이 선생님인지 부모님인지에 따라 teaId와 parentId 설정
+        if (chatMsg.getTeacher() != null) {
+            chatMsgDto.setTeaId(chatMsg.getTeacher().getTeaId());
+            chatMsgDto.setParentId(0L);
+        } else if (chatMsg.getParents() != null) {
+            chatMsgDto.setParentId(chatMsg.getParents().getParentsId());
+            chatMsgDto.setTeaId(0L);
+        }
+
+        return chatMsgDto;
     }
 
     public void saveChat(ChatMsgDto chatMsgDto) {
         // 채팅방을 찾습니다.
         ChatRoom chatRoom = chatRoomRepository.findById(chatMsgDto.getRoomId())
                 .orElseThrow(() -> new EntityNotFoundException("채팅방을 찾을 수 없습니다."));
-
         MyUser myUser = authenticationFacade.getLoginUser();
         User user = getCurrentUser(myUser);
         String name = user.getName();
 
-        // 새로운 채팅 메시지를 생성하고 설정합니다.
         ChatMsg chatMsg = new ChatMsg();
         chatMsg.setChatRoom(chatRoom);
         chatMsg.setSender(name);
         chatMsg.setMessage(chatMsgDto.getMsg());
 
-        // 채팅 메시지를 저장합니다.
-        chatMsgRepository.save(chatMsg);
-    }
-
+        if (myUser.getRole().equals("ROLE_TEACHER")) {
+            Teacher teacher = teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
+            Parents parents = new Parents();
+            parents.setParentsId(0L); // 기본 부모 ID 설정
+            chatMsg.setTeacher(teacher);
+            chatMsg.setParents(parents);
+            chatMsgRepository.save(chatMsg);
+        } else if (myUser.getRole().equals("ROLE_PARENT")) {
+            Parents parent = parentRepository.getReferenceById(authenticationFacade.getLoginUserId());
+            Teacher teacher = new Teacher();
+            teacher.setTeaId(0L); // 기본 선생님 ID 설정
+            chatMsg.setParents(parent);
+            chatMsg.setTeacher(teacher); // saveChat 메서드 계속
+            chatMsgRepository.save(chatMsg);
+        }
+}
     private User getCurrentUser(MyUser myUser) {
         if (myUser.getRole().equals("ROLE_TEACHER")) {
             return teacherRepository.findById(myUser.getUserId())

@@ -20,7 +20,12 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.green.fefu.chcommon.ResponsDataSet.OK;
+
 @CrossOrigin(origins = "*")
 @Slf4j
 @RestController
@@ -76,11 +81,11 @@ public class ChatController {
     @GetMapping(value = "chat/detail/{roomId}")
     @Operation(summary = "특정 채팅방 상세 정보 가져오기")
     @ResponseBody
-    public List<ChatRoomDto> getChatRoomDetail(@PathVariable Long roomId) {
+     public List<ChatRoomDto> getChatRoomDetail(@PathVariable Long roomId) {
         log.info("GET Chat Room Detail, roomId: " + roomId);
         List<ChatRoomDto> a =   chatService.findRoom(roomId);
-        System.out.println(a);
-        return a ;
+        System.out.println(a);;
+       return a;
     }
 
     @GetMapping(value = "teacher/chats")
