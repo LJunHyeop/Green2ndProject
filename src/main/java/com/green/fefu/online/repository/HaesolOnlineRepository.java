@@ -15,7 +15,7 @@ public interface HaesolOnlineRepository extends JpaRepository<HaesolOnline,Long>
 
     // PK값 리스트에 맞는 정답 리스트
     @Query("SELECT ha.answer FROM HaesolOnline ha WHERE ha.queId IN (:queId)")
-    List<Integer> findAnswerByQueId(@Param("que_id") List<Long> queId);
+    Integer findAnswerByQueId(@Param("que_id") Long queId);
 
     @Query(value = "SELECT B.tag_name\n" +
                    "FROM (SELECT que_id, type_tag\n" +

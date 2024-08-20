@@ -135,7 +135,7 @@ public class OnlineEnglishServiceImpl {
         List<OnlineEnglishWord> listAll=wordRepository.getAllByGrade(grade);
         Collections.shuffle(listAll);
         List<GetEnglishWordQuestionRes> list=new ArrayList<>(20);
-        for(int i=0; i<TOTAL_TEST_QUESTION; i++){
+        for(int i=0; i<(TOTAL_TEST_QUESTION < listAll.size() ? TOTAL_TEST_QUESTION : listAll.size()); i++){
             GetEnglishWordQuestionRes res=new GetEnglishWordQuestionRes();
             res.setWordQuePk(listAll.get(i).getWordPk());
             res.setWord(listAll.get(i).getWord());
@@ -156,7 +156,7 @@ public class OnlineEnglishServiceImpl {
         Collections.shuffle(listAll);
 
         List<GetEnglishListeningQuestionRes> list=new ArrayList<>();
-        for(int i=0; i<TOTAL_TEST_QUESTION; i++){
+        for(int i=0; i<(TOTAL_TEST_QUESTION < listAll.size() ? TOTAL_TEST_QUESTION : listAll.size()); i++){
             OnlineEnglishListening listening=listAll.get(i);
             GetEnglishListeningQuestionRes res=new GetEnglishListeningQuestionRes();
             res.setQueId(listening.getListeningPk());
