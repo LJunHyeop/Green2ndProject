@@ -301,7 +301,7 @@ public class TeacherServiceImpl implements TeacherService {
         if (teacher == null) {
             throw new CustomException(NOT_FOUND_USER_ERROR);
         }
-        map.put(TEACHER_ID, teacher.getTeaId());
+        map.put(TEACHER_UID, teacher.getTeaId());
         return map;
     }
 /*
@@ -441,7 +441,7 @@ public class TeacherServiceImpl implements TeacherService {
         String teacherClass = mapper.getCurrentClassesByTeacherId(teacher.getTeaId());
         String[] tClass = Parser.classParserArray(teacherClass);
 
-        map.put(TEACHER_ID, teacher.getTeaId());
+        map.put(TEACHER_UID, teacher.getUid());
         map.put(TEACHER_NAME, teacher.getName());
         map.put(TEACHER_PHONE, teacher.getPhone());
         map.put(TEACHER_EMAIL, teacher.getEmail());

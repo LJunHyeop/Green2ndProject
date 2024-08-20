@@ -13,7 +13,7 @@
     </select>
 
     <select id="studentClass">
-        SELECT FLOOR(class_id/100) AS stusGrade
+        SELECT FLOOR(grade/10000) AS stusGrade
         FROM student A
         WHERE stu_id=#{stuId}
         ORDER BY created_at DESC

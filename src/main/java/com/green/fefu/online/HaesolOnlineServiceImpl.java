@@ -141,7 +141,7 @@ public class HaesolOnlineServiceImpl {
         if (grade == null) {
             throw new CustomException(CAN_T_GET_GRADE);
         }
-        log.info("서비스 사람 정보 : {}", grade);
+        log.info("서비스 사람 학년 정보 : {}", grade);
         //TypeTag typeTag = typeTagRepository.findByTypeNumAndSubject_SubjectId(p.getTypeTag(), p.getSubjectCode());
 
         // 학년과 과목 코드를 넣어서 전체 문제 리스트 조회 ex. 1학년 수학과목
@@ -199,10 +199,13 @@ public class HaesolOnlineServiceImpl {
         outCome.setStudentOmr(testOutComeList);
         log.info("parameter P: {}", p);
         log.info("pklist: {}", p.getQuestionPk());
-        List<Integer> realAnswer=haesolOnlineRepository.findAnswerByQueId(p.getQuestionPk());
-
-        if(realAnswer.size()!=p.getQuestionPk().size()){
-            throw new CustomException(EXCEED_PK_VALUE);
+        List<Integer> realAnswer=new ArrayList<>();
+        for(int i=0; i<p.getOmrAnswer().size();i++){
+            Integer real=haesolOnlineRepository.findAnswerByQueId(p.getQuestionPk().get(i));
+            if(real==null){
+                throw new CustomException(EXCEED_PK_VALUE);
+            }
+            realAnswer.add(real);
         }
 
         outCome.setRealAnswer(realAnswer);

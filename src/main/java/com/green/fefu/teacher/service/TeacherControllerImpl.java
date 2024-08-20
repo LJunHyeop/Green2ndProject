@@ -217,7 +217,7 @@ public class TeacherControllerImpl implements TeacherController {
     public ResponseEntity ChangeTeacher(@RequestBody @Valid ChangeTeacherReq p) {
         log.info("ChangeTeacher req: {}", p);
         service.ChangeTeacher(p);
-        return new ResponseEntity<>(OK);
+        return new ResponseEntity<>(OK) ;
     }
 
 
