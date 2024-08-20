@@ -44,6 +44,7 @@ public class OnlineEnglishServiceImpl {
     // 어떠한 사용자인지 분기 -> 메소드화
     private final TeacherRepository teacherRepository;
 
+    private final Integer TOTAL_TEST_QUESTION = 20;
 
     @Transactional // word DB 업로드
     public int postEnglishWordQuestion(PostOnlineQuestionEnglishWordReq p, MultipartFile pic) {
@@ -134,7 +135,7 @@ public class OnlineEnglishServiceImpl {
         List<OnlineEnglishWord> listAll=wordRepository.getAllByGrade(grade);
         Collections.shuffle(listAll);
         List<GetEnglishWordQuestionRes> list=new ArrayList<>(20);
-        for(int i=0; i<listAll.size(); i++){
+        for(int i=0; i<TOTAL_TEST_QUESTION; i++){
             GetEnglishWordQuestionRes res=new GetEnglishWordQuestionRes();
             res.setWordQuePk(listAll.get(i).getWordPk());
             res.setWord(listAll.get(i).getWord());
@@ -153,8 +154,10 @@ public class OnlineEnglishServiceImpl {
         }
         List<OnlineEnglishListening> listAll=listeningRepository.getAllByGrade(grade);
         Collections.shuffle(listAll);
+
         List<GetEnglishListeningQuestionRes> list=new ArrayList<>();
-        for(OnlineEnglishListening listening : listAll){
+        for(int i=0; i<TOTAL_TEST_QUESTION; i++){
+            OnlineEnglishListening listening=listAll.get(i);
             GetEnglishListeningQuestionRes res=new GetEnglishListeningQuestionRes();
             res.setQueId(listening.getListeningPk());
             res.setQuestion(listening.getQuestion());
