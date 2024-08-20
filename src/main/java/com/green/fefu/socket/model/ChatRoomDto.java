@@ -22,6 +22,7 @@ public class ChatRoomDto {
     private ParentsDto parentsId;
     private List<ChatMsgDto> messages;
 
+    private String loginUserName;
 
 
     @Builder
