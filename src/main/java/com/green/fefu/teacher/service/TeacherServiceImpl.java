@@ -7,7 +7,6 @@ import com.green.fefu.common.AppProperties;
 import com.green.fefu.common.CookieUtils;
 import com.green.fefu.entity.Teacher;
 import com.green.fefu.exception.CustomException;
-import com.green.fefu.exception.bch.BchErrorCode;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
 import com.green.fefu.security.jwt.JwtTokenProviderV2;
@@ -18,13 +17,11 @@ import com.green.fefu.teacher.test.TeacherService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.green.fefu.exception.CustomErrorCode.YOU_ARE_NOT_TEACHER;
 import static com.green.fefu.exception.bch.BchErrorCode.*;
 import static com.green.fefu.teacher.model.dataset.TeacherMapNamingData.*;
 import static java.time.LocalDateTime.now;
@@ -370,7 +367,7 @@ public class TeacherServiceImpl implements TeacherService {
     //    선생님 비밀번호 변경 ( 로그인 전 )
     @Transactional
     @Override
-    public void ChangePassWord(ChangePassWordReq p){
+    public Teacher ChangePassWord(ChangePassWordReq p){
 
 //        널체크
 //        ChangePassWordNullCheck(p);
@@ -380,7 +377,10 @@ public class TeacherServiceImpl implements TeacherService {
 
 //        유저 select
 //        TeacherEntity teacher = getTEntity(p);
-        Teacher teacher = teacherRepository.findByUid(p.getTeacherId());
+        long teacherPk = authenticationFacade.getLoginUserId() ;
+        Teacher teacher = teacherRepository.getReferenceById(teacherPk) ;
+//        Teacher teacher = teacherRepository.findByUid(p.getTeacherUid());
+
 //        타입 체크
 //        ChangePassWordTypeCheck(p);
         if(!passwordEncoder.matches(p.getOldPassWord(), teacher.getUpw())){
@@ -389,11 +389,12 @@ public class TeacherServiceImpl implements TeacherService {
 
 //        비밀번호 암호화
         String hashpw = passwordEncoder.encode(p.getPassWord());
-        p.setPassWord(hashpw);
+//        p.setPassWord(hashpw);
 
-
-        teacher.setUpw(p.getPassWord());
+        teacher.setUpw(hashpw);
         teacherRepository.save(teacher);
+
+        return teacher ;
 //        쿼리 실행
     }
 /*

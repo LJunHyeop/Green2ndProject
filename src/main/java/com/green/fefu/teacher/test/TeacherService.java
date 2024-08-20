@@ -1,5 +1,6 @@
 package com.green.fefu.teacher.test;
 
+import com.green.fefu.entity.Teacher;
 import com.green.fefu.teacher.model.req.*;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -16,7 +17,7 @@ public interface TeacherService {
 
     void FindTeacherPassword(FindTeacherPasswordReq p, Map map);
 
-    void ChangePassWord(ChangePassWordReq p);
+    Teacher ChangePassWord(ChangePassWordReq p);
 
     Map TeacherDetail(Map map);
 
