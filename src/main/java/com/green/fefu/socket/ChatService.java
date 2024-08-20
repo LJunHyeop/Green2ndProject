@@ -178,22 +178,22 @@ public class ChatService {
         Teacher teacher = teacherRepository.findById(teaId)
                 .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
         List<ChatRoom> chatRooms = customRepository.findAllByMembersTeacher(teacher);
-        return convertToChatRoomDtoParent(chatRooms, teacher);
+        return convertToChatRoomDtoTeacher(chatRooms, teacher);
     }
 
-    private List<GetMemberChat> convertToChatRoomDtoParent(List<ChatRoom> chatRooms, Teacher teacher) {
-        if (chatRooms.isEmpty()) {
-            return Collections.emptyList();
-        }
+    private List<GetMemberChat> convertToChatRoomDtoTeacher(List<ChatRoom> chatRooms, Teacher currentTeacher) {
         List<GetMemberChat> result = new ArrayList<>();
-        // Add teacher information
-        GetMemberChat teacherDto = new GetMemberChat();
-        teacherDto.setRoomId(chatRooms.get(0).getId());
-        teacherDto.setTeaId(new TeacherDto(teacher));
-        result.add(teacherDto);
 
-        // Add parent information
         for (ChatRoom chatRoom : chatRooms) {
+            GetMemberChat roomDto = new GetMemberChat();
+            roomDto.setRoomId(chatRoom.getId());
+
+            // 선생님 정보 설정
+            roomDto.setTeaId(new TeacherDto(currentTeacher));
+
+            result.add(roomDto);
+
+            // 부모 정보 추가
             chatRoom.getMembers().stream()
                     .filter(member -> member.getParent() != null)
                     .forEach(member -> {
@@ -205,8 +205,6 @@ public class ChatService {
 
         return result;
     }
-
-
     /*
       ChatRoom 엔티티를 ChatRoomDto로 변환합니다.
       @param chatRoom 변환할 ChatRoom 엔티티
