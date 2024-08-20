@@ -93,7 +93,7 @@ public class OnlineEnglishServiceImpl {
         entEnglishListening.setQuestion(p.getQuestion());
         entEnglishListening.setAnswer(p.getAnswer());
         String picName=customFileUtils.makeRandomFileName(pic);
-        entEnglishListening.setSentence(picName);
+        entEnglishListening.setSentence(p.getSentence());
         entEnglishListening.setPic(picName);
         log.info("service-entity {}", entEnglishListening);
         Teacher teacher=teacherRepository.getReferenceById(authenticationFacade.getLoginUserId());
@@ -111,9 +111,10 @@ public class OnlineEnglishServiceImpl {
         //사진 처리
         if (pic != null || !pic.isEmpty()) {
             try {
+                log.info("{}",entEnglishListening.getListeningPk());
                 String path = String.format("onlineEngLis/%s",entEnglishListening.getListeningPk());
                 customFileUtils.makeFolders(path);
-                String target = String.format("%s/%s", path, pic);
+                String target = String.format("%s/%s", path, picName);
                 customFileUtils.transferTo(pic, target);
             } catch (Exception e) {
                 e.printStackTrace();
