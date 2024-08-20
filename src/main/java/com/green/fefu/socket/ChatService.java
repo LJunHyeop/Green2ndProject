@@ -91,11 +91,12 @@ public class ChatService {
                 .findFirst()
                 .ifPresent(member -> chatRoomDto.setTeaId(new TeacherDto(member.getTeacher())));
 
-        // Parent 정보 설정
-        chatRoom.getMembers().stream()
+        // Parent 정보 설정 (여러 부모를 리스트로 저장)
+        List<ParentsDto> parentsList = chatRoom.getMembers().stream()
                 .filter(member -> member.getParent() != null)
-                .findFirst()
-                .ifPresent(member -> chatRoomDto.setParentsId(new ParentsDto(member.getParent())));
+                .map(member -> new ParentsDto(member.getParent()))
+                .collect(Collectors.toList());
+        chatRoomDto.setParents(parentsList);
 
         // DTO 리스트에 추가
         dtos.add(chatRoomDto);
@@ -105,8 +106,6 @@ public class ChatService {
     }
 
     private ChatMsgDto convertToChatMsgDto(ChatMsg chatMsg) {
-        SenderDto senderDto = new SenderDto(); // SenderDto 클래스를 별도로 정의해야 합니다.
-        // 필요한 경우 sender의 다른 정보도 설정
         return new ChatMsgDto(
                 chatMsg.getMessage(),
                 chatMsg.getChatRoom().getId(),
@@ -202,28 +201,7 @@ public class ChatService {
       @param chatRoom 변환할 ChatRoom 엔티티
       @return 변환된 ChatRoomDto
      */
-    private ChatRoomDto convertToChatRoomDto(ChatRoom chatRoom) {
-        // 채팅방 멤버 중 선생님을 찾습니다.
-        Teacher teacher = chatRoom.getMembers().stream()
-                .filter(member -> member.getTeacher() != null)
-                .map(ChatRoomMember::getTeacher)
-                .findFirst()
-                .orElse(null);
 
-        // 채팅방 멤버 중 부모를 찾습니다.
-        Parents parent = chatRoom.getMembers().stream()
-                .filter(member -> member.getParent() != null)
-                .map(ChatRoomMember::getParent)
-                .findFirst()
-                .orElse(null);
-
-        // ChatRoomDto를 생성하여 반환합니다.
-        return ChatRoomDto.builder()
-                .roomId(chatRoom.getId())
-                .teaId(teacher == null ? null : new TeacherDto(teacher))
-                .parentsId(parent == null ? null : new ParentsDto(parent))
-                .build();
-    }
     /*
       부모 ID로 모든 채팅방을 찾아 DTO 리스트로 반환합니다.
       @param parentsId 찾을 부모의 ID
