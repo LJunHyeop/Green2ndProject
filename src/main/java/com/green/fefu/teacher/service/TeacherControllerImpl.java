@@ -216,17 +216,8 @@ public class TeacherControllerImpl implements TeacherController {
     @Override
     public ResponseEntity ChangeTeacher(@RequestBody @Valid ChangeTeacherReq p) {
         log.info("ChangeTeacher req: {}", p);
-        Teacher teacher = service.ChangeTeacher(p);
-        Map map = new HashMap();
-        map.put("uid", teacher.getUid()) ;
-        map.put("gender", teacher.getGender()) ;
-        map.put("phone", teacher.getPhone()) ;
-        map.put("name", teacher.getName()) ;
-        map.put("birth", teacher.getBirth()) ;
-        map.put("email", teacher.getEmail()) ;
-        map.put("class", teacher.getClass()) ;
-        map.put("addr", teacher.getAddr()) ;
-        return new ResponseEntity<>(map, OK) ;
+        service.ChangeTeacher(p);
+        return new ResponseEntity<>(OK) ;
     }
 
 

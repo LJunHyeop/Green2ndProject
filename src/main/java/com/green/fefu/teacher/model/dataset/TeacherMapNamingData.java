@@ -2,7 +2,7 @@ package com.green.fefu.teacher.model.dataset;
 
 public interface TeacherMapNamingData {
     String TEACHER_PK = "teacherPk"; // PK값
-    String TEACHER_ID = "id"; //아이디
+    String TEACHER_UID = "uid"; //아이디
     String TEACHER_PASSWORD = "pwd"; // 비밀번호
     String TEACHER_NAME = "name"; //이름
     String TEACHER_PHONE = "phone"; //전화번호
