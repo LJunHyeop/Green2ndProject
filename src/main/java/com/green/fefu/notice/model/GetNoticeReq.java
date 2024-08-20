@@ -18,6 +18,6 @@ public class GetNoticeReq {
     @JsonIgnore
     private int state;
 
-    @Schema(example = "1", description = "학부모는 <strong>무조건</strong> 보내야함")
+    @Schema(example = "3", description = "학부모는 <strong>무조건</strong> 보내야함")
     private long studentPk;
 }

@@ -195,7 +195,7 @@ public class HaesolOnlineServiceImpl {
         studentOnlineRecodeRepository.save(onlineRecode);
 
         if(p.getOmrAnswer().size()!=p.getQuestionPk().size()){
-            throw new CustomException(OMR_ISNT_CORRECT);
+            throw new CustomException(OMR_ISN_T_CORRECT);
         }
 
         TestOutCome outCome=new TestOutCome(); //최종적으로 리턴할 객체
