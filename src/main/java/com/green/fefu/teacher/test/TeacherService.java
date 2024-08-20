@@ -21,5 +21,5 @@ public interface TeacherService {
 
     Map TeacherDetail(Map map);
 
-    Teacher ChangeTeacher(ChangeTeacherReq p);
+    void ChangeTeacher(ChangeTeacherReq p);
 }
