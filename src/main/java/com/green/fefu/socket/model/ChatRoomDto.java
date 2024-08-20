@@ -1,12 +1,10 @@
 package com.green.fefu.socket.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.green.fefu.entity.ChatRoom;
-import com.green.fefu.entity.Parents;
-import com.green.fefu.entity.Teacher;
 import lombok.*;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,18 +19,22 @@ public class ChatRoomDto {
     private Long roomId;
     private TeacherDto teaId;
     private Set<WebSocketSession> sessions = new HashSet<>();
-    private ParentsDto parentsId;
+    private List<ParentsDto> parents = new ArrayList<>();  // 초기화
     private List<ChatMsgDto> messages;
-
     private String loginUserName;
 
-
     @Builder
-    public ChatRoomDto(Long roomId, TeacherDto teaId, ParentsDto parentsId, List<ChatMsgDto> messages ) {
+    public ChatRoomDto(Long roomId, TeacherDto teaId, List<ParentsDto> parents, List<ChatMsgDto> messages) {
         this.roomId = roomId;
         this.teaId = teaId;
-        this.parentsId = parentsId;
+        this.parents = parents != null ? parents : new ArrayList<>();
         this.messages = messages;
+    }
 
+    public void addParents(List<ParentsDto> newParents) {
+        if (this.parents == null) {
+            this.parents = new ArrayList<>();
+        }
+        this.parents.addAll(newParents);
     }
 }
