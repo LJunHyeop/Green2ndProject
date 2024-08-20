@@ -1,6 +1,7 @@
 package com.green.fefu.teacher.service;
 
 
+import com.green.fefu.entity.Teacher;
 import com.green.fefu.teacher.model.req.*;
 import com.green.fefu.teacher.test.TeacherController;
 import io.swagger.v3.oas.annotations.Operation;
@@ -153,8 +154,10 @@ public class TeacherControllerImpl implements TeacherController {
     @Override
     public ResponseEntity ChangePassWord(@RequestBody @Valid ChangePassWordReq p) {
         log.info("ChangePassWord req: {}", p);
-        service.ChangePassWord(p);
-        return new ResponseEntity<>(OK);
+        Teacher teacher = service.ChangePassWord(p);
+        Map map = new HashMap();
+        map.put("uid", teacher.getUid()) ;
+        return new ResponseEntity<>(map, OK) ;
     }
 
     //    선생님 내정보 불러오기
