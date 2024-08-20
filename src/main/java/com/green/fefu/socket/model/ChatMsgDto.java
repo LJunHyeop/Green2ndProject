@@ -1,25 +1,29 @@
 package com.green.fefu.socket.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.green.fefu.entity.ChatMsg;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
 @NoArgsConstructor
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChatMsgDto {
     private String msg;
     private Long roomId;
     private String sender;
-    private LocalDateTime sendTime;  // 시간 정보 추가
+    private String sendTime;  // LocalDateTime 대신 String으로 변경
 
-    // 생성자, getter, setter
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    // 생성자
     public ChatMsgDto(String msg, Long roomId, String sender, LocalDateTime sendTime) {
         this.msg = msg;
         this.roomId = roomId;
         this.sender = sender;
-        this.sendTime = sendTime;
+        this.sendTime = sendTime.format(formatter);  // LocalDateTime을 형식화된 String으로 변환
     }
 }

@@ -1,5 +1,6 @@
 package com.green.fefu.socket.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.green.fefu.entity.ChatRoom;
 import com.green.fefu.entity.Parents;
 import com.green.fefu.entity.Teacher;
@@ -15,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChatRoomDto {
     private Long roomId;
     private TeacherDto teaId;
