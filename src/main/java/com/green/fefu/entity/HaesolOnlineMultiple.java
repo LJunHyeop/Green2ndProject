@@ -23,6 +23,6 @@ public class HaesolOnlineMultiple {
     @JoinColumn(name="que_id", nullable = false)
     private HaesolOnline haesolOnline;
 
-    @Column(length=30, nullable = false)
+    @Column(length=200, nullable = false)
     private String sentence;
 }
