@@ -1,6 +1,7 @@
 package com.green.fefu.socket.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.green.fefu.entity.Parents;
 import lombok.*;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
@@ -14,7 +15,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+
 public class ChatRoomDto {
     private Long roomId;
     private TeacherDto teaId;
@@ -23,12 +25,17 @@ public class ChatRoomDto {
     private List<ChatMsgDto> messages;
     private String loginUserName;
 
+    private long parentId;
+    private long teacherId;
+
     @Builder
-    public ChatRoomDto(Long roomId, TeacherDto teaId, List<ParentsDto> parents, List<ChatMsgDto> messages) {
+    public ChatRoomDto(Long roomId, TeacherDto teaId, List<ParentsDto> parents, List<ChatMsgDto> messages, long parentId,long teacherId) {
         this.roomId = roomId;
         this.teaId = teaId;
         this.parents = parents != null ? parents : new ArrayList<>();
         this.messages = messages;
+        this.parentId = parentId;
+        this.teacherId = teacherId;
     }
 
     public void addParents(List<ParentsDto> newParents) {
