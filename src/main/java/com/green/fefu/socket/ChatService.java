@@ -1,6 +1,7 @@
 package com.green.fefu.socket;
 
 import com.green.fefu.entity.*;
+import com.green.fefu.entity.Class;
 import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
@@ -9,16 +10,14 @@ import com.green.fefu.socket.repository.ChatMsgRepository;
 import com.green.fefu.socket.repository.ChatRoomMemberRepository;
 import com.green.fefu.socket.repository.ChatRoomRepository;
 import com.green.fefu.socket.repository.ChatRoomRepositoryCustomImpl;
+import com.green.fefu.student.repository.ClassRepository;
 import com.green.fefu.teacher.repository.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.BooleanUtils.forEach;
@@ -35,6 +34,7 @@ public class ChatService {
     private final ChatRoomMemberRepository chatRoomMemberRepository;
     private final ChatRoomRepositoryCustomImpl customRepository;
 
+    private final ClassRepository classRepository;
     private final AuthenticationFacade authenticationFacade;
 
     /*

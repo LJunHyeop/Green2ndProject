@@ -22,15 +22,15 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         this.uploadPath = uploadPath;
     }
 
+
     @Override // CORS 오픈
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOriginPatterns("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
+                .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
                 .allowedHeaders("Authorization", "Content-Type")
                 .allowCredentials(false) // 쿠키 요청을 허용
                 .maxAge(3600) ;
-
     }
 
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -54,6 +54,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                     }
                 });
     }
+
+
 //    }
 //    @Controller
 //    public class WebController implements ErrorController {

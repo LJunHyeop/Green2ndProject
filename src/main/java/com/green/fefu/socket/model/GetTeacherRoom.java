@@ -15,4 +15,8 @@ public class GetTeacherRoom {
 
     private Long roomId;
 
+    private Long classId;
+
+    private Long gradleId;
+
 }

@@ -9,6 +9,11 @@ public class TeacherDto {
 
     private String name;
 
+
+    private int grade;
+
+    private int classNumber;
+
     public TeacherDto(Teacher data) {
         this.teaId = data.getTeaId() ;
         this.name = data.getName() ;
