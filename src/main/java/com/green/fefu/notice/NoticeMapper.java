@@ -19,11 +19,11 @@ public interface NoticeMapper {
 
 
     //학부모와 교사의 관계된 학반 조회
-    int teacherHomeroom(long teaId);
+    Integer teacherHomeroom(long teaId);
 
     Integer childClassRoomList(long parentsId, long studentPk);
 
-
+    Integer studentClass(long stuId);
 
 
     //TDD를 위한 메소드

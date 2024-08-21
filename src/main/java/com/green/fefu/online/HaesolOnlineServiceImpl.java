@@ -194,6 +194,10 @@ public class HaesolOnlineServiceImpl {
         onlineRecode.setTestTitle(p.getTitle());
         studentOnlineRecodeRepository.save(onlineRecode);
 
+        if(p.getOmrAnswer().size()!=p.getQuestionPk().size()){
+            throw new CustomException(OMR_ISN_T_CORRECT);
+        }
+
         TestOutCome outCome=new TestOutCome(); //최종적으로 리턴할 객체
         StudentOmr testOutComeList=p; //TestOutCome에 담겨 틀린 문제의 리스트를 리턴(전체 문제의 PK, 학생답, 실제 답)
         outCome.setStudentOmr(testOutComeList);

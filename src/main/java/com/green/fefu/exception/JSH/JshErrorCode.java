@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum JshErrorCode implements ErrorCode {
+    OMR_ISN_T_CORRECT(HttpStatus.BAD_REQUEST,"문항의 수와 정답의 수가 일치하지 않습니다."),
     NOTICE_STATE_CHECK(HttpStatus.BAD_REQUEST,"정상적이지 않은 알림장 항목을 호출하였습니다."),
     EXCEED_PK_VALUE(HttpStatus.BAD_REQUEST, "해당문제를 데이터베이스에서 조회할 수 없습니다."),
     HOMEROOM_ISN_T_EXIST(HttpStatus.BAD_REQUEST, "맡은 학급을 조회할 수 없습니다."),

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.BindParam;
 
 
@@ -18,6 +19,6 @@ public class GetNoticeReq {
     @JsonIgnore
     private int state;
 
-    @Schema(example = "1", description = "학부모는 <strong>무조건</strong> 보내야함")
+    @Schema(example = "3", description = "학부모는 <strong>무조건</strong> 보내야함")
     private long studentPk;
 }

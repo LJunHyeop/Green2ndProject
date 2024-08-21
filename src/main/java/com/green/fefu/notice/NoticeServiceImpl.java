@@ -70,29 +70,52 @@ public class NoticeServiceImpl implements NoticeService{
             p.setClassId(classId);
             List<GetNoticeRes> allList=mapper.getNotice(p);
             return noticeType(allList);
+        }else if(userRole.equals("ROLE_PARENT")) {
+            long parentsId = authenticationFacade.getLoginUserId();
+            Integer classId = mapper.childClassRoomList(parentsId, p.getStudentPk());
+            if (classId == null) {
+                throw new CustomException(HAS_NOT_GRADE);
+            }
+            p.setClassId(classId);
+            List<GetNoticeRes> allList = mapper.getNotice(p);
+            return noticeType(allList);
         }
-        long parentsId=authenticationFacade.getLoginUserId();
-        Integer classId=mapper.childClassRoomList(parentsId, p.getStudentPk());
-        if(classId==null){
-            throw new CustomException(HAS_NOT_GRADE);
-        }
+        long stuId=authenticationFacade.getLoginUserId();
+        Integer classId=mapper.studentClass(stuId);
         p.setClassId(classId);
-        List<GetNoticeRes> allList = mapper.getNotice(p);
+        List<GetNoticeRes> allList=mapper.getNotice(p);
         return noticeType(allList);
     }
+
+
     //최신의 알림장 정보 1개 조회
     public Map<String, GetNoticeRes> getNoticeLatest(GetNoticeReq p){
         MyUser user=authenticationFacade.getLoginUser();
         String userRole=user.getRole();
         if(userRole.equals("ROLE_TEACHER")){
             long teaId=authenticationFacade.getLoginUserId();
-            int classId=mapper.teacherHomeroom(teaId);
+            Integer classId=mapper.teacherHomeroom(teaId);
+            if(classId==null){
+                throw new CustomException(HAS_NOT_GRADE);
+            }
             p.setClassId(classId);
             List<GetNoticeRes> allList=mapper.getNoticeLatest(p);
             return noticeTypeOne(allList);
+        }else if(userRole.equals("ROLE_PARENT")) {
+            long parentsId = authenticationFacade.getLoginUserId();
+            Integer classId = mapper.childClassRoomList(parentsId, p.getStudentPk());
+            if(classId==null){
+                throw new CustomException(HAS_NOT_GRADE);
+            }
+            p.setClassId(classId);
+            List<GetNoticeRes> allList = mapper.getNoticeLatest(p);
+            return noticeTypeOne(allList);
         }
-        long parentsId=authenticationFacade.getLoginUserId();
-        int classId=mapper.childClassRoomList(parentsId, p.getStudentPk());
+        long stuId=authenticationFacade.getLoginUserId();
+        Integer classId=mapper.studentClass(stuId);
+        if(classId==null){
+            throw new CustomException(HAS_NOT_GRADE);
+        }
         p.setClassId(classId);
         List<GetNoticeRes> allList=mapper.getNoticeLatest(p);
         return noticeTypeOne(allList);
