@@ -102,7 +102,9 @@
         FROM
         student a
         LEFT JOIN
-        score b ON a.stu_id = b.sc_id
+        student_class c ON a.stu_id = c.stu_id
+        LEFT JOIN
+        score b ON c.sc_id = b.sc_id
         WHERE
         a.stu_id = #{studentPk}
         ORDER BY
