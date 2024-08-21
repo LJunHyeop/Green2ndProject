@@ -118,7 +118,12 @@
     </select>
 
 
-
+    <select id="studentClass">
+        SELECT Floor(grade/100) AS class_id
+        FROM student A
+        WHERE stu_id=#{stuId}
+        ORDER BY created_at DESC;
+    </select>
 
 
 
