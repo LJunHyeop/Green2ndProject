@@ -513,6 +513,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
     }
 
     // 소셜 회원가입 처음부터 하기
+    @Transactional
     public int socialSignUpLogin(SocialLoginSIgnUpReq req){
         Student student = studentRepository.findByRandCode(req.getRandomCode()) ;
         if(student == null) {
@@ -530,8 +531,8 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         repository.save(parents) ;
 
         UpdateStudentParentsIdReq req1 = new UpdateStudentParentsIdReq() ;
-        req1.setParentsId(parents.getParentsId()) ;
-        req1.setStuId(student.getStuId()) ;
+        req1.setParentPk(parents.getParentsId()); ;
+        req1.setStudentPk(student.getStuId()) ;
         int updateStudent = mapper.updStudent(req1) ;
         log.info("updateStudent: {}", updateStudent) ;
 

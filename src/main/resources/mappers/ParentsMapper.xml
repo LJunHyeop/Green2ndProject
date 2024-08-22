@@ -181,7 +181,7 @@
     <update id="updStudent">
         UPDATE student
         SET parent_id = #{parentPk}
-        WHERE student_pk = #{studentPk}
+        WHERE stu_id = #{studentPk}
     </update>
     <select id="studentList">
         SELECT a.name AS studentName
