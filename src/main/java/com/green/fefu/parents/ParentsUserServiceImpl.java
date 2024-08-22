@@ -448,6 +448,9 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         }
 
         Parents parents = repository.getParentsByProviderTypeAndUidAndParentsPk(parentsOAuth2.getProviderType(), req.getId(), parentsOAuth2.getParentsId().getParentsId()) ;
+        if(parents.getAccept() != 1 ){
+            throw new CustomException(YET_OK_USER) ;
+        }
         log.info("parent: {}", parents) ;
         if (!Objects.equals(parents.getAuth(), "ROLE_PARENTS")) {
             throw new CustomException(NOT_ACCESS_AUTHORITY) ;
@@ -467,6 +470,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         List<ParentsUser> list = mapper.getParentUser(parents.getUid()) ;
         List<StudentRes> student = mapper.studentList(parents.getParentsId()) ;
         log.info("list: {}", list.get(0));
+
         if(list.get(0).getConnect().equals("기타") || list.get(0).getPhone().equals("010-0000-0000")){
             return SignInPostRes.builder()
                     .parentsId(parents.getParentsId())
@@ -522,6 +526,7 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         parents.setPhone(req.getPhone()) ;
         parents.setConnect(req.getConnect()) ;
         parents.setEmail(req.getEmail()) ;
+        parents.setAccept(2) ;
         repository.save(parents) ;
 
         ParentOAuth2 oAuth2 = new ParentOAuth2() ;
