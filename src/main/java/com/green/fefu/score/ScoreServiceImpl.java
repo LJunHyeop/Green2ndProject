@@ -7,25 +7,22 @@ import com.green.fefu.entity.StudentClass;
 import com.green.fefu.exception.CustomException;
 import com.green.fefu.parents.ParentsUserMapper;
 import com.green.fefu.parents.model.GetSignatureReq;
-import com.green.fefu.parents.repository.ParentRepository;
 import com.green.fefu.parents.repository.ScoreSignRepository;
 import com.green.fefu.score.model.*;
-
+import com.green.fefu.score.model.ScoreList ;
 import com.green.fefu.score.module.RoleCheckerImpl;
 import com.green.fefu.score.repository.ScoreRepository;
 import com.green.fefu.security.AuthenticationFacade;
 import com.green.fefu.security.MyUser;
-import com.green.fefu.student.model.dto.getDetail;
 import com.green.fefu.student.repository.StudentClassRepository;
 import com.green.fefu.student.repository.StudentRepository;
 import com.green.fefu.student.service.StudentMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.maven.model.Parent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.green.fefu.exception.LJH.LjhErrorCode.*;
@@ -49,9 +46,6 @@ public class ScoreServiceImpl {
     public int postScore(InsScoreReq p) {
         MyUser user = authenticationFacade.getLoginUser();
         DelScore delScore = new DelScore();
-
-
-
         // 선생이 아닐때
         GetSignatureReq req = new GetSignatureReq();
         req.setStudentPk((p.getStudentPk()));
@@ -75,23 +69,55 @@ public class ScoreServiceImpl {
 //        repository.findNameBy(p.getScoreList().get(0).getName());
 //        repository.findSemesterBy(p.getSemester());
 //        repository.findYearBy(p.getYear());
+        try {
+            // 기본 정보 삽입
+            // scoreList 삽입
+            mapper.delScore(delScore);
+            if (p.getScoreList() != null && !p.getScoreList().isEmpty()) {
+                parentsUserMapper.delSignature(req);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CustomException(SCORE_INSERT_POST);
+        }
 
-        score.setExam(p.getScoreList().get(0).getExam());
-        StudentClass scid = studentClassRepository.findByStuId(student);
-        score.setScId(scid);
-        score.setSemester(p.getSemester());
-        score.setYear(Integer.toString(p.getYear()));
-        score.setName(p.getScoreList().get(0).getName());
-        score.setMark(p.getScoreList().get(0).getMark());
+        for (int i= 0; i < p.getScoreList().size(); i++){
+            List<ScoreList> beforeList = new ArrayList<>() ;
+            score.setExam(p.getScoreList().get(i).getExam());
+            int asdf = Integer.parseInt(String.valueOf(p.getStudentPk())) ;
+            StudentClass scid = studentClassRepository.getReferenceById(asdf) ;
+            log.info("scid: {}", scid) ;
+//                    studentClassRepository.findAllByStuId(student);
+//            score.setScId(scid);
+//            score.setSemester(p.getSemester());
+//            score.setYear(Integer.toString(p.getYear()));
+//            score.setName(p.getScoreList().get(i).getName());
+//            score.setMark(p.getScoreList().get(i).getMark());
+
+            long scId = scid.getScId() ;
+            InsScoreReq req2 = new InsScoreReq();
+            req2.setStudentPk(scId) ;
+            req2.setSemester(p.getSemester());
+            req2.setYear(p.getYear());
+
+            ScoreList list = new ScoreList();
+            list.setExam(p.getScoreList().get(i).getExam());
+            list.setMark(p.getScoreList().get(i).getMark());
+            list.setName(p.getScoreList().get(i).getName());
+            beforeList.add(list);
+
+            req2.setScoreList(beforeList) ;
+
+//            repository.save(score);
+            mapper.postScoreList(req2);
+        }
+
 
         //전자서명 확인
         scoreSign = scoreSignRepository.findTop1BySemesterAndYearAndStudentPk(p.getSemester(),p.getYear(),student) ;
 
         //권한체크
         roleChecker.checkTeacherRole();
-
-
-
 
         if (scoreSign != null) {
             scoreSignRepository.delete(scoreSign);
@@ -104,20 +130,7 @@ public class ScoreServiceImpl {
 //            throw new CustomException(SCORE_INSERT_STU_POST);
 //        }
         //성적 있을시 성적 지우고 새로입력
-
-        try {
-            // 기본 정보 삽입
-            // scoreList 삽입
-            mapper.delScore(delScore);
-            if (p.getScoreList() != null && !p.getScoreList().isEmpty()) {
-                parentsUserMapper.delSignature(req);
-                repository.save(score);
-            }
-            return 1; // 기본 정보만 삽입된 경우
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new CustomException(SCORE_INSERT_POST);
-        }
+        return 1;
     }
     //점수 받아오기
     public Dto getScore(StuGetRes p){
