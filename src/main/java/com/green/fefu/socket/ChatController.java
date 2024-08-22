@@ -135,27 +135,27 @@ public class ChatController {
         chatService.saveChat(message);
         template.convertAndSend("/sub/item/" + "/chat/" + message.getRoomId(), message);
     }
-    @MessageMapping("/sendMessage")
-    public void sendMessage(@Payload ChatMsgDto message) {
-        chatService.saveChat(message);
-        template.convertAndSend("/sub/item/chat/" + message.getRoomId(), message);
-    }
-
-    @MessageMapping("/joinRoom")
-    public void joinRoom(@Payload ChatMsgDto message) {
-        // 방에 참가 시 처리 로직
-        // 필요 시, 방 참가 이벤트를 클라이언트에 전송
-        template.convertAndSend("/sub/item/chat/" + message.getRoomId(),
-                new ChatMsgDto(message.getRoomId(), "System", message.getSender() + " joined the room"));
-    }
-
-    @MessageMapping("/leaveRoom")
-    public void leaveRoom(@Payload ChatMsgDto message) {
-        // 방을 떠날 때 처리 로직
-        // 필요 시, 방 퇴장 이벤트를 클라이언트에 전송
-        template.convertAndSend("/sub/item/chat/" + message.getRoomId(),
-                new ChatMsgDto(message.getRoomId(), "System", message.getSender() + " left the room"));
-    }
+//    @MessageMapping("/sendMessage")
+//    public void sendMessage(@Payload ChatMsgDto message) {
+//        chatService.saveChat(message);
+//        template.convertAndSend("/sub/item/chat/" + message.getRoomId(), message);
+//    }
+//
+//    @MessageMapping("/joinRoom")
+//    public void joinRoom(@Payload ChatMsgDto message) {
+//        // 방에 참가 시 처리 로직
+//        // 필요 시, 방 참가 이벤트를 클라이언트에 전송
+//        template.convertAndSend("/sub/item/chat/" + message.getRoomId(),
+//                new ChatMsgDto(message.getRoomId(), "System", message.getSender() + " joined the room"));
+//    }
+//
+//    @MessageMapping("/leaveRoom")
+//    public void leaveRoom(@Payload ChatMsgDto message) {
+//        // 방을 떠날 때 처리 로직
+//        // 필요 시, 방 퇴장 이벤트를 클라이언트에 전송
+//        template.convertAndSend("/sub/item/chat/" + message.getRoomId(),
+//                new ChatMsgDto(message.getRoomId(), "System", message.getSender() + " left the room"));
+//    }
 
 }
 
