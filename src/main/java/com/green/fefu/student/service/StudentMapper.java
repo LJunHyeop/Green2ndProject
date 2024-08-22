@@ -14,7 +14,7 @@ public interface StudentMapper {
 
     List<getStudent> getStudentList(long pk);
 
-    getDetail getStudentDetail(long pk);
+    List<getDetail> getStudentDetail(long pk);
 
     int updateStudent(updateStudentReq p);
 

@@ -227,7 +227,10 @@ public class StudentServiceImpl implements StudentService {
     //=====================================================================================================================
     @Override
     public Map getStudentDetail(long pk, Map map) {
-        getDetail result = mapper.getStudentDetail(pk);
+        List<getDetail> result1 = mapper.getStudentDetail(pk);
+
+        getDetail result = result1.get(0) ;
+        log.info("result: {}", result) ;
         if (result == null) {
             throw new CustomException(QUERY_RESULT_ERROR);
         }
@@ -244,6 +247,7 @@ public class StudentServiceImpl implements StudentService {
         map.put(CONNET, result.getConnet());
         map.put(PARENT_PHONE, result.getParentPhone());
         map.put(TEACHER_NAME, result.getTeacherName());
+
         String[] classData = null;
         if (result.getUClass() != null) {
             classData = Parser.classParserArray(result.getUClass());
@@ -266,7 +270,7 @@ public class StudentServiceImpl implements StudentService {
 //        리스트 젤 마지막꺼 자르고 줘야함 ( 마지막껀 현재 정보기 때문 )
         List<prevStudentEtc> prevEtc = mapper.selPrevEtc(pk);
         log.info("prevEtc.size() = " + prevEtc.size());
-        prevEtc.remove(prevEtc.size() - 1);
+
         log.info("removePrevEtc.size() = " + prevEtc.size());
         for (int i = 0; i < prevEtc.size(); i++) {
             String etcClass = Parser.classParser(prevEtc.get(i).getUClass());

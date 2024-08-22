@@ -70,7 +70,7 @@ public class NoticeServiceImpl implements NoticeService{
             p.setClassId(classId);
             List<GetNoticeRes> allList=mapper.getNotice(p);
             return noticeType(allList);
-        }else if(userRole.equals("ROLE_PARENT")) {
+        }else if(userRole.equals("ROLE_PARENTS")) {
             long parentsId = authenticationFacade.getLoginUserId();
             Integer classId = mapper.childClassRoomList(parentsId, p.getStudentPk());
             if (classId == null) {

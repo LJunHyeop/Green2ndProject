@@ -168,6 +168,9 @@ public class AdminServiceImpl implements AdminService {
                 return new ArrayList<>();
             }
             for (Parents parent : parentList) {
+                if(parent.getParentsId() == 0){
+                    continue ;
+                }
                 Map<String,Object> map = new HashMap<>();  // 새 map 객체 생성
                 map.put(STATE, parent.getState() == 1 ? "활성화" : "비활성화");
                 map.put(ID, parent.getUid());
@@ -221,6 +224,9 @@ public class AdminServiceImpl implements AdminService {
                 return new ArrayList<>();
             }
             for (Teacher teacher : teacherList) {
+                if(teacher.getTeaId() == 0){
+                    continue ;
+                }
                 Map<String,Object> map = new HashMap<>();  // 새 map 객체 생성
                 Class c = classRepository.findByTeaId(teacher.getTeaId());
                 map.put(STATE, teacher.getState() == 1 ? "활성화" : "비활성화");

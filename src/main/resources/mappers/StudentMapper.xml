@@ -77,6 +77,7 @@
         teacher t ON c.tea_id = t.tea_id
         WHERE
         s.stu_id = #{pk}
+        ORDER BY sc.created_at DESC
         LIMIT 1
     </select>
 
@@ -169,7 +170,8 @@
         ON sc.stu_id = ss.stu_id
         WHERE
         sc.stu_id = #{pk}
-        ORDER BY uClass
+        ORDER BY uClass desc
+        LIMIT 1
     </select>
 
     <update id="updStudentParent">
