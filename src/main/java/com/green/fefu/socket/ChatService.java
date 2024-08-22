@@ -155,7 +155,7 @@ public class ChatService {
             chatMsg.setTeacher(teacher);
             chatMsg.setParents(parents);
             chatMsgRepository.save(chatMsg);
-        } else if (myUser.getRole().equals("ROLE_PARENT")) {
+        } else if (myUser.getRole().equals("ROLE_PARENTS")) {
             Parents parent = parentRepository.getReferenceById(authenticationFacade.getLoginUserId());
             Teacher teacher = new Teacher();
             teacher.setTeaId(0L); // 기본 선생님 ID 설정
