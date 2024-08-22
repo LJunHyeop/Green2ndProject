@@ -13,8 +13,12 @@ import java.time.format.DateTimeFormatter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChatMsgDto {
     private String msg;
+
     private Long roomId;
+
     private String sender;
+
+
     private String sendTime;  // LocalDateTime 대신 String으로 변경
 
     private Long teaId;
@@ -28,5 +32,8 @@ public class ChatMsgDto {
         this.roomId = roomId;
         this.sender = sender;
         this.sendTime = sendTime.format(formatter);  // LocalDateTime을 형식화된 String으로 변환
+    }
+
+    public ChatMsgDto(Long roomId, String system, String s) {
     }
 }
