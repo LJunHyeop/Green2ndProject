@@ -529,6 +529,12 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         parents.setAccept(2) ;
         repository.save(parents) ;
 
+        UpdateStudentParentsIdReq req1 = new UpdateStudentParentsIdReq() ;
+        req1.setParentsId(parents.getParentsId()) ;
+        req1.setStuId(student.getStuId()) ;
+        int updateStudent = mapper.updStudent(req1) ;
+        log.info("updateStudent: {}", updateStudent) ;
+
         ParentOAuth2 oAuth2 = new ParentOAuth2() ;
         oAuth2.setParentsId(parents) ;
         oAuth2.setId(req.getId()) ;
