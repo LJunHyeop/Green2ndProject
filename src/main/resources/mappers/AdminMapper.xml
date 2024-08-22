@@ -23,7 +23,10 @@
         </where>
         ORDER BY p.created_at
     </select>
-
+    <delete id="delClassTeacher">
+        DELETE FROM class
+        WHERE tea_id = #{teaId}
+    </delete>
     <select id="getTeacherList">
         SELECT t.tea_id AS pk, t.uid AS id,
         t.name AS name, c.class_id AS grade,
