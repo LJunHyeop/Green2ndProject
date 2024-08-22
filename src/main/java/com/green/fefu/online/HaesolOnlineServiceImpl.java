@@ -80,7 +80,7 @@ public class HaesolOnlineServiceImpl {
         haesolOnline.setLevel(p.getLevel()); //난이도
         haesolOnline.setQuestion(p.getQuestion()); //문제
         haesolOnline.setContents(p.getContents()); //내용
-        haesolOnline.setAnswer(p.getAnswer()); //보기 및 단답형 정답
+        haesolOnline.setAnswer(p.getAnswer()+1); //보기 및 단답형 정답
         haesolOnline.setQueTag(p.getQueTag()); //객관식 주관식 구분
         haesolOnline.setPic(picName); // 사진 저장
         //haesolOnline.setCreatedAt(LocalDateTime.now()); //생성일자(상속)
