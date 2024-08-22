@@ -16,6 +16,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -127,11 +129,35 @@ public class ChatController {
         return dto;
     }
 
-
     @PostMapping(value = "chat/sender")
     @Operation(summary = "채팅 저장 ")
     public void message(@RequestBody ChatMsgDto message) {
         chatService.saveChat(message);
         template.convertAndSend("/sub/item/" + "/chat/" + message.getRoomId(), message);
     }
+    @MessageMapping("/sendMessage")
+    public void sendMessage(@Payload ChatMsgDto message) {
+        chatService.saveChat(message);
+        template.convertAndSend("/sub/item/chat/" + message.getRoomId(), message);
+    }
+
+    @MessageMapping("/joinRoom")
+    public void joinRoom(@Payload ChatMsgDto message) {
+        // 방에 참가 시 처리 로직
+        // 필요 시, 방 참가 이벤트를 클라이언트에 전송
+        template.convertAndSend("/sub/item/chat/" + message.getRoomId(),
+                new ChatMsgDto(message.getRoomId(), "System", message.getSender() + " joined the room"));
+    }
+
+    @MessageMapping("/leaveRoom")
+    public void leaveRoom(@Payload ChatMsgDto message) {
+        // 방을 떠날 때 처리 로직
+        // 필요 시, 방 퇴장 이벤트를 클라이언트에 전송
+        template.convertAndSend("/sub/item/chat/" + message.getRoomId(),
+                new ChatMsgDto(message.getRoomId(), "System", message.getSender() + " left the room"));
+    }
+
 }
+
+
+
