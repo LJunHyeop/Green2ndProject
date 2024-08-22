@@ -121,8 +121,9 @@ app:
     authorized-redirect-uris:
       - http://localhost:3000/oauth/redirect
       - http://localhost:8080/oauth/redirect
-      - http://192.168.0.144:5121/oauth/redirect #내부 도커서버 IP
-      - http://112.222.157.156:5121/oauth/redirect #외부 IP
+      - http://192.168.0.144:5121/oauth/redirect
+      - http://112.222.157.156:5121/oauth/redirect
+      - http://192.168.0.144:5121
 
 coolsms:
   api:
