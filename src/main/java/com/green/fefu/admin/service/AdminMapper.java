@@ -18,4 +18,6 @@ public interface AdminMapper {
     int updParent(long pk);
 
     int updTeacher(long pk);
+
+    int delClassTeacher(long teaId) ;
 }

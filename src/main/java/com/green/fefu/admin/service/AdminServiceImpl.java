@@ -253,6 +253,7 @@ public class AdminServiceImpl implements AdminService {
             String resultString = aString + bFormatted;
             result = Integer.parseInt(resultString);
         }
+        log.info("result: {}", result) ;
 
 
 //        부모
@@ -279,7 +280,8 @@ public class AdminServiceImpl implements AdminService {
                 teacher.setName(p.getUserName());
             }
             if (result != 0){
-                Optional<Class> optionalClass = classRepository.findById(result);
+                Optional<Class> optionalClass = classRepository.findById(result) ;
+                log.info("optionalClass: {}", optionalClass);
 
                 if (optionalClass.isPresent()) {
                     // 학급 데이터가 존재하고, TeaId가 존재하는 경우 예외 처리
@@ -287,8 +289,13 @@ public class AdminServiceImpl implements AdminService {
                     if (existingClass.getTeaId() != null) {
                         throw new CustomException(MULTIPLE_TEACHER_ERROR);
                     }
+                    // 기존 학급에 교사를 할당
+                    existingClass.setTeaId(teacher) ;
+                    classRepository.save(existingClass);
                     // 학급 데이터가 존재하지만 TeaId가 없으면 (필요한 처리) 추가 로직을 여기에서 구현
-                } else {
+                } else { // 기존 학급 업데이트
+                    int delClass = mapper.delClassTeacher(p.getPk());
+                    log.info("delClass: {}", delClass);
                     // 학급 데이터가 존재하지 않으면 새로운 학급 데이터 생성 및 저장
                     Class newClass = new Class();
                     newClass.setClassId(result);

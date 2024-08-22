@@ -118,6 +118,7 @@
         ORDER BY
         s.stu_id;
     </select>
+
     <select id="getDetailScore">
         SELECT
         score_id AS scoreId,
