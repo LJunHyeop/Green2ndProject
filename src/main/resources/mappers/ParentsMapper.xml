@@ -31,13 +31,14 @@
         SELECT parents_id AS parentsId
                 , uid
                 , upw
-                , name
+                , name AS nm
                 , phone
                 , sub_phone AS subPhone
                 , email
                 , connect
                 , auth
                 , addr
+                , accept
         FROM parents
         WHERE parents_id = #{signedUserId}
     </select>

@@ -36,5 +36,5 @@ public class ParentsUserEntity {
     private String addr;
 
     @Schema(description = "가입 승인 여부")
-    private int acept;
+    private int accept;
 }

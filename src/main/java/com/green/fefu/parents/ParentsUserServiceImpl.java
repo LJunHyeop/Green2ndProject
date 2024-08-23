@@ -413,6 +413,8 @@ public class ParentsUserServiceImpl implements ParentsUserService {
         long parentsId = userDetails.getMyUser().getUserId() ;
         GetParentsUserReq req = new GetParentsUserReq();
         req.setSignedUserId(parentsId);
+
+
         List<GetStudentParentsRes> list = mapper.getStudentParents(req.getSignedUserId());
         for(GetStudentParentsRes res : list){
             res.setClassId(Parser.classParser(res.getClassId()));
