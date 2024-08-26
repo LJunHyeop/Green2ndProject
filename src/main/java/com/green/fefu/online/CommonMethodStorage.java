@@ -37,6 +37,7 @@ public class CommonMethodStorage {
             }
             case "ROLE_TEACHER" -> {
                 Teacher teacher = teacherRepository.getReferenceById(user.getUserId());
+                log.info("로그인 된 선생님: {}", teacher);
                 yield mapper.teacherClass(teacher.getTeaId());
             }
             case "ROLE_STUDENT" -> {
